@@ -9,8 +9,6 @@ import me.lucko.helper.plugin.ExtendedJavaPlugin;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 
-import java.util.UUID;
-
 public class MoeCore extends ExtendedJavaPlugin {
 
     public static MoeCore plugin;
@@ -20,16 +18,6 @@ public class MoeCore extends ExtendedJavaPlugin {
     private LuckPerms luckperms;
 
     private SystemAccount systemAccount;
-
-    /**
-     * Computes the UUID of the offline player name according to Mojang's standard.
-     *
-     * @param name the offline player name
-     * @return the offline UUID of the player name
-     */
-    public static UUID computeOfflinePlayerUUID(String name) {
-        return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8));
-    }
 
     @Override
     protected void enable() {

@@ -18,7 +18,6 @@ public abstract class YamlConfigFactory {
     static {
         TYPE_SERIALIZERS = TypeSerializerCollection.defaults().childBuilder()
                 .register(Component.class, new Text3TypeSerializer())
-                .register(String.class, new ColoredStringTypeSerializer())
                 .register(Cooldown.class, new CooldownSerializer())
                 .register(Location.class, new LocationSerializer())
                 .build();

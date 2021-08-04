@@ -4,4 +4,5 @@ version: ${version}
 api-version: 1.13
 author: Nailm
 website: https://mimaru.me
-depend: []
+depend: [ NyaaCore, helper, Vault, Towny]
+loadbefore: [ NyaaUtils ]

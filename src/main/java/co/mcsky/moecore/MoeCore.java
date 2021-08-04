@@ -3,7 +3,6 @@ package co.mcsky.moecore;
 import cat.nyaa.nyaacore.component.ISystemBalance;
 import cat.nyaa.nyaacore.component.NyaaComponent;
 import co.mcsky.moecore.economy.SystemAccount;
-import com.google.common.base.Charsets;
 import me.lucko.helper.Services;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 import net.luckperms.api.LuckPerms;

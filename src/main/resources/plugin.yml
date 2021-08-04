@@ -1,0 +1,7 @@
+name: MoeCore
+main: co.mcsky.moecore.MoeCore
+version: ${version}
+api-version: 1.13
+author: Nailm
+website: https://mimaru.me
+depend: []

@@ -5,12 +5,17 @@ plugins {
 }
 
 ext.pluginNameUpper = "MoeCore"
-ext.pluginNameUpper = ext.pluginNameUpper.toLowerCase()
+ext.pluginNameLower = ext.pluginNameUpper.toLowerCase()
 ext.majorVersion = 1
 ext.minorVersion = 0
 ext.minecraftVersion = "1.17"
 sourceCompatibility = 16
 targetCompatibility = 16
+
+// Suppiled by Jenkins
+ext.buildNumber = System.env.BUILD_NUMBER == null ? "x"                : "$System.env.BUILD_NUMBER"
+ext.mavenDirectory = System.env.MAVEN_DIR == null ? "$projectDir/repo" : "$System.env.MAVEN_DIR"
+ext.jdDirectory = System.env.JAVADOCS_DIR == null ? null               : "$System.env.JAVADOCS_DIR"
 
 group = 'co.mcsky'
 archivesBaseName = "${pluginNameUpper}-mc$minecraftVersion"
@@ -81,10 +86,58 @@ compileJava {
     options.encoding = 'UTF-8'
 }
 
+// javadoc generation options
+javadoc {
+    // javadoc output folder
+    if (project.jdDirectory != null) destinationDir = file("${jdDirectory}/${pluginNameLower}-${version}")
+
+    (options as StandardJavadocDocletOptions).with {
+        links 'https://docs.oracle.com/en/java/javase/16/docs/api/'
+        links 'https://hub.spigotmc.org/javadocs/spigot/'
+        links 'https://google.github.io/guava/releases/21.0/api/docs/'
+        links 'https://ci.md-5.net/job/BungeeCord/ws/chat/target/apidocs/'
+
+        locale 'en_US'
+        encoding 'UTF-8'
+        docEncoding 'UTF-8'
+        addBooleanOption('keywords', true)
+        addStringOption('Xdoclint:none', '-quiet')
+
+        addBooleanOption('html5', true)
+
+        windowTitle = "${pluginNameUpper} Javadoc"
+        docTitle = "${pluginNameUpper} (mc$minecraftVersion-${project.version})"
+    }
+}
+
+// javadoc jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set("javadoc")
+    from javadoc.destinationDir
+}
+
+// source file jar
+task sourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from sourceSets.main.allSource
+}
+
+// maven publish
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            group      project.group
+            artifactId pluginNameLower
+            version    "$majorVersion.$minorVersion-SNAPSHOT"
+
             from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+    repositories {
+        maven {
+            url mavenDirectory
         }
     }
 }

@@ -2,11 +2,14 @@ package co.mcsky.moecore;
 
 import cat.nyaa.nyaacore.component.ISystemBalance;
 import cat.nyaa.nyaacore.component.NyaaComponent;
-import co.mcsky.moecore.economy.SystemAccountUtils;
+import co.mcsky.moecore.economy.SystemAccount;
+import com.google.common.base.Charsets;
 import me.lucko.helper.Services;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
+
+import java.util.UUID;
 
 public class MoeCore extends ExtendedJavaPlugin {
 
@@ -16,7 +19,17 @@ public class MoeCore extends ExtendedJavaPlugin {
     private Economy economy;
     private LuckPerms luckperms;
 
-    private SystemAccountUtils systemAccount;
+    private SystemAccount systemAccount;
+
+    /**
+     * Computes the UUID of the offline player name according to Mojang's standard.
+     *
+     * @param name the offline player name
+     * @return the offline UUID of the player name
+     */
+    public static UUID computeOfflinePlayerUUID(String name) {
+        return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8));
+    }
 
     @Override
     protected void enable() {
@@ -34,12 +47,12 @@ public class MoeCore extends ExtendedJavaPlugin {
         }
 
         // after vault is loaded successfully, initialize system account
-        this.systemAccount = new SystemAccountUtils();
+        this.systemAccount = new SystemAccount();
 
         // register NyaaCore ISystemBalance component
         // so that all fee functions of NyaaUtils
         // can link to the towny server account
-        NyaaComponent.register(ISystemBalance.class, this.systemAccount);
+        NyaaComponent.register(ISystemBalance.class, systemAccount.getImpl());
 
         this.config = new MoeConfig();
         this.config.load();
@@ -51,18 +64,30 @@ public class MoeCore extends ExtendedJavaPlugin {
 
     }
 
+    /**
+     * @return the Economy instance
+     */
     public Economy economy() {
         return economy;
     }
 
+    /**
+     * @return the LuckPerms instance
+     */
     public LuckPerms luckperms() {
         return luckperms;
     }
 
-    public SystemAccountUtils systemAccount() {
+    /**
+     * @return the SystemAccount instance
+     */
+    public SystemAccount systemAccount() {
         return systemAccount;
     }
 
+    /**
+     * @return true if debug mode is on, otherwise false
+     */
     public boolean debugMode() {
         return config.debug;
     }

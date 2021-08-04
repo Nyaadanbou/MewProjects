@@ -2,7 +2,6 @@ package co.mcsky.moecore.economy;
 
 import cat.nyaa.nyaacore.component.ISystemBalance;
 import co.mcsky.moecore.MoeCore;
-import com.google.common.base.Charsets;
 import com.palmergames.bukkit.towny.TownyEconomyHandler;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -11,18 +10,17 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.UUID;
 import java.util.logging.Level;
 
 /**
  * Implements {@link ISystemBalance} and adds some convenient methods.
  */
-public class SystemAccountUtils implements ISystemBalance {
+public class SystemAccountImpl implements ISystemBalance {
 
     private final String serverAccount;
     private final World bukkitWorld;
 
-    public SystemAccountUtils() {
+    public SystemAccountImpl() {
         this.serverAccount = TownyEconomyHandler.getServerAccount();
         this.bukkitWorld = Bukkit.getWorlds().get(0);
     }
@@ -99,16 +97,6 @@ public class SystemAccountUtils implements ISystemBalance {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Calculates the offline UUID of the offline player name according to Mojang standard.
-     *
-     * @param name the offline player name
-     * @return the offline UUID of the player name
-     */
-    public UUID getOfflinePlayerUUIDFromName(String name) {
-        return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8));
     }
 
     @Override

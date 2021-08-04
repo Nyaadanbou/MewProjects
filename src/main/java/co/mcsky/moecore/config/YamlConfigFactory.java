@@ -2,6 +2,7 @@ package co.mcsky.moecore.config;
 
 import me.lucko.helper.cooldown.Cooldown;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 import org.spongepowered.configurate.yaml.NodeStyle;
@@ -18,9 +19,10 @@ public abstract class YamlConfigFactory {
     static {
         TYPE_SERIALIZERS = TypeSerializerCollection.defaults().childBuilder()
                 .register(ConfigurationSerializable.class, new BukkitTypeSerializer())
-                .register(String.class, new ColoredStringTypeSerializer())
                 .register(Component.class, new Text3TypeSerializer())
+                .register(String.class, new ColoredStringTypeSerializer())
                 .register(Cooldown.class, new CooldownSerializer())
+                .register(Location.class, new LocationSerializer())
                 .build();
     }
 

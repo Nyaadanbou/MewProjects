@@ -57,7 +57,7 @@ dependencies {
     // luckperms
     compileOnly('net.luckperms:api:5.3')
 
-    // towny (for linking to system account)
+    // towny (for linking to towny server account)
     compileOnly('com.github.TownyAdvanced:Towny:0.97.0.11')
     // nyaacore (for implementing system balance)
     compileOnly('cat.nyaa:nyaacore:8.1-SNAPSHOT')

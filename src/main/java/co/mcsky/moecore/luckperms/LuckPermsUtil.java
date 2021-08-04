@@ -20,11 +20,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class LuckPermsUtil {
 
-    private final LuckPerms lp;
-
-    public LuckPermsUtil() {
-        this.lp = Services.get(LuckPerms.class).orElseThrow();
-    }
+    private static final LuckPerms lp = Services.get(LuckPerms.class).orElseThrow();
 
     /**
      * Adds permission to specified group without any contexts.
@@ -32,7 +28,7 @@ public class LuckPermsUtil {
      * @param name       the group name
      * @param permission the permission to add
      */
-    public void groupAddPermissionAsync(String name, String permission) {
+    public static void groupAddPermissionAsync(String name, String permission) {
         Preconditions.checkNotNull(name, "name");
         Preconditions.checkNotNull(permission, "permission");
 
@@ -50,7 +46,7 @@ public class LuckPermsUtil {
      * @param name       the group name
      * @param permission the permission to remove
      */
-    public void groupRemovePermissionAsync(String name, String permission) {
+    public static void groupRemovePermissionAsync(String name, String permission) {
         Preconditions.checkNotNull(name, "name");
         Preconditions.checkNotNull(permission, "permission");
 
@@ -62,11 +58,11 @@ public class LuckPermsUtil {
         });
     }
 
-    public boolean isPlayerInGroup(Player player, String group) {
+    public static boolean isPlayerInGroup(Player player, String group) {
         return player.hasPermission("group." + group);
     }
 
-    public @Nullable String getPlayerGroup(Player player, Collection<String> possibleGroups) {
+    public static @Nullable String getPlayerGroup(Player player, Collection<String> possibleGroups) {
         for (String group : possibleGroups) {
             if (player.hasPermission("group." + group)) {
                 return group;
@@ -75,7 +71,7 @@ public class LuckPermsUtil {
         return null;
     }
 
-    public void userAddPermissionAsync(UUID uuid, String permission) {
+    public static void userAddPermissionAsync(UUID uuid, String permission) {
         Preconditions.checkNotNull(uuid, "uuid");
         Preconditions.checkNotNull(permission, "permission");
 
@@ -87,7 +83,7 @@ public class LuckPermsUtil {
         });
     }
 
-    public void userRemovePermissionAsync(UUID uuid, String permission) {
+    public static void userRemovePermissionAsync(UUID uuid, String permission) {
         Preconditions.checkNotNull(uuid, "uuid");
         Preconditions.checkNotNull(permission, "permission");
 
@@ -99,19 +95,19 @@ public class LuckPermsUtil {
         });
     }
 
-    public @NonNull CompletableFuture<Optional<Group>> getGroup(@NotNull String name) {
+    public static @NonNull CompletableFuture<Optional<Group>> getGroup(@NotNull String name) {
         return lp.getGroupManager().loadGroup(name);
     }
 
-    public @NonNull CompletableFuture<User> loadUser(@NotNull UUID uuid) {
+    public static @NonNull CompletableFuture<User> loadUser(@NotNull UUID uuid) {
         return lp.getUserManager().loadUser(uuid);
     }
 
-    public @NonNull CompletableFuture<User> loadUser(@NotNull Player player) {
+    public static @NonNull CompletableFuture<User> loadUser(@NotNull Player player) {
         return loadUser(player.getUniqueId());
     }
 
-    public @NotNull PermissionNode nodeWithoutContext(@NotNull String permission) {
+    public static @NotNull PermissionNode nodeWithoutContext(@NotNull String permission) {
         return PermissionNode.builder()
                 .permission(permission)
                 .context(ImmutableContextSet.empty())

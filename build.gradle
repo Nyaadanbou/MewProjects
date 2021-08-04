@@ -4,6 +4,18 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
+ext.pluginNameUpper = "MoeCore"
+ext.pluginNameUpper = ext.pluginNameUpper.toLowerCase()
+ext.majorVersion = 1
+ext.minorVersion = 0
+ext.minecraftVersion = "1.17"
+sourceCompatibility = 16
+targetCompatibility = 16
+
+group = 'co.mcsky'
+archivesBaseName = "${pluginNameUpper}-mc$minecraftVersion"
+version = "$majorVersion.$minorVersion".toString()
+
 repositories {
     mavenCentral()
     // spigot
@@ -52,25 +64,9 @@ dependencies {
     compileOnly('net.ess3:EssentialsX:2.18.2') { transitive = false }
 }
 
-test {
-    useJUnitPlatform()
-}
-
 shadowJar {
     archiveClassifier.set("")
 }
-
-ext.pluginNameUpper = "MoeCore"
-ext.pluginNameUpper = ext.pluginNameUpper.toLowerCase()
-ext.majorVersion = 1
-ext.minorVersion = 0
-ext.minecraftVersion = "1.17"
-java.sourceCompatibility = JavaVersion.VERSION_16
-java.targetCompatibility = JavaVersion.VERSION_16
-
-group = 'co.mcsky'
-archivesBaseName = "${pluginNameUpper}-mc$minecraftVersion"
-version = "$majorVersion.$minorVersion".toString()
 
 // source file modification (modify version string)
 processResources {
@@ -81,6 +77,23 @@ processResources {
 
 // compile options
 compileJava {
-    options.compilerArgs += ["-parameters", "-Xlint:deprecation"]
+    options.compilerArgs += ["-Xlint:deprecation"]
     options.encoding = 'UTF-8'
+}
+
+// source file jar
+task sourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from sourceSets.main.allSource
+}
+
+// javadoc jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set("javadoc")
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }

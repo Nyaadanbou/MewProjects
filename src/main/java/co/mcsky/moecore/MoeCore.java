@@ -1,45 +1,39 @@
 package co.mcsky.moecore;
 
-import cat.nyaa.nyaacore.component.ISystemBalance;
-import cat.nyaa.nyaacore.component.NyaaComponent;
 import co.mcsky.moecore.economy.SystemAccount;
-import me.lucko.helper.Services;
+import co.mcsky.moecore.hook.NyaaCoreHook;
+import co.mcsky.moecore.hook.VaultHook;
+import me.lucko.helper.Helper;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
-import net.luckperms.api.LuckPerms;
-import net.milkbowl.vault.economy.Economy;
 
 public class MoeCore extends ExtendedJavaPlugin {
 
     public static MoeCore plugin;
 
-    private MoeConfig config;
-    private Economy economy;
-    private LuckPerms luckperms;
+    protected MoeConfig config;
+    protected SystemAccount systemAccount;
 
-    private SystemAccount systemAccount;
+    public static boolean loaded(String name) {
+        return Helper.plugins().getPlugin(name) != null;
+    }
+
+    public static void log(String info) {
+        MoeCore.plugin.getLogger().info(info);
+    }
 
     @Override
     protected void enable() {
         plugin = this;
 
-        // load vault services
-        try {
-            this.economy = Services.load(Economy.class);
-            this.luckperms = Services.load(LuckPerms.class);
-        } catch (IllegalStateException e) {
-            getLogger().severe(e.getMessage());
-            getLogger().severe("Some vault registration is not present");
-            disable();
-            return;
+        if (loaded("Vault")) {
+            VaultHook.registerVaultChat();
+            VaultHook.registerVaultEconomy();
+            VaultHook.registerVaultPermission();
         }
 
-        // after vault is loaded successfully, initialize system account
-        this.systemAccount = new SystemAccount();
-
-        // register NyaaCore ISystemBalance component
-        // so that all fee functions of NyaaUtils
-        // can link to the towny server account
-        NyaaComponent.register(ISystemBalance.class, systemAccount.getImpl());
+        if (loaded("NyaaCore")) {
+            NyaaCoreHook.registerNyaaComponent();
+        }
 
         this.config = new MoeConfig();
         this.config.load();
@@ -52,24 +46,24 @@ public class MoeCore extends ExtendedJavaPlugin {
     }
 
     /**
-     * @return the Economy instance
-     */
-    public Economy economy() {
-        return economy;
-    }
-
-    /**
-     * @return the LuckPerms instance
-     */
-    public LuckPerms luckperms() {
-        return luckperms;
-    }
-
-    /**
+     * Returns the instance of {@link SystemAccount}.
+     *
      * @return the SystemAccount instance
      */
     public SystemAccount systemAccount() {
+        if (systemAccount == null) {
+            throw new IllegalStateException("not implemented");
+        }
         return systemAccount;
+    }
+
+    /**
+     * Sets the instance of {@link SystemAccount}.
+     *
+     * @param systemAccount the system account instance
+     */
+    public void systemAccount(SystemAccount systemAccount) {
+        this.systemAccount = systemAccount;
     }
 
     /**
@@ -78,4 +72,5 @@ public class MoeCore extends ExtendedJavaPlugin {
     public boolean debugMode() {
         return config.debug;
     }
+
 }

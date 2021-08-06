@@ -3,6 +3,7 @@ package co.mcsky.moecore.economy;
 import cat.nyaa.nyaacore.component.ISystemBalance;
 import co.mcsky.moecore.MoeCore;
 import com.palmergames.bukkit.towny.TownyEconomyHandler;
+import me.lucko.helper.Services;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -17,12 +18,14 @@ import java.util.logging.Level;
  */
 public class SystemAccountImpl implements ISystemBalance {
 
+    private final Economy economy;
     private final String serverAccount;
     private final World bukkitWorld;
 
     public SystemAccountImpl() {
-        this.serverAccount = TownyEconomyHandler.getServerAccount();
-        this.bukkitWorld = Bukkit.getWorlds().get(0);
+        serverAccount = TownyEconomyHandler.getServerAccount();
+        bukkitWorld = Bukkit.getWorlds().get(0);
+        economy = Services.get(Economy.class).orElseThrow(() -> new IllegalStateException("Vault economy is not loaded"));
     }
 
     public boolean setSystemBalance(double amount) {
@@ -42,28 +45,26 @@ public class SystemAccountImpl implements ISystemBalance {
     }
 
     public boolean depositPlayer(OfflinePlayer payee, double amount) {
-        Economy eco = MoeCore.plugin.economy();
-        double balanceToDeposit = eco.getBalance(payee);
+        double balanceToDeposit = economy.getBalance(payee);
         try {
-            EconomyResponse response = eco.depositPlayer(payee, amount);
+            EconomyResponse response = economy.depositPlayer(payee, amount);
             return response.transactionSuccess();
         } catch (Exception e) {
-            double balanceToDepositAft = eco.getBalance(payee);
-            eco.withdrawPlayer(payee, balanceToDepositAft - balanceToDeposit);
+            double balanceToDepositAft = economy.getBalance(payee);
+            economy.withdrawPlayer(payee, balanceToDepositAft - balanceToDeposit);
             MoeCore.plugin.getLogger().log(Level.SEVERE, "Error depositing player, rolling back: ", e);
             return false;
         }
     }
 
     public boolean withdrawPlayer(OfflinePlayer payer, double amount) {
-        Economy eco = MoeCore.plugin.economy();
-        double balanceToWithdraw = eco.getBalance(payer);
+        double balanceToWithdraw = economy.getBalance(payer);
         try {
-            EconomyResponse response = eco.withdrawPlayer(payer, amount);
+            EconomyResponse response = economy.withdrawPlayer(payer, amount);
             return response.transactionSuccess();
         } catch (Exception e) {
-            double balanceToWithdrawAft = eco.getBalance(payer);
-            eco.depositPlayer(payer, balanceToWithdraw - balanceToWithdrawAft);
+            double balanceToWithdrawAft = economy.getBalance(payer);
+            economy.depositPlayer(payer, balanceToWithdraw - balanceToWithdrawAft);
             MoeCore.plugin.getLogger().log(Level.SEVERE, "Error withdraw player, rolling back: ", e);
             return false;
         }

@@ -8,6 +8,8 @@ import net.luckperms.api.context.ImmutableContextSet;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.types.PermissionNode;
+import net.luckperms.api.node.types.PrefixNode;
+import net.luckperms.api.node.types.SuffixNode;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +35,7 @@ public class LuckPermsUtil {
         Preconditions.checkNotNull(permission, "permission");
 
         lp.getGroupManager().modifyGroup(name, group -> {
-            group.data().add(nodeWithoutContext(permission));
+            group.data().add(permissionNodeWithoutContext(permission));
             if (MoeCore.plugin.debugMode()) {
                 MoeCore.plugin.getLogger().info("Adding permission %s to group %s".formatted(permission, name));
             }
@@ -51,7 +53,7 @@ public class LuckPermsUtil {
         Preconditions.checkNotNull(permission, "permission");
 
         lp.getGroupManager().modifyGroup(name, group -> {
-            group.data().remove(nodeWithoutContext(permission));
+            group.data().remove(permissionNodeWithoutContext(permission));
             if (MoeCore.plugin.debugMode()) {
                 MoeCore.plugin.getLogger().info("Removing permission %s from group %s".formatted(permission, name));
             }
@@ -71,12 +73,58 @@ public class LuckPermsUtil {
         return null;
     }
 
+    public static void userSetPrefixAsync(UUID uuid, String prefix, int priority) {
+        Preconditions.checkNotNull(uuid, "uuid");
+        Preconditions.checkNotNull(prefix, "prefix");
+
+        lp.getUserManager().modifyUser(uuid, user -> {
+            user.data().add(PrefixNode.builder(prefix, priority).build());
+            if (MoeCore.plugin.debugMode()) {
+                MoeCore.plugin.getLogger().info("Set prefix  %s for user %s with priority %s".formatted(prefix, uuid, priority));
+            }
+        });
+    }
+
+    public static void userRemovePrefixAsync(UUID uuid, int priority) {
+        Preconditions.checkNotNull(uuid, "uuid");
+
+        lp.getUserManager().modifyUser(uuid, user -> {
+            user.data().remove(PrefixNode.builder().priority(priority).build());
+            if (MoeCore.plugin.debugMode()) {
+                MoeCore.plugin.getLogger().info("Remove all prefixes with priority %s from user %s".formatted(priority, uuid));
+            }
+        });
+    }
+
+    public static void userSetSuffixAsync(UUID uuid, String suffix, int priority) {
+        Preconditions.checkNotNull(uuid, "uuid");
+        Preconditions.checkNotNull(suffix, "suffix");
+
+        lp.getUserManager().modifyUser(uuid, user -> {
+            user.data().add(SuffixNode.builder(suffix, priority).build());
+            if (MoeCore.plugin.debugMode()) {
+                MoeCore.plugin.getLogger().info("Set suffix  %s for user %s with priority %s".formatted(suffix, uuid, priority));
+            }
+        });
+    }
+
+    public static void userRemoveSuffixAsync(UUID uuid, int priority) {
+        Preconditions.checkNotNull(uuid, "uuid");
+
+        lp.getUserManager().modifyUser(uuid, user -> {
+            user.data().remove(SuffixNode.builder().priority(priority).build());
+            if (MoeCore.plugin.debugMode()) {
+                MoeCore.plugin.getLogger().info("Remove all suffixes with priority %s from user %s".formatted(priority, uuid));
+            }
+        });
+    }
+
     public static void userAddPermissionAsync(UUID uuid, String permission) {
         Preconditions.checkNotNull(uuid, "uuid");
         Preconditions.checkNotNull(permission, "permission");
 
         lp.getUserManager().modifyUser(uuid, user -> {
-            user.data().add(nodeWithoutContext(permission));
+            user.data().add(permissionNodeWithoutContext(permission));
             if (MoeCore.plugin.debugMode()) {
                 MoeCore.plugin.getLogger().info("Adding permission %s to user %s".formatted(permission, uuid));
             }
@@ -88,7 +136,7 @@ public class LuckPermsUtil {
         Preconditions.checkNotNull(permission, "permission");
 
         lp.getUserManager().modifyUser(uuid, user -> {
-            user.data().remove(nodeWithoutContext(permission));
+            user.data().remove(permissionNodeWithoutContext(permission));
             if (MoeCore.plugin.debugMode()) {
                 MoeCore.plugin.getLogger().info("Removing permission %s from user %s".formatted(permission, uuid));
             }
@@ -107,7 +155,7 @@ public class LuckPermsUtil {
         return loadUser(player.getUniqueId());
     }
 
-    public static @NotNull PermissionNode nodeWithoutContext(@NotNull String permission) {
+    public static @NotNull PermissionNode permissionNodeWithoutContext(@NotNull String permission) {
         return PermissionNode.builder()
                 .permission(permission)
                 .context(ImmutableContextSet.empty())

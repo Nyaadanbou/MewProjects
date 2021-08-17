@@ -2,9 +2,8 @@ package co.mcsky.moecore.luckperms;
 
 import co.mcsky.moecore.MoeCore;
 import com.google.common.base.Preconditions;
-import me.lucko.helper.Services;
 import net.luckperms.api.LuckPerms;
-import net.luckperms.api.actionlog.Action;
+import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.context.ImmutableContextSet;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
@@ -22,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class LuckPermsUtil {
 
-    private static final LuckPerms lp = Services.get(LuckPerms.class).orElseThrow();
+    private static final LuckPerms lp = LuckPermsProvider.get();
     private static final String pluginName = MoeCore.plugin.getName();
 
     /**
@@ -37,11 +36,6 @@ public class LuckPermsUtil {
 
         lp.getGroupManager().modifyGroup(name, group -> {
             group.data().add(permissionNodeWithoutContext(permission));
-            lp.getActionLogger().submit(Action.builder()
-                    .sourceName(pluginName)
-                    .targetName(name)
-                    .description("add group permission")
-                    .build());
         });
     }
 
@@ -57,11 +51,6 @@ public class LuckPermsUtil {
 
         lp.getGroupManager().modifyGroup(name, group -> {
             group.data().remove(permissionNodeWithoutContext(permission));
-            lp.getActionLogger().submit(Action.builder()
-                    .sourceName(pluginName)
-                    .targetName(name)
-                    .description("remove group permission")
-                    .build());
         });
     }
 
@@ -92,29 +81,19 @@ public class LuckPermsUtil {
         lp.getUserManager().modifyUser(uuid, user -> {
             user.data().clear(NodeType.PREFIX::matches);
             user.data().add(PrefixNode.builder(prefix, priority).build());
-            lp.getActionLogger().submit(Action.builder()
-                    .sourceName(pluginName)
-                    .target(uuid)
-                    .description("set prefix with priority %s".formatted(priority))
-                    .build());
         });
     }
 
     /**
      * Removes all the prefixes with specified priority from the user.
      *
-     * @param uuid     the uuid of the user
+     * @param uuid the uuid of the user
      */
     public static void userRemovePrefixAsync(@NotNull UUID uuid) {
         Preconditions.checkNotNull(uuid, "uuid");
 
         lp.getUserManager().modifyUser(uuid, user -> {
             user.data().clear(NodeType.PREFIX::matches);
-            lp.getActionLogger().submit(Action.builder()
-                    .sourceName(pluginName)
-                    .target(uuid)
-                    .description("remove all prefixes")
-                    .build());
         });
     }
 
@@ -134,29 +113,20 @@ public class LuckPermsUtil {
         lp.getUserManager().modifyUser(uuid, user -> {
             user.data().clear(NodeType.SUFFIX::matches);
             user.data().add(SuffixNode.builder(suffix, priority).build());
-            lp.getActionLogger().submit(Action.builder()
-                    .sourceName(pluginName)
-                    .target(uuid)
-                    .description("set suffix with priority %s".formatted(priority))
-                    .build());
         });
+
     }
 
     /**
      * Removes all the suffixes with specified priority from the user.
      *
-     * @param uuid     the uuid of the user
+     * @param uuid the uuid of the user
      */
     public static void userRemoveSuffixAsync(@NotNull UUID uuid) {
         Preconditions.checkNotNull(uuid, "uuid");
 
         lp.getUserManager().modifyUser(uuid, user -> {
             user.data().clear(NodeType.SUFFIX::matches);
-            lp.getActionLogger().submit(Action.builder()
-                    .sourceName(pluginName)
-                    .target(uuid)
-                    .description("remove all suffixes")
-                    .build());
         });
     }
 
@@ -172,9 +142,6 @@ public class LuckPermsUtil {
 
         lp.getUserManager().modifyUser(uuid, user -> {
             user.data().add(permissionNodeWithoutContext(permission));
-            if (MoeCore.plugin.debugMode()) {
-                MoeCore.plugin.getLogger().info("Adding permission %s to user %s".formatted(permission, uuid));
-            }
         });
     }
 
@@ -190,9 +157,6 @@ public class LuckPermsUtil {
 
         lp.getUserManager().modifyUser(uuid, user -> {
             user.data().remove(permissionNodeWithoutContext(permission));
-            if (MoeCore.plugin.debugMode()) {
-                MoeCore.plugin.getLogger().info("Removing permission %s from user %s".formatted(permission, uuid));
-            }
         });
     }
 
@@ -209,10 +173,7 @@ public class LuckPermsUtil {
     }
 
     public static @NotNull PermissionNode permissionNodeWithoutContext(@NotNull String permission) {
-        return PermissionNode.builder()
-                .permission(permission)
-                .context(ImmutableContextSet.empty())
-                .build();
+        return PermissionNode.builder(permission).context(ImmutableContextSet.empty()).build();
     }
 
 }

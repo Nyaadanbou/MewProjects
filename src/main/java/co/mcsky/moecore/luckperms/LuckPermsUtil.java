@@ -30,7 +30,7 @@ public class LuckPermsUtil {
      * @param name       the group name
      * @param permission the permission to add
      */
-    public static void groupAddPermissionAsync(String name, String permission) {
+    public static void groupAddPermissionAsync(@NotNull String name, @NotNull String permission) {
         Preconditions.checkNotNull(name, "name");
         Preconditions.checkNotNull(permission, "permission");
 
@@ -48,7 +48,7 @@ public class LuckPermsUtil {
      * @param name       the group name
      * @param permission the permission to remove
      */
-    public static void groupRemovePermissionAsync(String name, String permission) {
+    public static void groupRemovePermissionAsync(@NotNull String name, @NotNull String permission) {
         Preconditions.checkNotNull(name, "name");
         Preconditions.checkNotNull(permission, "permission");
 
@@ -60,11 +60,11 @@ public class LuckPermsUtil {
         });
     }
 
-    public static boolean isPlayerInGroup(Player player, String group) {
+    public static boolean isPlayerInGroup(@NotNull Player player, @NotNull String group) {
         return player.hasPermission("group." + group);
     }
 
-    public static @Nullable String getPlayerGroup(Player player, Collection<String> possibleGroups) {
+    public static @Nullable String getPlayerGroup(@NotNull Player player, @NotNull Collection<String> possibleGroups) {
         for (String group : possibleGroups) {
             if (player.hasPermission("group." + group)) {
                 return group;
@@ -73,19 +73,19 @@ public class LuckPermsUtil {
         return null;
     }
 
-    public static void userSetPrefixAsync(UUID uuid, String prefix, int priority) {
+    public static void userSetPrefixAsync(@NotNull UUID uuid, @NotNull String prefix, int priority) {
         Preconditions.checkNotNull(uuid, "uuid");
         Preconditions.checkNotNull(prefix, "prefix");
 
         lp.getUserManager().modifyUser(uuid, user -> {
             user.data().add(PrefixNode.builder(prefix, priority).build());
             if (MoeCore.plugin.debugMode()) {
-                MoeCore.plugin.getLogger().info("Set prefix  %s for user %s with priority %s".formatted(prefix, uuid, priority));
+                MoeCore.plugin.getLogger().info("Set prefix %s for user %s with priority %s".formatted(prefix, uuid, priority));
             }
         });
     }
 
-    public static void userRemovePrefixAsync(UUID uuid, int priority) {
+    public static void userRemovePrefixAsync(@NotNull UUID uuid, int priority) {
         Preconditions.checkNotNull(uuid, "uuid");
 
         lp.getUserManager().modifyUser(uuid, user -> {
@@ -96,19 +96,19 @@ public class LuckPermsUtil {
         });
     }
 
-    public static void userSetSuffixAsync(UUID uuid, String suffix, int priority) {
+    public static void userSetSuffixAsync(@NotNull UUID uuid, @NotNull String suffix, int priority) {
         Preconditions.checkNotNull(uuid, "uuid");
         Preconditions.checkNotNull(suffix, "suffix");
 
         lp.getUserManager().modifyUser(uuid, user -> {
             user.data().add(SuffixNode.builder(suffix, priority).build());
             if (MoeCore.plugin.debugMode()) {
-                MoeCore.plugin.getLogger().info("Set suffix  %s for user %s with priority %s".formatted(suffix, uuid, priority));
+                MoeCore.plugin.getLogger().info("Set suffix %s for user %s with priority %s".formatted(suffix, uuid, priority));
             }
         });
     }
 
-    public static void userRemoveSuffixAsync(UUID uuid, int priority) {
+    public static void userRemoveSuffixAsync(@NotNull UUID uuid, @NotNull int priority) {
         Preconditions.checkNotNull(uuid, "uuid");
 
         lp.getUserManager().modifyUser(uuid, user -> {
@@ -119,7 +119,7 @@ public class LuckPermsUtil {
         });
     }
 
-    public static void userAddPermissionAsync(UUID uuid, String permission) {
+    public static void userAddPermissionAsync(@NotNull UUID uuid, @NotNull String permission) {
         Preconditions.checkNotNull(uuid, "uuid");
         Preconditions.checkNotNull(permission, "permission");
 
@@ -131,7 +131,7 @@ public class LuckPermsUtil {
         });
     }
 
-    public static void userRemovePermissionAsync(UUID uuid, String permission) {
+    public static void userRemovePermissionAsync(@NotNull UUID uuid, @NotNull String permission) {
         Preconditions.checkNotNull(uuid, "uuid");
         Preconditions.checkNotNull(permission, "permission");
 

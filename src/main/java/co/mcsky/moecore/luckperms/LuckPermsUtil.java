@@ -29,7 +29,7 @@ public class LuckPermsUtil {
      * Adds permission to specified group without any contexts.
      *
      * @param name       the group name
-     * @param permission the permission to add
+     * @param permission the permission
      */
     public static void groupAddPermissionAsync(@NotNull String name, @NotNull String permission) {
         Preconditions.checkNotNull(name, "name");
@@ -49,7 +49,7 @@ public class LuckPermsUtil {
      * Removes permission from specified group without any contexts.
      *
      * @param name       the group name
-     * @param permission the permission to remove
+     * @param permission the permission
      */
     public static void groupRemovePermissionAsync(@NotNull String name, @NotNull String permission) {
         Preconditions.checkNotNull(name, "name");
@@ -68,8 +68,8 @@ public class LuckPermsUtil {
     /**
      * Checks whether a player belongs to the specified group.
      *
-     * @param player the player to check
-     * @param group  the group to check
+     * @param player the player
+     * @param group  the group name
      * @return true if the player belongs to the group, otherwise false
      */
     public static boolean isPlayerInGroup(@NotNull Player player, @NotNull String group) {
@@ -78,9 +78,11 @@ public class LuckPermsUtil {
 
     /**
      * Adds a prefix with specified priority to the user.
+     * <p>
+     * This will first remove all prefixes before adding the prefix.
      *
      * @param uuid     the uuid of the user
-     * @param prefix   the prefix to set
+     * @param prefix   the prefix
      * @param priority the priority of the prefix
      */
     public static void userSetPrefixAsync(@NotNull UUID uuid, @NotNull String prefix, int priority) {
@@ -88,6 +90,7 @@ public class LuckPermsUtil {
         Preconditions.checkNotNull(prefix, "prefix");
 
         lp.getUserManager().modifyUser(uuid, user -> {
+            user.data().clear(NodeType.PREFIX::matches);
             user.data().add(PrefixNode.builder(prefix, priority).build());
             lp.getActionLogger().submit(Action.builder()
                     .sourceName(pluginName)
@@ -101,29 +104,27 @@ public class LuckPermsUtil {
      * Removes all the prefixes with specified priority from the user.
      *
      * @param uuid     the uuid of the user
-     * @param priority the priority of prefix to be removed
      */
-    public static void userRemovePrefixAsync(@NotNull UUID uuid, int priority) {
+    public static void userRemovePrefixAsync(@NotNull UUID uuid) {
         Preconditions.checkNotNull(uuid, "uuid");
 
         lp.getUserManager().modifyUser(uuid, user -> {
-            user.data().clear(test -> {
-                final Optional<PrefixNode> prefixNode = NodeType.PREFIX.tryCast(test);
-                return prefixNode.filter(node -> node.getPriority() == priority).isPresent();
-            });
+            user.data().clear(NodeType.PREFIX::matches);
             lp.getActionLogger().submit(Action.builder()
                     .sourceName(pluginName)
                     .target(uuid)
-                    .description("remove prefix with priority %s".formatted(priority))
+                    .description("remove all prefixes")
                     .build());
         });
     }
 
     /**
      * Adds a suffix with specified suffix to the user.
+     * <p>
+     * This will first remove all suffixes before adding the suffix.
      *
      * @param uuid     the uuid of the user
-     * @param suffix   the suffix to add
+     * @param suffix   the suffix
      * @param priority the priority of the suffix
      */
     public static void userSetSuffixAsync(@NotNull UUID uuid, @NotNull String suffix, int priority) {
@@ -131,6 +132,7 @@ public class LuckPermsUtil {
         Preconditions.checkNotNull(suffix, "suffix");
 
         lp.getUserManager().modifyUser(uuid, user -> {
+            user.data().clear(NodeType.SUFFIX::matches);
             user.data().add(SuffixNode.builder(suffix, priority).build());
             lp.getActionLogger().submit(Action.builder()
                     .sourceName(pluginName)
@@ -144,20 +146,16 @@ public class LuckPermsUtil {
      * Removes all the suffixes with specified priority from the user.
      *
      * @param uuid     the uuid of the user
-     * @param priority the priority of suffix to be removed
      */
-    public static void userRemoveSuffixAsync(@NotNull UUID uuid, @NotNull int priority) {
+    public static void userRemoveSuffixAsync(@NotNull UUID uuid) {
         Preconditions.checkNotNull(uuid, "uuid");
 
         lp.getUserManager().modifyUser(uuid, user -> {
-            user.data().clear(test -> {
-                final Optional<SuffixNode> suffixNode = NodeType.SUFFIX.tryCast(test);
-                return suffixNode.filter(node -> node.getPriority() == priority).isPresent();
-            });
+            user.data().clear(NodeType.SUFFIX::matches);
             lp.getActionLogger().submit(Action.builder()
                     .sourceName(pluginName)
                     .target(uuid)
-                    .description("remove suffix with priority %s".formatted(priority))
+                    .description("remove all suffixes")
                     .build());
         });
     }
@@ -166,7 +164,7 @@ public class LuckPermsUtil {
      * Adds a permission node without context to the specified user.
      *
      * @param uuid       the uuid of the user
-     * @param permission the permission node to add
+     * @param permission the permission node
      */
     public static void userAddPermissionAsync(@NotNull UUID uuid, @NotNull String permission) {
         Preconditions.checkNotNull(uuid, "uuid");
@@ -184,7 +182,7 @@ public class LuckPermsUtil {
      * Removes a permission node without context to the specified user.
      *
      * @param uuid       the uuid of the user
-     * @param permission the permission node to remove
+     * @param permission the permission node
      */
     public static void userRemovePermissionAsync(@NotNull UUID uuid, @NotNull String permission) {
         Preconditions.checkNotNull(uuid, "uuid");

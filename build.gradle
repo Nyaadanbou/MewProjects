@@ -32,12 +32,13 @@ repositories {
 }
 
 dependencies {
-
-    shadow 'org.spongepowered:configurate-core:4.1.1'
-    shadow 'org.spongepowered:configurate-yaml:4.1.1'
-    shadow 'de.themoep.utils:lang-bukkit:1.3-SNAPSHOT'
-    shadow 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
-    shadow 'com.mojang:authlib:1.5.25'
+    implementation 'org.spongepowered:configurate-core:4.1.1'
+    implementation 'org.spongepowered:configurate-yaml:4.1.1'
+    implementation 'org.spongepowered:configurate-gson:4.1.1'
+    implementation 'org.spongepowered:configurate-hcon:4.1.1'
+    implementation 'de.themoep.utils:lang-bukkit:1.3-SNAPSHOT'
+    implementation 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
+    implementation 'com.mojang:authlib:1.5.25'
 
     compileOnly 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
     compileOnly 'me.lucko:helper:5.6.8'
@@ -52,17 +53,6 @@ dependencies {
 
     // nyaacore (for implementing system balance)
     compileOnly 'cat.nyaa:nyaacore:8.1-SNAPSHOT'
-
-}
-
-shadowJar {
-    archiveClassifier.set('')
-
-    relocate 'org.spongepowered', 'co.mcsky.internal.org.spongepowered'
-    relocate 'de.themoep.utils', 'co.mcsky.internal.de.themoep.utils'
-    relocate 'com.mojang', 'co.mcsky.internal.com.mojang'
-    relocate 'co.aikar', 'co.mcsky.internal.co.aikar'
-
 }
 
 // source file modification (modify version string)
@@ -111,6 +101,16 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 task sourcesJar(type: Jar) {
     archiveClassifier.set("sources")
     from sourceSets.main.allSource
+}
+
+shadowJar {
+    minimize()
+    archiveClassifier.set('shadowed')
+
+    relocate 'org.spongepowered', 'co.mcsky.internal.org.spongepowered'
+    relocate 'de.themoep.utils', 'co.mcsky.internal.de.themoep.utils'
+    relocate 'com.mojang', 'co.mcsky.internal.com.mojang'
+    relocate 'co.aikar', 'co.mcsky.internal.co.aikar'
 }
 
 // maven publish

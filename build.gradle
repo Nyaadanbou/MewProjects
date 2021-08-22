@@ -56,6 +56,32 @@ dependencies {
     compileOnly 'cat.nyaa:nyaacore:8.1-SNAPSHOT'
 }
 
+shadowJar {
+    archiveClassifier.set('shadowed')
+
+//    relocate 'org.spongepowered', 'co.mcsky.internal.org.spongepowered'
+//    relocate 'de.themoep.utils', 'co.mcsky.internal.de.themoep.utils'
+//    relocate 'com.mojang', 'co.mcsky.internal.com.mojang'
+//    relocate 'co.aikar', 'co.mcsky.internal.co.aikar'
+}
+
+// compile options
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+// javadoc jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set("javadoc")
+    from javadoc.destinationDir
+}
+
+// source file jar
+task sourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from sourceSets.main.allSource
+}
+
 // source file modification (modify version string)
 processResources {
     filesMatching("**/plugin.yml") {
@@ -63,9 +89,23 @@ processResources {
     }
 }
 
-// compile options
-compileJava {
-    options.encoding = 'UTF-8'
+// maven publish
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact sourcesJar
+            artifact javadocJar
+            groupId "co.mcsky"
+            artifactId "MoeCore"
+            version "$majorVersion.$minorVersion"
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "$mavenDirectory"
+        }
+    }
 }
 
 // javadoc generation options
@@ -89,46 +129,5 @@ javadoc {
 
         windowTitle = "${pluginNameUpper} Javadoc"
         docTitle = "${pluginNameUpper} (mc$minecraftVersion-${project.version})"
-    }
-}
-
-// javadoc jar
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier.set("javadoc")
-    from javadoc.destinationDir
-}
-
-// source file jar
-task sourcesJar(type: Jar) {
-    archiveClassifier.set("sources")
-    from sourceSets.main.allSource
-}
-
-shadowJar {
-    archiveClassifier.set('shadowed')
-
-//    relocate 'org.spongepowered', 'co.mcsky.internal.org.spongepowered'
-//    relocate 'de.themoep.utils', 'co.mcsky.internal.de.themoep.utils'
-//    relocate 'com.mojang', 'co.mcsky.internal.com.mojang'
-//    relocate 'co.aikar', 'co.mcsky.internal.co.aikar'
-}
-
-// maven publish
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            group project.group
-            artifactId pluginNameUpper
-            version "$majorVersion.$minorVersion"
-
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-        }
-    }
-    repositories {
-        maven {
-            url mavenDirectory
-        }
     }
 }

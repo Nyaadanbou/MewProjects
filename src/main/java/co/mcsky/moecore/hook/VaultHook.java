@@ -12,20 +12,20 @@ public class VaultHook {
      * Just indicates the loading status of Vault.
      */
     public static void registerVaultEconomy() {
-        Services.get(Economy.class).ifPresent(eco -> MoeCore.log("Vault economy is hooked"));
+        Services.get(Economy.class).ifPresent(eco -> MoeCore.logger().info("Vault economy is hooked"));
     }
 
     /**
      * Just indicates the loading status of Vault economy.
      */
     public static void registerVaultPermission() {
-        Services.get(Permission.class).ifPresent(eco -> MoeCore.log("Vault permission is hooked"));
+        Services.get(Permission.class).ifPresent(eco -> MoeCore.logger().info("Vault permission is hooked"));
     }
 
     /**
      * Just indicates the loading status of Vault economy.
      */
     public static void registerVaultChat() {
-        Services.get(Chat.class).ifPresent(eco -> MoeCore.log("Vault chat is hooked"));
+        Services.get(Chat.class).ifPresent(eco -> MoeCore.logger().info("Vault chat is hooked"));
     }
 }

@@ -12,9 +12,9 @@ public class NyaaCoreHook {
      * so that all charges of NyaaUtils can link to the towny server account.
      */
     public static void registerNyaaComponent() {
-        MoeCore.plugin.systemAccount(new SystemAccount());
-        NyaaComponent.register(ISystemBalance.class, MoeCore.plugin.systemAccount().getImpl());
-        MoeCore.log("NyaaCore is hooked");
+        MoeCore.systemAccount(new SystemAccount());
+        NyaaComponent.register(ISystemBalance.class, MoeCore.systemAccount().getImpl());
+        MoeCore.logger().info("NyaaCore is hooked");
     }
 
 }

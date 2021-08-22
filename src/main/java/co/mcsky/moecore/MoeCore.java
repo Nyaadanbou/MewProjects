@@ -6,19 +6,46 @@ import co.mcsky.moecore.hook.VaultHook;
 import me.lucko.helper.Helper;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
+import java.util.logging.Logger;
+
 public class MoeCore extends ExtendedJavaPlugin {
 
     public static MoeCore plugin;
 
-    protected MoeConfig config;
-    protected SystemAccount systemAccount;
+    private MoeConfig config;
+    private SystemAccount systemAccount;
 
     public static boolean loaded(String name) {
         return Helper.plugins().getPlugin(name) != null;
     }
 
-    public static void log(String info) {
-        MoeCore.plugin.getLogger().info(info);
+    public static Logger logger() {
+        return plugin.getLogger();
+    }
+
+    public static MoeConfig config() {
+        return plugin.config;
+    }
+
+    /**
+     * Returns the instance of {@link SystemAccount}.
+     *
+     * @return the SystemAccount instance
+     */
+    public static SystemAccount systemAccount() {
+        if (plugin.systemAccount == null) {
+            throw new IllegalStateException("not implemented");
+        }
+        return plugin.systemAccount;
+    }
+
+    /**
+     * Sets the instance of {@link SystemAccount}.
+     *
+     * @param systemAccount the system account instance
+     */
+    public static void systemAccount(SystemAccount systemAccount) {
+        plugin.systemAccount = systemAccount;
     }
 
     @Override
@@ -43,34 +70,6 @@ public class MoeCore extends ExtendedJavaPlugin {
     @Override
     protected void disable() {
 
-    }
-
-    /**
-     * Returns the instance of {@link SystemAccount}.
-     *
-     * @return the SystemAccount instance
-     */
-    public SystemAccount systemAccount() {
-        if (systemAccount == null) {
-            throw new IllegalStateException("not implemented");
-        }
-        return systemAccount;
-    }
-
-    /**
-     * Sets the instance of {@link SystemAccount}.
-     *
-     * @param systemAccount the system account instance
-     */
-    public void systemAccount(SystemAccount systemAccount) {
-        this.systemAccount = systemAccount;
-    }
-
-    /**
-     * @return true if debug mode is on, otherwise false
-     */
-    public boolean debugMode() {
-        return config.debug;
     }
 
 }

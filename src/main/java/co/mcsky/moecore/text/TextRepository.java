@@ -5,7 +5,7 @@ import me.lucko.helper.utils.annotation.NonnullByDefault;
 import java.util.function.Function;
 
 @NonnullByDefault
-public class TextConfig {
+public class TextRepository {
 
     protected String placeholderPrefix = "{";
     protected String placeholderSuffix = "}";
@@ -15,7 +15,7 @@ public class TextConfig {
     /**
      * @param provider the provider of message dictionary
      */
-    public TextConfig(Function<String, String> provider) {
+    public TextRepository(Function<String, String> provider) {
         this.provider = provider;
     }
 

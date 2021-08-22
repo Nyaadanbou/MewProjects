@@ -3,15 +3,18 @@ package co.mcsky.moecore.text;
 import me.lucko.helper.utils.Players;
 import me.lucko.helper.utils.annotation.NonnullByDefault;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.util.Ticks;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -22,10 +25,10 @@ import java.util.function.Predicate;
 @NonnullByDefault
 public class Text {
 
-    private final TextConfig config;
+    private final TextRepository config;
     private Component internal;
 
-    public Text(TextConfig settings, String content) {
+    public Text(TextRepository settings, String content) {
         config = settings;
         internal = Component.text(content);
     }
@@ -36,6 +39,32 @@ public class Text {
 
     public static void sendActionBar(Audience audience, Component text) {
         audience.sendActionBar(text);
+    }
+
+    public Text replace(String placeholder, Component replacement) {
+        internal = internal.replaceText(builder -> builder.matchLiteral(concat(placeholder)).replacement(replacement));
+        return this;
+    }
+
+    public Text replace(String placeholder, Component replacement, Consumer<Style.Builder> consumer) {
+        internal = internal.replaceText(builder -> builder.matchLiteral(concat(placeholder)).replacement(replacement.style(consumer, Style.Merge.Strategy.IF_ABSENT_ON_TARGET)));
+        return this;
+    }
+
+    public Text replace(String placeholder, Entity replacement) {
+        internal = internal.replaceText(builder -> {
+            final Component replacementNonnull = Optional.ofNullable(replacement.customName()).orElse(Component.text(replacement.getName()));
+            builder.matchLiteral(concat(placeholder)).replacement(replacementNonnull);
+        });
+        return this;
+    }
+
+    public Text replace(String placeholder, Entity replacement, Consumer<Style.Builder> consumer) {
+        internal = internal.replaceText(builder -> {
+            final Component componentNonnull = Optional.ofNullable(replacement.customName()).orElse(Component.text(replacement.getName()));
+            builder.matchLiteral(concat(placeholder)).replacement(componentNonnull.style(consumer, Style.Merge.Strategy.IF_ABSENT_ON_TARGET));
+        });
+        return this;
     }
 
     public Text replace(String placeholder, ItemStack replacement) {
@@ -118,6 +147,15 @@ public class Text {
         return this;
     }
 
+    public Text append(Text text) {
+        return append(text.asComponent());
+    }
+
+    public Text append(Component component) {
+        internal = internal.append(component);
+        return this;
+    }
+
     public Component asComponent() {
         return internal;
     }
@@ -132,6 +170,7 @@ public class Text {
             case TITLE -> sendTitle(audience, internal, Component.empty(), 10, 40, 10);
             case SUBTITLE -> sendTitle(audience, Component.empty(), internal, 10, 40, 10);
             case ACTION_BAR -> audience.sendActionBar(internal);
+            case BOSS_BAR -> audience.showBossBar(BossBar.bossBar(internal, BossBar.MAX_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS));
         }
     }
 
@@ -165,5 +204,5 @@ public class Text {
         return config.placeholderPrefix + placeholder + config.placeholderSuffix;
     }
 
-    public enum MessageType {CHAT, ACTION_BAR, TITLE, SUBTITLE;}
+    public enum MessageType {CHAT, ACTION_BAR, TITLE, SUBTITLE, BOSS_BAR}
 }

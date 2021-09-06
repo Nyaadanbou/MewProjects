@@ -3,6 +3,9 @@ package co.mcsky.moecore.economy;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * Proxy of {@code SystemAccountImpl}. Client should use this class to manipulate with the economy.
  */
@@ -24,6 +27,10 @@ public class SystemAccount {
 
     public double getSystemBalance() {
         return systemAccount.getSystemBalance();
+    }
+
+    public String getSystemBalanceString(int scale) {
+        return BigDecimal.valueOf(getSystemBalance()).setScale(3, RoundingMode.HALF_UP).toPlainString();
     }
 
     public boolean depositSystem(double amount) {

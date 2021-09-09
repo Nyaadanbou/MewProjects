@@ -71,6 +71,7 @@ shadowJar {
 // compile options
 compileJava {
     options.encoding = 'UTF-8'
+    options.compilerArgs += ["-parameters"]
 }
 
 // javadoc jar

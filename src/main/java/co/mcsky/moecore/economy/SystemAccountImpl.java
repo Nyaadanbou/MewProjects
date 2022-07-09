@@ -1,6 +1,5 @@
 package co.mcsky.moecore.economy;
 
-import cat.nyaa.nyaacore.component.ISystemBalance;
 import co.mcsky.moecore.MoeCore;
 import com.palmergames.bukkit.towny.TownyEconomyHandler;
 import me.lucko.helper.Services;
@@ -14,9 +13,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Level;
 
 /**
- * Implements {@link ISystemBalance} and adds some convenient methods.
+ * Implementation of {@link SystemBalance} and adds some convenient methods.
  */
-public class SystemAccountImpl implements ISystemBalance {
+public class SystemAccountImpl implements SystemBalance {
 
     private final Economy economy;
     private final String serverAccount;

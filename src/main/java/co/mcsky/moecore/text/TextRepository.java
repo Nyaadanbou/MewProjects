@@ -1,6 +1,7 @@
 package co.mcsky.moecore.text;
 
 import me.lucko.helper.utils.annotation.NonnullByDefault;
+import org.bukkit.ChatColor;
 
 import java.util.function.Function;
 
@@ -32,7 +33,7 @@ public class TextRepository {
     }
 
     public Text get(String key) {
-        return new Text(this, provider.apply(key));
+        return new Text(this, ChatColor.translateAlternateColorCodes('&', provider.apply(key)));
     }
 
 }

@@ -1,7 +1,6 @@
 package co.mcsky.moecore;
 
 import co.mcsky.moecore.economy.SystemAccount;
-import co.mcsky.moecore.hook.NyaaCoreHook;
 import co.mcsky.moecore.hook.VaultHook;
 import me.lucko.helper.Helper;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
@@ -56,10 +55,6 @@ public class MoeCore extends ExtendedJavaPlugin {
             VaultHook.registerVaultChat();
             VaultHook.registerVaultEconomy();
             VaultHook.registerVaultPermission();
-        }
-
-        if (loaded("NyaaCore")) {
-            NyaaCoreHook.registerNyaaComponent();
         }
 
         this.config = new MoeConfig();

@@ -1,9 +1,9 @@
-package co.mcsky.mewcore.experience;
+package co.mcsky.mewcore.util;
 
 import com.google.common.primitives.Ints;
 import org.bukkit.entity.Player;
 
-public final class ExperienceUtils {
+public final class UtilExperience {
     /**
      * How much exp points at least needed to reach this level. i.e. {@code
      * getLevel() == level && getExp() == 0}

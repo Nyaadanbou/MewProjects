@@ -1,4 +1,4 @@
-package co.mcsky.mewcore.luckperms;
+package co.mcsky.mewcore.util;
 
 import co.mcsky.mewcore.MewCore;
 import com.google.common.base.Preconditions;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public class LuckPermsUtil {
+public class UtilLuckPerms {
 
     private static final LuckPerms lp = LuckPermsProvider.get();
     private static final String pluginName = MewCore.plugin.getName();

@@ -1,4 +1,4 @@
-package co.mcsky.mewcore.towny;
+package co.mcsky.mewcore.util;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class TownyUtils {
+public class UtilTowny {
 
     private static final TownyAPI townyApi = TownyAPI.getInstance();
 

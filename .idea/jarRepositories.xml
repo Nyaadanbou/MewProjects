@@ -17,39 +17,24 @@
       <option name="url" value="https://repo.maven.apache.org/maven2/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="maven2" />
-      <option name="name" value="maven2" />
-      <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="maven3" />
-      <option name="name" value="maven3" />
-      <option name="url" value="https://repo.minebench.de/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="maven4" />
-      <option name="name" value="maven4" />
-      <option name="url" value="https://repo.aikar.co/content/groups/aikar/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="maven" />
-      <option name="name" value="maven" />
+      <option name="id" value="spigot" />
+      <option name="name" value="spigot" />
       <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="maven5" />
-      <option name="name" value="maven5" />
+      <option name="id" value="helper" />
+      <option name="name" value="helper" />
       <option name="url" value="https://repo.lucko.me" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="maven6" />
-      <option name="name" value="maven6" />
-      <option name="url" value="https://jitpack.io" />
+      <option name="id" value="paper" />
+      <option name="name" value="paper" />
+      <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="maven7" />
-      <option name="name" value="maven7" />
-      <option name="url" value="https://ci.nyaacat.com/maven/" />
+      <option name="id" value="language" />
+      <option name="name" value="language" />
+      <option name="url" value="https://repo.minebench.de/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="essentialsx" />
@@ -60,6 +45,11 @@
       <option name="id" value="sonatype-oss-snapshots" />
       <option name="name" value="sonatype-oss-snapshots" />
       <option name="url" value="https://oss.sonatype.org/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jitpack" />
+      <option name="name" value="jitpack" />
+      <option name="url" value="https://jitpack.io" />
     </remote-repository>
   </component>
 </project>

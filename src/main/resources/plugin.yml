@@ -1,5 +1,5 @@
-name: MoeCore
-main: co.mcsky.moecore.MoeCore
+name: MewCore
+main: co.mcsky.moecore.MewCore
 version: ${version}
 api-version: 1.13
 author: Nailm

@@ -11,7 +11,7 @@ java {
 ext.pluginNameUpper = "MewCore"
 ext.pluginNameLower = ext.pluginNameUpper.toLowerCase()
 ext.majorVersion = 5
-ext.minorVersion = 8
+ext.minorVersion = 9
 ext.minecraftVersion = "1.19"
 
 ext.buildNumber = System.env.BUILD_NUMBER == null ? "x" : "$System.env.BUILD_NUMBER"

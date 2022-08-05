@@ -16,17 +16,21 @@ public interface ChargeBasedCooldown {
     }
 
     /**
-     * Gets the time until at least a single charge will become usable.
-     *
-     * <p>If the charge is usable, this method returns <code>0</code>.</p>
+     * Gets the time until a single charge will become usable.
      *
      * @param unit the unit to return in
-     * @return the time until the charge will be usable
+     * @return the time until a charge will be usable
      */
     default long remainingTime(@NotNull TimeUnit unit) {
         return unit.convert(remainingMillis(), TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * @see #remainingTime(TimeUnit)
+     */
+    default long remainingMillis() {
+        return remainingMillisFull() % getBaseTimeout();
+    }
 
     /**
      * Gets the time until all charges will become usable.
@@ -40,11 +44,9 @@ public interface ChargeBasedCooldown {
         return unit.convert(remainingMillisFull(), TimeUnit.MILLISECONDS);
     }
 
-    default long remainingMillis() {
-        long full = remainingMillisFull();
-        return full < getBaseTimeout() ? full : 0;
-    }
-
+    /**
+     * @see #remainingMillisFull()
+     */
     default long remainingMillisFull() {
         return getMaximum() * getBaseTimeout() - elapsed();
     }

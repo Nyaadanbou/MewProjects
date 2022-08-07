@@ -52,6 +52,11 @@ dependencies {
     compileOnly('net.milkbowl.vault:VaultAPI:1.7') { transitive = false }
     compileOnly('net.essentialsx:EssentialsX:2.19.0') { transitive = false }
     compileOnly 'com.github.TownyAdvanced:Towny:0.98.3.0' // for linking to towny server account
+
+    // Test
+    testCompileOnly 'io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT'
+    testCompileOnly 'org.junit.jupiter:junit-jupiter:5.9.0'
+    testCompileOnly 'me.lucko:helper:5.6.10'
 }
 
 shadowJar {

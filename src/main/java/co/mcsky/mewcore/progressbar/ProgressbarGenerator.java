@@ -1,8 +1,8 @@
-package co.mcsky.mewcore.util;
+package co.mcsky.mewcore.progressbar;
 
 import com.google.common.base.Preconditions;
 
-public class ProgressBarWrapper {
+public class ProgressbarGenerator {
 
     private String left;
     private String full;
@@ -12,11 +12,12 @@ public class ProgressBarWrapper {
     private String emptyPrefix;
     private int width;
 
-    private ProgressBarWrapper() {
+    private ProgressbarGenerator() {
     }
 
     public String create(double fillPercent) {
         Preconditions.checkArgument(fillPercent >= 0 && fillPercent <= 1);
+
         int repeatFull = (int) Math.ceil(width * fillPercent);
         int repeatEmpty = width - repeatFull;
         return left + fullPrefix + full.repeat(repeatFull) + emptyPrefix + empty.repeat(repeatEmpty) + right;
@@ -79,13 +80,13 @@ public class ProgressBarWrapper {
     }
 
     public static final class Builder {
-        private String left;
-        private String full;
-        private String empty;
-        private String right;
+        private String left = "<dark_gray>[</dark_gray>";
+        private String full = "<aqua>|</aqua>";
+        private String empty = "<gray>|</gray>";
+        private String right = "<dark_gray>]</dark_gray>";
         private String fullPrefix = "";
         private String emptyPrefix = "";
-        private int width;
+        private int width = 60;
 
         private Builder() {
         }
@@ -129,8 +130,8 @@ public class ProgressBarWrapper {
             return this;
         }
 
-        public ProgressBarWrapper build() {
-            ProgressBarWrapper progressbarGenerator = new ProgressBarWrapper();
+        public ProgressbarGenerator build() {
+            ProgressbarGenerator progressbarGenerator = new ProgressbarGenerator();
             progressbarGenerator.setLeft(left);
             progressbarGenerator.setFull(full);
             progressbarGenerator.setEmpty(empty);

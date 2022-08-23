@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Supplier;
+
 public class ProgressbarMessenger {
 
     private static final MetadataKey<Empty> ACTIONBAR_TASK;
@@ -30,7 +32,7 @@ public class ProgressbarMessenger {
         this.generator = generator;
     }
 
-    public void show(@NotNull Player player, double fillPercent) {
+    public void show(@NotNull Player player, @NotNull Supplier<Float> fillPercent) {
         show(player, fillPercent, null, null);
     }
 
@@ -40,7 +42,7 @@ public class ProgressbarMessenger {
      * @param head        the text before the progressbar, can be empty
      * @param tail        the text after the progressbar, can be empty
      */
-    public void show(@NotNull Player player, double fillPercent, @Nullable String head, @Nullable String tail) {
+    public void show(@NotNull Player player, @NotNull Supplier<Float> fillPercent, @Nullable Supplier<String> head, @Nullable Supplier<String> tail) {
         if (Metadata.provideForPlayer(player).get(ACTIONBAR_TASK).isEmpty()) {
             Schedulers.builder().sync().every(20).consume(task -> {
                 if (task.getTimesRan() > stayTime - 1) {
@@ -50,13 +52,13 @@ public class ProgressbarMessenger {
                     return;
                 }
                 Metadata.provideForPlayer(player).put(ACTIONBAR_TASK, Empty.instance());
-                var base = generator.create(fillPercent);
+                var base = generator.create(fillPercent.get());
                 if (head == null && tail != null) {
-                    player.sendActionBar(MiniMessage.miniMessage().deserialize(base + tail));
+                    player.sendActionBar(MiniMessage.miniMessage().deserialize(base + tail.get()));
                 } else if (head != null && tail == null) {
-                    player.sendActionBar(MiniMessage.miniMessage().deserialize(head + base));
+                    player.sendActionBar(MiniMessage.miniMessage().deserialize(head.get() + base));
                 } else if (head != null) {
-                    player.sendActionBar(MiniMessage.miniMessage().deserialize(head + base + tail));
+                    player.sendActionBar(MiniMessage.miniMessage().deserialize(head.get() + base + tail.get()));
                 } else {
                     player.sendActionBar(MiniMessage.miniMessage().deserialize(base));
                 }

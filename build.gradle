@@ -44,7 +44,7 @@ dependencies {
     api 'com.mojang:authlib:1.5.25'
 
     // Note: kyori.adventure already comes with paper
-    compileOnly 'io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT'
 
     // External plugins, should not be shadowed.
     compileOnly 'me.lucko:helper:5.6.10'
@@ -54,7 +54,7 @@ dependencies {
     compileOnly 'com.github.TownyAdvanced:Towny:0.98.3.0' // for linking to towny server account
 
     // Test
-    testCompileOnly 'io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT'
+    testCompileOnly 'io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT'
     testCompileOnly 'org.junit.jupiter:junit-jupiter:5.9.0'
     testCompileOnly 'me.lucko:helper:5.6.10'
 }

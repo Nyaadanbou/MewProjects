@@ -1,8 +1,0 @@
-name: MewCore
-main: co.mcsky.mewcore.MewCore
-version: ${version}
-api-version: 1.13
-author: Nailm
-website: https://mewcraft.cc
-depend: [ helper ]
-softdepend: [ Vault, LuckPerms, Towny ]

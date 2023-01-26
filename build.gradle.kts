@@ -14,32 +14,35 @@ fun lastCommitHash(): String = indraGit.commit()?.name?.substring(0, 7) ?: error
 fun String.decorateVersion(): String = if (endsWith("-SNAPSHOT")) "$this-${lastCommitHash()}" else this
 
 repositories {
+    mavenCentral()
+
     mavenLocal {
         content {
             includeGroup("net.leonardo_dgs")
             includeGroup("com.github.DieReicheErethons")
+            includeGroup("de.themoep.utils") // remote is down
+            includeGroup("net.Indyuce") // remote is down
         }
     }
-    mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/") {
-        mavenContent {
+        content {
             includeGroup("io.papermc.paper")
             includeGroup("net.md-5")
             includeGroup("com.mojang")
         }
     }
-    maven("https://repo.minebench.de/") {
-        mavenContent {
-            includeGroup("de.themoep.utils")
-        }
-    }
+    // maven("https://repo.minebench.de/") {
+    //     content {
+    //         includeGroup("de.themoep.utils")
+    //     }
+    // }
     maven("https://repo.lucko.me") {
-        mavenContent {
+        content {
             includeGroup("me.lucko")
         }
     }
     maven("https://jitpack.io") {
-        mavenContent {
+        content {
             includeGroup("com.github.TownyAdvanced")
             includeGroup("com.github.MilkBowl")
             includeGroup("com.github.LoneDev6")
@@ -53,20 +56,32 @@ repositories {
     maven("https://nexus.phoenixdevt.fr/repository/maven-public/") {
         mavenContent {
             includeGroup("io.lumine")
-            includeGroup("net.Indyuce")
         }
     }
 }
 
 dependencies {
-    api("org.spongepowered", "configurate-yaml", "4.1.2")
-    api("de.themoep.utils", "lang-bukkit", "1.3-SNAPSHOT")
-    api("com.mojang", "authlib", "1.5.25")
+    // Shaded libs to share with other plugins
+    val cloudVersion = "1.8.0"
+    implementation("cloud.commandframework", "cloud-paper", cloudVersion)
+    implementation("cloud.commandframework", "cloud-minecraft-extras", cloudVersion) {
+        exclude("net.kyori")
+    }
+    implementation("org.spongepowered", "configurate-yaml", "4.1.2")
+    implementation("de.themoep.utils", "lang-bukkit", "1.3-SNAPSHOT")
+    implementation("com.mojang", "authlib", "1.5.25") {
+        exclude("com.google.guava")
+        exclude("com.google.code.gson")
+        exclude("com.google.code.findbugs")
+        exclude("org.apache.logging.log4j")
+    }
 
     compileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
 
     // 3rd party plugins
-    compileOnly("me.lucko", "helper", "5.6.10")
+    compileOnly("me.lucko", "helper", "5.6.10") {
+        isTransitive = false
+    }
     compileOnly("net.luckperms", "api", "5.4")
     compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") {
         isTransitive = false
@@ -77,9 +92,11 @@ dependencies {
     compileOnly("com.github.TownyAdvanced", "Towny", "0.98.3.0")
     compileOnly("com.github.LoneDev6:api-itemsadder:3.0.0")
     compileOnly("io.lumine:MythicLib-dist:1.5.1-SNAPSHOT")
-    compileOnly("net.Indyuce:MMOItems-API:6.9.1-SNAPSHOT")
+    compileOnly("net.Indyuce:MMOItems-API:6.9.2-SNAPSHOT")
     compileOnly("net.leonardo_dgs:InteractiveBooks:1.6.3")
-    compileOnly("com.github.DieReicheErethons:Brewery:3.1.1")
+    compileOnly("com.github.DieReicheErethons:Brewery:3.1.1") {
+        isTransitive = false
+    }
 
     // Test environment
     testCompileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
@@ -109,19 +126,7 @@ bukkit {
 }
 
 tasks {
-    compileJava {
-        options.release.set(17)
-        options.encoding = Charsets.UTF_8.name()
-    }
-    javadoc {
-        options.encoding = Charsets.UTF_8.name()
-    }
-    processResources {
-        filteringCharset = Charsets.UTF_8.name()
-    }
-
-
-    val outputFileName = "MewCore-${project.version}.jar"
+    val out = "MewCore-${project.version}.jar"
     build {
         dependsOn(shadowJar)
     }
@@ -130,11 +135,26 @@ tasks {
         archiveClassifier.set("noshade")
     }
     shadowJar {
-//        minimize {
-//            exclude(dependency("co.mcsky:.*:.*"))
-//        }
+        val path = "cc.mewcraft.lib."
+
+        relocate("com.mojang", path + "mojang")
+        relocate("org.apache.commons", path + "apache.commons")
+
+        relocate("cloud.commandframework", path + "commandframework")
+
+        relocate("org.spongepowered.configurate", path + "configurate")
+        relocate("org.yaml.snakeyaml", path + "snakeyaml")
+        relocate("io.leangen.geantyref", path + "geantyref") // shared by "configurate" and "command"
+
+        relocate("de.themoep.utils.lang", path + "lang")
+
+        // minimize {
+        //     exclude(dependency("co.mcsky:.*:.*"))
+        //     exclude(dependency("cc.mewcraft:.*:.*"))
+        // }
+
         destinationDirectory.set(file("$rootDir"))
-        archiveFileName.set(outputFileName)
+        archiveFileName.set(out)
         archiveClassifier.set("")
     }
 
@@ -145,6 +165,17 @@ tasks {
                 commandLine("rsync", shadowJar.get().archiveFile.get().asFile.absoluteFile, "dev:data/dev/jar")
             }
         }
+    }
+
+    compileJava {
+        options.release.set(17)
+        options.encoding = Charsets.UTF_8.name()
+    }
+    javadoc {
+        options.encoding = Charsets.UTF_8.name()
+    }
+    processResources {
+        filteringCharset = Charsets.UTF_8.name()
     }
 }
 

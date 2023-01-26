@@ -127,17 +127,18 @@ bukkit {
 
 tasks {
     val out = "MewCore-${project.version}.jar"
+
+    jar {
+        archiveClassifier.set("noshade")
+    }
     build {
         dependsOn(shadowJar)
-    }
-    jar {
-        destinationDirectory.set(file("$rootDir"))
-        archiveClassifier.set("noshade")
     }
     shadowJar {
         val path = "cc.mewcraft.lib."
 
-        relocate("com.mojang", path + "mojang")
+        relocate("com.mojang.authlib", path + "authlib")
+        relocate("com.mojang.util", path + "authlib.util")
         relocate("org.apache.commons", path + "apache.commons")
 
         relocate("cloud.commandframework", path + "commandframework")
@@ -187,6 +188,6 @@ java {
 
 publishing {
     publications.create<MavenPublication>("maven") {
-        from(components["java"])
+        artifact(tasks["shadowJar"])
     }
 }

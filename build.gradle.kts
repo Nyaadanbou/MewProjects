@@ -105,9 +105,9 @@ dependencies {
         isTransitive = false
     }
 
-    testCompileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
-    testCompileOnly("org.junit.jupiter", "junit-jupiter", "5.9.0")
-    testCompileOnly("me.lucko", "helper", "5.6.10")
+    testImplementation("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
+    testImplementation("org.junit.jupiter", "junit-jupiter", "5.9.0")
+    testImplementation("me.lucko", "helper", "5.6.13")
 }
 
 bukkit {

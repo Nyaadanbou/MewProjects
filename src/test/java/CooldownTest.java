@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CooldownTestV2 {
+public class CooldownTest {
 
     static ChargeBasedCooldown cooldown;
     static int maxCharge;

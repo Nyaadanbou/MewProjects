@@ -1,4 +1,4 @@
-import co.mcsky.mewcore.cooldown.ChargeBasedCooldown;
+import cc.mewcraft.mewcore.cooldown.ChargeBasedCooldown;
 import me.lucko.helper.cooldown.Cooldown;
 import me.lucko.helper.time.Time;
 import org.junit.jupiter.api.*;

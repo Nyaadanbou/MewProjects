@@ -6,7 +6,7 @@ plugins {
     id("net.kyori.indra.git") version "2.1.1"
 }
 
-group = "co.mcsky"
+group = "cc.mewcraft"
 version = "5.11".decorateVersion()
 description = "Contains common code of all Mewcraft plugins."
 
@@ -105,7 +105,7 @@ dependencies {
 }
 
 bukkit {
-    main = "co.mcsky.mewcore.MewCore"
+    main = "cc.mewcraft.mewcore.MewCore"
     name = project.name
     version = "${project.version}"
     description = project.description
@@ -149,7 +149,6 @@ tasks {
         relocate("de.themoep.utils.lang", path + "lang")
 
         // minimize {
-        //     exclude(dependency("co.mcsky:.*:.*"))
         //     exclude(dependency("cc.mewcraft:.*:.*"))
         // }
 

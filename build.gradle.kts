@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "co.mcsky"
-version = "5.10".decorateVersion()
+version = "5.11".decorateVersion()
 description = "Contains common code of all Mewcraft plugins."
 
 fun lastCommitHash(): String = indraGit.commit()?.name?.substring(0, 7) ?: error("Could not determine commit hash")
@@ -59,7 +59,6 @@ repositories {
 }
 
 dependencies {
-    api("org.spongepowered", "configurate-core", "4.1.2")
     api("org.spongepowered", "configurate-yaml", "4.1.2")
     api("de.themoep.utils", "lang-bukkit", "1.3-SNAPSHOT")
     api("com.mojang", "authlib", "1.5.25")

@@ -1,13 +1,23 @@
 package co.mcsky.mewcore.item.impl;
 
-import co.mcsky.mewcore.item.PluginItem;
+import co.mcsky.mewcore.hook.HookChecker;
+import co.mcsky.mewcore.item.api.PluginItem;
 import dev.lone.itemsadder.api.CustomStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ItemsAdderHook extends PluginItem<CustomStack> {
+public class ItemsAdderItem extends PluginItem<CustomStack> {
+
+    public ItemsAdderItem(final Plugin parent) {
+        super(parent);
+    }
+
+    @Override public boolean available() {
+        return HookChecker.hasItemsAdder();
+    }
 
     @Override
     public @Nullable CustomStack getPluginItem() {
@@ -29,9 +39,9 @@ public class ItemsAdderHook extends PluginItem<CustomStack> {
 
     @Override
     public boolean matches(@NotNull ItemStack item) {
-        CustomStack otherCustomStack = CustomStack.byItemStack(item);
-        if (otherCustomStack == null) return false;
-        return getItemId().equalsIgnoreCase(otherCustomStack.getNamespacedID());
+        CustomStack other = CustomStack.byItemStack(item);
+        if (other == null) return false;
+        return getItemId().equalsIgnoreCase(other.getNamespacedID());
     }
 
     @Override

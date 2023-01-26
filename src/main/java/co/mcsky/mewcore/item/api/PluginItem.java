@@ -1,9 +1,11 @@
-package co.mcsky.mewcore.item;
+package co.mcsky.mewcore.item.api;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 
 /**
  * Represents a custom item from external plugins.
@@ -12,10 +14,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class PluginItem<T> {
 
+    private final Plugin parent;
     private String plugin;
     private String itemId;
 
-    protected PluginItem() {
+    protected PluginItem(Plugin parent) {
+        this.parent = parent;
     }
 
     /**
@@ -25,6 +29,23 @@ public abstract class PluginItem<T> {
      */
     protected void onConstruct() {
     }
+
+    protected void info(String msg) {
+        parent.getLogger().info(msg);
+    }
+
+    protected void warn(String msg) {
+        parent.getLogger().info(msg);
+    }
+
+    protected void error(String msg) {
+        parent.getLogger().severe(msg);
+    }
+
+    /**
+     * @return true if this PluginItem is loaded correctly
+     */
+    abstract public boolean available();
 
     /**
      * Gets the Plugin ID of this Plugin Item (always lowercase).

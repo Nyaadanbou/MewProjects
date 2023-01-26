@@ -1,19 +1,28 @@
 package co.mcsky.mewcore.item.impl;
 
-import co.mcsky.mewcore.MewCore;
-import co.mcsky.mewcore.item.PluginItem;
+import co.mcsky.mewcore.hook.HookChecker;
+import co.mcsky.mewcore.item.api.PluginItem;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.Type;
 import net.Indyuce.mmoitems.api.item.template.MMOItemTemplate;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 
-public class MMOItemsHook extends PluginItem<MMOItemTemplate> {
+public class MMOItemsItem extends PluginItem<MMOItemTemplate> {
+
+    public MMOItemsItem(final Plugin parent) {
+        super(parent);
+    }
+
+    @Override public boolean available() {
+        return HookChecker.hasMMOItems();
+    }
 
     // These two methods `getItemStack()` and `getItemStack(Player)`
     // may generate different item on each call if this item enabled RNG stats
@@ -24,14 +33,14 @@ public class MMOItemsHook extends PluginItem<MMOItemTemplate> {
         String[] itemId = getItemId().toUpperCase(Locale.ROOT).split(":");
         Type type = MMOItems.plugin.getTypes().get(itemId[0]);
         if (type == null) {
-            MewCore.logger().severe("[MMOItems] Could not found item type: %s".formatted(itemId[0]));
+            error("[MMOItems] Could not found item type: %s".formatted(itemId[0]));
             return null;
         }
         MMOItemTemplate mmoItemTemplate = MMOItems.plugin.getTemplates().getTemplate(type, itemId[1]);
         if (mmoItemTemplate != null) {
             return mmoItemTemplate;
         } else {
-            MewCore.logger().severe("[MMOItems] Could not found item: %s (type: %s)".formatted(itemId[1], itemId[0]));
+            error("[MMOItems] Could not found item: %s (type: %s)".formatted(itemId[1], itemId[0]));
             return null;
         }
     }

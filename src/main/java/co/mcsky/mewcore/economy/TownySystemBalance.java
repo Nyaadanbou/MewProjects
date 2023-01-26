@@ -13,15 +13,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Level;
 
 /**
- * Implementation of {@link SystemBalance} and adds some convenient methods.
+ * An implementation using Towny Server Account as the backed system account.
  */
-public class SystemAccountImpl implements SystemBalance {
+public class TownySystemBalance implements SystemBalance {
 
     private final Economy economy;
     private final String serverAccount;
     private final World bukkitWorld;
 
-    public SystemAccountImpl() {
+    public TownySystemBalance() {
         serverAccount = TownyEconomyHandler.getServerAccount();
         bukkitWorld = Bukkit.getWorlds().get(0);
         economy = Services.get(Economy.class).orElseThrow(() -> new IllegalStateException("Vault economy is not loaded"));
@@ -74,8 +74,10 @@ public class SystemAccountImpl implements SystemBalance {
      *
      * @param offlinePlayer the player to deposit
      * @param amount        the amount of money
+     *
      * @return whether the transaction is successful
      */
+    @Override
     public boolean depositFromSystem(OfflinePlayer offlinePlayer, double amount) {
         if (depositPlayer(offlinePlayer, amount)) {
             withdrawSystem(amount);
@@ -89,8 +91,10 @@ public class SystemAccountImpl implements SystemBalance {
      *
      * @param offlinePlayer the player to withdraw
      * @param amount        the amount of money
+     *
      * @return whether the transaction is successful
      */
+    @Override
     public boolean withdrawToSystem(OfflinePlayer offlinePlayer, double amount) {
         if (withdrawPlayer(offlinePlayer, amount)) {
             depositSystem(amount);

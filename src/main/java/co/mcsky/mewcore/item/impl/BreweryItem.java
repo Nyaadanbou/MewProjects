@@ -1,30 +1,39 @@
 package co.mcsky.mewcore.item.impl;
 
-import co.mcsky.mewcore.MewCore;
-import co.mcsky.mewcore.item.PluginItem;
+import co.mcsky.mewcore.hook.HookChecker;
+import co.mcsky.mewcore.item.api.PluginItem;
 import com.dre.brewery.Brew;
 import com.dre.brewery.api.BreweryApi;
 import com.dre.brewery.recipe.BRecipe;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 
-public class BreweryHook extends PluginItem<BRecipe> {
+public class BreweryItem extends PluginItem<BRecipe> {
+
+    public BreweryItem(final Plugin parent) {
+        super(parent);
+    }
+
+    @Override public boolean available() {
+        return HookChecker.hasBrewery();
+    }
 
     @Override
     public @Nullable BRecipe getPluginItem() {
         // We don't use this method for Brewery
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
     public @Nullable ItemStack createItemStack() {
         String[] split = getItemId().split("~");
         if (split.length != 2) {
-            MewCore.logger().severe("The format of Brewery item should be 'brewery:{recipeName}~{quality}'");
+            error("[Brewery] The format of Brewery item should be 'brewery:{recipeName}~{quality}'");
             return null;
         }
         String recipeName = split[0];

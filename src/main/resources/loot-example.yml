@@ -1,0 +1,103 @@
+#
+# LootTable Example
+#
+# You can create as many files as you want, each file represents a loot table.
+
+# Determines how many loot items will be chosen from the item list bellow.
+rolls: 3
+
+# Determines whether the loot items should be drawn with-replacement (true) or without-replacement (false).
+replacement: false
+
+# Conditions to be met for this loot table to be triggered.
+conditions:
+  biomes:
+    - minecraft:plains
+    - minecraft:forest
+    - terra:overworld/overworld/river
+    - terra:overworld/overworld/plains
+
+# Loot items
+items:
+
+  # If "Type" is "vanilla", then you can specify "Name", "CustomModelData", "Lore", "Enchantments" for the loot item.
+  custom-item-example:
+    # (Required) Type of this loot item
+    type: 'vanilla'
+    # (Required) Material type https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+    id: 'IRON_SWORD'
+    # (Optional. Default: None) Item custom name, you can use color codes (https://minecraft.tools/en/color-code.php)
+    name: '&1Test'
+    # (Optional. Default: None) Custom model data
+    custommodeldata: 1000
+    # (Optional. Default: None) Item lore
+    lore:
+      - '&cExample Lore 1'
+    # (Optional. Default: None) List of enchantments, one item can have multiple enchantments.
+    enchantments:
+      # Enchantment name and level (As of 1.5.4.2, it is using the Minecraft namespaced keys with '_' instead of spaces)
+      looting: 1
+      sharpness: 1
+    # (Optional. Default: 1) Number of items per stack.
+    amount: 1
+    # (Required) Determines how often this entry will be chosen out of all the entries in the list.
+    weight: 10
+
+  # Above example continued.
+  # You don't have to specify all values.
+  # Here, we only specified the "Name".
+  # All other values are by default.
+  simple-item-example:
+    # (Required) Type of this loot item
+    type: 'vanilla'
+    # (Required) Material type
+    id: 'IRON_HELMET'
+    # (Optional. Default: None)
+    name: '&2Test2'
+    # (Required) Material type
+    weight: 20
+
+  # Above example continued.
+  ranged-amount-example:
+    # (Required) Type of this loot item
+    type: 'vanilla'
+    # (Required) Material type
+    id: 'ROTTEN_FLESH'
+    # (Optional. Default: None)
+    name: '&3Test3'
+    # (Optional. Default: 1) The "Amount" option supports ranged numbers. See the wiki for details.
+    amount: '[3;8]'
+    # (Required)
+    weight: 20
+
+  # This is an example of Nested Loot Table.
+  # You can define another loot table within this loot table!
+  # The depth of nested loot tables is basically unlimited, but be careful with loop!
+  # Don't worry, you can spot loops every time you reload the plugin from the console.
+  nested-table-example:
+    # (Required)
+    type: 'table'
+    # (Required) The name of another loot table. Case-sensitive.
+    id: demo-another
+    # (Optional. Default: 1) Amount being greater than 1 means the loot table will be drawn multiple times.
+    amount: 1
+    # (Required)
+    weight: 30
+
+  # This is a plugin item example.
+  # Only the options "ID", "Amount" and "Weight" are available if you use "Type: PLUGIN".
+  items-adder-plugin-example:
+    # (Required) The "Type" option needs to be "PLUGIN".
+    type: 'plugin'
+    # (Required) The ItemID of this plugin item. List of available formats:
+    #   - itemsadder:{namespace}:{itemId}
+    #     (Plugin link: https://itemsadder.devs.beer/)
+    #   - mmoitems:{itemType}:{itemId}
+    #     (Plugin link: https://www.spigotmc.org/resources/mmoitems-premium.39267/)
+    #   - ibooks:{bookId}
+    #     (Plugin link: https://www.spigotmc.org/resources/interactivebooks.45604/)
+    id: itemsadder:iasurvival:ruby
+    # (Optional. Default: 1)
+    amount: 1
+    # (Required)
+    weight: 100

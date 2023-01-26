@@ -1,22 +1,31 @@
 package co.mcsky.mewcore.item.impl;
 
-import co.mcsky.mewcore.MewCore;
-import co.mcsky.mewcore.item.PluginItem;
+import co.mcsky.mewcore.hook.HookChecker;
+import co.mcsky.mewcore.item.api.PluginItem;
 import net.leonardo_dgs.interactivebooks.IBook;
 import net.leonardo_dgs.interactivebooks.InteractiveBooks;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class InteractiveBooksHook extends PluginItem<IBook> {
+public class InteractiveBooksItem extends PluginItem<IBook> {
+
+    public InteractiveBooksItem(final Plugin parent) {
+        super(parent);
+    }
+
+    @Override public boolean available() {
+        return HookChecker.hasInteractiveBooks();
+    }
 
     @Override
     public @Nullable IBook getPluginItem() {
         IBook book = InteractiveBooks.getBook(getItemId());
         if (book == null) {
-            MewCore.logger().severe("[%s] Cannot found item with ID: %s".formatted(getPlugin(), getItemId()));
+            error("[InteractiveBooks] Cannot found item with ID: %s".formatted(getItemId()));
             return null;
         }
         return book;

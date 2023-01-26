@@ -13,12 +13,24 @@ import java.util.function.Supplier;
 
 public final class PluginItemRegistry {
 
+    private static PluginItemRegistry INSTANCE;
+
     private final Map<String, Supplier<PluginItem<?>>> constructors;
     private final Plugin parent;
 
-    public PluginItemRegistry(final Plugin parent) {
+    private PluginItemRegistry(final Plugin parent) {
         this.parent = parent;
         this.constructors = new HashMap<>();
+    }
+
+    public static void init(final Plugin parent) {
+        INSTANCE = new PluginItemRegistry(parent);
+    }
+
+    public static PluginItemRegistry get() {
+        if (INSTANCE == null)
+            throw new IllegalStateException("Instance is not initialized yet");
+        return INSTANCE;
     }
 
     public void registerForConfig(@NotNull String pluginId, @NotNull Supplier<PluginItem<?>> constructor) {

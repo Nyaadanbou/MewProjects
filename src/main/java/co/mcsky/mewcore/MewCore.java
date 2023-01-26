@@ -10,16 +10,12 @@ import co.mcsky.mewcore.item.impl.ItemsAdderItem;
 import co.mcsky.mewcore.item.impl.MMOItemsItem;
 import me.lucko.helper.Services;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
 import java.util.logging.Logger;
 
 public class MewCore extends ExtendedJavaPlugin {
 
     public static MewCore plugin;
-
-    private PluginItemRegistry pluginItemRegistry;
 
     public static Logger logger() {
         return plugin.getLogger();
@@ -40,15 +36,11 @@ public class MewCore extends ExtendedJavaPlugin {
             Services.provide(SystemBalance.class, new TownySystemBalance());
         }
 
-        pluginItemRegistry = new PluginItemRegistry(this);
-        pluginItemRegistry.registerForConfig("itemsadder", () -> new ItemsAdderItem(this));
-        pluginItemRegistry.registerForConfig("mmoitems", () -> new MMOItemsItem(this));
-        pluginItemRegistry.registerForConfig("brewery", () -> new BreweryItem(this));
-        pluginItemRegistry.registerForConfig("interactivebooks", () -> new InteractiveBooksItem(this));
-    }
-
-    public @NotNull PluginItemRegistry getPluginItemRegistry() {
-        return Objects.requireNonNull(pluginItemRegistry);
+        PluginItemRegistry.init(this);
+        PluginItemRegistry.get().registerForConfig("itemsadder", () -> new ItemsAdderItem(this));
+        PluginItemRegistry.get().registerForConfig("mmoitems", () -> new MMOItemsItem(this));
+        PluginItemRegistry.get().registerForConfig("brewery", () -> new BreweryItem(this));
+        PluginItemRegistry.get().registerForConfig("interactivebooks", () -> new InteractiveBooksItem(this));
     }
 
 }

@@ -91,10 +91,9 @@ public class SkullCreator {
         notNull(item, "item");
         notNull(base64, "base64");
 
-        if (!(item.getItemMeta() instanceof SkullMeta)) {
+        if (!(item.getItemMeta() instanceof SkullMeta meta)) {
             return null;
         }
-        SkullMeta meta = (SkullMeta) item.getItemMeta();
         mutateItemMeta(meta, base64);
         item.setItemMeta(meta);
 
@@ -173,7 +172,7 @@ public class SkullCreator {
             try {
                 URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + id.toString() + "?unsigned=false");
                 InputStreamReader in = new InputStreamReader(url.openStream());
-                JsonObject textureProperty = new JsonParser().parse(in)
+                JsonObject textureProperty = JsonParser.parseReader(in)
                         .getAsJsonObject().get("properties")
                         .getAsJsonArray().get(0)
                         .getAsJsonObject();
@@ -207,7 +206,7 @@ public class SkullCreator {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        String toEncode = "{\"textures\":{\"SKIN\":{\"url\":\"" + actualUrl.toString() + "\"}}}";
+        String toEncode = "{\"textures\":{\"SKIN\":{\"url\":\"" + actualUrl + "\"}}}";
         return Base64.getEncoder().encodeToString(toEncode.getBytes());
     }
 

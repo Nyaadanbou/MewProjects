@@ -3,7 +3,9 @@ plugins {
     `maven-publish`
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.2"
-    id("net.kyori.indra.git") version "2.1.1"
+    val indraVersion = "3.0.1"
+    id("net.kyori.indra") version indraVersion
+    id("net.kyori.indra.git") version indraVersion
 }
 
 group = "cc.mewcraft"
@@ -76,7 +78,12 @@ dependencies {
         exclude("org.apache.logging.log4j")
     }
 
+    // Server API
     compileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
+
+    // Better compile time check
+    compileOnlyApi("org.checkerframework", "checker-qual", "3.28.0")
+    compileOnlyApi("org.apiguardian", "apiguardian-api", "1.1.2")
 
     // 3rd party plugins
     compileOnly("me.lucko", "helper", "5.6.10") {
@@ -90,15 +97,14 @@ dependencies {
         isTransitive = false
     }
     compileOnly("com.github.TownyAdvanced", "Towny", "0.98.3.0")
-    compileOnly("com.github.LoneDev6:api-itemsadder:3.0.0")
-    compileOnly("io.lumine:MythicLib-dist:1.5.1-SNAPSHOT")
-    compileOnly("net.Indyuce:MMOItems-API:6.9.2-SNAPSHOT")
-    compileOnly("net.leonardo_dgs:InteractiveBooks:1.6.3")
-    compileOnly("com.github.DieReicheErethons:Brewery:3.1.1") {
+    compileOnly("com.github.LoneDev6", "api-itemsadder", "3.0.0")
+    compileOnly("io.lumine", "MythicLib-dist", "1.5.1-SNAPSHOT")
+    compileOnly("net.Indyuce", "MMOItems-API", "6.9.2-SNAPSHOT")
+    compileOnly("net.leonardo_dgs", "InteractiveBooks", "1.6.3")
+    compileOnly("com.github.DieReicheErethons", "Brewery", "3.1.1") {
         isTransitive = false
     }
 
-    // Test environment
     testCompileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
     testCompileOnly("org.junit.jupiter", "junit-jupiter", "5.9.0")
     testCompileOnly("me.lucko", "helper", "5.6.10")
@@ -126,12 +132,7 @@ bukkit {
 }
 
 tasks {
-    val out = "MewCore-${project.version}.jar"
-
-    jar {
-        archiveClassifier.set("noshade")
-    }
-    build {
+    assemble {
         dependsOn(shadowJar)
     }
     shadowJar {
@@ -145,49 +146,37 @@ tasks {
 
         relocate("org.spongepowered.configurate", path + "configurate")
         relocate("org.yaml.snakeyaml", path + "snakeyaml")
-        relocate("io.leangen.geantyref", path + "geantyref") // shared by "configurate" and "command"
+        relocate("io.leangen.geantyref", path + "geantyref") // shared by "configurate" and "commandfrmaework"
 
         relocate("de.themoep.utils.lang", path + "lang")
 
-        // minimize {
-        //     exclude(dependency("cc.mewcraft:.*:.*"))
-        // }
-
-        destinationDirectory.set(file("$rootDir"))
-        archiveFileName.set(out)
-        archiveClassifier.set("")
+        archiveFileName.set("MewCore-${project.version}.jar")
     }
-
-    register("deployToServer") {
-        dependsOn(build)
+    register("deployJar") {
         doLast {
             exec {
                 commandLine("rsync", shadowJar.get().archiveFile.get().asFile.absoluteFile, "dev:data/dev/jar")
             }
         }
     }
+    register("deployJarFresh") {
+        dependsOn(build)
+        finalizedBy(named("deployJar"))
+    }
+}
 
-    compileJava {
-        options.release.set(17)
-        options.encoding = Charsets.UTF_8.name()
-    }
-    javadoc {
-        options.encoding = Charsets.UTF_8.name()
-    }
-    processResources {
-        filteringCharset = Charsets.UTF_8.name()
-    }
+indra {
+    javaVersions().target(17)
 }
 
 java {
     withSourcesJar()
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
 }
 
 publishing {
-    publications.create<MavenPublication>("maven") {
-        artifact(tasks["shadowJar"])
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
     }
 }

@@ -4,10 +4,7 @@ import cc.mewcraft.mewcore.economy.SystemBalance;
 import cc.mewcraft.mewcore.economy.TownySystemBalance;
 import cc.mewcraft.mewcore.economy.VaultChecker;
 import cc.mewcraft.mewcore.item.api.PluginItemRegistry;
-import cc.mewcraft.mewcore.item.impl.BreweryItem;
-import cc.mewcraft.mewcore.item.impl.InteractiveBooksItem;
-import cc.mewcraft.mewcore.item.impl.ItemsAdderItem;
-import cc.mewcraft.mewcore.item.impl.MMOItemsItem;
+import cc.mewcraft.mewcore.item.impl.*;
 import me.lucko.helper.Services;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
@@ -41,6 +38,7 @@ public class MewCore extends ExtendedJavaPlugin {
         PluginItemRegistry.get().registerForConfig("mmoitems", () -> new MMOItemsItem(this));
         PluginItemRegistry.get().registerForConfig("brewery", () -> new BreweryItem(this));
         PluginItemRegistry.get().registerForConfig("interactivebooks", () -> new InteractiveBooksItem(this));
+        PluginItemRegistry.get().registerForConfig("minecraft", () -> new MinecraftItem(this)); // last fallback
     }
 
 }

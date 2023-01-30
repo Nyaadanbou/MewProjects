@@ -35,11 +35,11 @@ public class MinecraftItem extends PluginItem<Material> {
     }
 
     @Override public boolean matches(@NotNull final ItemStack item) {
-        return !item.hasItemMeta() || item.getType() == getPluginItem();
+        return !item.hasItemMeta() && item.getType() == getPluginItem();
     }
 
     @Override public boolean belongs(@NotNull final ItemStack item) {
-        return true;
+        return !item.hasItemMeta();
     }
 
     @Override public @Nullable String toItemId(@NotNull final ItemStack item) {

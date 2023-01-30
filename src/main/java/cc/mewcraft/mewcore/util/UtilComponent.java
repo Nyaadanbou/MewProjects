@@ -3,6 +3,7 @@ package cc.mewcraft.mewcore.util;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +36,12 @@ public class UtilComponent {
         return MiniMessage.miniMessage().deserialize(miniMessage);
     }
 
+    @Contract(pure = true)
+    public static @NotNull Component asComponent(@Nullable String miniMessage, TagResolver resolver) {
+        if (miniMessage == null) return Component.empty();
+        return MiniMessage.miniMessage().deserialize(miniMessage, resolver);
+    }
+
     /**
      * Converts the list of MiniMessage strings into a list of components.
      * <p>
@@ -48,6 +55,12 @@ public class UtilComponent {
     public static @NotNull List<Component> asComponent(@Nullable List<String> miniMessage) {
         if (miniMessage == null) return List.of();
         return miniMessage.stream().map(UtilComponent::asComponent).toList();
+    }
+
+    @Contract(pure = true)
+    public static @NotNull List<Component> asComponent(@Nullable List<String> miniMessage, TagResolver resolver) {
+        if (miniMessage == null) return List.of();
+        return miniMessage.stream().map(string -> asComponent(string, resolver)).toList();
     }
 
     /**

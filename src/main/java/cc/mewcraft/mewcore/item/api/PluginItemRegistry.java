@@ -6,10 +6,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Supplier;
 
 public final class PluginItemRegistry {
@@ -21,7 +18,7 @@ public final class PluginItemRegistry {
 
     private PluginItemRegistry(final Plugin parent) {
         this.parent = parent;
-        this.constructors = new HashMap<>();
+        this.constructors = new TreeMap<>();
     }
 
     /**
@@ -88,7 +85,7 @@ public final class PluginItemRegistry {
         for (Map.Entry<String, Supplier<PluginItem<?>>> entry : constructors.entrySet()) {
             PluginItem<?> pluginItem = entry.getValue().get();
             if (!pluginItem.available())
-                return null;
+                continue;
             if (pluginItem.belongs(item)) {
                 String plugin = Objects.requireNonNull(entry.getKey()).toLowerCase(Locale.ROOT);
                 String itemId = Objects.requireNonNull(pluginItem.toItemId(item)).toLowerCase(Locale.ROOT);
@@ -158,9 +155,7 @@ public final class PluginItemRegistry {
 
     public @Nullable String asReference(@Nullable ItemStack item) {
         PluginItem<?> pluginItem = fromItemStackNullable(item);
-        if (pluginItem == null)
-            return null;
-        return pluginItem.getPlugin() + ":" + pluginItem.getItemId();
+        return pluginItem == null ? null :pluginItem.asReference();
     }
 
     private boolean parseble(@Nullable String reference) {

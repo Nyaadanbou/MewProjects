@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "cc.mewcraft"
-version = "5.11".decorateVersion()
+version = "5.12".decorateVersion()
 description = "Contains common code of all Mewcraft plugins."
 
 fun lastCommitHash(): String = indraGit.commit()?.name?.substring(0, 7) ?: error("Could not determine commit hash")

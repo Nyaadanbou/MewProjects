@@ -18,7 +18,7 @@ public final class PluginItemRegistry {
 
     private PluginItemRegistry(final Plugin parent) {
         this.parent = parent;
-        this.constructors = new TreeMap<>();
+        this.constructors = new LinkedHashMap<>();
     }
 
     /**

@@ -3,6 +3,8 @@ package cc.mewcraft.mewcore.item.impl;
 import cc.mewcraft.mewcore.hook.HookChecker;
 import cc.mewcraft.mewcore.item.api.PluginItem;
 import io.lumine.mythic.lib.api.item.NBTItem;
+import me.lucko.helper.Schedulers;
+import me.lucko.helper.promise.Promise;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.Type;
 import net.Indyuce.mmoitems.api.item.template.MMOItemTemplate;
@@ -49,14 +51,28 @@ public class MMOItemsItem extends PluginItem<MMOItemTemplate> {
     public @Nullable ItemStack createItemStack() {
         MMOItemTemplate pluginItem = getPluginItem();
         if (pluginItem == null) return null;
-        return pluginItem.newBuilder().build().newBuilder().build();
+        // The stupid GenerateLoreEvent requires to be triggered sync, so call it sync
+        Promise<ItemStack> call = Schedulers.sync().call(pluginItem.newBuilder().build().newBuilder()::build);
+        try {
+            return call.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public @Nullable ItemStack createItemStack(@NotNull Player player) {
         MMOItemTemplate pluginItem = getPluginItem();
         if (pluginItem == null) return null;
-        return pluginItem.newBuilder(player).build().newBuilder().build();
+        // The stupid GenerateLoreEvent requires to be triggered sync, so call it sync
+        Promise<ItemStack> call = Schedulers.sync().call(pluginItem.newBuilder(player).build().newBuilder()::build);
+        try {
+            return call.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

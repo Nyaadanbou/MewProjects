@@ -3,6 +3,7 @@ package cc.mewcraft.mewcore;
 import cc.mewcraft.mewcore.economy.SystemBalance;
 import cc.mewcraft.mewcore.economy.TownySystemBalance;
 import cc.mewcraft.mewcore.economy.VaultChecker;
+import cc.mewcraft.mewcore.hook.HookChecker;
 import cc.mewcraft.mewcore.item.api.PluginItemRegistry;
 import cc.mewcraft.mewcore.item.impl.*;
 import me.lucko.helper.Services;
@@ -25,11 +26,13 @@ public class MewCore extends ExtendedJavaPlugin {
     protected void enable() {
         plugin = this;
 
-        if (getServer().getPluginManager().getPlugin("Vault") != null) {
+        if (HookChecker.hasVault()) {
             VaultChecker.registerVaultChat();
             VaultChecker.registerVaultEconomy();
             VaultChecker.registerVaultPermission();
+        }
 
+        if (HookChecker.hasVault() && HookChecker.hasTowny()) {
             Services.provide(SystemBalance.class, new TownySystemBalance());
         }
 

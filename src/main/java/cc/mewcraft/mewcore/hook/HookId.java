@@ -7,7 +7,8 @@ public enum HookId {
     BREWERY("Brewery"),
     INTERACTIVE_BOOKS("InteractiveBooks"),
     ITEMS_ADDER("ItemsAdder"),
-    MMOITEMS("MMOItems");
+    MMOITEMS("MMOItems"),
+    TOWNY("Towny");
 
     public final String pluginName;
 

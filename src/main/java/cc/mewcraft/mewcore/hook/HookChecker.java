@@ -35,4 +35,8 @@ public class HookChecker {
         return hasPlugin(HookId.MMOITEMS);
     }
 
+    public static boolean hasTowny() {
+        return hasPlugin(HookId.TOWNY);
+    }
+
 }

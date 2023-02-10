@@ -25,7 +25,7 @@ public class CooldownTest {
     @BeforeAll
     static void beforeAll() {
         maxCharge = 5;
-        cooldown = ChargeBasedCooldown.of(Cooldown.of(1, TimeUnit.SECONDS), UUID.randomUUID(), uuid -> maxCharge);
+        cooldown = ChargeBasedCooldown.of(Cooldown.of(200, TimeUnit.MILLISECONDS), UUID.randomUUID(), uuid -> maxCharge);
 
         // simulate that all charges are ready to use at the beginning
         cooldown.setLastTested(Time.nowMillis() - maxCharge * cooldown.getBaseTimeout());
@@ -52,7 +52,7 @@ public class CooldownTest {
     @Test
     @Order(3)
     void test3() throws InterruptedException {
-        Thread.sleep(1000L);
+        Thread.sleep(200L);
         printRemaining();
         assertTrue(cooldown.test());
         printRemaining();
@@ -61,7 +61,7 @@ public class CooldownTest {
     @Test
     @Order(4)
     void test4() throws InterruptedException {
-        Thread.sleep(500L);
+        Thread.sleep(100L);
         printRemaining();
         assertFalse(cooldown.test());
         printRemaining();
@@ -70,7 +70,7 @@ public class CooldownTest {
     @Test
     @Order(5)
     void test5() throws InterruptedException {
-        Thread.sleep(1000L * 2);
+        Thread.sleep(200L * 2);
         printRemaining();
         assertTrue(cooldown.test());
         assertTrue(cooldown.test());
@@ -84,7 +84,7 @@ public class CooldownTest {
     @Order(6)
     void test6() throws InterruptedException {
         printRemaining();
-        Thread.sleep(1000L);
+        Thread.sleep(200L);
         assertTrue(cooldown.test());
         assertFalse(cooldown.test());
     }
@@ -93,7 +93,7 @@ public class CooldownTest {
     @Order(7)
     void test7() throws InterruptedException {
         printRemaining();
-        Thread.sleep(1000L * 5);
+        Thread.sleep(200L * 5);
         printRemaining();
         for (int i = 0; i < maxCharge; i++) {
             assertTrue(cooldown.test());
@@ -111,7 +111,7 @@ public class CooldownTest {
     @Order(9)
     void testAddBalance() throws InterruptedException {
         maxCharge = 6; // balance: 5 -> 6
-        Thread.sleep(1000L * maxCharge);
+        Thread.sleep(200L * maxCharge);
         for (int i = 0; i < maxCharge; i++) {
             assertTrue(cooldown.test());
         }
@@ -121,9 +121,9 @@ public class CooldownTest {
     @Order(10)
     void test10() throws InterruptedException {
         printRemaining();
-        Thread.sleep(500L);
+        Thread.sleep(100L);
         assertFalse(cooldown.test());
-        Thread.sleep(500L);
+        Thread.sleep(100L);
         assertTrue(cooldown.test());
         assertFalse(cooldown.test());
     }
@@ -132,7 +132,7 @@ public class CooldownTest {
     @Order(11)
     void testRemoveBalance() throws InterruptedException {
         maxCharge = 2;
-        Thread.sleep(1000L * 2);
+        Thread.sleep(200L * 2);
         assertTrue(cooldown.test());
         assertTrue(cooldown.test());
         assertFalse(cooldown.test());

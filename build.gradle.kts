@@ -68,7 +68,8 @@ repositories {
 
 dependencies {
     // TODO expose dependency to consumer?
-    // TODO publish a gradle plugin to local to contain common shade relocate
+    //  publish a gradle plugin to local to contain common shade relocate
+
     // Shaded libs to share with other plugins
     val cloudVersion = "1.8.0"
     implementation("cloud.commandframework", "cloud-paper", cloudVersion)
@@ -85,7 +86,7 @@ dependencies {
     }
 
     // Server API
-    compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.2-R0.1-SNAPSHOT")
+    compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.3-R0.1-SNAPSHOT")
 
     // Better compile time check
     compileOnlyApi("org.checkerframework", "checker-qual", "3.28.0")

@@ -1,11 +1,13 @@
 package cc.mewcraft.mewcore.text;
 
-import me.lucko.helper.utils.annotation.NonnullByDefault;
 import org.bukkit.ChatColor;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
 import java.util.function.Function;
 
-@NonnullByDefault
+@DefaultQualifier(Deprecated.class)
+@DefaultQualifier(NonNull.class)
 public class TextRepository {
 
     protected String placeholderPrefix = "{";
@@ -37,3 +39,4 @@ public class TextRepository {
     }
 
 }
+

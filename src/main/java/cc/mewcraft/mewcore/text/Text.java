@@ -1,7 +1,6 @@
 package cc.mewcraft.mewcore.text;
 
 import me.lucko.helper.utils.Players;
-import me.lucko.helper.utils.annotation.NonnullByDefault;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
@@ -13,16 +12,19 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * A wrapper class utilizing {@link Component} along with plain string language
- * messages with convenience methods for text replacements.
+ * A wrapper class utilizing {@link Component} along with plain string language messages with convenience methods for
+ * text replacements.
  */
-@NonnullByDefault
+@DefaultQualifier(Deprecated.class)
+@DefaultQualifier(NonNull.class)
 public class Text {
 
     private final TextRepository config;
@@ -170,7 +172,8 @@ public class Text {
             case TITLE -> sendTitle(audience, internal, Component.empty(), 10, 40, 10);
             case SUBTITLE -> sendTitle(audience, Component.empty(), internal, 10, 40, 10);
             case ACTION_BAR -> audience.sendActionBar(internal);
-            case BOSS_BAR -> audience.showBossBar(BossBar.bossBar(internal, BossBar.MAX_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS));
+            case BOSS_BAR ->
+                audience.showBossBar(BossBar.bossBar(internal, BossBar.MAX_PROGRESS, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS));
         }
     }
 

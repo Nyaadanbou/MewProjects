@@ -1,22 +1,18 @@
 package cc.mewcraft.mewcore;
 
-import cc.mewcraft.mewcore.economy.SystemBalance;
-import cc.mewcraft.mewcore.economy.TownySystemBalance;
-import cc.mewcraft.mewcore.economy.VaultChecker;
-import cc.mewcraft.mewcore.hook.HookChecker;
 import cc.mewcraft.mewcore.item.api.PluginItemRegistry;
 import cc.mewcraft.mewcore.item.impl.*;
-import me.lucko.helper.Services;
+import me.lucko.helper.Schedulers;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
 import java.util.logging.Logger;
 
 public class MewCore extends ExtendedJavaPlugin {
 
-    public static MewCore plugin;
+    public static MewCore INSTANCE;
 
     public static Logger logger() {
-        return plugin.getLogger();
+        return INSTANCE.getLogger();
     }
 
     @Override
@@ -24,17 +20,7 @@ public class MewCore extends ExtendedJavaPlugin {
 
     @Override
     protected void enable() {
-        plugin = this;
-
-        if (HookChecker.hasVault()) {
-            VaultChecker.registerVaultChat();
-            VaultChecker.registerVaultEconomy();
-            VaultChecker.registerVaultPermission();
-        }
-
-        if (HookChecker.hasVault() && HookChecker.hasTowny()) {
-            Services.provide(SystemBalance.class, new TownySystemBalance());
-        }
+        INSTANCE = this;
 
         PluginItemRegistry.init(this);
         PluginItemRegistry.get().registerForConfig("itemsadder", () -> new ItemsAdderItem(this));
@@ -42,6 +28,12 @@ public class MewCore extends ExtendedJavaPlugin {
         PluginItemRegistry.get().registerForConfig("brewery", () -> new BreweryItem(this));
         PluginItemRegistry.get().registerForConfig("interactivebooks", () -> new InteractiveBooksItem(this));
         PluginItemRegistry.get().registerForConfig("minecraft", () -> new MinecraftItem(this)); // last fallback
+
+        Schedulers.sync().run(this::postEnable).bindWith(this);
+    }
+
+    protected void postEnable() {
+        // EMPTY
     }
 
 }

@@ -1,7 +1,7 @@
 package cc.mewcraft.mewcore.config;
 
-import cc.mewcraft.mewcore.MewCore;
 import com.google.common.base.Preconditions;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -15,12 +15,12 @@ public class LocationSerializer implements TypeSerializer<Location> {
     public static final LocationSerializer INSTANCE = new LocationSerializer();
 
     @Override
-    public Location deserialize(Type type, ConfigurationNode node) throws SerializationException {
+    public Location deserialize(Type type, ConfigurationNode node) {
         final int x = node.node("x").getInt();
         final int y = node.node("y").getInt();
         final int z = node.node("z").getInt();
         final String world = node.node("world").getString("null");
-        return new Location(MewCore.plugin.getServer().getWorld(world), x, y, z);
+        return new Location(Bukkit.getServer().getWorld(world), x, y, z);
     }
 
     @Override

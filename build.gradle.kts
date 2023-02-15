@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "cc.mewcraft"
-version = "5.13".decorateVersion()
+version = "5.13.1".decorateVersion()
 description = "Contains common code of all Mewcraft plugins."
 
 fun lastCommitHash(): String = indraGit.commit()?.name?.substring(0, 7) ?: error("Could not determine commit hash")
@@ -119,8 +119,8 @@ bukkit {
     depend = listOf("helper")
     softDepend = listOf(
         "Vault",
-        "LuckPerms",
         "Towny",
+        "LuckPerms",
         "PlaceholderAPI",
         "ItemsAdder",
         "MythicLib",

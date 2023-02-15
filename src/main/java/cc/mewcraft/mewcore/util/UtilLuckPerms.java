@@ -1,6 +1,5 @@
 package cc.mewcraft.mewcore.util;
 
-import cc.mewcraft.mewcore.MewCore;
 import com.google.common.base.Preconditions;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
@@ -21,8 +20,11 @@ import java.util.concurrent.CompletableFuture;
 
 public class UtilLuckPerms {
 
-    private static final LuckPerms lp = LuckPermsProvider.get();
-    private static final String pluginName = MewCore.plugin.getName();
+    private static final LuckPerms lp;
+
+    static {
+        lp = LuckPermsProvider.get();
+    }
 
     /**
      * Adds permission to specified group without any contexts.
@@ -59,6 +61,7 @@ public class UtilLuckPerms {
      *
      * @param player the player
      * @param group  the group name
+     *
      * @return true if the player belongs to the group, otherwise false
      */
     public static boolean isPlayerInGroup(@NotNull Player player, @NotNull String group) {

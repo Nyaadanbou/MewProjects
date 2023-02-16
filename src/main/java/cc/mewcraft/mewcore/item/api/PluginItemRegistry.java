@@ -6,7 +6,10 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public final class PluginItemRegistry {
@@ -155,10 +158,15 @@ public final class PluginItemRegistry {
 
     public @Nullable String asReference(@Nullable ItemStack item) {
         PluginItem<?> pluginItem = fromItemStackNullable(item);
-        return pluginItem == null ? null :pluginItem.asReference();
+        return pluginItem == null ? null : pluginItem.asReference();
     }
 
-    private boolean parseble(@Nullable String reference) {
+    /**
+     * @param reference a reference to plugin item
+     *
+     * @return true if specific reference is valid; otherwise false
+     */
+    public boolean parseble(@Nullable String reference) {
         return reference != null && split(reference).length == 2;
     }
 

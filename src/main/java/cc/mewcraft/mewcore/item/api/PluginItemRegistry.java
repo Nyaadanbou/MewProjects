@@ -136,6 +136,8 @@ public final class PluginItemRegistry {
      * @return the plugin item from the given reference.
      */
     public @Nullable PluginItem<?> fromReferenceNullable(@Nullable String reference) {
+        if (reference == null)
+            return null;
         if (!parseble(reference)) {
             parent.getLogger().severe("The format of plugin item ID '" + reference + "' is not correct. Correct format: {plugin}:{itemId}");
             return null;

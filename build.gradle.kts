@@ -1,19 +1,17 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("net.minecrell.plugin-yml.bukkit") version "0.5.2"
+
     val indraVersion = "3.0.1"
     id("net.kyori.indra") version indraVersion
     id("net.kyori.indra.git") version indraVersion
+
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "cc.mewcraft"
 version = "5.13.1".decorateVersion()
 description = "Contains common code of all Mewcraft plugins."
-
-fun lastCommitHash(): String = indraGit.commit()?.name?.substring(0, 7) ?: error("Could not determine commit hash")
-fun String.decorateVersion(): String = if (endsWith("-SNAPSHOT")) "$this-${lastCommitHash()}" else this
 
 repositories {
     mavenCentral()
@@ -109,27 +107,6 @@ dependencies {
     testImplementation("me.lucko", "helper", "5.6.13")
 }
 
-bukkit {
-    main = "cc.mewcraft.mewcore.MewCore"
-    name = project.name
-    version = "${project.version}"
-    description = project.description
-    apiVersion = "1.17"
-    authors = listOf("Nailm")
-    depend = listOf("helper")
-    softDepend = listOf(
-        "Vault",
-        "Towny",
-        "LuckPerms",
-        "PlaceholderAPI",
-        "ItemsAdder",
-        "MythicLib",
-        "MMOItems",
-        "InteractiveBooks",
-        "Brewery"
-    )
-}
-
 tasks {
     assemble {
         dependsOn(shadowJar)
@@ -150,6 +127,16 @@ tasks {
         relocate("de.themoep.utils.lang", path + "lang")
 
         archiveFileName.set("MewCore-${project.version}.jar")
+    }
+    processResources {
+        filesMatching("**/paper-plugin.yml") {
+            expand(mapOf(
+                "name" to project.name,
+                "version" to "${project.version}",
+                "mainClass" to "cc.mewcraft.mewcore.MewCore",
+                "description" to project.description
+            ))
+        }
     }
     register("deployJar") {
         doLast {
@@ -179,3 +166,6 @@ publishing {
         }
     }
 }
+
+fun lastCommitHash(): String = indraGit.commit()?.name?.substring(0, 7) ?: error("Could not determine commit hash")
+fun String.decorateVersion(): String = if (endsWith("-SNAPSHOT")) "$this-${lastCommitHash()}" else this

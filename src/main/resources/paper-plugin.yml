@@ -1,0 +1,41 @@
+main: ${mainClass}
+name: ${name}
+version: ${version}
+description: ${description}
+api-version: 1.19
+authors: [ Nailm ]
+load-before: [ ]
+load-after:
+  - name: helper
+    bootstrap: false
+dependencies:
+  - name: helper
+    required: true
+    bootstrap: false
+  - name: Vault
+    required: false
+    bootstrap: false
+  - name: Towny
+    required: false
+    bootstrap: false
+  - name: LuckPerms
+    required: false
+    bootstrap: false
+  - name: PlaceholderAPI
+    required: false
+    bootstrap: false
+  - name: ItemsAdder
+    required: false
+    bootstrap: false
+  - name: MythicLib
+    required: false
+    bootstrap: false
+  - name: MMOItems
+    required: false
+    bootstrap: false
+  - name: InteractiveBooks
+    required: false
+    bootstrap: false
+  - name: Brewery
+    required: false
+    bootstrap: false

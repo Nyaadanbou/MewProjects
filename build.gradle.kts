@@ -111,8 +111,14 @@ tasks {
     assemble {
         dependsOn(shadowJar)
     }
+    jar {
+        archiveClassifier.set("noshade")
+    }
     shadowJar {
         val path = "cc.mewcraft.lib."
+
+        archiveBaseName.set("MewCore")
+        archiveClassifier.set("")
 
         relocate("com.mojang.authlib", path + "authlib")
         relocate("com.mojang.util", path + "authlib.util")
@@ -125,15 +131,11 @@ tasks {
         relocate("io.leangen.geantyref", path + "geantyref") // shared by "configurate" and "commandfrmaework"
 
         relocate("de.themoep.utils.lang", path + "lang")
-
-        archiveFileName.set("MewCore-${project.version}.jar")
     }
     processResources {
         filesMatching("**/paper-plugin.yml") {
             expand(mapOf(
-                "name" to project.name,
                 "version" to "${project.version}",
-                "mainClass" to "cc.mewcraft.mewcore.MewCore",
                 "description" to project.description
             ))
         }

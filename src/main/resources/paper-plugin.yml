@@ -1,13 +1,12 @@
-main: ${mainClass}
-name: ${name}
+name: MewCore
 version: ${version}
 description: ${description}
+main: cc.mewcraft.mewcore.MewCore
 api-version: 1.19
 authors: [ Nailm ]
 load-before: [ ]
 load-after:
   - name: helper
-    bootstrap: false
 dependencies:
   - name: helper
     required: true

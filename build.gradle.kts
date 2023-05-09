@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "cc.mewcraft"
-version = "5.13.1".decorateVersion()
+version = "5.15.0".decorateVersion()
 description = "Contains common code of all Mewcraft plugins."
 
 repositories {
@@ -111,14 +111,11 @@ tasks {
     assemble {
         dependsOn(shadowJar)
     }
-    jar {
-        archiveClassifier.set("noshade")
-    }
     shadowJar {
         val path = "cc.mewcraft.lib."
 
         archiveBaseName.set("MewCore")
-        archiveClassifier.set("")
+        archiveClassifier.set("shaded")
 
         relocate("com.mojang.authlib", path + "authlib")
         relocate("com.mojang.util", path + "authlib.util")

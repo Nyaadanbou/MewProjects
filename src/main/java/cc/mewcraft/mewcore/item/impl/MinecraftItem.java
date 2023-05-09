@@ -21,28 +21,28 @@ public class MinecraftItem extends PluginItem<Material> {
     }
 
     @Override public @Nullable Material getPluginItem() {
-        return Material.matchMaterial(getItemId());
+        return Material.matchMaterial(this.getItemId());
     }
 
     @Override public @Nullable ItemStack createItemStack() {
-        if (getPluginItem() == null)
+        if (this.getPluginItem() == null)
             return null;
-        return new ItemStack(getPluginItem());
+        return new ItemStack(this.getPluginItem());
     }
 
-    @Override public @Nullable ItemStack createItemStack(@NotNull final Player player) {
-        return createItemStack();
+    @Override public @Nullable ItemStack createItemStack(final @NotNull Player player) {
+        return this.createItemStack();
     }
 
-    @Override public boolean matches(@NotNull final ItemStack item) {
-        return !item.hasItemMeta() && item.getType() == getPluginItem();
+    @Override public boolean matches(final @NotNull ItemStack item) {
+        return !item.hasItemMeta() && item.getType() == this.getPluginItem();
     }
 
-    @Override public boolean belongs(@NotNull final ItemStack item) {
+    @Override public boolean belongs(final @NotNull ItemStack item) {
         return !item.hasItemMeta();
     }
 
-    @Override public @Nullable String toItemId(@NotNull final ItemStack item) {
-        return item.getType().translationKey();
+    @Override public @Nullable String toItemId(final @NotNull ItemStack item) {
+        return item.getType().getKey().asString();
     }
 }

@@ -43,6 +43,6 @@ public class MinecraftItem extends PluginItem<Material> {
     }
 
     @Override public @Nullable String toItemId(final @NotNull ItemStack item) {
-        return item.getType().getKey().asString();
+        return item.getType().getKey().value();
     }
 }

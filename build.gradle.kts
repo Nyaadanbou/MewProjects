@@ -95,11 +95,11 @@ dependencies {
     compileOnly("net.luckperms", "api", "5.4")
     compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") { isTransitive = false }
     compileOnly("net.essentialsx", "EssentialsX", "2.19.0") { isTransitive = false }
-    compileOnly("com.github.TownyAdvanced", "Towny", "0.98.3.0")
+    compileOnly("com.github.TownyAdvanced", "Towny", "0.99.0.0")
     compileOnly("com.github.LoneDev6", "api-itemsadder", "3.0.0")
-    compileOnly("io.lumine", "MythicLib-dist", "1.5.1-SNAPSHOT")
-    compileOnly("net.Indyuce", "MMOItems-API", "6.9.2-SNAPSHOT")
-    compileOnly("net.leonardo_dgs", "InteractiveBooks", "1.6.3")
+    compileOnly("io.lumine", "MythicLib-dist", "1.6-SNAPSHOT")
+    compileOnly("net.Indyuce", "MMOItems-API", "6.9.4-SNAPSHOT")
+    compileOnly("net.leonardo_dgs", "InteractiveBooks", "1.6.5")
     compileOnly("com.github.DieReicheErethons", "Brewery", "3.1.1") { isTransitive = false }
 
     testImplementation("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")

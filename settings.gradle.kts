@@ -1,5 +1,6 @@
 rootProject.name = "MewProjects"
 
 include(":mewcore")
-// include(":mmoext")
-// include(":pickaxepower")
+include(":mewfishing")
+include(":mmoext")
+include(":pickaxepower")

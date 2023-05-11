@@ -1,0 +1,10 @@
+name: MMOExt
+main: co.mcsky.mmoext.Main
+version: ${version}
+api-version: '1.19'
+description: An extension of MMO plugins
+author: Nailm
+prefix: MMOExt
+depend: [ MewCore ]
+softdepend: [ Towny, ItemsAdder, MythicLib, MythicMobs ]
+loadbefore: [ MMOItems ]

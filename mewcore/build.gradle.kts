@@ -11,7 +11,7 @@ plugins {
 
 group = "cc.mewcraft"
 version = "5.15.0".decorateVersion()
-description = "Contains common code of all Mewcraft plugins."
+description = "Common code of all Mewcraft plugins."
 
 repositories {
     mavenCentral()

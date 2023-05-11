@@ -1,3 +1,4 @@
-/.gradle
-/build
-/MewCore*.jar
+.idea
+.gradle
+
+build

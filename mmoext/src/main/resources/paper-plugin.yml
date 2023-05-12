@@ -1,9 +1,9 @@
 name: MMOExt
 main: co.mcsky.mmoext.Main
 version: ${version}
-api-version: 1.19
+description: ${description}
 author: Nailm
-description: An extension of MMO plugins
+api-version: 1.19
 load-before: [ ]
 load-after:
   - name: helper

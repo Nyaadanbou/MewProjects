@@ -1,0 +1,66 @@
+# 在控制台显示更多信息
+debug: false
+
+# 截取封包的原则是
+#   当封包恢复传输以后
+#   玩家和周围环境的状态能够恢复正常
+blockedPackets:
+
+  # 世界
+  - UPDATE_TIME
+  - WORLD_EVENT
+
+  # 聊天
+  - PING
+  - BOSS
+
+  # 不发送 SCOREBOARD_TEAM 的更新可能会导致玩家掉线
+  # Issue: https://github.com/CitizensDev/Citizens2/issues/2875
+  # - SCOREBOARD_TEAM
+  # - SCOREBOARD_SCORE
+  # - SCOREBOARD_OBJECTIVE
+  # - SCOREBOARD_DISPLAY_OBJECTIVE
+
+  # 生物实体
+  - COLLECT
+  - ANIMATION
+  - SPAWN_ENTITY_EXPERIENCE_ORB
+  # - ENTITY_TELEPORT
+  # - ENTITY_EFFECT
+  # - REMOVE_ENTITY_EFFECT
+  - ATTACH_ENTITY
+  - ENTITY_STATUS
+  - REL_ENTITY_MOVE
+  - REL_ENTITY_MOVE_LOOK
+  - ENTITY_LOOK
+  # - ENTITY_METADATA
+  - ENTITY_VELOCITY
+  - ENTITY_EQUIPMENT
+  - ENTITY_HEAD_ROTATION
+  - ENTITY_SOUND
+  - CUSTOM_SOUND_EFFECT
+  - NAMED_SOUND_EFFECT
+  - UPDATE_ATTRIBUTES
+  - WORLD_PARTICLES
+
+  # 客户端经验条UI更新
+  # - EXPERIENCE
+
+  # 客户端血条/饥饿值UI更新
+  # - UPDATE_HEALTH
+
+  # 方块变动
+  - LIGHT_UPDATE
+  - BLOCK_ACTION
+  # - BLOCK_CHANGE
+  # - BLOCK_CHANGED_ACK
+  # - MULTI_BLOCK_CHANGE
+  - TILE_ENTITY_DATA
+
+# 对于以下实体类型，不拦截其封包（必须大写）
+# 实体类型参考 https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+whitelistEntities:
+  - FISHING_HOOK
+
+# 只拦截在城镇领地内挂机的封包
+onlyInsideTown: false

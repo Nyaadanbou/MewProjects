@@ -1,0 +1,17 @@
+weight: 0.1
+conditions: []
+replacement: false
+rolls: 1
+items:
+  command-example:
+    type: 'command'
+    exec:
+      - "+ I got a nested loot"
+    amount: 1
+    weight: 100
+  custom-item-example:
+    type: 'vanilla'
+    id: 'COPPER_INGOT'
+    name: '<green>Nested table test'
+    amount: 1
+    weight: 100

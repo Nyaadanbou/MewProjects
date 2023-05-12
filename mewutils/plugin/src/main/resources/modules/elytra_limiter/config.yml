@@ -1,0 +1,20 @@
+limited_worlds:
+  - w19
+  - w19_nether
+  - w19_the_end
+  - ex
+  - vx
+  - vx_nether
+  - vx_the_end
+limited_methods:
+  - FIREWORK
+  - RIPTIDE
+  - BOW
+tps_threshold: 15.0
+velocity_multiply: 1.2
+cooldown:
+  base: 8000
+  charge: 3
+  progressbar:
+    width: 40
+    stay_time: 16

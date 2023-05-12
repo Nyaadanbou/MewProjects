@@ -1,0 +1,4 @@
+count_beehive: '<gray>这个蜂箱里有 <bee_count> 只蜜蜂.'
+count_bee_nest: '<gray>这个蜂巢里有 <bee_count> 只蜜蜂.'
+reminder_on_place: '<gray>提示: <gold>右击蜂箱/蜂巢</gold> 可查看内部蜜蜂数量.'
+reminder_in_hand: '<gray>提示: <gold>手持蜂箱 潜行+右键空气</gold> 可查看内部蜜蜂数量.'

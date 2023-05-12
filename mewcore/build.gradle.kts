@@ -30,24 +30,27 @@ dependencies {
         exclude("org.apache.logging.log4j")
     }
 
-    // Server API
-    compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.4-R0.1-SNAPSHOT")
+    // Plugin libs - these will be present as other plugins
+    api("me.lucko", "helper", "5.6.13")
 
-    // 3rd party plugins
-    compileOnly("me.lucko", "helper", "5.6.10") { isTransitive = false }
-    compileOnly("net.luckperms", "api", "5.4")
-    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") { isTransitive = false }
-    compileOnly("net.essentialsx", "EssentialsX", "2.19.0") { isTransitive = false }
-    compileOnly("com.github.TownyAdvanced", "Towny", "0.99.0.0")
-    compileOnly("com.github.LoneDev6", "api-itemsadder", "3.0.0")
-    compileOnly("io.lumine", "MythicLib-dist", "1.6-SNAPSHOT")
-    compileOnly("net.Indyuce", "MMOItems-API", "6.9.4-SNAPSHOT")
-    compileOnly("net.leonardo_dgs", "InteractiveBooks", "1.6.5")
-    compileOnly("com.github.DieReicheErethons", "Brewery", "3.1.1") { isTransitive = false }
+    // Server API
+    api("org.purpurmc.purpur", "purpur-api", "1.19.4-R0.1-SNAPSHOT")
 
     // For better compile-time checking
     compileOnlyApi("org.checkerframework", "checker-qual", "3.28.0")
     compileOnlyApi("org.apiguardian", "apiguardian-api", "1.1.2")
+
+    // 3rd party plugins
+    compileOnly("me.lucko", "helper", "5.6.13") { isTransitive = false }
+    compileOnly("net.luckperms", "api", "5.4")
+    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") { isTransitive = false }
+    compileOnly("net.essentialsx", "EssentialsX", "2.19.0") { isTransitive = false }
+    compileOnly("com.palmergames.bukkit.towny", "towny", "0.99.0.6")
+    compileOnly("com.github.LoneDev6", "api-itemsadder", "3.4.1-r4")
+    compileOnly("io.lumine", "MythicLib-dist", "1.6-SNAPSHOT")
+    compileOnly("net.Indyuce", "MMOItems-API", "6.9.4-SNAPSHOT")
+    compileOnly("net.leonardo_dgs", "InteractiveBooks", "1.6.5")
+    compileOnly("com.github.DieReicheErethons", "Brewery", "3.1.1") { isTransitive = false }
 
     testImplementation("io.papermc.paper", "paper-api", "1.19.4-R0.1-SNAPSHOT")
     testImplementation("org.junit.jupiter", "junit-jupiter", "5.9.0")

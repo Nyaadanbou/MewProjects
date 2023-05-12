@@ -1,0 +1,8 @@
+no_boost_when_tps_low: '服务器TPS过低, 鞘翅加速暂不可用!'
+cooldown_progressbar:
+  head: '<gold>鞘翅加速充能中</gold> '
+  tail: ' <gray>×</gray><yellow><amount></yellow> <aqua><remaining>s</aqua>'
+  left: '<dark_gray>[</dark_gray>'
+  full: '<aqua>|</aqua>'
+  empty: '<gray>|</gray>'
+  right: '<dark_gray>]</dark_gray>'

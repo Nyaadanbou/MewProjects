@@ -1,0 +1,2 @@
+debug: 'PlayerPortalEvent 已取消 (玩家: <player>).'
+cancelled: '<gray>监测到该地狱门的目的地在世界边界外,为了您的安全本次传送已取消.'

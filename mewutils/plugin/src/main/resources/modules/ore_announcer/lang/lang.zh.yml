@@ -1,0 +1,4 @@
+prefix: '<dark_gray>[<yellow>矿工茶馆</yellow>]</dark_gray> '
+found: '<dark_gray><gray><player></gray> 挖到了 <yellow><count></yellow> 个 <gray><ore>'
+toggle_broadcast_on: '<gray>你选择接收挖矿广播.'
+toggle_broadcast_off: '<gray>你不再接收挖矿广播.'

@@ -1,0 +1,7 @@
+verbose: true
+
+replacement:
+  - old: '{"translate":"container.chest"}'
+    new: '<white><font:space:default><lang:space.-8><font:guis:default>쇍</font>'
+  - old: '{"translate":"container.chestDouble"}'
+    new: '<white><font:space:default><lang:space.-8><font:guis:default>쇌</font>'

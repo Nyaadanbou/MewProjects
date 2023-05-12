@@ -1,0 +1,7 @@
+# The lore will be inserted into the head of existing item lore
+item:
+  pickaxe-power-lore: '<!em><yellow>镐力值：<white><power>'
+
+# Chat/Actionbar messages to be sent to clients
+messages:
+  not-enough-pickaxe-power: '镐力值不足（需要：<power>）'

@@ -1,0 +1,26 @@
+# 下面的消息支持 MiniMessage 语法格式
+# 语法参考 https://docs.adventure.kyori.net/minimessage/format.html
+# MiniMessage 在线预览 https://webui.adventure.kyori.net/
+
+prefix:
+  info: '<dark_gray>[<dark_green><b>!</b></dark_green>]</dark_gray> '
+  warn: '<dark_gray>[<red><b>!</b></red>]</dark_gray> '
+
+reloadedConfig: '<gray>已重新载入!</gray>'
+
+fishingInWilderness: '<color:#ff9999>荒野的力量封印了水池, 请积攒足够的渔力再尝试!</color>'
+tipSneakCheckStatus: '<color:gold>提示: 钓鱼时按 <color:#00bfbf><key:key.sneak></color> 可查看自己的渔力.</color>'
+checkFishingPower: '<player> 的可用渔力: <charge>. 完成当前充能: <remaining>. 完成所有充能: <remainingFull>'
+restoreSeconds: '减少了 <player> <amount> 秒的充能剩余时间'
+restoreCharge: '恢复了 <player> <amount> 点的渔力值'
+
+# cooldown.head 和 cooldown.tail 支持以下占位符
+#   <amount>    总共可用的渔力点数
+#   <remaining> 充能完成所需的时间（秒）
+cooldownProgressbar:
+  head: '<gold>渔力值</gold> '
+  tail: ' <gray>×</gray><yellow><amount></yellow> <aqua><remaining>s</aqua>'
+  left: '<dark_gray>[</dark_gray>'
+  full: '<aqua>|</aqua>'
+  empty: '<gray>|</gray>'
+  right: '<dark_gray>]</dark_gray>'

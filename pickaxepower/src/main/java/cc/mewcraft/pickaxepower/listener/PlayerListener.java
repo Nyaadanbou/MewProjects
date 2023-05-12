@@ -41,7 +41,7 @@ public class PlayerListener implements AutoCloseableListener {
         int blockPower = powerResolver.resolve(block);
 
         if (pickaxePower < blockPower) {
-            event.setCancelled(true);
+            event.setDropItems(false);
             Chain.start(this.plugin.getConfig().getString("messages.not-enough-pickaxe-power"))
                 .map(s -> UtilComponent.asComponent(s, component("power", text(blockPower))))
                 .apply(player::sendActionBar);

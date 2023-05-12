@@ -3,11 +3,12 @@
 
 better-beehive: true
 better-portal: true
-case_insensitive_commands: true
+case-insensitive-commands: true
 color-palette: true
 death-logger: true
 drop-overflow: true
 elytra-limiter: true
+eternal-lootchest: true
 fireball-utils: true
 ore-announcer: true
 packet-filter: true

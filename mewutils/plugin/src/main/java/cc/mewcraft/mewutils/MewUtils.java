@@ -1,5 +1,6 @@
 package cc.mewcraft.mewutils;
 
+import cc.mewcraft.mewutils.module.eternal_lootchest.EternalLootChestModule;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
@@ -149,6 +150,7 @@ public final class MewUtils extends ExtendedJavaPlugin implements MewPlugin {
         this.modules.add(injector.getInstance(PacketFilterModule.class));
         this.modules.add(injector.getInstance(StringReplacerModule.class));
         this.modules.add(injector.getInstance(CaseInsensitiveCommandsModule.class));
+        this.modules.add(injector.getInstance(EternalLootChestModule.class));
 
         for (ModuleBase module : this.modules) {
             if (!isModuleOn(module)) {

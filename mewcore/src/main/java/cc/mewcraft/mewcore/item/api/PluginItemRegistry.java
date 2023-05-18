@@ -69,6 +69,7 @@ public final class PluginItemRegistry {
         if (pluginItem != null) {
             ItemStack itemStack = pluginItem.createItemStack();
             if (itemStack != null) {
+                itemStack.setAmount(item.getAmount());
                 return itemStack;
             }
         }

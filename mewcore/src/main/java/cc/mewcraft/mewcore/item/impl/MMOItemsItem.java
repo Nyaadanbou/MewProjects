@@ -8,6 +8,7 @@ import me.lucko.helper.promise.Promise;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.Type;
 import net.Indyuce.mmoitems.api.item.template.MMOItemTemplate;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -51,13 +52,17 @@ public class MMOItemsItem extends PluginItem<MMOItemTemplate> {
     public @Nullable ItemStack createItemStack() {
         MMOItemTemplate pluginItem = getPluginItem();
         if (pluginItem == null) return null;
-        // The stupid GenerateLoreEvent requires to be triggered sync, so call it sync
-        Promise<ItemStack> call = Schedulers.sync().call(pluginItem.newBuilder().build().newBuilder()::build);
-        try {
-            return call.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+
+        if (Bukkit.isPrimaryThread()) {
+            return pluginItem.newBuilder().build().newBuilder().build();
+        } else {
+            Promise<ItemStack> call = Schedulers.sync().call(pluginItem.newBuilder().build().newBuilder()::build);
+            try {
+                return call.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
@@ -65,13 +70,17 @@ public class MMOItemsItem extends PluginItem<MMOItemTemplate> {
     public @Nullable ItemStack createItemStack(@NotNull Player player) {
         MMOItemTemplate pluginItem = getPluginItem();
         if (pluginItem == null) return null;
-        // The stupid GenerateLoreEvent requires to be triggered sync, so call it sync
-        Promise<ItemStack> call = Schedulers.sync().call(pluginItem.newBuilder(player).build().newBuilder()::build);
-        try {
-            return call.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+
+        if (Bukkit.isPrimaryThread()) {
+            return pluginItem.newBuilder(player).build().newBuilder().build();
+        } else {
+            Promise<ItemStack> call = Schedulers.sync().call(pluginItem.newBuilder(player).build().newBuilder()::build);
+            try {
+                return call.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cc.mewcraft"
-version = "5.16.0"
+version = "5.16.1"
 description = "Common code of all Mewcraft plugins."
 
 // Reference: https://youtrack.jetbrains.com/issue/IDEA-276365

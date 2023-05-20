@@ -14,6 +14,9 @@ dependencies {
 }
 
 tasks {
+    jar {
+        archiveBaseName.set("MewHelp")
+    }
     processResources {
         filesMatching("**/paper-plugin.yml") {
             expand(

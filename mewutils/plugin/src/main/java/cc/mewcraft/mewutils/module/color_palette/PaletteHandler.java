@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -69,11 +70,15 @@ public abstract class PaletteHandler<E extends Entity> {
         builder.itemLeft(build);
 
         // actions on close
-        builder.onClose(p -> this.module.getLang().of("gui.closed").send(p));
+        builder.onClose(snapshot -> this.module.getLang().of("gui.closed").send(snapshot.getPlayer()));
 
         // actions on complete
-        builder.onComplete(completion -> {
-            String text = completion.getText();
+        builder.onClick((slot, snapshot) -> {
+            if (slot != AnvilGUI.Slot.OUTPUT) {
+                return Collections.emptyList();
+            }
+
+            String text = snapshot.getText();
 
             // Validate input
             TextColor inputColor = TextColor.fromHexString(text);
@@ -86,9 +91,7 @@ public abstract class PaletteHandler<E extends Entity> {
             return List.of(
                 AnvilGUI.ResponseAction.run(() -> {
                     setColor((E) base, Color.fromRGB(inputColor.value())); // Apply input color to the item
-
                     PDCUtils.set(base, PaletteConstants.OWNER, player.getUniqueId()); // Update the owner of the item
-
                     this.module.getLang().of("msg.prop_dyed").replace("input", inputColor.asHexString()).send(player);
                 }),
                 AnvilGUI.ResponseAction.close()

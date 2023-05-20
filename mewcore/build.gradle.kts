@@ -15,6 +15,7 @@ configurations.compileOnlyApi {
 
 dependencies {
     // Shaded libs - these will be loaded by my other plugins
+    compileOnlyApi("com.zaxxer", "HikariCP", "5.0.1")
     compileOnlyApi("com.google.inject", "guice", "5.1.0")
     compileOnlyApi("net.wesjd", "anvilgui", "1.6.5-SNAPSHOT")
     val cloudVersion = "1.8.3"

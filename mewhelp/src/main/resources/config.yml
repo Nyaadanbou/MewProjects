@@ -1,0 +1,45 @@
+debug: true
+
+# 服务器帮助信息
+# 如果有多行，则会分行显示
+# 支持 MiniMessage，详见 https://docs.adventure.kyori.net/minimessage/format.html
+
+help:
+  start:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/firstjoin>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  rules:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/rules>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  warnings:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/rules>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  town:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/towny>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  nation:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/nation>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  rpg:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/rpg>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  crops:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/crops>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  enchants:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/enchants>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  waystones:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/waystones>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  tp:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/teleport>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  pets:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/pets>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  spawn:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/spawn>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  eco:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/economy>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  crates:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/crates>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  sort:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/sort>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  lock:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/locker>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  mech:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/mechines>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  dynmap:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/dynmap>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
+  coi:
+    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/coi>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"

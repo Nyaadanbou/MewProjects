@@ -24,7 +24,7 @@ tasks {
             )
         }
     }
-    register("deployToServer") {
+    register("deployJarFresh") {
         dependsOn(build)
         doLast {
             exec {

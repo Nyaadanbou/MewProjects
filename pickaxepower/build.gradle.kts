@@ -11,9 +11,11 @@ description = "Add pickaxe power system to your pickaxes!"
 dependencies {
     compileOnly(project(":mewcore"))
 
+    compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.4-R0.1-SNAPSHOT")
+
     // 3rd party plugins
     compileOnly("me.lucko", "helper", "5.6.13") { isTransitive = false }
-    compileOnly("com.comphenix.protocol", "ProtocolLib", "5.0.0-SNAPSHOT")
+    compileOnly("com.comphenix.protocol", "ProtocolLib", "5.0.0")
     compileOnly("com.github.LoneDev6", "api-itemsadder", "3.4.1-r4")
 }
 

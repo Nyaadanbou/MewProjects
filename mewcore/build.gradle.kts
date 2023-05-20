@@ -16,6 +16,7 @@ configurations.compileOnlyApi {
 dependencies {
     // Shaded libs - these will be loaded by my other plugins
     compileOnlyApi("com.google.inject", "guice", "5.1.0")
+    compileOnlyApi("net.wesjd", "anvilgui", "1.6.5-SNAPSHOT")
     val cloudVersion = "1.8.3"
     compileOnlyApi("cloud.commandframework", "cloud-paper", cloudVersion)
     compileOnlyApi("cloud.commandframework", "cloud-minecraft-extras", cloudVersion) {
@@ -31,10 +32,10 @@ dependencies {
     }
 
     // Plugin libs - these will be present as other plugins
-    api("me.lucko", "helper", "5.6.13")
+    compileOnly("me.lucko", "helper", "5.6.13")
 
     // Server API
-    api("org.purpurmc.purpur", "purpur-api", "1.19.4-R0.1-SNAPSHOT")
+    compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.4-R0.1-SNAPSHOT")
 
     // For better compile-time checking
     compileOnlyApi("org.checkerframework", "checker-qual", "3.28.0")

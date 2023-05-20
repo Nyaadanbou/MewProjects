@@ -22,7 +22,7 @@ import static net.kyori.adventure.text.Component.empty;
 import static net.kyori.adventure.text.Component.text;
 
 public class LoreWriterImpl implements LoreWriter {
-    private static final NamespacedKey LORE_SIZE_KEY = new NamespacedKey("pickaxepower", "lore.size");
+    private static final NamespacedKey LORE_SIZE_KEY = new NamespacedKey("pickaxepower", "lore_size");
 
     private final PickaxePower plugin;
     private final PowerResolver powerResolver;

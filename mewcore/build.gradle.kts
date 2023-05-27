@@ -43,7 +43,6 @@ dependencies {
     compileOnlyApi("org.apiguardian", "apiguardian-api", "1.1.2")
 
     // 3rd party plugins
-    compileOnly("me.lucko", "helper", "5.6.13") { isTransitive = false }
     compileOnly("net.luckperms", "api", "5.4")
     compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") { isTransitive = false }
     compileOnly("net.essentialsx", "EssentialsX", "2.19.0") { isTransitive = false }
@@ -53,6 +52,8 @@ dependencies {
     compileOnly("net.Indyuce", "MMOItems-API", "6.9.4-SNAPSHOT")
     compileOnly("net.leonardo_dgs", "InteractiveBooks", "1.6.5")
     compileOnly("com.github.DieReicheErethons", "Brewery", "3.1.1") { isTransitive = false }
+    compileOnly("io.github.miniplaceholders", "miniplaceholders-api", "2.1.0") { isTransitive = false }
+    compileOnly("me.clip", "placeholderapi", "2.11.2") { isTransitive = false }
 
     testImplementation("io.papermc.paper", "paper-api", "1.19.4-R0.1-SNAPSHOT")
     testImplementation("org.junit.jupiter", "junit-jupiter", "5.9.0")

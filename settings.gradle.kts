@@ -1,6 +1,8 @@
 rootProject.name = "MewProjects"
 
-include(":adventurelevel")
+include(":adventurelevel:api")
+include(":adventurelevel:plugin")
+include(":adventurelevel:hooks")
 include(":keepinv")
 include(":mewcore")
 include(":mewutils:base")

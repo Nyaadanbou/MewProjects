@@ -1,0 +1,42 @@
+########################################
+# 数据库设置
+########################################
+
+storage_method: mysql
+mysql:
+  host: localhost
+  port: 3306
+  database: bridge
+  username: minecraft
+  password: ''
+  prefix: adventurelevel
+
+########################################
+# 主等级设置
+########################################
+
+main_level:
+  # experience_modifiers 每个途径获取的经验值的调整系数
+  # 在把经验值添加到主等级时，将根据获取途径乘以下面的系数
+  # https://jd.papermc.io/paper/1.19/org/bukkit/entity/ExperienceOrb.SpawnReason.html
+  experience_modifiers:
+    player_death: 1.0
+    entity_death: 1.0
+    furnace: 1.0
+    breed: 1.0
+    villager_trade: 1.0
+    fishing: 1.0
+    block_break: 1.0
+    exp_bottle: 1.0
+    grindstone: 1.0
+    custom: 0.0
+    unknown: 0.0
+  # max_level 最大主等级
+  # 达到最大等级后经验值依然会增长
+  max_level: 1000
+  # level_to_exp_formula 已知等级 x，求经验值
+  level_to_exp_formula: "x ^ 2 + 6 * x"
+  # exp_to_level_formula 已知经验值 x，求等级
+  exp_to_level_formula: "SQRT( x + 9 ) - 3"
+  # next_level_exp 已知等级 x，求升级到下一等级所需的经验值
+  next_level_exp: "2 * x + 7"

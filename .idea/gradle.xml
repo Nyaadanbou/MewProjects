@@ -23,6 +23,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/adventurelevel" />
+            <option value="$PROJECT_DIR$/adventurelevel/api" />
+            <option value="$PROJECT_DIR$/adventurelevel/hooks" />
+            <option value="$PROJECT_DIR$/adventurelevel/plugin" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/keepinv" />
             <option value="$PROJECT_DIR$/mewcore" />

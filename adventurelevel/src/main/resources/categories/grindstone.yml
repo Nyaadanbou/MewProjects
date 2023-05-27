@@ -1,0 +1,6 @@
+# 经验来源：砂轮
+
+max_level: 100
+level_to_exp_formula: "x ^ 2 + 6 * x"
+exp_to_level_formula: "SQRT( x + 9 ) - 3"
+next_level_exp: "2 * x + 7"

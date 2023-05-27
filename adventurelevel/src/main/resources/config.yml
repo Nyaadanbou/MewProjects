@@ -1,0 +1,21 @@
+########################################
+# 数据库设置
+########################################
+
+storage_method: mysql
+mysql:
+  host: localhost
+  port: 3306
+  database: minecraft
+  username: minecraft
+  password: ''
+  prefix: adventurelevel
+
+########################################
+# 主等级设置
+########################################
+
+main_level:
+  level_to_exp_formula: "x ^ 2 + 6 * x"
+  exp_to_level_formula: "SQRT( x + 9 ) - 3"
+  next_level_exp: "2 * x + 7"

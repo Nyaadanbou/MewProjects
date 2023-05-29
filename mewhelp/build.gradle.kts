@@ -1,6 +1,6 @@
 plugins {
     id("cc.mewcraft.base")
-    id("net.kyori.indra") version "3.0.1"
+    alias(libs.plugins.indra)
 }
 
 group = "cc.mewcraft"
@@ -9,8 +9,8 @@ description = "Allows to create custom help messages (with MiniMessage support)"
 
 dependencies {
     compileOnly(project(":mewcore"))
-    compileOnly("io.papermc.paper", "paper-api", "1.19.4-R0.1-SNAPSHOT")
-    compileOnly("me.lucko", "helper", "5.6.13")
+    compileOnly(libs.server.paper)
+    compileOnly(libs.helper)
 }
 
 tasks {

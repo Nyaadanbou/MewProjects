@@ -1,6 +1,6 @@
 plugins {
     id("cc.mewcraft.base")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    alias(libs.plugins.shadow)
 }
 
 group = "cc.mewcraft"
@@ -11,12 +11,12 @@ dependencies {
     implementation(project(":mewutils:base"))
 
     // 3rd party plugins
-    compileOnly("net.luckperms", "api", "5.4")
-    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") { isTransitive = false }
-    compileOnly("me.clip", "placeholderapi", "2.11.2") { isTransitive = false }
-    compileOnly("com.github.LoneDev6", "api-itemsadder", "3.4.1-r4")
-    compileOnly("com.comphenix.protocol", "ProtocolLib", "5.0.0")
-    compileOnly("net.essentialsx", "EssentialsX", "2.19.0") { isTransitive = false }
+    compileOnly(libs.luckperms)
+    compileOnly(libs.vault) { isTransitive = false }
+    compileOnly(libs.papi) { isTransitive = false }
+    compileOnly(libs.itemsadder)
+    compileOnly(libs.protocollib)
+    compileOnly(libs.essentials) { isTransitive = false }
 }
 
 tasks {

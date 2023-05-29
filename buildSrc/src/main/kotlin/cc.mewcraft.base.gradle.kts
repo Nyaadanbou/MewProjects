@@ -9,6 +9,7 @@ repositories {
     // Local projects
     mavenLocal {
         content {
+            includeGroup("me.lucko")
             includeGroup("cc.mewcraft")
             includeGroup("net.Indyuce") // remote is down
             includeGroup("net.leonardo_dgs")
@@ -51,6 +52,7 @@ repositories {
     maven("https://repo.minebench.de/") {
         content {
             includeGroup("de.themoep.utils")
+            includeGroup("de.themoep.connectorplugin")
         }
     }
 

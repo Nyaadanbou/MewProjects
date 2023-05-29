@@ -1,7 +1,7 @@
 plugins {
     id("cc.mewcraft.base")
-    id("net.kyori.indra") version "3.0.1"
-    id("io.papermc.paperweight.userdev")
+    alias(libs.plugins.indra)
+    alias(libs.plugins.paperweight.userdev)
 }
 
 group = "cc.mewcraft"
@@ -13,22 +13,22 @@ dependencies {
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
 
     // Server API
-    compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.4-R0.1-SNAPSHOT")
+    compileOnly(libs.server.paper)
 
     // Plugin libs
     compileOnly(project(":mewcore"))
-    compileOnly("me.lucko", "helper", "5.6.13")
+    compileOnly(libs.helper)
 
     // 3rd party plugins
-    compileOnly("net.luckperms", "api", "5.4")
-    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") { isTransitive = false }
-    compileOnly("com.palmergames.bukkit.towny", "towny", "0.99.0.6")
-    compileOnly("me.xanium.gemseconomy", "GemsEconomy", "1.3.8")
+    compileOnly(libs.luckperms)
+    compileOnly(libs.vault) { isTransitive = false }
+    compileOnly(libs.towny)
+    compileOnly(libs.gemseco)
 
     // Test
-    testImplementation("io.papermc.paper", "paper-api", "1.19.4-R0.1-SNAPSHOT")
-    testImplementation("org.junit.jupiter", "junit-jupiter", "5.8.2")
-    testImplementation("me.lucko", "helper", "5.6.13")
+    testImplementation(libs.server.paper)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.helper)
 }
 
 tasks {

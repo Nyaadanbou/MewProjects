@@ -1,6 +1,6 @@
 plugins {
     id("cc.mewcraft.base")
-    id("net.kyori.indra") version "3.0.1"
+    alias(libs.plugins.indra)
 }
 
 group = project(":adventurelevel:api").group

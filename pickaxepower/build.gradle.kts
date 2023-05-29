@@ -1,7 +1,7 @@
 plugins {
     id("cc.mewcraft.base")
-    id("net.kyori.indra") version "3.0.1"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    alias(libs.plugins.indra)
+    alias(libs.plugins.shadow)
 }
 
 group = "cc.mewcraft"
@@ -11,12 +11,12 @@ description = "Add pickaxe power system to your pickaxes!"
 dependencies {
     compileOnly(project(":mewcore"))
 
-    compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.4-R0.1-SNAPSHOT")
+    compileOnly(libs.server.paper)
 
     // 3rd party plugins
-    compileOnly("me.lucko", "helper", "5.6.13") { isTransitive = false }
-    compileOnly("com.comphenix.protocol", "ProtocolLib", "5.0.0")
-    compileOnly("com.github.LoneDev6", "api-itemsadder", "3.4.1-r4")
+    compileOnly(libs.helper) { isTransitive = false }
+    compileOnly(libs.protocollib)
+    compileOnly(libs.itemsadder)
 }
 
 tasks {

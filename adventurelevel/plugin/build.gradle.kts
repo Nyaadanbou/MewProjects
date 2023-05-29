@@ -1,7 +1,7 @@
 plugins {
     id("cc.mewcraft.base")
-    id("net.kyori.indra") version "3.0.1"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    alias(libs.plugins.indra)
+    alias(libs.plugins.shadow)
 }
 
 group = project(":adventurelevel:api").group
@@ -17,16 +17,16 @@ dependencies {
     compileOnly(project(":mewcore"))
 
     // server api
-    compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.4-R0.1-SNAPSHOT")
+    compileOnly(libs.server.paper)
 
     // libs to shade into the jar
-    implementation("com.ezylang", "EvalEx", "3.0.4")
+    implementation(libs.evalex)
 
     // libs that present as other plugins
-    compileOnly("me.lucko", "helper", "5.6.13") { isTransitive = false }
-    compileOnly("me.clip", "placeholderapi", "2.11.2") { isTransitive = false }
-    compileOnly("io.github.miniplaceholders", "miniplaceholders-api", "2.1.0") { isTransitive = false }
-    compileOnly("net.essentialsx", "EssentialsX", "2.19.0") { isTransitive = false }
+    compileOnly(libs.helper) { isTransitive = false }
+    compileOnly(libs.papi) { isTransitive = false }
+    compileOnly(libs.minipapi) { isTransitive = false }
+    compileOnly(libs.essentials) { isTransitive = false }
 }
 
 tasks {

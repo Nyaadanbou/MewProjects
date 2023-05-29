@@ -1,6 +1,6 @@
 plugins {
     id("cc.mewcraft.base")
-    id("net.kyori.indra") version "3.0.1"
+    alias(libs.plugins.indra)
 }
 
 group = "cc.mewcraft.adventurelevel"
@@ -11,10 +11,10 @@ dependencies {
     compileOnly(project(":mewcore"))
 
     // server api
-    compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.4-R0.1-SNAPSHOT")
+    compileOnly(libs.server.paper)
 
     // libs that present as other plugins
-    compileOnly("me.lucko", "helper", "5.6.13") { isTransitive = false }
+    compileOnly(libs.helper) { isTransitive = false }
 }
 
 indra {

@@ -1,5 +1,6 @@
 plugins {
-    id("cc.mewcraft.base")
+    id("cc.mewcraft.java-conventions")
+    id("cc.mewcraft.repository-conventions")
 }
 
 dependencies {

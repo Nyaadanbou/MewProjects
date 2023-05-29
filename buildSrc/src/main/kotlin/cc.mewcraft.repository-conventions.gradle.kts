@@ -1,17 +1,18 @@
-plugins {
-    `java-library`
-    `maven-publish`
-}
-
 repositories {
     mavenCentral()
 
-    // Local projects
-    mavenLocal {
+    maven(uri("${System.getenv("HOME")}/MewcraftRepository")) {
         content {
             includeGroup("me.lucko")
             includeGroup("cc.mewcraft")
-            includeGroup("net.Indyuce") // remote is down
+        }
+    }
+
+    // Locally cached projects
+    mavenLocal {
+        content {
+            includeGroup("me.lucko")
+            includeGroup("net.Indyuce")
             includeGroup("net.leonardo_dgs")
             includeGroup("com.github.DieReicheErethons")
             includeGroup("me.xanium.gemseconomy")
@@ -28,6 +29,7 @@ repositories {
     // Paper MC
     maven("https://repo.papermc.io/repository/maven-public/") {
         content {
+            includeGroup("com.velocitypowered")
             includeGroup("io.papermc.paper")
             includeGroup("com.mojang")
             includeGroup("net.md-5")
@@ -128,12 +130,4 @@ repositories {
             includeGroup("net.wesjd")
         }
     }
-}
-
-dependencies {
-    implementation("org.jetbrains", "annotations", "24.0.1")
-}
-
-java {
-    withSourcesJar()
 }

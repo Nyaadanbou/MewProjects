@@ -1,5 +1,7 @@
 plugins {
-    id("cc.mewcraft.base")
+    id("cc.mewcraft.java-conventions")
+    id("cc.mewcraft.repository-conventions")
+    id("cc.mewcraft.publishing-conventions")
     alias(libs.plugins.indra)
 }
 
@@ -15,22 +17,22 @@ dependencies {
     compileOnly(project(":mewcore"))
 
     // server api
-    compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.4-R0.1-SNAPSHOT")
+    compileOnly(libs.server.paper)
 
     // libs that present as other plugins
-    compileOnly("me.lucko", "helper", "5.6.13") { isTransitive = false }
-    compileOnly("io.lumine", "MythicLib-dist", "1.6-SNAPSHOT")
-    compileOnly("net.Indyuce", "MMOItems-API", "6.9.4-SNAPSHOT")
+    compileOnly(libs.helper) { isTransitive = false }
+    compileOnly(libs.mythiclib)
+    compileOnly(libs.mmoitems)
 }
 
 indra {
     javaVersions().target(17)
 }
 
-publishing {
+/*publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
         }
     }
-}
+}*/

@@ -1,5 +1,6 @@
 plugins {
     `kotlin-dsl`
+    `maven-publish`
 }
 
 repositories {
@@ -7,12 +8,15 @@ repositories {
     gradlePluginPortal()
 }
 
-dependencies {
-    // implementation("io.papermc.paperweight.userdev", "io.papermc.paperweight.userdev.gradle.plugin", "1.5.5")
-}
+group = "cc.mewcraft.conventions"
+version = "1.0.0"
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+// it allows to publish my convention plugins
+// which may be used by my other projects
+publishing {
+    repositories {
+        maven {
+            url = uri("${System.getenv("HOME")}/MewcraftRepository")
+        }
     }
 }

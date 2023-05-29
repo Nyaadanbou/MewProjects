@@ -27,6 +27,7 @@
             <option value="$PROJECT_DIR$/adventurelevel/hooks" />
             <option value="$PROJECT_DIR$/adventurelevel/plugin" />
             <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/catalog" />
             <option value="$PROJECT_DIR$/keepinv" />
             <option value="$PROJECT_DIR$/mewcore" />
             <option value="$PROJECT_DIR$/mewfishing" />

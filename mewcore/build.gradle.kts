@@ -1,5 +1,7 @@
 plugins {
-    id("cc.mewcraft.base")
+    id("cc.mewcraft.java-conventions")
+    id("cc.mewcraft.repository-conventions")
+    id("cc.mewcraft.publishing-conventions")
     alias(libs.plugins.indra)
     alias(libs.plugins.shadow)
 }
@@ -18,7 +20,7 @@ dependencies {
     compileOnlyApi(libs.guice)
     compileOnlyApi(libs.hikari)
     compileOnlyApi(libs.anvilgui)
-    compileOnlyApi(libs.bundles.cloudcmds) {
+    compileOnlyApi(libs.bundles.cmds) {
         exclude("net.kyori")
     }
     compileOnlyApi(libs.configurate)
@@ -37,10 +39,6 @@ dependencies {
     // The Minecraft server API
     compileOnly(libs.server.paper)
 
-    // For better compile-time checking
-    compileOnlyApi(libs.checker.qual)
-    compileOnlyApi(libs.apiguardian.api)
-
     // Other random plugins that we may interact with
     compileOnly(libs.luckperms)
     compileOnly(libs.vault) { isTransitive = false }
@@ -51,8 +49,8 @@ dependencies {
     compileOnly(libs.mmoitems)
     compileOnly(libs.interactivebooks)
     compileOnly(libs.brewery) { isTransitive = false }
-    compileOnly(libs.minipapi) { isTransitive = false }
     compileOnly(libs.papi) { isTransitive = false }
+    compileOnly(libs.minipapi) { isTransitive = false }
 
     testImplementation(libs.server.paper)
     testImplementation(libs.junit.jupiter)
@@ -109,10 +107,10 @@ indra {
     javaVersions().target(17)
 }
 
-publishing {
+/*publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
         }
     }
-}
+}*/

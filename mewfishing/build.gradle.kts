@@ -1,5 +1,6 @@
 plugins {
-    id("cc.mewcraft.base")
+    id("cc.mewcraft.java-conventions")
+    id("cc.mewcraft.repository-conventions")
     alias(libs.plugins.indra)
     alias(libs.plugins.paperweight.userdev)
 }
@@ -63,12 +64,4 @@ tasks {
 
 indra {
     javaVersions().target(17)
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-        }
-    }
 }

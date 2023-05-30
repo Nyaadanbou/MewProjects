@@ -46,7 +46,7 @@ public class DataSyncMessenger implements Terminable {
             channel,
             PlayerData::getUuid, // the key - which is extracted from the received message
             Function.identity(), // the value - let it be as it is
-            10, // it's unlikely that a player takes more than 5 seconds to switch servers
+            10,
             TimeUnit.SECONDS
         );
     }

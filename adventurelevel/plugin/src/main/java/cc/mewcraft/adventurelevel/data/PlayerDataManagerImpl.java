@@ -2,15 +2,20 @@ package cc.mewcraft.adventurelevel.data;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import cc.mewcraft.adventurelevel.file.DataStorage;
+import cc.mewcraft.adventurelevel.message.DataSyncMessenger;
 import com.google.common.cache.*;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.Inject;
 import me.lucko.helper.promise.Promise;
+import me.lucko.helper.utils.Players;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
@@ -18,7 +23,9 @@ import java.util.UUID;
 public class PlayerDataManagerImpl implements PlayerDataManager {
     private final AdventureLevelPlugin plugin;
     private final DataStorage storage;
+    private final DataSyncMessenger messenger;
     private final LoadingCache<UUID, Promise<PlayerData>> loadingCache = CacheBuilder.newBuilder()
+        .expireAfterAccess(Duration.of(5, ChronoUnit.MINUTES))
         .removalListener(new PlayerDataRemovalListener())
         .build(new PlayerDataLoader());
 
@@ -66,8 +73,9 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
             Objects.requireNonNull(notification.getValue()).thenAcceptAsync(playerData -> {
                 Player player = Bukkit.getPlayer(playerData.getUuid());
                 if (player != null && player.isOnline()) {
-                    storage.save(playerData);
-                    plugin.getSLF4JLogger().info("Removed cache: {} ({})", player.getName(), player.getUniqueId());
+                    messenger.sendData(playerData); // save to messenger
+                    storage.save(playerData); // save to disk
+                    plugin.getSLF4JLogger().info("Unloaded userdata from cache: {} ({})", player.getName(), player.getUniqueId());
                 }
             });
         }
@@ -76,35 +84,57 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
     @Inject
     public PlayerDataManagerImpl(
         final AdventureLevelPlugin plugin,
-        final DataStorage storage
+        final DataStorage storage,
+        final DataSyncMessenger messenger
     ) {
         this.plugin = plugin;
         this.storage = storage;
+        this.messenger = messenger;
     }
 
     @Override public @NotNull Collection<Promise<PlayerData>> getAllCached() {
         return loadingCache.asMap().values();
     }
 
-    @Override public @NotNull Promise<PlayerData> load(@NotNull final UUID uuid) {
+    @Override public @NotNull Promise<PlayerData> load(final @NotNull UUID uuid) {
+        // We always first try to get data from loading cache
+        Promise<PlayerData> cached = loadingCache.getIfPresent(uuid);
+        if (cached != null) {
+            return cached;
+        }
+
+        // If the loading cache does not have the data,
+        // then we try to get it from the messenger.
+        // We also put the data in loading cache.
+        PlayerData temp = messenger.getData(uuid);
+        if (temp != null) {
+            plugin.getSLF4JLogger().info("Loaded userdata from message store: {} ({})", Players.getOffline(temp.getUuid()).map(OfflinePlayer::getName).orElse("Null"), temp.getUuid());
+            Promise<PlayerData> completed = Promise.completed(temp);
+            loadingCache.put(uuid, completed);
+            return completed;
+        }
+
+        // If the messenger does not have the data,
+        // then we load the data and return it
         return loadingCache.getUnchecked(uuid);
     }
 
-    @Override public @NotNull Promise<PlayerData> save(@NotNull final PlayerData playerData) {
+    @Override public @NotNull Promise<PlayerData> save(final @NotNull PlayerData playerData) {
         return Promise.supplyingAsync(() -> {
-            storage.save(playerData);
+            messenger.sendData(playerData); // save to messenger
+            storage.save(playerData); // save to disk
             return playerData;
         });
     }
 
-    @Override public @NotNull Promise<UUID> unload(@NotNull final UUID uuid) {
+    @Override public @NotNull Promise<UUID> unload(final @NotNull UUID uuid) {
         return Promise.supplyingAsync(() -> {
-            loadingCache.invalidate(uuid);
+            loadingCache.invalidate(uuid); // our RemovalListener will save it to disk
             return uuid;
         });
     }
 
-    @Override public void refresh(@NotNull final UUID uuid) {
+    @Override public void refresh(final @NotNull UUID uuid) {
         loadingCache.refresh(uuid);
     }
 

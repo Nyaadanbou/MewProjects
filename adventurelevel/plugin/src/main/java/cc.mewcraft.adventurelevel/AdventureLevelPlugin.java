@@ -7,6 +7,7 @@ import cc.mewcraft.adventurelevel.file.DataStorage;
 import cc.mewcraft.adventurelevel.file.SQLDataStorage;
 import cc.mewcraft.adventurelevel.listener.PickupExpListener;
 import cc.mewcraft.adventurelevel.listener.UserdataListener;
+import cc.mewcraft.adventurelevel.message.DataSyncMessenger;
 import cc.mewcraft.adventurelevel.placeholder.MiniPlaceholderExpansion;
 import cc.mewcraft.adventurelevel.placeholder.PAPIPlaceholderExpansion;
 import cc.mewcraft.mewcore.message.Translations;
@@ -15,7 +16,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import me.lucko.helper.messaging.Messenger;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
+import me.lucko.helper.redis.Redis;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +29,7 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
 
     private @MonotonicNonNull Injector injector;
     private @MonotonicNonNull DataStorage dataStorage;
+    private @MonotonicNonNull DataSyncMessenger dataSyncMessenger;
     private @MonotonicNonNull PlayerDataManager playerDataManager;
     private @MonotonicNonNull Translations translations;
 
@@ -52,6 +56,10 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
                 bind(DataStorage.class).to(SQLDataStorage.class).in(Singleton.class);
                 bind(PlayerDataManager.class).to(PlayerDataManagerImpl.class).in(Singleton.class);
 
+                // data messenger
+                bind(Messenger.class).toInstance(getService(Redis.class));
+                bind(DataSyncMessenger.class).in(Singleton.class);
+
                 // placeholder expansions
                 bind(MiniPlaceholderExpansion.class).in(Singleton.class);
                 bind(PAPIPlaceholderExpansion.class).in(Singleton.class);
@@ -74,6 +82,9 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
         playerDataManager = injector.getInstance(PlayerDataManager.class);
         playerDataManager.bindWith(this);
 
+        dataSyncMessenger = injector.getInstance(DataSyncMessenger.class);
+        dataSyncMessenger.bindWith(this);
+
         injector.getInstance(MiniPlaceholderExpansion.class).register().bindWith(this);
         injector.getInstance(PAPIPlaceholderExpansion.class).register().bindWith(this);
 
@@ -92,12 +103,16 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
 
     }
 
+    public @NotNull DataStorage getDataStorage() {
+        return dataStorage;
+    }
+
     public @NotNull PlayerDataManager getPlayerDataManager() {
         return playerDataManager;
     }
 
-    public @NotNull DataStorage getDataStorage() {
-        return dataStorage;
+    public @NotNull DataSyncMessenger getPlayerDataMessenger() {
+        return dataSyncMessenger;
     }
 
     public @NotNull Translations getLang() {

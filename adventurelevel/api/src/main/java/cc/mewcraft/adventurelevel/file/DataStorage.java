@@ -15,6 +15,8 @@ import java.util.UUID;
 public interface DataStorage extends Terminable {
 
     /**
+     * Creates the specific PlayerData synchronously.
+     *
      * @param uuid the uuid of PlayerData
      *
      * @return a PlayerData wrapped by Promise
@@ -22,6 +24,8 @@ public interface DataStorage extends Terminable {
     @NotNull PlayerData create(UUID uuid);
 
     /**
+     * Loads the specific PlayerData synchronously.
+     *
      * @param uuid the uuid of PlayerData
      *
      * @return a PlayerData wrapped by Promise
@@ -29,7 +33,7 @@ public interface DataStorage extends Terminable {
     @NotNull PlayerData load(UUID uuid);
 
     /**
-     * Saves the given PlayerData asynchronously.
+     * Saves the given PlayerData synchronously.
      *
      * @param playerData the playerData to save
      */

@@ -15,9 +15,9 @@ import java.util.Objects;
 
 public final class LevelBeanFactory {
 
-    public static MainLevelBean createMainLevelBean(
-        final AdventureLevelPlugin plugin
-    ) {
+    public static MainLevelBean createMainLevelBean() {
+        AdventureLevelPlugin plugin = AdventureLevelPlugin.getInstance();
+
         ConfigurationSection config = Objects.requireNonNull(plugin.getConfig().getConfigurationSection("main_level"));
         Map<ExperienceOrb.SpawnReason, Double> globalModifiers = new HashMap<>() {{
             for (final ExperienceOrb.SpawnReason reason : ExperienceOrb.SpawnReason.values())
@@ -34,7 +34,7 @@ public final class LevelBeanFactory {
     }
 
     public static @NotNull LevelBean createCatLevelBean(
-        final AdventureLevelPlugin plugin, LevelBean.Category category
+        LevelBean.Category category
     ) {
         // Get config file name
         String configFileName = switch (category) {
@@ -48,6 +48,8 @@ public final class LevelBeanFactory {
             case EXP_BOTTLE -> "exp_bottle.yml";
             case GRINDSTONE -> "grindstone.yml";
         };
+
+        AdventureLevelPlugin plugin = AdventureLevelPlugin.getInstance();
 
         // Load & apply config file
         File file = plugin.getDataFolder().toPath().resolve("categories").resolve(configFileName).toFile();

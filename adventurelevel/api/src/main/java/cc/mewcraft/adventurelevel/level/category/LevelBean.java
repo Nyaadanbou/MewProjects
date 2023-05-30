@@ -167,4 +167,30 @@ public interface LevelBean {
      * @return the max number of levels
      */
     int getMaxLevel();
+
+    /**
+     * Sets the experience value of this bean and returns itself.
+     *
+     * @param value the new experience value
+     *
+     * @return this instance
+     */
+    @SuppressWarnings("unchecked")
+    default <T extends LevelBean> T withExperience(int value) {
+        this.setExperience(value);
+        return (T) this;
+    }
+
+    /**
+     * Sets the number of levels of this bean and returns itself.
+     *
+     * @param level the new number of levels
+     *
+     * @return this instance
+     */
+    @SuppressWarnings("unchecked")
+    default <T extends LevelBean> T withLevel(int level) {
+        this.setLevel(level);
+        return (T) this;
+    }
 }

@@ -10,48 +10,68 @@ import com.google.inject.Inject;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import me.lucko.helper.function.chain.Chain;
+import me.lucko.helper.utils.Players;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
 public class SQLDataStorage extends AbstractDataStorage {
 
+    private static final String DATA_POOL_NAME = "AdventureLevelHikariPool";
+
     // SQL config
-    private final @MonotonicNonNull String host;
-    private final @MonotonicNonNull String port;
-    private final @MonotonicNonNull String database;
-    private final @MonotonicNonNull String username;
-    private final @MonotonicNonNull String password;
-    private final @MonotonicNonNull String prefix;
+    private final String host;
+    private final String port;
+    private final String database;
+    private final String username;
+    private final String password;
+    private final String parameters;
+
+    private final int hikariMaximumPoolSize;
+    private final int hikariMinimumIdle;
+    private final int hikariMaximumLifetime;
+    private final int hikariKeepAliveTime;
+    private final int hikariConnectionTimeOut;
 
     // Table names
-    private final @MonotonicNonNull String userdataTable;
+    private final String userdataTable;
 
     // SQL queries
-    private final @MonotonicNonNull String insertUserdataQuery;
-    private final @MonotonicNonNull String selectUserdataQuery;
+    private final String insertUserdataQuery;
+    private final String selectUserdataQuery;
 
     // Hikari instances
-    private @MonotonicNonNull HikariDataSource hikari;
+    private HikariDataSource connectionPool;
 
     @Inject
     public SQLDataStorage(final AdventureLevelPlugin plugin) {
         super(plugin);
 
-        this.host = requireNonNull(plugin.getConfig().getString("mysql.host"));
-        this.port = requireNonNull(plugin.getConfig().getString("mysql.port"));
-        this.database = requireNonNull(plugin.getConfig().getString("mysql.database"));
-        this.username = requireNonNull(plugin.getConfig().getString("mysql.username"));
-        this.password = requireNonNull(plugin.getConfig().getString("mysql.password"));
-        this.prefix = requireNonNull(plugin.getConfig().getString("mysql.prefix"));
+        this.host = requireNonNull(plugin.getConfig().getString("database.credentials.host"));
+        this.port = requireNonNull(plugin.getConfig().getString("database.credentials.port"));
+        this.database = requireNonNull(plugin.getConfig().getString("database.credentials.database"));
+        this.username = requireNonNull(plugin.getConfig().getString("database.credentials.username"));
+        this.password = requireNonNull(plugin.getConfig().getString("database.credentials.password"));
+        this.parameters = requireNonNull(plugin.getConfig().getString("database.credentials.parameters"));
 
-        this.userdataTable = prefix + "_userdata";
+        this.hikariMaximumPoolSize = plugin.getConfig().getInt("database.connection_pool.maximum_pool_size");
+        this.hikariMinimumIdle = plugin.getConfig().getInt("database.connection_pool.minimum_idle");
+        this.hikariMaximumLifetime = plugin.getConfig().getInt("database.connection_pool.maximum_lifetime");
+        this.hikariKeepAliveTime = plugin.getConfig().getInt("database.connection_pool.keep_alive_time");
+        this.hikariConnectionTimeOut = plugin.getConfig().getInt("database.connection_pool.connection_timeout");
+
+        this.userdataTable = requireNonNull(plugin.getConfig().getString("database.table_names.userdata"));
 
         this.insertUserdataQuery =
             "INSERT INTO " + userdataTable + " " +
@@ -98,81 +118,64 @@ public class SQLDataStorage extends AbstractDataStorage {
     }
 
     @Override public void init() {
-        // Setup hikari config
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?allowPublicKeyRetrieval=true&useSSL=false");
+
+        // Set jdbc driver connection url
+        hikariConfig.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + parameters);
+        hikariConfig.setPoolName(DATA_POOL_NAME);
+
+        // Set authenticate
         hikariConfig.setPassword(password);
         hikariConfig.setUsername(username);
-        hikariConfig.setMaxLifetime(1500000);
+
+        // Set various additional parameters
+        hikariConfig.setMaximumPoolSize(hikariMaximumPoolSize);
+        hikariConfig.setMinimumIdle(hikariMinimumIdle);
+        hikariConfig.setMaxLifetime(hikariMaximumLifetime);
+        hikariConfig.setKeepaliveTime(hikariKeepAliveTime);
+        hikariConfig.setConnectionTimeout(hikariConnectionTimeOut);
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         hikariConfig.addDataSourceProperty("userServerPrepStmts", "true");
 
         // Establish connection & Create tables if needed
-        hikari = new HikariDataSource(hikariConfig);
-        try (Connection conn = hikari.getConnection()) {
+        connectionPool = new HikariDataSource(hikariConfig);
+        try (Connection conn = connectionPool.getConnection()) {
             this.setupTables(conn);
-
-            //region Perform possible data migration
-            Map<String, List<String>> structure = new HashMap<>();
-            DatabaseMetaData metaData = conn.getMetaData();
-            try (ResultSet tableResultSet = metaData.getTables(database, "public", null, new String[]{"TABLE"})) {
-                while (tableResultSet.next()) {
-                    String tableCat = tableResultSet.getString("TABLE_CAT");
-                    String tableName = tableResultSet.getString("TABLE_NAME");
-                    plugin.getSLF4JLogger().debug("Table catalog: %s, Table name: %s".formatted(tableCat, tableName));
-
-                    if (tableName.startsWith(prefix)) {
-                        structure.put(tableName, new ArrayList<>());
-                        plugin.getSLF4JLogger().debug("Added table: " + tableName);
-                    }
-                }
-            }
-
-            for (String table : structure.keySet()) {
-                try (ResultSet columnResultSet = metaData.getColumns(database, "public", table, null)) {
-                    while (columnResultSet.next()) {
-                        String columnName = columnResultSet.getString("COLUMN_NAME");
-                        structure.get(table).add(columnName);
-                        plugin.getSLF4JLogger().debug("Added column: " + columnName + " (" + table + ")");
-                    }
-                }
-            }
-            //endregion
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override public void close() {
-        if (hikari != null) {
-            hikari.close();
+        if (connectionPool != null) {
+            connectionPool.close();
         }
     }
 
     @Override public @NotNull PlayerData create(final UUID uuid) {
         try (
-            Connection conn = hikari.getConnection();
+            Connection conn = connectionPool.getConnection();
             PreparedStatement stmt = conn.prepareStatement(insertUserdataQuery)
         ) {
-            // Construct Main Level bean
-            MainLevelBean mainLevelBean = LevelBeanFactory.createMainLevelBean(plugin);
+            // Construct an empty main level bean
+            MainLevelBean mainLevelBean = LevelBeanFactory.createMainLevelBean();
 
-            // Construct Categorical Level beans
-            Map<LevelBean.Category, LevelBean> subLevelMap = new HashMap<>() {{
-                this.put(LevelBean.Category.PLAYER_DEATH, LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.PLAYER_DEATH));
-                this.put(LevelBean.Category.ENTITY_DEATH, LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.ENTITY_DEATH));
-                this.put(LevelBean.Category.FURNACE, LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.FURNACE));
-                this.put(LevelBean.Category.BREED, LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.BREED));
-                this.put(LevelBean.Category.VILLAGER_TRADE, LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.VILLAGER_TRADE));
-                this.put(LevelBean.Category.FISHING, LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.FISHING));
-                this.put(LevelBean.Category.BLOCK_BREAK, LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.BLOCK_BREAK));
-                this.put(LevelBean.Category.EXP_BOTTLE, LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.EXP_BOTTLE));
-                this.put(LevelBean.Category.GRINDSTONE, LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.GRINDSTONE));
+            // Construct a map of empty categorical level beans
+            Map<LevelBean.Category, LevelBean> cateLevelMap = new HashMap<>() {{
+                put(LevelBean.Category.PLAYER_DEATH, LevelBeanFactory.createCatLevelBean(LevelBean.Category.PLAYER_DEATH));
+                put(LevelBean.Category.ENTITY_DEATH, LevelBeanFactory.createCatLevelBean(LevelBean.Category.ENTITY_DEATH));
+                put(LevelBean.Category.FURNACE, LevelBeanFactory.createCatLevelBean(LevelBean.Category.FURNACE));
+                put(LevelBean.Category.BREED, LevelBeanFactory.createCatLevelBean(LevelBean.Category.BREED));
+                put(LevelBean.Category.VILLAGER_TRADE, LevelBeanFactory.createCatLevelBean(LevelBean.Category.VILLAGER_TRADE));
+                put(LevelBean.Category.FISHING, LevelBeanFactory.createCatLevelBean(LevelBean.Category.FISHING));
+                put(LevelBean.Category.BLOCK_BREAK, LevelBeanFactory.createCatLevelBean(LevelBean.Category.BLOCK_BREAK));
+                put(LevelBean.Category.EXP_BOTTLE, LevelBeanFactory.createCatLevelBean(LevelBean.Category.EXP_BOTTLE));
+                put(LevelBean.Category.GRINDSTONE, LevelBeanFactory.createCatLevelBean(LevelBean.Category.GRINDSTONE));
             }};
 
-            PlayerData playerData = new RealPlayerData(plugin, uuid, mainLevelBean, subLevelMap);
+            PlayerData playerData = new RealPlayerData(plugin, uuid, mainLevelBean, cateLevelMap);
 
             stmt.setString(1, uuid.toString());
             stmt.setString(2, Chain.start(playerData.getUuid()).map(Bukkit::getPlayer).map(Player::getName).map(String::toLowerCase).endOrNull());
@@ -188,6 +191,8 @@ public class SQLDataStorage extends AbstractDataStorage {
             stmt.setInt(12, 0);
             stmt.execute();
 
+            plugin.getSLF4JLogger().info("Created userdata in database: {} ({})", Players.getOffline(playerData.getUuid()).map(OfflinePlayer::getName).orElse("Null"), playerData.getUuid());
+
             return playerData;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -197,7 +202,7 @@ public class SQLDataStorage extends AbstractDataStorage {
     }
 
     @Override public @NotNull PlayerData load(final UUID uuid) {
-        try (PreparedStatement stmt = hikari.getConnection().prepareStatement(selectUserdataQuery)) {
+        try (PreparedStatement stmt = connectionPool.getConnection().prepareStatement(selectUserdataQuery)) {
             // Note: string comparisons are case-insensitive by default in the configuration of SQL server database
             stmt.setString(1, uuid.toString());
             try (ResultSet rs = stmt.executeQuery()) {
@@ -214,43 +219,25 @@ public class SQLDataStorage extends AbstractDataStorage {
                     int expBottleXp = rs.getInt(11);
                     int grindstoneXp = rs.getInt(12);
 
-                    // Construct Main Level bean
-                    MainLevelBean mainLevelBean = LevelBeanFactory.createMainLevelBean(plugin);
-                    mainLevelBean.setExperience(mainXp);
+                    // Construct the main level bean with loaded xp
+                    MainLevelBean mainLevelBean = LevelBeanFactory.createMainLevelBean().withExperience(mainXp);
 
-                    // Construct Categorical Level beans
+                    // Construct the map of categorical level beans with loaded xp
                     Map<LevelBean.Category, LevelBean> subLevelMap = new HashMap<>() {{
-                        LevelBean playerDeathLvl = LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.PLAYER_DEATH);
-                        LevelBean entityDeathLvl = LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.ENTITY_DEATH);
-                        LevelBean furnaceLvl = LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.FURNACE);
-                        LevelBean breedLvl = LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.BREED);
-                        LevelBean villagerTradeLvl = LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.VILLAGER_TRADE);
-                        LevelBean fishingLvl = LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.FISHING);
-                        LevelBean blockBreakLvl = LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.BLOCK_BREAK);
-                        LevelBean expBottleLvl = LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.EXP_BOTTLE);
-                        LevelBean grindstoneLvl = LevelBeanFactory.createCatLevelBean(plugin, LevelBean.Category.GRINDSTONE);
-
-                        playerDeathLvl.setExperience(playerDeathXp);
-                        entityDeathLvl.setExperience(entityDeathXp);
-                        furnaceLvl.setExperience(furnaceXp);
-                        breedLvl.setExperience(breedXp);
-                        villagerTradeLvl.setExperience(villagerTradeXp);
-                        fishingLvl.setExperience(fishingXp);
-                        blockBreakLvl.setExperience(blockBreakXp);
-                        expBottleLvl.setExperience(expBottleXp);
-                        grindstoneLvl.setExperience(grindstoneXp);
-
-                        this.put(LevelBean.Category.PLAYER_DEATH, playerDeathLvl);
-                        this.put(LevelBean.Category.ENTITY_DEATH, entityDeathLvl);
-                        this.put(LevelBean.Category.FURNACE, furnaceLvl);
-                        this.put(LevelBean.Category.BREED, breedLvl);
-                        this.put(LevelBean.Category.VILLAGER_TRADE, villagerTradeLvl);
-                        this.put(LevelBean.Category.FISHING, fishingLvl);
-                        this.put(LevelBean.Category.BLOCK_BREAK, blockBreakLvl);
-                        this.put(LevelBean.Category.EXP_BOTTLE, expBottleLvl);
-                        this.put(LevelBean.Category.GRINDSTONE, grindstoneLvl);
+                        put(LevelBean.Category.PLAYER_DEATH, LevelBeanFactory.createCatLevelBean(LevelBean.Category.PLAYER_DEATH).withExperience(playerDeathXp));
+                        put(LevelBean.Category.ENTITY_DEATH, LevelBeanFactory.createCatLevelBean(LevelBean.Category.ENTITY_DEATH).withExperience(entityDeathXp));
+                        put(LevelBean.Category.FURNACE, LevelBeanFactory.createCatLevelBean(LevelBean.Category.FURNACE).withExperience(furnaceXp));
+                        put(LevelBean.Category.BREED, LevelBeanFactory.createCatLevelBean(LevelBean.Category.BREED).withExperience(breedXp));
+                        put(LevelBean.Category.VILLAGER_TRADE, LevelBeanFactory.createCatLevelBean(LevelBean.Category.VILLAGER_TRADE).withExperience(villagerTradeXp));
+                        put(LevelBean.Category.FISHING, LevelBeanFactory.createCatLevelBean(LevelBean.Category.FISHING).withExperience(fishingXp));
+                        put(LevelBean.Category.BLOCK_BREAK, LevelBeanFactory.createCatLevelBean(LevelBean.Category.BLOCK_BREAK).withExperience(blockBreakXp));
+                        put(LevelBean.Category.EXP_BOTTLE, LevelBeanFactory.createCatLevelBean(LevelBean.Category.EXP_BOTTLE).withExperience(expBottleXp));
+                        put(LevelBean.Category.GRINDSTONE, LevelBeanFactory.createCatLevelBean(LevelBean.Category.GRINDSTONE).withExperience(grindstoneXp));
                     }};
 
+                    plugin.getSLF4JLogger().info("Loaded userdata from database: {} ({})", Players.getOffline(uuid).map(OfflinePlayer::getName).orElse("Null"), uuid);
+
+                    // Collect all above and construct the final data
                     return new RealPlayerData(plugin, uuid, mainLevelBean, subLevelMap);
                 }
             }
@@ -262,11 +249,12 @@ public class SQLDataStorage extends AbstractDataStorage {
     }
 
     @Override public void save(final PlayerData playerData) {
-        if (playerData.equals(PlayerData.DUMMY))
+        if (playerData.equals(PlayerData.DUMMY)) {
             return;
+        }
 
         try (
-            Connection conn = hikari.getConnection();
+            Connection conn = connectionPool.getConnection();
             PreparedStatement stmt = conn.prepareStatement(insertUserdataQuery)
         ) {
             stmt.setString(1, playerData.getUuid().toString());
@@ -282,8 +270,11 @@ public class SQLDataStorage extends AbstractDataStorage {
             stmt.setInt(11, playerData.getCateLevel(LevelBean.Category.EXP_BOTTLE).getExperience());
             stmt.setInt(12, playerData.getCateLevel(LevelBean.Category.GRINDSTONE).getExperience());
             stmt.execute();
+
+            plugin.getSLF4JLogger().info("Saved userdata to database: {} ({})", Players.getOffline(playerData.getUuid()).map(OfflinePlayer::getName).orElse("Null"), playerData.getUuid());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 }

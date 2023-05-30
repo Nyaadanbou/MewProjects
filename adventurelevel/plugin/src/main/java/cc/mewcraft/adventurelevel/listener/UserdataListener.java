@@ -19,16 +19,11 @@ public class UserdataListener implements AutoCloseableListener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onLogin(PlayerJoinEvent event) {
-        plugin.getPlayerDataManager()
-            .load(event.getPlayer())
-            .thenAcceptAsync(playerData -> plugin.getSLF4JLogger().info("Cached userdata: {} ({})", event.getPlayer().getName(), playerData.getUuid()));
+        plugin.getPlayerDataManager().load(event.getPlayer());
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.LOWEST) // use the lowest priority, so we save it as fast as possible
     public void onQuit(PlayerQuitEvent event) {
-        plugin.getPlayerDataManager()
-            .save(event.getPlayer())
-            .thenAcceptAsync(playerData -> plugin.getSLF4JLogger().info("Saved userdata: {} ({})", event.getPlayer().getName(), playerData.getUuid()))
-            .thenComposeAsync(n -> plugin.getPlayerDataManager().unload(event.getPlayer()));
+        plugin.getPlayerDataManager().unload(event.getPlayer());
     }
 }

@@ -11,8 +11,8 @@ database:
     password: ''
     parameters: '?autoReconnect=true&useSSL=false'
   connection_pool:
-    maximum_pool_size: 2
-    minimum_idle: 2
+    maximum_pool_size: 10
+    minimum_idle: 10
     maximum_lifetime: 1800000
     keep_alive_time: 0
     connection_timeout: 5000
@@ -23,6 +23,8 @@ redis:
     host: localhost
     port: 6379
     password: ''
+synchronization:
+  network_latency_milliseconds: 500
 
 ########################################
 # 主等级设置

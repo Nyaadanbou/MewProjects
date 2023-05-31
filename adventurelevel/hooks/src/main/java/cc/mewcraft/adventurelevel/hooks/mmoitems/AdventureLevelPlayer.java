@@ -6,15 +6,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class AdventureLevelPlayer extends RPGPlayer {
 
-    private final cc.mewcraft.adventurelevel.data.PlayerData adventurePlayerData;
+    private volatile cc.mewcraft.adventurelevel.data.PlayerData adventurePlayerData; // should be set asynchronously at a later point of time
 
-    public AdventureLevelPlayer(@NotNull final PlayerData mmoPlayerData, @NotNull final cc.mewcraft.adventurelevel.data.PlayerData adventurePlayerData) {
+    public AdventureLevelPlayer(final @NotNull PlayerData mmoPlayerData) {
         super(mmoPlayerData);
-        this.adventurePlayerData = adventurePlayerData;
     }
 
     @Override public int getLevel() {
-        return adventurePlayerData.getMainLevel().getLevel();
+        if (isBackedDataAvailable()) {
+            return adventurePlayerData.getMainLevel().getLevel();
+        }
+        return 0;
     }
 
     @Override public String getClassName() {
@@ -35,6 +37,18 @@ public class AdventureLevelPlayer extends RPGPlayer {
 
     @Override public void setStamina(final double value) {
         // we don't support stamina yet
+    }
+
+    public cc.mewcraft.adventurelevel.data.PlayerData getAdventurePlayerData() {
+        return adventurePlayerData;
+    }
+
+    public void setAdventurePlayerData(final @NotNull cc.mewcraft.adventurelevel.data.PlayerData adventurePlayerData) {
+        this.adventurePlayerData = adventurePlayerData;
+    }
+
+    private boolean isBackedDataAvailable() {
+        return adventurePlayerData != null && adventurePlayerData.complete();
     }
 
 }

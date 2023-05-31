@@ -3,15 +3,14 @@ package cc.mewcraft.adventurelevel.data;
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import cc.mewcraft.adventurelevel.file.DataStorage;
 import cc.mewcraft.adventurelevel.message.DataSyncMessenger;
+import cc.mewcraft.adventurelevel.message.TransientPlayerData;
+import cc.mewcraft.adventurelevel.util.PlayerUtils;
 import com.google.common.cache.*;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.Inject;
 import me.lucko.helper.promise.Promise;
 import me.lucko.helper.utils.Players;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
@@ -19,6 +18,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class PlayerDataManagerImpl implements PlayerDataManager {
     private final AdventureLevelPlugin plugin;
@@ -29,37 +29,73 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
         .removalListener(new PlayerDataRemovalListener())
         .build(new PlayerDataLoader());
 
+    // --- Config settings ---
+    private final int networkLatencyMilliseconds;
+
     /**
-     * Methods define how the data is loaded.
+     * Methods define how the data is fetched.
      */
     private class PlayerDataLoader extends CacheLoader<UUID, Promise<PlayerData>> {
         @Override public @NotNull Promise<PlayerData> load(
             final @NotNull UUID key
         ) throws Exception {
-            return Promise.supplyingAsync(() -> {
-                PlayerData playerData = storage.load(key);
+            return Promise
 
-                if (playerData.equals(PlayerData.DUMMY)) {
-                    return storage.create(key); // Not existing in datasource - so create one
-                }
+                // Get an empty PlayerData.
+                .supplyingAsync(() -> new RealPlayerData(plugin, key))
 
-                return playerData; // Already existing in datasource - just return it
-            });
+                // Create a callback to update its states.
+                // The delay is necessary to allow the message
+                // to be published and received on the network.
+                .thenApplyDelayedAsync(data -> {
+                    if (Players.get(data.getUuid())
+                        .map(player -> !player.isOnline())
+                        .orElse(true)) {
+                        // Do not load the data for "ghost join"
+                        plugin.getSLF4JLogger().info("Cancelled post load: name={},uuid={}",
+                            PlayerUtils.getNameFromUUID(key),
+                            data.getUuid()
+                        );
+                        return data;
+                    }
+
+                    // Get data from message store first
+                    TransientPlayerData message = messenger.get(key);
+                    if (message != null) {
+                        plugin.getSLF4JLogger().info("Loaded userdata from message store: name={},uuid={},mainXp={}",
+                            PlayerUtils.getNameFromUUID(key),
+                            message.uuid(),
+                            message.mainXp()
+                        );
+                        return PlayerDataUpdater.update(data, message).markAsComplete();
+                    }
+
+                    // The message store does not have the data,
+                    // so load the data from disk and return it
+                    PlayerData fromDisk = storage.load(key);
+                    if (fromDisk.equals(PlayerData.DUMMY)) {
+                        fromDisk = storage.create(key); // Not existing in disk - so create one
+                    }
+                    return PlayerDataUpdater.update(data, fromDisk).markAsComplete();
+                }, networkLatencyMilliseconds, TimeUnit.MILLISECONDS);
         }
 
+        /**
+         * Not used yet.
+         */
         @Override public @NotNull ListenableFuture<Promise<PlayerData>> reload(
             final @NotNull UUID key,
             final @NotNull Promise<PlayerData> oldValue
         ) throws Exception {
             Promise<PlayerData> playerDataPromise = oldValue
-                .thenApplyAsync(oldPlayerData -> {
-                    PlayerData newPlayerData = storage.load(key);
+                .thenApplyAsync(oldData -> {
+                    PlayerData newData = storage.load(key);
 
-                    // We need to keep the old reference but update the internal data.
+                    // We need to keep the old reference but update the internal states.
                     // This ensures that there is only one instance actually being used.
-                    oldPlayerData.updateWith(newPlayerData);
+                    PlayerDataUpdater.update(oldData, newData);
 
-                    return oldPlayerData;
+                    return oldData;
                 });
             return Futures.immediateFuture(playerDataPromise);
         }
@@ -71,11 +107,14 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
     private class PlayerDataRemovalListener implements RemovalListener<UUID, Promise<PlayerData>> {
         @Override public void onRemoval(final RemovalNotification<UUID, Promise<PlayerData>> notification) {
             Objects.requireNonNull(notification.getValue()).thenAcceptAsync(playerData -> {
-                Player player = Bukkit.getPlayer(playerData.getUuid());
-                if (player != null && player.isOnline()) {
-                    messenger.sendData(playerData); // save to messenger
+                if (playerData.complete()) {
+                    messenger.send(playerData); // publish it on the network
                     storage.save(playerData); // save to disk
-                    plugin.getSLF4JLogger().info("Unloaded userdata from cache: {} ({})", player.getName(), player.getUniqueId());
+                    plugin.getSLF4JLogger().info("Unloaded userdata from cache: name={},uuid={},mainXp={}",
+                        PlayerUtils.getNameFromUUID(playerData.getUuid()),
+                        playerData.getUuid(),
+                        playerData.getMainLevel().getExperience()
+                    );
                 }
             });
         }
@@ -90,6 +129,9 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
         this.plugin = plugin;
         this.storage = storage;
         this.messenger = messenger;
+
+        // Config settings
+        this.networkLatencyMilliseconds = Math.max(0, plugin.getConfig().getInt("synchronization.network_latency_milliseconds"));
     }
 
     @Override public @NotNull Collection<Promise<PlayerData>> getAllCached() {
@@ -97,39 +139,22 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
     }
 
     @Override public @NotNull Promise<PlayerData> load(final @NotNull UUID uuid) {
-        // We always first try to get data from loading cache
-        Promise<PlayerData> cached = loadingCache.getIfPresent(uuid);
-        if (cached != null) {
-            return cached;
-        }
-
-        // If the loading cache does not have the data,
-        // then we try to get it from the messenger.
-        // We also put the data in loading cache.
-        PlayerData temp = messenger.getData(uuid);
-        if (temp != null) {
-            plugin.getSLF4JLogger().info("Loaded userdata from message store: {} ({})", Players.getOffline(temp.getUuid()).map(OfflinePlayer::getName).orElse("Null"), temp.getUuid());
-            Promise<PlayerData> completed = Promise.completed(temp);
-            loadingCache.put(uuid, completed);
-            return completed;
-        }
-
-        // If the messenger does not have the data,
-        // then we load the data and return it
         return loadingCache.getUnchecked(uuid);
     }
 
     @Override public @NotNull Promise<PlayerData> save(final @NotNull PlayerData playerData) {
-        return Promise.supplyingAsync(() -> {
-            messenger.sendData(playerData); // save to messenger
-            storage.save(playerData); // save to disk
-            return playerData;
-        });
+        return !playerData.complete()
+            ? Promise.empty()
+            : Promise.supplyingAsync(() -> {
+                messenger.send(playerData);
+                storage.save(playerData);
+                return playerData;
+            });
     }
 
     @Override public @NotNull Promise<UUID> unload(final @NotNull UUID uuid) {
         return Promise.supplyingAsync(() -> {
-            loadingCache.invalidate(uuid); // our RemovalListener will save it to disk
+            loadingCache.invalidate(uuid); // our RemovalListener will save it to disk & publish it to the network
             return uuid;
         });
     }
@@ -141,6 +166,6 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
     @Override public void close() {
         // We need to save all online players data before shutdown.
         // Doing so we can safely and completely reload the plugin.
-        plugin.getPlayerDataManager().getAllCached().forEach(playerDataPromise -> playerDataPromise.thenAcceptSync(storage::save));
+        plugin.getPlayerDataManager().getAllCached().forEach(dataPromise -> dataPromise.thenAcceptSync(storage::save));
     }
 }

@@ -4,23 +4,19 @@ import cc.mewcraft.adventurelevel.AdventureLevelProvider;
 import net.Indyuce.mmoitems.api.player.PlayerData;
 import net.Indyuce.mmoitems.api.player.RPGPlayer;
 import net.Indyuce.mmoitems.comp.rpg.RPGHandler;
-import org.bukkit.entity.Player;
-
-import java.util.concurrent.ExecutionException;
 
 public class AdventureLevelHook implements RPGHandler {
 
     @Override public RPGPlayer getInfo(final PlayerData data) {
-        Player player = data.getPlayer();
-        try {
-            return AdventureLevelProvider.get()
-                .getPlayerDataManager()
-                .load(player)
-                .thenApplyAsync(playerData -> new AdventureLevelPlayer(data, playerData))
-                .get(); // 50 ms = 1 tick
-        } catch (InterruptedException | ExecutionException e) {
-            throw new IllegalStateException("Fatal error");
-        }
+        AdventureLevelPlayer rpgPlayer = new AdventureLevelPlayer(data);
+
+        // Set the backed AdventurePlayerData instance using an async callback
+        AdventureLevelProvider.get()
+            .getPlayerDataManager()
+            .load(data.getPlayer())
+            .thenAcceptAsync(rpgPlayer::setAdventurePlayerData);
+
+        return rpgPlayer;
     }
 
     @Override public void refreshStats(final PlayerData data) {

@@ -57,6 +57,7 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
                 bind(PlayerDataManager.class).to(PlayerDataManagerImpl.class).in(Singleton.class);
 
                 // data messenger
+                bind(Redis.class).toInstance(getService(Redis.class));
                 bind(Messenger.class).toInstance(getService(Redis.class));
                 bind(DataSyncMessenger.class).in(Singleton.class);
 

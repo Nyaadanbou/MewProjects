@@ -16,7 +16,6 @@ import java.util.Map;
  * is expensive.
  */
 public interface LevelBean {
-    LevelBean DUMMY = new DummyLevelBean();
 
     enum Category {
         /**

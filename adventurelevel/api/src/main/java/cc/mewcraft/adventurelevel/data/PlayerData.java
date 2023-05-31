@@ -3,11 +3,14 @@ package cc.mewcraft.adventurelevel.data;
 import cc.mewcraft.adventurelevel.level.category.LevelBean;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.UUID;
 
+@SuppressWarnings("UnusedReturnValue")
 public interface PlayerData {
+
     /**
-     * This DUMMY instance is used in the cases where:
+     * This DUMMY instance is only used in the cases where:
      * <ol>
      *     <li>requested data does not exist in the datasource</li>
      *     <li>exceptions have occurred upon fetching the data</li>
@@ -19,12 +22,28 @@ public interface PlayerData {
 
     @NotNull LevelBean getCateLevel(LevelBean.Category category);
 
+    @NotNull Map<LevelBean.Category, LevelBean> getCateLevelMap();
+
     @NotNull LevelBean getMainLevel();
 
     /**
-     * Updates data of this instance with the given one.
+     * Checks whether this PlayerData has been fully loaded, i.e., its states are valid and up-to-date.
      *
-     * @param playerData the player data to copy from
+     * @return true if this PlayerData has been fully loaded (states are up-to-date); otherwise false
      */
-    void updateWith(@NotNull PlayerData playerData);
+    boolean complete();
+
+    /**
+     * Marks this PlayerData as not fully loaded.
+     *
+     * @return this object
+     */
+    PlayerData markAsIncomplete();
+
+    /**
+     * Marks this PlayerData as fully loaded.
+     *
+     * @return this object
+     */
+    PlayerData markAsComplete();
 }

@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public final class LevelBeanFactory {
 
-    public static MainLevelBean createMainLevelBean() {
+    public static @NotNull MainLevelBean createMainLevelBean() {
         AdventureLevelPlugin plugin = AdventureLevelPlugin.getInstance();
 
         ConfigurationSection config = Objects.requireNonNull(plugin.getConfig().getConfigurationSection("main_level"));
@@ -33,8 +33,8 @@ public final class LevelBeanFactory {
             globalModifiers);
     }
 
-    public static @NotNull LevelBean createCatLevelBean(
-        LevelBean.Category category
+    public static @NotNull LevelBean createCateLevelBean(
+        @NotNull LevelBean.Category category
     ) {
         // Get config file name
         String configFileName = switch (category) {
@@ -72,4 +72,5 @@ public final class LevelBeanFactory {
             case GRINDSTONE -> new GrindstoneLevelBean(plugin, maxLevel, exp1, exp2, exp3);
         };
     }
+
 }

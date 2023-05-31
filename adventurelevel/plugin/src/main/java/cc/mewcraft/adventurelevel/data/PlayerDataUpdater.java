@@ -12,8 +12,9 @@ import java.util.UUID;
  * Given a reference of PlayerData and a data source, this class provides convenient methods to update the states of
  * given PlayerData from the specific data source.
  * <p>
- * By design, the given reference of PlayerData does not have its states fully loaded, due to expensive calls to I/O
- * tasks, and therefore its states will need to be loaded at a later point of time using an asynchronous callback.
+ * By design, the given reference of PlayerData does not have its states fully loaded initially (cuz we want fast create
+ * it on the main thread), and then we update the states at a later point of time using an asynchronous callback, to
+ * allow the PlayerData to be fully loaded.
  *
  * @see RealPlayerData#RealPlayerData(AdventureLevelPlugin, UUID)
  */

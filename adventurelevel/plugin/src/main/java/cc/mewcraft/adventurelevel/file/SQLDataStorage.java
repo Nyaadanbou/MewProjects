@@ -69,44 +69,46 @@ public class SQLDataStorage extends AbstractDataStorage {
 
         this.userdataTable = requireNonNull(plugin.getConfig().getString("database.table_names.userdata"));
 
-        this.insertUserdataQuery =
-            "INSERT INTO " + userdataTable + " " +
-            "(`uuid`, `name`, `main_exp`, `player_death_exp`, `entity_death_exp`, `furnace_exp`, `breed_exp`, `villager_trade_exp`, `fishing_exp`, `block_break_exp`, `exp_bottle_exp`, `grindstone_exp`) " +
-            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE " +
-            "`uuid` = VALUES(`uuid`), " +
-            "`name` = VALUES(`name`), " +
-            "`main_exp` = VALUES(`main_exp`), " +
-            "`player_death_exp` = VALUES(`player_death_exp`), " +
-            "`entity_death_exp` = VALUES(`entity_death_exp`), " +
-            "`furnace_exp` = VALUES(`furnace_exp`), " +
-            "`breed_exp` = VALUES(`breed_exp`), " +
-            "`villager_trade_exp` = VALUES(`villager_trade_exp`), " +
-            "`fishing_exp` = VALUES(`fishing_exp`), " +
-            "`block_break_exp` = VALUES(`block_break_exp`), " +
-            "`exp_bottle_exp` = VALUES(`exp_bottle_exp`), " +
-            "`grindstone_exp` = VALUES(`grindstone_exp`);";
-        this.selectUserdataQuery =
-            "SELECT * FROM " + userdataTable + " WHERE uuid = ?;";
+        this.insertUserdataQuery = """
+            INSERT INTO %userdata_table%
+            (`uuid`, `name`, `main_exp`, `player_death_exp`, `entity_death_exp`, `furnace_exp`, `breed_exp`, `villager_trade_exp`, `fishing_exp`, `block_break_exp`, `exp_bottle_exp`, `grindstone_exp`)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE
+            `uuid` = VALUES(`uuid`),
+            `name` = VALUES(`name`),
+            `main_exp` = VALUES(`main_exp`),
+            `player_death_exp` = VALUES(`player_death_exp`),
+            `entity_death_exp` = VALUES(`entity_death_exp`),
+            `furnace_exp` = VALUES(`furnace_exp`),
+            `breed_exp` = VALUES(`breed_exp`),
+            `villager_trade_exp` = VALUES(`villager_trade_exp`),
+            `fishing_exp` = VALUES(`fishing_exp`),
+            `block_break_exp` = VALUES(`block_break_exp`),
+            `exp_bottle_exp` = VALUES(`exp_bottle_exp`),
+            `grindstone_exp` = VALUES(`grindstone_exp`);"""
+            .replace("%userdata_table%", userdataTable);
+        this.selectUserdataQuery = """
+            SELECT * FROM %userdata_table% WHERE uuid = ?;"""
+            .replace("%userdata_table%", userdataTable);
     }
 
     private void setupTables(Connection conn) throws SQLException {
         try (
-            PreparedStatement stmt1 = conn.prepareStatement(
-                "CREATE TABLE IF NOT EXISTS " +
-                this.userdataTable + " (" +
-                "`uuid` varchar(36) NOT NULL PRIMARY KEY, " +
-                "`name` varchar(16), " +
-                "`main_exp` int(11) DEFAULT 0, " +
-                "`player_death_exp` int(11) DEFAULT 0, " +
-                "`entity_death_exp` int(11) DEFAULT 0, " +
-                "`furnace_exp` int(11) DEFAULT 0, " +
-                "`breed_exp` int(11) DEFAULT 0, " +
-                "`villager_trade_exp` int(11) DEFAULT 0, " +
-                "`fishing_exp` int(11) DEFAULT 0, " +
-                "`block_break_exp` int(11) DEFAULT 0, " +
-                "`exp_bottle_exp` int(11) DEFAULT 0, " +
-                "`grindstone_exp` int(11) DEFAULT 0 " +
-                ");"
+            PreparedStatement stmt1 = conn.prepareStatement("""
+                CREATE TABLE IF NOT EXISTS
+                %userdata_table% (
+                `uuid` varchar(36) NOT NULL PRIMARY KEY,
+                `name` varchar(16),
+                `main_exp` int(11) DEFAULT 0,
+                `player_death_exp` int(11) DEFAULT 0,
+                `entity_death_exp` int(11) DEFAULT 0,
+                `furnace_exp` int(11) DEFAULT 0,
+                `breed_exp` int(11) DEFAULT 0,
+                `villager_trade_exp` int(11) DEFAULT 0,
+                `fishing_exp` int(11) DEFAULT 0,
+                `block_break_exp` int(11) DEFAULT 0,
+                `exp_bottle_exp` int(11) DEFAULT 0,
+                `grindstone_exp` int(11) DEFAULT 0);"""
+                .replace("%userdata_table%", userdataTable)
             )
         ) {
             stmt1.execute();

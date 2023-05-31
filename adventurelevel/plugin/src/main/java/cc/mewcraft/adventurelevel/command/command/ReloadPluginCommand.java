@@ -26,7 +26,7 @@ public class ReloadPluginCommand extends AbstractCommand {
                 plugin.getLang().of("msg_config_reloaded").resolver(
                     Placeholder.unparsed("plugin", plugin.getName()),
                     Placeholder.unparsed("version", plugin.getPluginMeta().getVersion()),
-                    Placeholder.unparsed("version", plugin.getPluginMeta().getAuthors().get(0))
+                    Placeholder.unparsed("author", plugin.getPluginMeta().getAuthors().get(0))
                 ).send(context.getSender());
             })
             .build();

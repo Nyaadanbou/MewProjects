@@ -66,7 +66,6 @@ public class DataSyncMessenger implements Terminable {
      * @param data the player data to be sent to the channel
      */
     public void send(@NotNull PlayerData data) {
-        /*if (data.complete()) {*/
         channel.sendMessage(new TransientPlayerData(
             data.getUuid(),
             data.getMainLevel().getExperience(),
@@ -79,13 +78,13 @@ public class DataSyncMessenger implements Terminable {
             data.getCateLevel(LevelBean.Category.GRINDSTONE).getExperience(),
             data.getCateLevel(LevelBean.Category.PLAYER_DEATH).getExperience(),
             data.getCateLevel(LevelBean.Category.VILLAGER_TRADE).getExperience()
-        ));
-        plugin.getSLF4JLogger().info("Sent userdata to channel: name={},uuid={},mainXp={}",
-            PlayerUtils.getNameFromUUID(data.getUuid()),
-            data.getUuid(),
-            data.getMainLevel().getExperience()
-        );
-        /*}*/
+        )).thenAcceptAsync(n -> {
+            plugin.getSLF4JLogger().info("Sent userdata to channel: name={},uuid={},mainXp={}",
+                PlayerUtils.getNameFromUUID(data.getUuid()),
+                data.getUuid(),
+                data.getMainLevel().getExperience()
+            );
+        });
     }
 
     /**

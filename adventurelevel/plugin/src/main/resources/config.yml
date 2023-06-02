@@ -46,12 +46,33 @@ main_level:
     grindstone: 1.0
     custom: 0.0
     unknown: 0.0
-  # max_level 最大主等级
+  # maximum_level 最大主等级
   # 达到最大等级后经验值依然会增长
-  max_level: 1000
+  maximum_level: 1000
+  # 等级与经验之间的转换公式
+  # 范围只能严格采用下列写法
+  #  符号        定义
+  #  (a,b)     {x | a < x < b}
+  #  [a,b]     {x | a <= x <= b}
+  #  (a,b]     {x | a < x <= b}
+  #  [a,b)     {x | a <= x < b}
+  #  (a,+∞)    {x | x > a}
+  #  [a,+∞)    {x | x >= a}
+  #  (-∞,b)    {x | x < b}
+  #  (-∞,b]    {x | x <= b}
+  #  (-∞,+∞)   {x}
   # level_to_exp_formula 已知等级 x，求经验值
-  level_to_exp_formula: "x ^ 2 + 6 * x"
+  level_to_exp_formula:
+    &range-1 "[0,16]": x ^ 2 + 6 * x
+    &range-2 "[17,31]": 2.5 * x ^ 2 - 40.5 * x + 360
+    &range-3 "[32,+∞)": 4.5 * x ^ 2 - 162.5 * x + 2220
   # exp_to_level_formula 已知经验值 x，求等级
-  exp_to_level_formula: "SQRT( x + 9 ) - 3"
+  exp_to_level_formula:
+    "[0,352]": SQRT( x + 9 ) - 3
+    "[353,1507]": 81 / 10 + SQRT( 2 / 5 * ( x - 7839 / 40 ) )
+    "[1508,+∞)": 325 / 18 + SQRT( 2 / 9 * ( x - 54215 / 72 ) )
   # next_level_exp 已知等级 x，求升级到下一等级所需的经验值
-  next_level_exp: "2 * x + 7"
+  next_level_exp:
+    *range-1 : 2 * x + 7
+    *range-2 : 5 * x - 38
+    *range-3 : 9 * x - 158

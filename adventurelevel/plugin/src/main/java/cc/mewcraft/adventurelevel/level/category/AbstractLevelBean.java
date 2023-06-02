@@ -6,6 +6,7 @@ import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import com.ezylang.evalex.EvaluationException;
 import com.ezylang.evalex.Expression;
 import com.ezylang.evalex.parser.ParseException;
+import com.google.common.collect.RangeMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -23,28 +24,28 @@ public abstract class AbstractLevelBean implements LevelBean {
     /**
      * @see #calculateTotalExperience(int)
      */
-    protected final Expression levelToExpFormula;
+    protected final RangeMap<Integer, Expression> levelToExpFormulae;
     /**
      * @see #calculateTotalLevel(int)
      */
-    protected final Expression expToLevelFormula;
+    protected final RangeMap<Integer, Expression> expToLevelFormulae;
     /**
      * @see #calculateNeededExperience(int)
      */
-    protected final Expression nextLevelFormula;
+    protected final RangeMap<Integer, Expression> nextLevelFormulae;
 
     public AbstractLevelBean(
         final AdventureLevelPlugin plugin,
         final int maxLevel,
-        final Expression levelToExpFormula,
-        final Expression expToLevelFormula,
-        final Expression nextLevelFormula
+        final RangeMap<Integer, Expression> levelToExpFormula,
+        final RangeMap<Integer, Expression> expToLevelFormula,
+        final RangeMap<Integer, Expression> nextLevelFormula
     ) {
         this.plugin = plugin;
         this.maxLevel = maxLevel;
-        this.levelToExpFormula = levelToExpFormula;
-        this.expToLevelFormula = expToLevelFormula;
-        this.nextLevelFormula = nextLevelFormula;
+        this.levelToExpFormulae = levelToExpFormula;
+        this.expToLevelFormulae = expToLevelFormula;
+        this.nextLevelFormulae = nextLevelFormula;
         this.additiveModifiers = new HashMap<>();
         this.multiplicativeModifiers = new HashMap<>();
     }
@@ -55,7 +56,8 @@ public abstract class AbstractLevelBean implements LevelBean {
 
     @Override public int calculateTotalExperience(final int level) {
         try {
-            return levelToExpFormula
+            return levelToExpFormulae
+                .get(level)
                 .with("x", level)
                 .evaluate()
                 .getNumberValue()
@@ -67,7 +69,8 @@ public abstract class AbstractLevelBean implements LevelBean {
 
     @Override public int calculateNeededExperience(final int currentLevel) {
         try {
-            return nextLevelFormula
+            return nextLevelFormulae
+                .get(currentLevel)
                 .with("x", currentLevel)
                 .evaluate()
                 .getNumberValue()
@@ -79,7 +82,8 @@ public abstract class AbstractLevelBean implements LevelBean {
 
     @Override public double calculateTotalLevel(final int totalExp) {
         try {
-            return expToLevelFormula
+            return expToLevelFormulae
+                .get(totalExp)
                 .with("x", totalExp)
                 .evaluate()
                 .getNumberValue()

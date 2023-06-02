@@ -2,6 +2,7 @@ package cc.mewcraft.adventurelevel.level.category;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import com.ezylang.evalex.Expression;
+import com.google.common.collect.RangeMap;
 import com.google.inject.Inject;
 
 public class EntityDeathLevelBean extends AbstractLevelBean {
@@ -9,10 +10,10 @@ public class EntityDeathLevelBean extends AbstractLevelBean {
     public EntityDeathLevelBean(
         final AdventureLevelPlugin plugin,
         final int maxLevel,
-        final Expression levelToExpFormula,
-        final Expression expToLevelFormula,
-        final Expression nextLevelFormula
+        final RangeMap<Integer, Expression> levelToExpFormulae,
+        final RangeMap<Integer, Expression> expToLevelFormulae,
+        final RangeMap<Integer, Expression> nextLevelFormulae
     ) {
-        super(plugin, maxLevel, levelToExpFormula, expToLevelFormula, nextLevelFormula);
+        super(plugin, maxLevel, levelToExpFormulae, expToLevelFormulae, nextLevelFormulae);
     }
 }

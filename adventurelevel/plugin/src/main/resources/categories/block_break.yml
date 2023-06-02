@@ -1,15 +1,24 @@
 # 经验来源：破坏方块
 
-max_level: 100
+maximum_level: 100
 
 # level_to_exp_formula 已知等级 x，求经验值
 # 该式必须最先定义，才能求解出下面的表达式
-level_to_exp_formula: "x ^ 2 + 6 * x"
+level_to_exp_formula:
+  &range-1 "[0,16]": x ^ 2 + 6 * x
+  &range-2 "[17,31]": 2.5 * x ^ 2 - 40.5 * x + 360
+  &range-3 "[32,+∞)": 4.5 * x ^ 2 - 162.5 * x + 2220
 
 # exp_to_level_formula 已知经验值 x，求等级
 # 必须为 level_to_exp_formula 的反函数
-exp_to_level_formula: "SQRT( x + 9 ) - 3"
+exp_to_level_formula:
+  "[0,352]": SQRT( x + 9 ) - 3
+  "[353,1507]": 81 / 10 + SQRT( 2 / 5 * ( x - 7839 / 40 ) )
+  "[1508,+∞)": 325 / 18 + SQRT( 2 / 9 * ( x - 54215 / 72 ) )
 
 # next_level_exp 已知等级 x，求升级到下一等级所需的经验值
-# 必须为 ( level_to_exp_formula + 1 ) - level_to_exp_formula
-next_level_exp: "2 * x + 7"
+# 必须为 level_to_exp_formula(x + 1) - level_to_exp_formula(x)
+next_level_exp:
+  *range-1 : 2 * x + 7
+  *range-2 : 5 * x - 38
+  *range-3 : 9 * x - 158

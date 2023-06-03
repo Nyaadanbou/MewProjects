@@ -205,7 +205,10 @@ public class SQLDataStorage extends AbstractDataStorage {
     }
 
     @Override public @NotNull PlayerData load(final UUID uuid) {
-        try (PreparedStatement stmt = connectionPool.getConnection().prepareStatement(selectUserdataQuery)) {
+        try (
+            Connection conn = connectionPool.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(selectUserdataQuery)
+        ) {
             // Note: string comparisons are case-insensitive by default in the configuration of SQL server database
             stmt.setString(1, uuid.toString());
             try (ResultSet rs = stmt.executeQuery()) {

@@ -5,6 +5,7 @@ repositories {
         content {
             includeGroup("me.lucko")
             includeGroup("cc.mewcraft")
+            includeGroup("su.nexmedia")
         }
     }
 
@@ -128,6 +129,14 @@ repositories {
     maven("https://repo.codemc.io/repository/maven-snapshots/") {
         content {
             includeGroup("net.wesjd")
+        }
+    }
+
+    // NoCheatPlus
+    maven("https://repo.md-5.net/content/repositories/snapshots/") {
+        // See doc: https://github.com/NoCheatPlus/Docs/wiki/API
+        content {
+            includeGroup("fr.neatmonster")
         }
     }
 }

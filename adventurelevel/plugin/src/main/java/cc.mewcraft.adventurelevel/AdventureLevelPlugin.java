@@ -69,10 +69,12 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
 
         // Copy default config files
         saveDefaultConfig();
-        UtilFile.copyResourcesRecursively(
-            Objects.requireNonNull(getClassLoader().getResource("categories")),
-            getDataFolder().toPath().resolve("categories").toFile()
-        );
+        if (!getDataFolder().toPath().resolve("categories").toFile().exists()) {
+            UtilFile.copyResourcesRecursively(
+                Objects.requireNonNull(getClassLoader().getResource("categories")),
+                getDataFolder().toPath().resolve("categories").toFile()
+            );
+        }
 
         translations = new Translations(this, "languages");
 

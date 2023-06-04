@@ -8,6 +8,8 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.injector.temporary.TemporaryPlayer;
+import com.comphenix.protocol.injector.temporary.TemporaryPlayerFactory;
 import me.lucko.helper.terminable.Terminable;
 import org.bukkit.entity.EntityType;
 
@@ -54,29 +56,36 @@ public class ProtocolLibHook implements Terminable {
 
         this.whitelistEntityIds = Collections.newSetFromMap(new WeakHashMap<>());
 
-        // --- define packet listeners ---
+        //region Packet listeners
         this.packetBlocker = new PacketAdapter(
             module.getParentPlugin(),
             ListenerPriority.HIGHEST,
-            module.blockedPacketTypes.stream()
-                .flatMap(name -> {
-                    Collection<PacketType> packetTypes = PacketType.fromName(name);
-                    if (packetTypes.isEmpty()) module.warn("Unknown packet type: " + name);
-                    return packetTypes.stream();
-                })
-                .toList()
+            module.blockedPacketTypes.stream().flatMap(name -> {
+                Collection<PacketType> packetTypes = PacketType.fromName(name);
+                if (packetTypes.isEmpty()) module.warn("Unknown packet type: " + name);
+                return packetTypes.stream();
+            }).toList()
         ) {
             @Override
             public void onPacketSending(PacketEvent event) {
+                // The method getUniqueId is not supported for temporary players
+                if (event.isPlayerTemporary()) {
+                    return;
+                }
+
+                // Let the packet go through if the entity is whitelisted
                 PacketContainer packet = event.getPacket();
                 if (ProtocolLibHook.this.entityPackets.contains(packet.getType())) {
                     Integer entityId = packet.getIntegers().readSafely(0);
-                    if (entityId != null && ProtocolLibHook.this.whitelistEntityIds.contains(entityId))
-                        return; // Let the packet go through if the entity is whitelisted
+                    if (entityId != null && ProtocolLibHook.this.whitelistEntityIds.contains(entityId)) {
+                        return;
+                    }
                 }
 
-                if (module.afkPlayers.contains(event.getPlayer().getUniqueId()))
-                    event.setCancelled(true); // Don't send this packet to AFK player
+                // Don't send this packet to AFK player
+                if (module.afkPlayers.contains(event.getPlayer().getUniqueId())) {
+                    event.setCancelled(true);
+                }
             }
         };
         this.entityLogger = new PacketAdapter(
@@ -95,8 +104,9 @@ public class ProtocolLibHook implements Terminable {
                 }
             }
         };
+        //endregion
 
-        // --- register packet listeners ---
+        // register packet listeners
         this.protocolManager.addPacketListener(this.packetBlocker);
         this.protocolManager.addPacketListener(this.entityLogger);
     }

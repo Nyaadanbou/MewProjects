@@ -2,11 +2,11 @@ repositories {
     mavenCentral()
 
     maven(uri("${System.getenv("HOME")}/MewcraftRepository")) {
-        content {
+        /*content {
             includeGroup("me.lucko")
             includeGroup("cc.mewcraft")
             includeGroup("su.nexmedia")
-        }
+        }*/
     }
 
     // Locally cached projects

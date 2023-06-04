@@ -57,6 +57,7 @@ public class FishPowerModule implements TerminableModule {
                         MewFishing.instance().getLogger().severe("Currency name not found: " + currencyName);
                         MewFishing.instance().getLogger().severe("Fishing power system will be disabled");
                         MewFishing.conf().setFishingPowerEnabled(false);
+                        return 0;
                     }
                     double balance = api.getBalance(key, currency);
                     return (int) balance;

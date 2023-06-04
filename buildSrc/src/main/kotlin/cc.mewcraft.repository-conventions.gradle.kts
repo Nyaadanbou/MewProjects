@@ -9,6 +9,7 @@ repositories {
         }*/
     }
 
+    // TODO Move to the MewcraftRepository
     // Locally cached projects
     mavenLocal {
         content {
@@ -16,7 +17,7 @@ repositories {
             includeGroup("net.Indyuce")
             includeGroup("net.leonardo_dgs")
             includeGroup("com.github.DieReicheErethons")
-            includeGroup("me.xanium.gemseconomy")
+            includeGroup("su.nightexpress.gamepoints")
         }
     }
 
@@ -65,6 +66,8 @@ repositories {
             includeGroup("com.github.TownyAdvanced")
             includeGroup("com.github.MilkBowl")
             includeGroup("com.github.LoneDev6")
+            includeGroup("com.github.TechFortress") // GriefPrevention
+            includeGroup("com.github.angeschossen") // LandAPI
         }
     }
 

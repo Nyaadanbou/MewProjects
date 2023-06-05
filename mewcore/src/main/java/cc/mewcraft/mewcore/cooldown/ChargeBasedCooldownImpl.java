@@ -18,13 +18,11 @@ public class ChargeBasedCooldownImpl<T> implements ChargeBasedCooldown {
         this.maxCharge = charge;
     }
 
-    @Override
-    public Cooldown getBase() {
+    @Override public Cooldown getBase() {
         return base;
     }
 
-    @Override
-    public long getMaximum() {
+    @Override public long getMaximum() {
         return maxCharge.apply(key);
     }
 

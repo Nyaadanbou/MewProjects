@@ -16,8 +16,7 @@ import java.util.function.Function;
  */
 public interface ChargeBasedCooldownMap<T> {
 
-    @NotNull
-    static <T> ChargeBasedCooldownMap<T> create(@NotNull Cooldown base, @NotNull Function<T, Integer> charge) {
+    static @NotNull <T> ChargeBasedCooldownMap<T> create(@NotNull Cooldown base, @NotNull Function<T, Integer> charge) {
         Objects.requireNonNull(base, "base");
         return new ChargeBasedCooldownMapImpl<>(base, charge);
     }
@@ -27,8 +26,7 @@ public interface ChargeBasedCooldownMap<T> {
      *
      * @return the base charge-based cooldown
      */
-    @NotNull
-    Cooldown getBase();
+    @NotNull Cooldown getBase();
 
     /**
      * Gets the internal charge-based cooldown instance associated with the
@@ -41,8 +39,7 @@ public interface ChargeBasedCooldownMap<T> {
      * @param key the key
      * @return a charge-based cooldown instance
      */
-    @NotNull
-    ChargeBasedCooldown get(@NotNull T key);
+    @NotNull ChargeBasedCooldown get(@NotNull T key);
 
     void put(@NotNull T key, @NotNull ChargeBasedCooldown cooldown);
 
@@ -51,8 +48,7 @@ public interface ChargeBasedCooldownMap<T> {
      *
      * @return the backing map
      */
-    @NotNull
-    Map<T, ChargeBasedCooldown> getAll();
+    @NotNull Map<T, ChargeBasedCooldown> getAll();
 
     /* methods from ChargeBasedCooldown */
 
@@ -92,12 +88,12 @@ public interface ChargeBasedCooldownMap<T> {
         return get(key).remainingTimeFull(unit);
     }
 
-    @NotNull
-    default OptionalLong getLastTested(@NotNull T key) {
+    default @NotNull OptionalLong getLastTested(@NotNull T key) {
         return get(key).getLastTested();
     }
 
     default void setLastTested(@NotNull T key, long time) {
         get(key).setLastTested(time);
     }
+
 }

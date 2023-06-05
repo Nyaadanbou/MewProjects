@@ -30,25 +30,22 @@ public class ChargeBasedCooldownMapImpl<T> implements ChargeBasedCooldownMap<T> 
                 });
     }
 
-    @Override
-    public @NotNull Cooldown getBase() {
+    @Override public @NotNull Cooldown getBase() {
         return base;
     }
 
-    @Override
-    public @NotNull ChargeBasedCooldown get(@NotNull T key) {
+    @Override public @NotNull ChargeBasedCooldown get(@NotNull T key) {
         return cache.getUnchecked(key);
     }
 
-    @Override
-    public void put(@NotNull T key, @NotNull ChargeBasedCooldown cooldown) {
+    @Override public void put(@NotNull T key, @NotNull ChargeBasedCooldown cooldown) {
         Objects.requireNonNull(key, "key");
         Preconditions.checkArgument(cooldown.getBaseTimeout() == this.base.getTimeout(), "different timeout");
         this.cache.put(key, cooldown);
     }
 
-    @Override
-    public @NotNull Map<T, ChargeBasedCooldown> getAll() {
+    @Override public @NotNull Map<T, ChargeBasedCooldown> getAll() {
         return cache.asMap();
     }
+
 }

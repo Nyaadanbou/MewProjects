@@ -1,4 +1,4 @@
-package cc.mewcraft.mewfishing.module;
+package cc.mewcraft.mewfishing.module.fishloot;
 
 import cc.mewcraft.mewfishing.MewFishing;
 import cc.mewcraft.mewfishing.event.FishLootEvent;
@@ -36,7 +36,7 @@ public class FishLootModule implements TerminableModule {
 
     private void onFish(PlayerFishEvent event) {
         if (event.getState() != State.CAUGHT_FISH) {
-            return; // only give loots when something is actually caught
+            return; // only give loots when a fish (or item) is actually caught
         }
 
         if (VariableAmount.range(0D, 100D).getAmount() > plugin.config().customLootChance()) {
@@ -44,11 +44,6 @@ public class FishLootModule implements TerminableModule {
         }
 
         FishLootEvent lootEvent = new FishLootEvent(event);
-        if (!event.callEvent()) {
-            plugin.log("FishLootEvent was cancelled");
-            return;
-        }
-
         LootTable table = lootManager.drawMatched(lootEvent); // draw a table
         Collection<Loot> loots = table.drawAll(lootEvent); // draw some loots from the table
         loots.forEach(loot -> loot.apply(lootEvent)); // at least one loot will be drawn

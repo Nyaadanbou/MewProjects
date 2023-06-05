@@ -1,7 +1,6 @@
 package cc.mewcraft.mewfishing.command.command;
 
-import cc.mewcraft.mewcore.cooldown.ChargeBasedCooldown;
-import cc.mewcraft.mewcore.cooldown.ChargeBasedCooldownMap;
+import cc.mewcraft.mewcore.cooldown.StackableCooldown;
 import cc.mewcraft.mewfishing.MewFishing;
 import cc.mewcraft.mewfishing.command.AbstractCommand;
 import cc.mewcraft.mewfishing.command.CommandManager;
@@ -14,7 +13,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class RestoreCommand extends AbstractCommand {
@@ -35,25 +33,24 @@ public class RestoreCommand extends AbstractCommand {
                 final Unit unit = context.get("unit");
                 CommandSender sender = context.getSender();
 
-                final ChargeBasedCooldownMap<UUID> fishingPowerMap = plugin.fishingPowerModule().getFishingPowerMap();
-                final ChargeBasedCooldown fishingPower = fishingPowerMap.get(player.getUniqueId());
+                final StackableCooldown cooldown = plugin.fishingPowerModule().getCooldownManager().getData(player.getUniqueId());
 
                 switch (unit) {
                     case SECOND -> {
-                        final long elapsed = fishingPower.elapsed();
+                        final long elapsed = cooldown.elapsed();
                         final long reduced = elapsed + TimeUnit.SECONDS.toMillis(amount);
-                        fishingPower.setLastTested(Time.nowMillis() - reduced);
+                        cooldown.setLastTested(Time.nowMillis() - reduced);
                         plugin.lang()
-                            .of("msg_restored_charges_by_sec")
+                            .of("msg_restored_stacks_by_sec")
                             .replace("player", player.getName())
                             .replace("amount", amount)
                             .send(sender);
                     }
                     case POINT -> {
-                        final long elapsed = fishingPower.elapsed();
-                        final long reduced = elapsed + amount * fishingPower.getBaseTimeout();
-                        fishingPower.setLastTested(Time.nowMillis() - reduced);
-                        plugin.lang().of("msg_restored_charges_by_pts")
+                        final long elapsed = cooldown.elapsed();
+                        final long reduced = elapsed + amount * cooldown.getBaseTimeout();
+                        cooldown.setLastTested(Time.nowMillis() - reduced);
+                        plugin.lang().of("msg_restored_stacks_by_pts")
                             .replace("player", player.getName())
                             .replace("amount", amount)
                             .send(player);

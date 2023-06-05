@@ -1,7 +1,6 @@
 package cc.mewcraft.mewfishing.command.command;
 
-import cc.mewcraft.mewcore.cooldown.ChargeBasedCooldown;
-import cc.mewcraft.mewcore.cooldown.ChargeBasedCooldownMap;
+import cc.mewcraft.mewcore.cooldown.StackableCooldown;
 import cc.mewcraft.mewfishing.MewFishing;
 import cc.mewcraft.mewfishing.command.AbstractCommand;
 import cc.mewcraft.mewfishing.command.CommandManager;
@@ -11,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class CheckCommand extends AbstractCommand {
@@ -28,13 +26,12 @@ public class CheckCommand extends AbstractCommand {
             .handler(context -> {
                 CommandSender sender = context.getSender();
                 final Player player = context.get("player");
-                final ChargeBasedCooldownMap<UUID> fishingPowerMap = plugin.fishingPowerModule().getFishingPowerMap();
-                final ChargeBasedCooldown fishingPower = fishingPowerMap.get(player.getUniqueId());
+                final StackableCooldown cooldown = plugin.fishingPowerModule().getCooldownManager().getData(player.getUniqueId());
                 plugin.lang().of("msg_check_fishing_power")
                     .replace("player", player.getName())
-                    .replace("charges", fishingPower.getAvailable())
-                    .replace("remaining_now", fishingPower.remainingTime(TimeUnit.SECONDS))
-                    .replace("remaining_all", fishingPower.remainingTimeFull(TimeUnit.SECONDS))
+                    .replace("stacks", cooldown.getAvailable())
+                    .replace("remaining_now", cooldown.remainingTime(TimeUnit.SECONDS))
+                    .replace("remaining_all", cooldown.remainingTimeAll(TimeUnit.SECONDS))
                     .send(sender);
             }).build();
 

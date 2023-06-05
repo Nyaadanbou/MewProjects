@@ -6,9 +6,9 @@ msg_config_reloaded: '<gray>已重新载入!</gray>'
 
 msg_fishing_in_wild: '<color:#ff9999>荒野的力量封印了水池，请积攒足够的渔力再尝试！'
 msg_how_to_check_status: '<color:gold>提示: 钓鱼时按下 <color:#00bfbf><key:key.sneak></color> 可查看自己的渔力'
-msg_check_fishing_power: '<player> 的可用渔力: <charges>. 完成当前充能: <remaining_now>. 完成所有充能: <remaining_all>'
-msg_restored_charges_by_sec: '减少了 <player> <amount> 秒的充能剩余时间'
-msg_restored_charges_by_pts: '恢复了 <player> <amount> 点的渔力值'
+msg_check_fishing_power: '<player> 的可用渔力: <stacks>. 完成当前充能: <remaining_now>. 完成所有充能: <remaining_all>'
+msg_restored_stacks_by_sec: '减少了 <player> <amount> 秒的充能剩余时间'
+msg_restored_stacks_by_pts: '恢复了 <player> <amount> 点的渔力值'
 
 # cooldown.head 和 cooldown.tail 支持以下占位符
 #   <amount>    总共可用的渔力点数

@@ -1,4 +1,4 @@
-package cc.mewcraft.mewfishing.module;
+package cc.mewcraft.mewfishing.module.autofish;
 
 import cc.mewcraft.mewfishing.MewFishing;
 import cc.mewcraft.mewfishing.event.AutoFishEvent;
@@ -21,7 +21,7 @@ public class AutoFishModule implements TerminableModule {
 
     @Override
     public void setup(@NotNull TerminableConsumer consumer) {
-        if (!plugin.config().autoFishingEnabled()) {
+        if (!plugin.config().autoFishEnabled()) {
             plugin.log("AutoFishing", false);
             return;
         }

@@ -2,9 +2,9 @@ package cc.mewcraft.mewfishing;
 
 import cc.mewcraft.mewcore.message.Translations;
 import cc.mewcraft.mewfishing.command.CommandManager;
-import cc.mewcraft.mewfishing.module.AutoFishModule;
-import cc.mewcraft.mewfishing.module.FishLootModule;
-import cc.mewcraft.mewfishing.module.FishPowerModule;
+import cc.mewcraft.mewfishing.module.autofish.AutoFishModule;
+import cc.mewcraft.mewfishing.module.fishloot.FishLootModule;
+import cc.mewcraft.mewfishing.module.fishpower.FishPowerModule;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
 import java.util.logging.Level;
@@ -14,8 +14,8 @@ public final class MewFishing extends ExtendedJavaPlugin {
     private static MewFishing p;
 
     // internal
-    public MewConfig config;
-    public Translations translations;
+    private MewConfig config;
+    private Translations translations;
 
     // modules
     private FishPowerModule fishPower;

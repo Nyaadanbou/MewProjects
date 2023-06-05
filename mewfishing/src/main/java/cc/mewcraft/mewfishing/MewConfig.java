@@ -15,17 +15,25 @@ public class MewConfig {
         plugin.reloadConfig();
     }
 
-    public boolean fishingPowerEnabled() {
+    public int networkLatency() {
+        return plugin.getConfig().getInt("network_latency");
+    }
+
+    public boolean fishPowerEnabled() {
         return plugin.getConfig().getBoolean("fishing_power.enabled");
     }
 
-    public void setFishingPowerEnabled(boolean enabled) {
+    public void setFishPowerEnabled(boolean enabled) {
         plugin.getConfig().set("fishing_power.enabled", enabled);
     }
 
-    public int baseTimeout() {
-        return plugin.getConfig().getInt("fishing_power.base_timeout");
+    public int powerTimeout() {
+        return plugin.getConfig().getInt("fishing_power.timeout");
     }
+
+    /*public long powerStacks() {
+        return plugin.getConfig().getLong("fishing_power.stacks");
+    }*/
 
     public String currencyName() {
         return plugin.getConfig().getString("fishing_power.currency_name");
@@ -43,7 +51,7 @@ public class MewConfig {
         return plugin.getConfig().getStringList("fishing_power.free_items");
     }
 
-    public boolean autoFishingEnabled() {
+    public boolean autoFishEnabled() {
         return plugin.getConfig().getBoolean("auto_fishing.enabled");
     }
 

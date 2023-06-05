@@ -7,7 +7,7 @@ plugins {
 
 group = "cc.mewcraft"
 description = "Let's customize fishing!"
-version = "1.13.1"
+version = "1.14.0"
 
 dependencies {
     // NMS
@@ -19,12 +19,13 @@ dependencies {
     // Plugin libs
     compileOnly(project(":mewcore"))
     compileOnly(libs.helper)
+    compileOnly(libs.helper.redis)
 
     // 3rd party plugins
     compileOnly(libs.luckperms)
     compileOnly(libs.vault) { isTransitive = false }
     compileOnly(libs.towny)
-    compileOnly(libs.gemseco)
+    compileOnly(libs.gemseconomy)
 
     // Test
     testImplementation(libs.server.paper)

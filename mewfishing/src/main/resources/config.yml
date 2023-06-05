@@ -1,13 +1,16 @@
 # 在控制台显示更多信息
 debug: true
 
+# 网络消息延迟，单位毫秒
+network_latency: 500
+
 # 自定义钓鱼掉落
-fishingLoots:
+fishing_loots:
   # 每次钓鱼触发自定义掉落表的概率
   chance: 100
 
 # 鱼力系统设置
-fishingPower:
+fishing_power:
 
   # 是否开启鱼力系统
   #   开启 = 限制荒郊野外钓鱼
@@ -15,38 +18,38 @@ fishingPower:
   enabled: true
 
   # 恢复每点鱼力的所需时间，单位秒
-  baseTimeout: 30
+  timeout: 30
 
   # 鱼力货币的名字
   #   渔力货币指的是 GemsEconomy 中的货币类型
   #   直接参考 GemsEconomy 的 /currency list
-  currencyName: U
+  currency_name: U
 
   # 进度条的字符数量（宽度）
   #   进度条是由"满字符"和"空字符"组成的
   #   例如 "[满满满满满空空空]" 共有8个字符宽度
   #   字符可以在语言文件里修改,支持使用图片
-  progressbarWidth: 25
+  progressbar_width: 25
 
   # 进度条的滞留时间（秒）
-  progressbarStayTime: 5
+  progressbar_stay_time: 5
 
   # 不需要渔力的物品
   #   这些物品在玩家没有渔力时也能钓上来
-  freeItems:
+  free_items:
     - helmet
     - chestplate
     - leggings
     - boots
 
 # 自动钓鱼设置
-autoFishing:
+auto_fishing:
 
   # 是否开启自动钓鱼
   enabled: true
 
   # 有东西上钩后，等待多久收杆
-  ticksAfterBitten: 5
+  ticks_after_bitten: 5
 
   # 在收杆后，等待多久再次抛竿
-  ticksAfterCaught: 20
+  ticks_after_caught: 20

@@ -1,0 +1,5 @@
+# Print more information on the console.
+debug: false
+
+# The name of a ChatChat channel to forward messages.
+forward: 'global'

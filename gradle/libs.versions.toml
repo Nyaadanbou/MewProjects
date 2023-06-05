@@ -23,6 +23,7 @@ lang-bukkit = { group = "de.themoep.utils", name = "lang-bukkit", version.ref = 
 lang-velocity = { group = "de.themoep.utils", name = "lang-velocity", version.ref = "languages" }
 authlib = { group = "com.mojang", name = "authlib", version = "1.5.25" }
 evalex = { group = "com.ezylang", name = "EvalEx", version = "3.0.4" }
+adventure-binaryserializer = { group = "com.github.Moulberry", name = "adventure-binary-serializer", version = "master-SNAPSHOT" }
 
 # deps that present as other plugins
 mewcore = { group = "cc.mewcraft", name = "mewcore", version = "latest.release" }
@@ -51,6 +52,8 @@ worldguard = { group = "com.sk89q.worldguard", name = "worldguard-bukkit", versi
 worldedit = { group = "com.sk89q.worldedit", name = "worldedit-bukkit", version = "7.2.14" }
 citizens = { group = "net.citizensnpcs", name = "citizensapi", version = "2.0.29-SNAPSHOT" }
 floodgate = { group = "org.geysermc.floodgate", name = "api", version = "2.2.0-SNAPSHOT" }
+chatchat-api = { group = "at.helpch", name = "api", version = "1.0-SNAPSHOT" }
+chatchat-plugin = { group = "at.helpch", name = "plugin", version = "1.0-SNAPSHOT" }
 
 # deps only for compile-time checking
 checker-qual = { group = "org.checkerframework", name = "checker-qual", version = "3.28.0" }

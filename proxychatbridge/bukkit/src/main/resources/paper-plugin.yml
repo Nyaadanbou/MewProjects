@@ -1,0 +1,16 @@
+name: ProxyChatBridge
+main: com.ranull.proxychatbridge.bukkit.ProxyChatBridge
+version: ${version}
+api-version: 1.19
+authors: [ Nailm ]
+description: ${description}
+load-before: [ ]
+load-after: [ ]
+dependencies:
+  - name: ChatChat
+    required: false
+    bootstrap: false
+permissions:
+  proxychatbridge.command:
+    description: Access to the ProxyChatBridge-Bukkit commands
+    default: op

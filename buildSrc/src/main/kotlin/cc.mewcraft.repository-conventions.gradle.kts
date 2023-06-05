@@ -18,6 +18,7 @@ repositories {
             includeGroup("net.leonardo_dgs")
             includeGroup("com.github.DieReicheErethons")
             includeGroup("su.nightexpress.gamepoints")
+            includeGroup("at.helpch") // ChatChat
         }
     }
 
@@ -66,6 +67,7 @@ repositories {
             includeGroup("com.github.TownyAdvanced")
             includeGroup("com.github.MilkBowl")
             includeGroup("com.github.LoneDev6")
+            includeGroup("com.github.Moulberry") // adventure-binary-serializer
             includeGroup("com.github.TechFortress") // GriefPrevention
             includeGroup("com.github.angeschossen") // LandAPI
         }

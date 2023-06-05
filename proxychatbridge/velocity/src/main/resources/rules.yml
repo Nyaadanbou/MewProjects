@@ -1,0 +1,29 @@
+default:
+  format: "[Default] <player_name> <message>"
+  group: "global"
+
+servers:
+  example:
+    format: "[Rand] <player_name>: <message>"
+    group: "example"
+  hub:
+    format: "[Hub] <player_name>: <message>"
+    group: "play"
+  home1:
+    format: "[Home1] <player_name>: <message>"
+    group: "play"
+  home2:
+    format: "[Home2] <player_name>: <message>"
+    group: "play"
+  home3:
+    format: "[Home3] <player_name>: <message>"
+    group: "play"
+  mine1:
+    format: "[Mine1] <player_name>: <message>"
+    group: "play"
+
+group-mappings:
+  default: Default Group
+  advanced: Advanced Group
+
+skip-empty: false

@@ -37,6 +37,11 @@
             <option value="$PROJECT_DIR$/mewutils/plugin" />
             <option value="$PROJECT_DIR$/mmoext" />
             <option value="$PROJECT_DIR$/pickaxepower" />
+            <option value="$PROJECT_DIR$/proxychatbridge" />
+            <option value="$PROJECT_DIR$/proxychatbridge/bukkit" />
+            <option value="$PROJECT_DIR$/proxychatbridge/common" />
+            <option value="$PROJECT_DIR$/proxychatbridge/dist" />
+            <option value="$PROJECT_DIR$/proxychatbridge/velocity" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -1,6 +1,6 @@
 package cc.mewcraft.mewutils.module.elytra_limiter;
 
-import cc.mewcraft.mewcore.cooldown.ChargeBasedCooldown;
+import cc.mewcraft.mewcore.cooldown.StackableCooldown;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
 import me.lucko.helper.Schedulers;
@@ -43,7 +43,7 @@ public class ElytraBoostListener implements AutoCloseableListener {
             event.setShouldConsume(false);
             event.setCancelled(true);
             this.module.debug("Elytra boost canceled  " + player.getName() + " (firework; cooldown)");
-            this.module.debug("Cooldown remaining: " + cooldown.remainingMillisFull() + "ms");
+            this.module.debug("Cooldown remaining: " + cooldown.remainingMillisAll() + "ms");
         }
 
         // Always show progressbar when boosting
@@ -83,7 +83,7 @@ public class ElytraBoostListener implements AutoCloseableListener {
             if (!cooldown.test()) {
                 event.setCancelled(true);
                 this.module.debug("Elytra boost canceled " + player.getName() + " (projectile; cooldown)");
-                this.module.debug("Cooldown remaining: " + cooldown.remainingMillisFull() + "ms");
+                this.module.debug("Cooldown remaining: " + cooldown.remainingMillisAll() + "ms");
             }
 
             // Always show progressbar when boosting
@@ -116,13 +116,13 @@ public class ElytraBoostListener implements AutoCloseableListener {
             }
 
             // Handle cooldown
-            ChargeBasedCooldown cooldown = this.module.getCooldownMap().get(player.getUniqueId());
+            StackableCooldown cooldown = this.module.getCooldownMap().get(player.getUniqueId());
             if (!cooldown.test()) {
                 Vector slow = player.getVelocity().multiply(this.module.getVelocityMultiply());
                 Schedulers.sync().runLater(() -> player.setVelocity(slow), 1);
 
                 this.module.debug("Elytra boost canceled for " + player.getName() + " (trident; cooldown)");
-                this.module.debug("Cooldown remaining: " + cooldown.remainingMillisFull() + "ms");
+                this.module.debug("Cooldown remaining: " + cooldown.remainingMillisAll() + "ms");
             }
 
             // Always show progressbar when boosting

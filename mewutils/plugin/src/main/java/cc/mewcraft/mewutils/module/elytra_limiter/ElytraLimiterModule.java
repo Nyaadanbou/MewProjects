@@ -1,8 +1,8 @@
 package cc.mewcraft.mewutils.module.elytra_limiter;
 
-import cc.mewcraft.mewcore.cooldown.ChargeBasedCooldownMap;
+import cc.mewcraft.mewcore.cooldown.StackableCooldownMap;
 import cc.mewcraft.mewcore.progressbar.ProgressbarGenerator;
-import cc.mewcraft.mewcore.progressbar.ProgressbarMessenger;
+import cc.mewcraft.mewcore.progressbar.ProgressbarDisplay;
 import cc.mewcraft.mewutils.api.MewPlugin;
 import cc.mewcraft.mewutils.api.module.ModuleBase;
 import com.google.inject.Inject;
@@ -21,8 +21,8 @@ public class ElytraLimiterModule extends ModuleBase {
 
     private @MonotonicNonNull Set<String> restrictedWorlds;
     private @MonotonicNonNull Set<BoostMethod> restrictedBoost;
-    private @MonotonicNonNull ProgressbarMessenger progressbarMessenger;
-    private @MonotonicNonNull ChargeBasedCooldownMap<UUID> cooldownMap;
+    private @MonotonicNonNull ProgressbarDisplay progressbarDisplay;
+    private @MonotonicNonNull StackableCooldownMap<UUID> cooldownMap;
     private double velocityMultiply;
     private double tpsThreshold;
 
@@ -39,12 +39,12 @@ public class ElytraLimiterModule extends ModuleBase {
             .stream().map(BoostMethod::valueOf)
             .collect(Collectors.toCollection(() -> EnumSet.noneOf(BoostMethod.class)));
 
-        this.cooldownMap = ChargeBasedCooldownMap.create(
+        this.cooldownMap = StackableCooldownMap.create(
             Cooldown.of(getConfigNode().node("cooldown").getInt(), TimeUnit.MILLISECONDS),
-            uuid -> getConfigNode().node("charge").getInt()
+            uuid -> getConfigNode().node("stacks").getLong()
         );
 
-        this.progressbarMessenger = new ProgressbarMessenger(
+        this.progressbarDisplay = new ProgressbarDisplay(
             getConfigNode().node("bar_stay_time").getInt(),
             ProgressbarGenerator.Builder.builder()
                 .left(getLang().of("slow_elytra.cooldown_progressbar.left").plain())
@@ -64,11 +64,11 @@ public class ElytraLimiterModule extends ModuleBase {
         registerListener(new ElytraBoostListener(this));
     }
 
-    public ProgressbarMessenger getProgressbarMessenger() {
-        return this.progressbarMessenger;
+    public ProgressbarDisplay getProgressbarMessenger() {
+        return this.progressbarDisplay;
     }
 
-    public ChargeBasedCooldownMap<UUID> getCooldownMap() {
+    public StackableCooldownMap<UUID> getCooldownMap() {
         return this.cooldownMap;
     }
 

@@ -1,28 +1,26 @@
 package cc.mewcraft.mewcore.util;
 
+import cc.mewcraft.mewcore.persistent.DoubleArrayType;
+import cc.mewcraft.mewcore.persistent.StringArrayType;
+import cc.mewcraft.mewcore.persistent.UUIDDataType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
 public class PDCUtils {
 
-    public static final PersistentDataType<byte[], double[]> DOUBLE_ARRAY = new DoubleArray();
-    public static final PersistentDataType<byte[], String[]> STRING_ARRAY = new StringArray(StandardCharsets.UTF_8);
     public static final PersistentDataType<byte[], UUID> UUID = new UUIDDataType();
+    public static final PersistentDataType<byte[], double[]> DOUBLE_ARRAY = new DoubleArrayType();
+    public static final PersistentDataType<byte[], String[]> STRING_ARRAY = new StringArrayType(StandardCharsets.UTF_8);
 
     public static @NotNull <Z> Optional<Z> get(@NotNull ItemStack holder, @NotNull PersistentDataType<?, Z> type, @NotNull NamespacedKey key) {
         ItemMeta meta = holder.getItemMeta();
@@ -211,123 +209,4 @@ public class PDCUtils {
         return get(holder, UUID, key);
     }
 
-    public static class DoubleArray implements PersistentDataType<byte[], double[]> {
-
-        @Override
-        public @NotNull Class<byte[]> getPrimitiveType() {
-            return byte[].class;
-        }
-
-        @Override
-        public @NotNull Class<double[]> getComplexType() {
-            return double[].class;
-        }
-
-        @Override
-        public byte @NotNull [] toPrimitive(double[] complex, @NotNull PersistentDataAdapterContext context) {
-            ByteBuffer bb = ByteBuffer.allocate(complex.length * 8);
-            for (double d : complex) {
-                bb.putDouble(d);
-            }
-            return bb.array();
-        }
-
-        @Override
-        public double @NotNull [] fromPrimitive(byte @NotNull [] primitive, @NotNull PersistentDataAdapterContext context) {
-            ByteBuffer bb = ByteBuffer.wrap(primitive);
-            DoubleBuffer dbuf = bb.asDoubleBuffer(); // Make DoubleBuffer
-            double[] a = new double[dbuf.remaining()]; // Make an array of the correct size
-            dbuf.get(a);
-
-            return a;
-        }
-    }
-
-    public static class StringArray implements PersistentDataType<byte[], String[]> {
-
-        private final Charset charset;
-
-        public StringArray(Charset charset) {
-            this.charset = charset;
-        }
-
-        @Override
-        public @NotNull Class<byte[]> getPrimitiveType() {
-            return byte[].class;
-        }
-
-        @Override
-        public @NotNull Class<String[]> getComplexType() {
-            return String[].class;
-        }
-
-        @Override
-        public byte @NotNull [] toPrimitive(String[] strings, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
-            byte[][] allStringBytes = new byte[strings.length][];
-            int total = 0;
-            for (int i = 0; i < allStringBytes.length; i++) {
-                byte[] bytes = strings[i].getBytes(this.charset);
-                allStringBytes[i] = bytes;
-                total += bytes.length;
-            }
-
-            ByteBuffer buffer = ByteBuffer.allocate(total + allStringBytes.length * 4); // stores integers
-            for (byte[] bytes : allStringBytes) {
-                buffer.putInt(bytes.length);
-                buffer.put(bytes);
-            }
-
-            return buffer.array();
-        }
-
-        @Override
-        public @NotNull String @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
-            ByteBuffer buffer = ByteBuffer.wrap(bytes);
-            ArrayList<String> list = new ArrayList<>();
-
-            while (buffer.remaining() > 0) {
-                if (buffer.remaining() < 4)
-                    break;
-                int stringLength = buffer.getInt();
-                if (buffer.remaining() < stringLength)
-                    break;
-
-                byte[] stringBytes = new byte[stringLength];
-                buffer.get(stringBytes);
-
-                list.add(new String(stringBytes, this.charset));
-            }
-
-            return list.toArray(new String[0]);
-        }
-    }
-
-    public static class UUIDDataType implements PersistentDataType<byte[], UUID> {
-
-        @Override
-        public @NotNull Class<byte[]> getPrimitiveType() {
-            return byte[].class;
-        }
-
-        @Override
-        public @NotNull Class<UUID> getComplexType() {
-            return UUID.class;
-        }
-
-        @Override
-        public byte @NotNull [] toPrimitive(UUID complex, @NotNull PersistentDataAdapterContext context) {
-            ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-            bb.putLong(complex.getMostSignificantBits());
-            bb.putLong(complex.getLeastSignificantBits());
-            return bb.array();
-        }
-
-        @Override
-        public @NotNull UUID fromPrimitive(byte @NotNull [] primitive, @NotNull PersistentDataAdapterContext context) {
-            ByteBuffer bb = ByteBuffer.wrap(primitive);
-            long firstLong = bb.getLong();
-            long secondLong = bb.getLong();
-            return new UUID(firstLong, secondLong);
-        }
-    }
 }

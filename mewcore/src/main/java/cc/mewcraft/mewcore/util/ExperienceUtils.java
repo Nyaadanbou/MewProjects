@@ -3,14 +3,15 @@ package cc.mewcraft.mewcore.util;
 import com.google.common.primitives.Ints;
 import org.bukkit.entity.Player;
 
-public final class UtilExperience {
+public final class ExperienceUtils {
+
     /**
-     * How much exp points at least needed to reach this level. i.e. {@code
-     * getLevel() == level && getExp() == 0}
+     * How much exp points at least needed to reach this level. i.e. {@code getLevel() == level && getExp() == 0}
      */
     public static int getExpForLevel(int level) {
         if (level < 0) throw new IllegalArgumentException();
-        else if (level <= 16) return (level + 6) * level;
+        else if (level <= 16)
+            return (level + 6) * level;
         else if (level < 32)
             return Ints.checkedCast(Math.round(2.5 * level * level - 40.5 * level + 360));
         else
@@ -39,8 +40,7 @@ public final class UtilExperience {
     }
 
     /**
-     * Which level the player at if he/she has this mount of exp points TODO
-     * optimization
+     * Which level the player at if he/she has this mount of exp points TODO optimization
      */
     public static int getLevelForExp(int exp) {
         if (exp < 0) throw new IllegalArgumentException();
@@ -51,12 +51,13 @@ public final class UtilExperience {
     }
 
     /**
-     * Change the player's experience (not experience level) Related events may
-     * be triggered.
+     * Change the player's experience (not experience level).
+     * <p>
+     * Related events may be triggered.
      *
      * @param p   the target player
-     * @param exp amount of xp to be added to the player, if negative, then
-     *            subtract from the player.
+     * @param exp amount of xp to be added to the player, if negative, then subtract from the player.
+     *
      * @throws IllegalArgumentException if the player ended with negative xp
      */
     public static void addPlayerExperience(Player p, int exp) {
@@ -66,5 +67,6 @@ public final class UtilExperience {
             subtractExpPoints(p, -exp);
         }
     }
+
 }
 

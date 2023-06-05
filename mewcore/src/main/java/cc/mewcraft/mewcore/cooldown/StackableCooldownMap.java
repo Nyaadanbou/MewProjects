@@ -14,11 +14,11 @@ import java.util.function.Function;
  *
  * @param <T> the type
  */
-public interface ChargeBasedCooldownMap<T> {
+public interface StackableCooldownMap<T> {
 
-    static @NotNull <T> ChargeBasedCooldownMap<T> create(@NotNull Cooldown base, @NotNull Function<T, Integer> charge) {
+    static @NotNull <T> StackableCooldownMap<T> create(@NotNull Cooldown base, @NotNull Function<T, Integer> charge) {
         Objects.requireNonNull(base, "base");
-        return new ChargeBasedCooldownMapImpl<>(base, charge);
+        return new StackableCooldownMapImpl<>(base, charge);
     }
 
     /**
@@ -39,18 +39,18 @@ public interface ChargeBasedCooldownMap<T> {
      * @param key the key
      * @return a charge-based cooldown instance
      */
-    @NotNull ChargeBasedCooldown get(@NotNull T key);
+    @NotNull StackableCooldown get(@NotNull T key);
 
-    void put(@NotNull T key, @NotNull ChargeBasedCooldown cooldown);
+    void put(@NotNull T key, @NotNull StackableCooldown cooldown);
 
     /**
      * Gets the charge-based cooldowns contained within this collection.
      *
      * @return the backing map
      */
-    @NotNull Map<T, ChargeBasedCooldown> getAll();
+    @NotNull Map<T, StackableCooldown> getAll();
 
-    /* methods from ChargeBasedCooldown */
+    /* methods from StackableCooldown */
 
     default boolean test(@NotNull T key) {
         return get(key).test();

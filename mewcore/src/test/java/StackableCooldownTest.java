@@ -1,4 +1,4 @@
-import cc.mewcraft.mewcore.cooldown.ChargeBasedCooldown;
+import cc.mewcraft.mewcore.cooldown.StackableCooldown;
 import me.lucko.helper.cooldown.Cooldown;
 import me.lucko.helper.time.Time;
 import org.junit.jupiter.api.*;
@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CooldownTest {
+public class StackableCooldownTest {
 
-    static ChargeBasedCooldown cooldown;
+    static StackableCooldown cooldown;
     static int maxCharge;
 
     static void printRemaining() {
@@ -25,7 +25,7 @@ public class CooldownTest {
     @BeforeAll
     static void beforeAll() {
         maxCharge = 5;
-        cooldown = ChargeBasedCooldown.of(Cooldown.of(200, TimeUnit.MILLISECONDS), UUID.randomUUID(), uuid -> maxCharge);
+        cooldown = StackableCooldown.of(Cooldown.of(200, TimeUnit.MILLISECONDS), UUID.randomUUID(), uuid -> maxCharge);
 
         // simulate that all charges are ready to use at the beginning
         cooldown.setLastTested(Time.nowMillis() - maxCharge * cooldown.getBaseTimeout());

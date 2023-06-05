@@ -8,10 +8,10 @@ import java.util.OptionalLong;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-public interface ChargeBasedCooldown {
+public interface StackableCooldown {
 
-    static @NotNull <T> ChargeBasedCooldown of(Cooldown base, T key, Function<T, Integer> charge) {
-        return new ChargeBasedCooldownImpl<>(base, key, charge);
+    static @NotNull <T> StackableCooldown of(Cooldown base, T key, Function<T, Integer> charge) {
+        return new StackableCooldownImpl<>(base, key, charge);
     }
 
     /**

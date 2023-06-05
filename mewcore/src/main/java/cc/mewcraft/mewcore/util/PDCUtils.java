@@ -1,8 +1,8 @@
 package cc.mewcraft.mewcore.util;
 
-import cc.mewcraft.mewcore.persistent.DoubleArrayType;
-import cc.mewcraft.mewcore.persistent.StringArrayType;
-import cc.mewcraft.mewcore.persistent.UUIDDataType;
+import cc.mewcraft.mewcore.cooldown.StackableCooldown;
+import cc.mewcraft.mewcore.persistent.*;
+import me.lucko.helper.cooldown.Cooldown;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,6 +21,8 @@ public class PDCUtils {
     public static final PersistentDataType<byte[], UUID> UUID = new UUIDDataType();
     public static final PersistentDataType<byte[], double[]> DOUBLE_ARRAY = new DoubleArrayType();
     public static final PersistentDataType<byte[], String[]> STRING_ARRAY = new StringArrayType(StandardCharsets.UTF_8);
+    public static final PersistentDataType<byte[], Cooldown> COOLDOWN = new CooldownType();
+    public static final PersistentDataType<byte[], StackableCooldown> STACKABLE_COOLDOWN = new StackableCooldownType();
 
     public static @NotNull <Z> Optional<Z> get(@NotNull ItemStack holder, @NotNull PersistentDataType<?, Z> type, @NotNull NamespacedKey key) {
         ItemMeta meta = holder.getItemMeta();
@@ -99,6 +101,14 @@ public class PDCUtils {
 
     public static void set(@NotNull PersistentDataHolder holder, @NotNull NamespacedKey key, @Nullable UUID value) {
         set(holder, UUID, key, value);
+    }
+
+    public static void set(@NotNull ItemStack holder, @NotNull NamespacedKey key, @Nullable StackableCooldown value) {
+        set(holder, STACKABLE_COOLDOWN, key, value);
+    }
+
+    public static void set(@NotNull PersistentDataHolder holder, @NotNull NamespacedKey key, @Nullable StackableCooldown value) {
+        set(holder, STACKABLE_COOLDOWN, key, value);
     }
 
     public static <T, Z> void set(
@@ -207,6 +217,22 @@ public class PDCUtils {
 
     public static @NotNull Optional<UUID> getUUID(@NotNull PersistentDataHolder holder, @NotNull NamespacedKey key) {
         return get(holder, UUID, key);
+    }
+
+    public static @NotNull Optional<Cooldown> getCooldown(@NotNull ItemStack holder, @NotNull NamespacedKey key) {
+        return get(holder, COOLDOWN, key);
+    }
+
+    public static @NotNull Optional<Cooldown> getCooldown(@NotNull PersistentDataHolder holder, @NotNull NamespacedKey key) {
+        return get(holder, COOLDOWN, key);
+    }
+
+    public static @NotNull Optional<StackableCooldown> getStackableCooldown(@NotNull ItemStack holder, @NotNull NamespacedKey key) {
+        return get(holder, STACKABLE_COOLDOWN, key);
+    }
+
+    public static @NotNull Optional<StackableCooldown> getStackableCooldown(@NotNull PersistentDataHolder holder, @NotNull NamespacedKey key) {
+        return get(holder, STACKABLE_COOLDOWN, key);
     }
 
 }

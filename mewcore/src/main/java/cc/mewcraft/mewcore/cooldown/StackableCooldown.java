@@ -2,23 +2,34 @@ package cc.mewcraft.mewcore.cooldown;
 
 import me.lucko.helper.cooldown.Cooldown;
 import me.lucko.helper.time.Time;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.OptionalLong;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public interface StackableCooldown {
 
-    static @NotNull <T> StackableCooldown of(Cooldown base, T key, Function<T, Integer> charge) {
-        return new StackableCooldownImpl<>(base, key, charge);
+    static @NotNull StackableCooldown of(Cooldown base, long stacks) {
+        return new StackableCooldownImpl1(base, stacks);
+    }
+
+    static @NotNull StackableCooldown of(Cooldown base, Supplier<Long> stacks) {
+        return new StackableCooldownImpl2(base, stacks);
+    }
+
+    static @NotNull <T> StackableCooldown of(Cooldown base, T key, Function<T, Long> stacks) {
+        return new StackableCooldownImpl3<>(base, key, stacks);
     }
 
     /**
-     * Gets the time until a single charge will become usable.
+     * Gets the time until a single stack will become usable.
      *
      * @param unit the unit to return in
-     * @return the time until a charge will be usable
+     *
+     * @return the time until a stack will be usable
      */
     default long remainingTime(@NotNull TimeUnit unit) {
         return unit.convert(remainingMillis(), TimeUnit.MILLISECONDS);
@@ -28,36 +39,36 @@ public interface StackableCooldown {
      * @see #remainingTime(TimeUnit)
      */
     default long remainingMillis() {
-        return remainingMillisFull() % getBaseTimeout();
+        return remainingMillisAll() % getBaseTimeout();
     }
 
     /**
-     * Gets the time until all charges will become usable.
+     * Gets the time until all stacks will become usable.
      *
-     * <p>If all charges are usable, this method returns <code>0</code>.</p>
+     * <p>If all stacks are usable, this method returns <code>0</code>.</p>
      *
      * @param unit the unit to return in
-     * @return the time until all charges will be usable
-     */
-    default long remainingTimeFull(@NotNull TimeUnit unit) {
-        return unit.convert(remainingMillisFull(), TimeUnit.MILLISECONDS);
-    }
-
-    /**
-     * @see #remainingMillisFull()
-     */
-    default long remainingMillisFull() {
-        return getMaximum() * getBaseTimeout() - elapsed();
-    }
-
-    /**
-     * Returns true if at least a single charge is usable, and then consumes a
-     * charge.
      *
-     * <p>If there is no charge usable, the timer is <strong>not</strong>
+     * @return the time until all stacks will be usable
+     */
+    default long remainingTimeAll(@NotNull TimeUnit unit) {
+        return unit.convert(remainingMillisAll(), TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * @see #remainingMillisAll()
+     */
+    default long remainingMillisAll() {
+        return getStacks() * getBaseTimeout() - elapsed();
+    }
+
+    /**
+     * Returns true if at least a single stack is usable, and then consumes a stack.
+     *
+     * <p>If there is no stack usable, the timer is <strong>not</strong>
      * set.</p>
      *
-     * @return true if at least a single charge is usable
+     * @return true if at least a single stack is usable
      */
     default boolean test() {
         if (testSilently()) {
@@ -68,36 +79,33 @@ public interface StackableCooldown {
     }
 
     /**
-     * Returns true if at least a single charge is usable
+     * Returns true if at least a single stack is usable
      *
-     * @return true if at least a single charge is usable
+     * @return true if at least a single stack is usable
      */
     default boolean testSilently() {
         return getAvailable() > 0;
     }
 
     /**
-     * Consumes one charge, only if there is one.
+     * Consumes one stack, only if there is one.
      */
     default void consumeOne() {
-        long charge = getAvailable();
-        if (charge > 0) {
+        long stack = getAvailable();
+        if (stack > 0) {
             long remainder = elapsed() % getBaseTimeout();
-            long diff = (charge - 1) * getBaseTimeout() + remainder;
+            long diff = (stack - 1) * getBaseTimeout() + remainder;
             setLastTested(Time.nowMillis() - diff);
         }
     }
 
     /**
-     * Consumes all charges, resetting timer to now.
+     * Consumes all stacks, resetting the lastTested to now.
      */
     default void consumeAll() {
         setLastTested(Time.nowMillis());
     }
 
-    /**
-     * @see Cooldown#getLastTested()
-     */
     default OptionalLong getLastTested() {
         return getBase().getLastTested();
     }
@@ -105,8 +113,7 @@ public interface StackableCooldown {
     /**
      * Sets the time in milliseconds when this base cooldown was last tested.
      *
-     * <p>Note: this should only be used internally. Use {@link #test()}
-     * otherwise.</p>
+     * <p>Note: this should only be used internally. Use {@link #test()} otherwise.</p>
      *
      * @param time the time
      */
@@ -115,15 +122,14 @@ public interface StackableCooldown {
     }
 
     /**
-     * Returns the elapsed time in milliseconds since the cooldown was last
-     * reset, or the <b>total</b> elapsed time for all charges to be usable.
+     * Returns the elapsed time in milliseconds since the cooldown was last reset, or the <b>total</b> elapsed time for
+     * all stacks to be usable.
      *
      * @return the elapsed time
      */
     default long elapsed() {
-        // if [elapsed] = [max charge] * [base timeout]
-        // then it means none of the charge is used yet
-        return Math.min(getBase().elapsed(), getMaximum() * getBaseTimeout());
+        // if [elapsed] = [max stacks] * [base timeout], then it means none of the stacks is used yet
+        return Math.min(getBase().elapsed(), getStacks() * getBaseTimeout());
     }
 
     default long elapsedOne() {
@@ -139,28 +145,21 @@ public interface StackableCooldown {
     }
 
     /**
-     * Returns the amount of currently available charges
-     *
-     * @return the amount of currently available charges
+     * @return the amount of currently available stacks that can be consumed
      */
     default long getAvailable() {
         return elapsed() / getBaseTimeout();
     }
 
     /**
-     * Returns the base {@link Cooldown} instance.
-     * <p>
-     * <b>Should not be touched externally.</b>
-     *
-     * @return the base cooldown
+     * @return the base {@link Cooldown} instance
      */
+    @ApiStatus.Internal
     Cooldown getBase();
 
     /**
-     * Returns the maximum number of charges.
-     *
-     * @return the maximum number of charges
+     * @return the maximum number of stacks
      */
-    long getMaximum();
+    long getStacks();
 
 }

@@ -3,7 +3,6 @@ import me.lucko.helper.cooldown.Cooldown;
 import me.lucko.helper.time.Time;
 import org.junit.jupiter.api.*;
 
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -13,29 +12,29 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class StackableCooldownTest {
 
     static StackableCooldown cooldown;
-    static int maxCharge;
+    static long stacks;
 
     static void printRemaining() {
         System.out.println("RemainingTime: " + cooldown.remainingTime(TimeUnit.MILLISECONDS));
-        System.out.println("RemainingTimeFull: " + cooldown.remainingTimeFull(TimeUnit.MILLISECONDS));
-        System.out.println("UsableCharge: " + cooldown.getAvailable());
+        System.out.println("RemainingTimeAll: " + cooldown.remainingTimeAll(TimeUnit.MILLISECONDS));
+        System.out.println("UsableStacks: " + cooldown.getAvailable());
         System.out.println();
     }
 
     @BeforeAll
     static void beforeAll() {
-        maxCharge = 5;
-        cooldown = StackableCooldown.of(Cooldown.of(200, TimeUnit.MILLISECONDS), UUID.randomUUID(), uuid -> maxCharge);
+        stacks = 5;
+        cooldown = StackableCooldown.of(Cooldown.of(200, TimeUnit.MILLISECONDS), () -> stacks);
 
-        // simulate that all charges are ready to use at the beginning
-        cooldown.setLastTested(Time.nowMillis() - maxCharge * cooldown.getBaseTimeout());
+        // simulate that all stacks are ready to use at the beginning
+        cooldown.setLastTested(Time.nowMillis() - stacks * cooldown.getBaseTimeout());
     }
 
     @Test
     @Order(1)
     void test1() {
         printRemaining();
-        for (int i = 0; i < maxCharge; i++) {
+        for (int i = 0; i < stacks; i++) {
             assertTrue(cooldown.test());
         }
         printRemaining();
@@ -95,7 +94,7 @@ public class StackableCooldownTest {
         printRemaining();
         Thread.sleep(200L * 5);
         printRemaining();
-        for (int i = 0; i < maxCharge; i++) {
+        for (int i = 0; i < stacks; i++) {
             assertTrue(cooldown.test());
         }
         printRemaining();
@@ -110,9 +109,10 @@ public class StackableCooldownTest {
     @Test
     @Order(9)
     void testAddBalance() throws InterruptedException {
-        maxCharge = 6; // balance: 5 -> 6
-        Thread.sleep(200L * maxCharge);
-        for (int i = 0; i < maxCharge; i++) {
+        stacks += 1; // change the balance: 5 -> 6
+        Thread.sleep(200L * stacks);
+        for (int i = 0; i < stacks; i++) {
+            printRemaining();
             assertTrue(cooldown.test());
         }
     }
@@ -131,7 +131,7 @@ public class StackableCooldownTest {
     @Test
     @Order(11)
     void testRemoveBalance() throws InterruptedException {
-        maxCharge = 2;
+        stacks = 2;
         Thread.sleep(200L * 2);
         assertTrue(cooldown.test());
         assertTrue(cooldown.test());

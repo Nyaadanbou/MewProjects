@@ -11,23 +11,47 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class StackableCooldownMapImpl<T> implements StackableCooldownMap<T> {
 
     private final Cooldown base;
     private final LoadingCache<T, StackableCooldown> cache;
 
-    StackableCooldownMapImpl(Cooldown base, Function<T, Integer> charge) {
+    StackableCooldownMapImpl(@NotNull Cooldown base, long stacks) {
         this.base = base;
         this.cache = CacheBuilder.newBuilder()
-                // remove from the cache 1000 times of charge time after accessing
-                .expireAfterAccess(base.getTimeout() * 1000L, TimeUnit.MILLISECONDS)
-                .build(new CacheLoader<>() {
-                    @Override
-                    public @NotNull StackableCooldown load(@NotNull T key) {
-                        return StackableCooldown.of(base, key, charge);
-                    }
-                });
+            .expireAfterAccess(base.getTimeout() * 1000L, TimeUnit.MILLISECONDS)
+            .build(new CacheLoader<>() {
+                @Override
+                public @NotNull StackableCooldown load(@NotNull T key) {
+                    return StackableCooldown.of(base, stacks);
+                }
+            });
+    }
+
+    StackableCooldownMapImpl(@NotNull Cooldown base, @NotNull Supplier<Long> stacks) {
+        this.base = base;
+        this.cache = CacheBuilder.newBuilder()
+            .expireAfterAccess(base.getTimeout() * 1000L, TimeUnit.MILLISECONDS)
+            .build(new CacheLoader<>() {
+                @Override
+                public @NotNull StackableCooldown load(@NotNull T key) {
+                    return StackableCooldown.of(base, stacks);
+                }
+            });
+    }
+
+    StackableCooldownMapImpl(@NotNull Cooldown base, @NotNull Function<T, Long> stacks) {
+        this.base = base;
+        this.cache = CacheBuilder.newBuilder()
+            .expireAfterAccess(base.getTimeout() * 1000L, TimeUnit.MILLISECONDS)
+            .build(new CacheLoader<>() {
+                @Override
+                public @NotNull StackableCooldown load(@NotNull T key) {
+                    return StackableCooldown.of(base, key, stacks);
+                }
+            });
     }
 
     @Override public @NotNull Cooldown getBase() {

@@ -8,43 +8,53 @@ import java.util.Objects;
 import java.util.OptionalLong;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
- * A self-populating map of charge-based cooldown instances
+ * A self-populating map of stackable cooldown instances
  *
  * @param <T> the type
  */
 public interface StackableCooldownMap<T> {
 
-    static @NotNull <T> StackableCooldownMap<T> create(@NotNull Cooldown base, @NotNull Function<T, Integer> charge) {
+    static @NotNull <T> StackableCooldownMap<T> create(@NotNull Cooldown base, long stacks) {
         Objects.requireNonNull(base, "base");
-        return new StackableCooldownMapImpl<>(base, charge);
+        return new StackableCooldownMapImpl<>(base, stacks);
+    }
+
+    static @NotNull <T> StackableCooldownMap<T> create(@NotNull Cooldown base, @NotNull Supplier<Long> stacks) {
+        Objects.requireNonNull(base, "base");
+        return new StackableCooldownMapImpl<>(base, stacks);
+    }
+
+    static @NotNull <T> StackableCooldownMap<T> create(@NotNull Cooldown base, @NotNull Function<T, Long> stacks) {
+        Objects.requireNonNull(base, "base");
+        return new StackableCooldownMapImpl<>(base, stacks);
     }
 
     /**
-     * Gets the base charge-based cooldown
+     * Gets the base stackable cooldown
      *
-     * @return the base charge-based cooldown
+     * @return the base stackable cooldown
      */
     @NotNull Cooldown getBase();
 
     /**
-     * Gets the internal charge-based cooldown instance associated with the
-     * given key.
+     * Gets the internal stackable cooldown instance associated with the given key.
      *
-     * <p>The inline Cooldown methods in this class should be used to access
-     * the functionality of the charge-based cooldown as opposed to calling the
-     * methods directly via the instance returned by this method.</p>
+     * <p>The inline Cooldown methods in this class should be used to access the functionality of the stackable
+     * cooldown as opposed to calling the methods directly via the instance returned by this method.
      *
      * @param key the key
-     * @return a charge-based cooldown instance
+     *
+     * @return a stackable cooldown instance
      */
     @NotNull StackableCooldown get(@NotNull T key);
 
     void put(@NotNull T key, @NotNull StackableCooldown cooldown);
 
     /**
-     * Gets the charge-based cooldowns contained within this collection.
+     * Gets the stackable cooldowns contained within this collection.
      *
      * @return the backing map
      */
@@ -76,16 +86,16 @@ public interface StackableCooldownMap<T> {
         return get(key).remainingMillis();
     }
 
-    default long remainingMillisFull(@NotNull T key) {
-        return get(key).remainingMillisFull();
+    default long remainingMillisAll(@NotNull T key) {
+        return get(key).remainingMillisAll();
     }
 
     default long remainingTime(@NotNull T key, @NotNull TimeUnit unit) {
         return get(key).remainingTime(unit);
     }
 
-    default long remainingTimeFull(@NotNull T key, @NotNull TimeUnit unit) {
-        return get(key).remainingTimeFull(unit);
+    default long remainingTimeAll(@NotNull T key, @NotNull TimeUnit unit) {
+        return get(key).remainingTimeAll(unit);
     }
 
     default @NotNull OptionalLong getLastTested(@NotNull T key) {

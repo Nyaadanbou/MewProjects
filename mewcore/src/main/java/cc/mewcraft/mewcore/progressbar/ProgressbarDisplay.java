@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class ProgressbarMessenger {
+public class ProgressbarDisplay {
 
     private static final MetadataKey<Empty> ACTIONBAR_TASK;
 
@@ -27,7 +27,7 @@ public class ProgressbarMessenger {
      * @param stayTime  how long the progressbar stays in seconds
      * @param generator a progressbar generator
      */
-    public ProgressbarMessenger(int stayTime, ProgressbarGenerator generator) {
+    public ProgressbarDisplay(int stayTime, ProgressbarGenerator generator) {
         this.stayTime = stayTime;
         this.generator = generator;
     }

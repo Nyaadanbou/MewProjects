@@ -35,7 +35,7 @@ public class RestoreCommand extends AbstractCommand {
                 final Unit unit = context.get("unit");
                 CommandSender sender = context.getSender();
 
-                final ChargeBasedCooldownMap<UUID> fishingPowerMap = MewFishing.instance().getFishPowerModule().getFishingPowerMap();
+                final ChargeBasedCooldownMap<UUID> fishingPowerMap = plugin.fishingPowerModule().getFishingPowerMap();
                 final ChargeBasedCooldown fishingPower = fishingPowerMap.get(player.getUniqueId());
 
                 switch (unit) {
@@ -43,8 +43,8 @@ public class RestoreCommand extends AbstractCommand {
                         final long elapsed = fishingPower.elapsed();
                         final long reduced = elapsed + TimeUnit.SECONDS.toMillis(amount);
                         fishingPower.setLastTested(Time.nowMillis() - reduced);
-                        MewFishing.translations()
-                            .of("restoreSeconds")
+                        plugin.lang()
+                            .of("msg_restored_charges_by_sec")
                             .replace("player", player.getName())
                             .replace("amount", amount)
                             .send(sender);
@@ -53,18 +53,19 @@ public class RestoreCommand extends AbstractCommand {
                         final long elapsed = fishingPower.elapsed();
                         final long reduced = elapsed + amount * fishingPower.getBaseTimeout();
                         fishingPower.setLastTested(Time.nowMillis() - reduced);
-                        MewFishing.translations().of("restoreCharge")
+                        plugin.lang().of("msg_restored_charges_by_pts")
                             .replace("player", player.getName())
                             .replace("amount", amount)
                             .send(player);
                     }
                 }
-            })
-            .build();
+            }).build();
+
         manager.register(List.of(restoreCommand));
     }
 
     enum Unit {
         SECOND, POINT
     }
+
 }

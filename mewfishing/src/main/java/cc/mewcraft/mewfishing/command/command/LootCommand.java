@@ -25,8 +25,9 @@ public class LootCommand extends AbstractCommand {
                 Player sender = (Player) context.getSender();
                 Location location = sender.getLocation();
                 sender.sendMessage(BiomeKeyFinder.getBiomeKeyString(location));
-            })
-            .build();
+            }).build();
+
         manager.register(List.of(lootCommand));
     }
+
 }

@@ -18,11 +18,12 @@ public class ReloadCommand extends AbstractCommand {
             .literal("reload")
             .permission("mewfishing.command.reload")
             .handler(context -> {
-                MewFishing.instance().onDisable();
-                MewFishing.instance().onEnable();
-                MewFishing.translations().of("reloadedConfig").send(context.getSender());
-            })
-            .build();
+                plugin.onDisable();
+                plugin.onEnable();
+                plugin.lang().of("msg_config_reloaded").send(context.getSender());
+            }).build();
+
         manager.register(List.of(reloadCommand));
     }
+
 }

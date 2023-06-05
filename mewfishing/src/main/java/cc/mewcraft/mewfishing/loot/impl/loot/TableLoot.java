@@ -29,7 +29,7 @@ public class TableLoot extends AbstractLoot<LootTable> {
     }
 
     @Override public void apply(final FishLootEvent event) {
-        @Nullable LootTable table = MewFishing.instance().getFishLootModule().getLootManager().tables().get(tableName);
+        @Nullable LootTable table = MewFishing.instance().fishingLootModule().getLootManager().tables().get(tableName);
         Objects.requireNonNull(table, "Failed to load nested table: " + tableName);
         for (int i = 0; i < getAmount(); i++) {
             Collection<Loot> loots = table.drawAll(event);

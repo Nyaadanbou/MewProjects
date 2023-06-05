@@ -3,31 +3,20 @@ package cc.mewcraft.mewfishing.command;
 import cc.mewcraft.mewfishing.MewFishing;
 import cc.mewcraft.mewfishing.command.command.*;
 import cloud.commandframework.Command;
-import cloud.commandframework.arguments.flags.CommandFlag;
 import cloud.commandframework.brigadier.CloudBrigadierManager;
 import cloud.commandframework.bukkit.CloudBukkitCapabilities;
 import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
-import cloud.commandframework.keys.CloudKey;
-import cloud.commandframework.keys.SimpleCloudKey;
 import cloud.commandframework.minecraft.extras.AudienceProvider;
 import cloud.commandframework.minecraft.extras.MinecraftExceptionHandler;
 import cloud.commandframework.paper.PaperCommandManager;
-import io.leangen.geantyref.TypeToken;
-import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class CommandManager extends PaperCommandManager<CommandSender> {
-
-    public static final CloudKey<MewFishing> PLUGIN = SimpleCloudKey.of("mewfishing:plugin", TypeToken.get(MewFishing.class));
-    private static final Component NULL = Component.text("null");
-    private final Map<String, CommandFlag.Builder<?>> flagRegistry = new HashMap<>();
 
     public CommandManager(MewFishing plugin) throws Exception {
         super(
@@ -53,9 +42,6 @@ public class CommandManager extends PaperCommandManager<CommandSender> {
             plugin.getLogger().info("Successfully registered asynchronous command completion listener.");
         }
 
-        // ---- Inject instances into the command context ----
-        this.registerCommandPreProcessor(ctx -> ctx.getCommandContext().store(PLUGIN, plugin));
-
         // ---- Change default exception messages ----
         new MinecraftExceptionHandler<CommandSender>()
             .withDefaultHandlers()
@@ -69,14 +55,6 @@ public class CommandManager extends PaperCommandManager<CommandSender> {
             new ReloadCommand(plugin, this),
             new RestoreCommand(plugin, this)
         ).forEach(AbstractCommand::register);
-    }
-
-    public CommandFlag.Builder<?> getFlag(final String name) {
-        return flagRegistry.get(name);
-    }
-
-    public void registerFlag(final String name, final CommandFlag.Builder<?> flagBuilder) {
-        flagRegistry.put(name, flagBuilder);
     }
 
     public void register(final List<Command<CommandSender>> commands) {

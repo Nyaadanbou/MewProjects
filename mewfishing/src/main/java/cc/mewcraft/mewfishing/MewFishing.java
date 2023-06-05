@@ -22,52 +22,23 @@ public final class MewFishing extends ExtendedJavaPlugin {
     private AutoFishModule autoFish;
     private FishLootModule fishLoot;
 
-    public static void debug(String message) {
-        if (conf().debug()) log(Level.INFO, "[DEBUG] " + message);
-    }
-
     public static MewFishing instance() {
         return p;
     }
 
-    public static Translations translations() {
-        return p.translations;
-    }
-
-    public static MewConfig conf() {
-        return p.config;
-    }
-
-    public static void log(String message) {
+    public void log(String message) {
         p.getLogger().info(message);
     }
 
-    public static void log(Level level, String message) {
+    public void log(Level level, String message) {
         p.getLogger().log(level, message);
     }
 
-    public static void log(String module, boolean status) {
-        if (status) {
-            p.getLogger().info(module + " is enabled");
-        } else {
-            p.getLogger().info(module + " is disabled");
-        }
+    public void log(String module, boolean status) {
+        p.getLogger().info(status ? module + " is enabled" : module + " is disabled");
     }
 
-    public FishPowerModule getFishPowerModule() {
-        return fishPower;
-    }
-
-    public AutoFishModule getAutoFishModule() {
-        return autoFish;
-    }
-
-    public FishLootModule getFishLootModule() {
-        return fishLoot;
-    }
-
-    @Override
-    protected void enable() {
+    @Override protected void enable() {
         p = this;
 
         // ---- Load config ----
@@ -78,9 +49,9 @@ public final class MewFishing extends ExtendedJavaPlugin {
         translations = new Translations(this);
 
         // ---- Register modules ----
-        autoFish = bindModule(new AutoFishModule());
-        fishPower = bindModule(new FishPowerModule());
-        fishLoot = bindModule(new FishLootModule());
+        autoFish = bindModule(new AutoFishModule(this));
+        fishPower = bindModule(new FishPowerModule(this));
+        fishLoot = bindModule(new FishLootModule(this));
 
         // ---- Register commands ----
         try {
@@ -91,7 +62,24 @@ public final class MewFishing extends ExtendedJavaPlugin {
         }
     }
 
-    @Override
-    protected void disable() {}
+    public Translations lang() {
+        return p.translations;
+    }
+
+    public MewConfig config() {
+        return p.config;
+    }
+
+    public AutoFishModule autoFishModule() {
+        return autoFish;
+    }
+
+    public FishPowerModule fishingPowerModule() {
+        return fishPower;
+    }
+
+    public FishLootModule fishingLootModule() {
+        return fishLoot;
+    }
 
 }

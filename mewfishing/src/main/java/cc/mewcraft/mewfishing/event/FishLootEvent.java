@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A wrapper of {@link PlayerFishEvent} that is called when the player <b>is allowed to</b> get a custom loot.
@@ -15,6 +16,7 @@ import org.checkerframework.framework.qual.DefaultQualifier;
  */
 @DefaultQualifier(NonNull.class)
 public class FishLootEvent extends PlayerEvent implements Cancellable {
+    
     private static final HandlerList handlers = new HandlerList();
     private final PlayerFishEvent event;
     private boolean cancel = false;
@@ -52,11 +54,12 @@ public class FishLootEvent extends PlayerEvent implements Cancellable {
     }
 
     @Override
-    public HandlerList getHandlers() {
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 
     public static HandlerList getHandlerList() {
         return handlers;
     }
+
 }

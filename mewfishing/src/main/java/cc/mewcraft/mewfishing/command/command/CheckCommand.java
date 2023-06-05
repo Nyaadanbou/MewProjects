@@ -15,6 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class CheckCommand extends AbstractCommand {
+
     public CheckCommand(final MewFishing plugin, final CommandManager manager) {
         super(plugin, manager);
     }
@@ -27,16 +28,17 @@ public class CheckCommand extends AbstractCommand {
             .handler(context -> {
                 CommandSender sender = context.getSender();
                 final Player player = context.get("player");
-                final ChargeBasedCooldownMap<UUID> fishingPowerMap = MewFishing.instance().getFishPowerModule().getFishingPowerMap();
+                final ChargeBasedCooldownMap<UUID> fishingPowerMap = plugin.fishingPowerModule().getFishingPowerMap();
                 final ChargeBasedCooldown fishingPower = fishingPowerMap.get(player.getUniqueId());
-                MewFishing.translations().of("checkFishingPower")
+                plugin.lang().of("msg_check_fishing_power")
                     .replace("player", player.getName())
-                    .replace("charge", fishingPower.getAvailable())
-                    .replace("remaining", fishingPower.remainingTime(TimeUnit.SECONDS))
-                    .replace("remainingFull", fishingPower.remainingTimeFull(TimeUnit.SECONDS))
+                    .replace("charges", fishingPower.getAvailable())
+                    .replace("remaining_now", fishingPower.remainingTime(TimeUnit.SECONDS))
+                    .replace("remaining_all", fishingPower.remainingTimeFull(TimeUnit.SECONDS))
                     .send(sender);
-            })
-            .build();
+            }).build();
+
         manager.register(List.of(checkCommand));
     }
+
 }

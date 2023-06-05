@@ -27,12 +27,14 @@ import java.util.logging.Level;
 @DefaultQualifier(NonNull.class)
 public class LootTableManager {
 
+    private final MewFishing plugin;
     private final Map<String, LootTable> tableMap;
     private final RandomCollection<LootTable> tableRandom;
 
-    public LootTableManager() {
-        tableMap = new HashMap<>();
-        tableRandom = new RandomCollection<>();
+    public LootTableManager(final MewFishing plugin) {
+        this.plugin = plugin;
+        this.tableMap = new HashMap<>();
+        this.tableRandom = new RandomCollection<>();
         loadFiles();
     }
 
@@ -74,11 +76,11 @@ public class LootTableManager {
      * Load all the loot tables from files.
      */
     public void loadFiles() {
-        File lootDir = new File(MewFishing.instance().getDataFolder(), "loots");
+        File lootDir = new File(plugin.getDataFolder(), "loots");
         boolean mkdirs = lootDir.mkdirs();
         Collection<File> lootFiles = FileUtils.listFiles(lootDir, new String[]{"yml"}, true);
         if (mkdirs || lootFiles.isEmpty())
-            UtilFile.copyResourcesRecursively(MewFishing.instance().getClassloader().getResource("loots"), lootDir);
+            UtilFile.copyResourcesRecursively(Objects.requireNonNull(plugin.getClassloader().getResource("loots")), lootDir);
         for (final File file : lootFiles) {
             YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
                 .defaultOptions(config -> config.serializers(builder -> {
@@ -113,7 +115,7 @@ public class LootTableManager {
                 tableRandom.add(table);
             } catch (Exception e) {
                 e.printStackTrace();
-                MewFishing.log(Level.SEVERE, "Failed to load loot config file: '%s'".formatted(file.getName()));
+                plugin.log(Level.SEVERE, "Failed to load loot config file: '%s'".formatted(file.getName()));
             }
         }
     }

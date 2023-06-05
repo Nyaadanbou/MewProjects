@@ -13,32 +13,41 @@ import org.jetbrains.annotations.NotNull;
 
 public class AutoFishModule implements TerminableModule {
 
+    private final MewFishing plugin;
+
+    public AutoFishModule(final MewFishing plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public void setup(@NotNull TerminableConsumer consumer) {
-        if (!MewFishing.conf().autoFishingEnabled()) {
-            MewFishing.log("AutoFishing", false);
+        if (!plugin.config().autoFishingEnabled()) {
+            plugin.log("AutoFishing", false);
             return;
         }
 
-        Events.subscribe(PlayerFishEvent.class).handler(AutoFishModule::handle).bindWith(consumer);
+        Events.subscribe(PlayerFishEvent.class).handler(this::handle).bindWith(consumer);
     }
 
-    private static void handle(PlayerFishEvent event) {
-        if (event.isCancelled())
+    private void handle(PlayerFishEvent event) {
+        if (event.isCancelled()) {
             return;
+        }
 
         Player player = event.getPlayer();
-        if (!player.hasPermission("mewfishing.auto.use"))
+        if (!player.hasPermission("mewfishing.auto.use")) {
             return;
-        if (!new AutoFishEvent(player, event.getHook()).callEvent())
+        }
+        if (!new AutoFishEvent(player, event.getHook()).callEvent()) {
             return;
+        }
 
         if (event.getState() == PlayerFishEvent.State.BITE || event.getState() == PlayerFishEvent.State.CAUGHT_FISH) {
             Schedulers.builder()
                 .sync()
                 .after(event.getState() == PlayerFishEvent.State.BITE
-                    ? MewFishing.conf().ticksAfterBitten()
-                    : MewFishing.conf().ticksAfterCaught())
+                    ? plugin.config().ticksAfterBitten()
+                    : plugin.config().ticksAfterCaught())
                 .run(() -> PlayerAction.doRightClick(player));
         }
     }

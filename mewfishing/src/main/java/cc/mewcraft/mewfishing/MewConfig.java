@@ -4,63 +4,60 @@ import java.util.List;
 
 public class MewConfig {
 
-    private final MewFishing p;
+    private final MewFishing plugin;
 
-    public MewConfig(MewFishing p) {
-        this.p = p;
+    public MewConfig(MewFishing plugin) {
+        this.plugin = plugin;
     }
 
     public void loadDefaultConfig() {
-        p.saveDefaultConfig();
-        p.reloadConfig();
-    }
-
-    public boolean debug() {
-        return p.getConfig().getBoolean("debug");
+        plugin.saveDefaultConfig();
+        plugin.reloadConfig();
     }
 
     public boolean fishingPowerEnabled() {
-        return p.getConfig().getBoolean("fishingPower.enabled");
+        return plugin.getConfig().getBoolean("fishing_power.enabled");
     }
 
     public void setFishingPowerEnabled(boolean enabled) {
-        p.getConfig().set("fishingPower.enabled", enabled);
+        plugin.getConfig().set("fishing_power.enabled", enabled);
     }
 
     public int baseTimeout() {
-        return p.getConfig().getInt("fishingPower.baseTimeout");
+        return plugin.getConfig().getInt("fishing_power.base_timeout");
     }
 
     public String currencyName() {
-        return p.getConfig().getString("fishingPower.currencyName");
+        return plugin.getConfig().getString("fishing_power.currency_name");
     }
 
     public int progressbarWidth() {
-        return p.getConfig().getInt("fishingPower.progressbarWidth");
+        return plugin.getConfig().getInt("fishing_power.progressbar_width");
     }
 
     public int progressbarStayTime() {
-        return p.getConfig().getInt("fishingPower.progressbarStayTime");
+        return plugin.getConfig().getInt("fishing_power.progressbar_stay_time");
     }
 
     public List<String> freeItems() {
-        return p.getConfig().getStringList("fishingPower.freeItems");
+        return plugin.getConfig().getStringList("fishing_power.free_items");
     }
 
     public boolean autoFishingEnabled() {
-        return p.getConfig().getBoolean("autoFishing.enabled");
+        return plugin.getConfig().getBoolean("auto_fishing.enabled");
     }
 
     public int ticksAfterBitten() {
-        return p.getConfig().getInt("autoFishing.ticksAfterBitten");
+        return plugin.getConfig().getInt("auto_fishing.ticks_after_bitten");
     }
 
     public int ticksAfterCaught() {
-        return p.getConfig().getInt("autoFishing.ticksAfterCaught");
+        return plugin.getConfig().getInt("auto_fishing.ticks_after_caught");
     }
 
     public double customLootChance() {
-        return p.getConfig().getDouble("fishingLoots.chance");
+        return plugin.getConfig().getDouble("fishing_loots.chance");
     }
+
 }
 

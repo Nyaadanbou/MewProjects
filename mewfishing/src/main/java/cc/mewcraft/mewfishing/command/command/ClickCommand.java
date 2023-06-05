@@ -26,8 +26,9 @@ public class ClickCommand extends AbstractCommand {
                 MultiplePlayerSelector player = context.get("player");
                 player.getPlayers().forEach(PlayerAction::doRightClick);
                 sender.sendMessage("Done!");
-            })
-            .build();
+            }).build();
+
         manager.register(List.of(checkCommand));
     }
+
 }

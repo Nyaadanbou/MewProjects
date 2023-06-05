@@ -32,31 +32,35 @@ import org.jetbrains.annotations.NotNull;
 import java.util.EnumSet;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public class FishPowerModule implements TerminableModule {
 
-    private static final MetadataKey<Cooldown> KEY_HELP_COOLDOWN = MetadataKey.createCooldownKey("msg.tip.cooldown");
-    private static final MetadataKey<Cooldown> KEY_WARN_COOLDOWN = MetadataKey.createCooldownKey("msg.warn.cooldown");
+    private static final MetadataKey<Cooldown> KEY_HELP_COOLDOWN = MetadataKey.createCooldownKey("msg_tip_cooldown");
+    private static final MetadataKey<Cooldown> KEY_WARN_COOLDOWN = MetadataKey.createCooldownKey("msg_warn_cooldown");
     private static final int WARN_INTERVAL_SEC = 1;
     private static final int HELP_INTERVAL_SEC = 300;
 
+    private final MewFishing plugin;
     private final ChargeBasedCooldownMap<UUID> fishingPowerMap;
     private final ProgressbarMessenger progressbarMessenger;
 
-    public FishPowerModule() {
+    public FishPowerModule(final MewFishing plugin) {
+        this.plugin = plugin;
+
         // cache loader to get the maximum fishing charge
         LoadingCache<UUID, Integer> balanceCache = CacheBuilder.newBuilder()
-            .expireAfterAccess(MewFishing.conf().baseTimeout(), TimeUnit.SECONDS)
+            .expireAfterAccess(plugin.config().baseTimeout(), TimeUnit.SECONDS)
             .build(new CacheLoader<>() {
                 @Override
                 public @NotNull Integer load(@NotNull UUID key) {
                     GemsEconomyAPI api = GemsEconomy.getAPI();
-                    String currencyName = MewFishing.conf().currencyName();
+                    String currencyName = plugin.config().currencyName();
                     Currency currency = api.getCurrency(currencyName);
                     if (currency == null) {
-                        MewFishing.instance().getLogger().severe("Currency name not found: " + currencyName);
-                        MewFishing.instance().getLogger().severe("Fishing power system will be disabled");
-                        MewFishing.conf().setFishingPowerEnabled(false);
+                        plugin.log(Level.SEVERE, "Currency name not found: " + currencyName);
+                        plugin.log(Level.SEVERE, "Fishing power system has been disabled");
+                        plugin.config().setFishingPowerEnabled(false);
                         return 0;
                     }
                     double balance = api.getBalance(key, currency);
@@ -64,16 +68,16 @@ public class FishPowerModule implements TerminableModule {
                 }
             });
 
-        Cooldown base = Cooldown.of(MewFishing.conf().baseTimeout(), TimeUnit.SECONDS); // base cooldown (i.e., a single charge)
+        Cooldown base = Cooldown.of(plugin.config().baseTimeout(), TimeUnit.SECONDS); // base cooldown (i.e., a single charge)
         this.fishingPowerMap = ChargeBasedCooldownMap.create(base, balanceCache::getUnchecked);
         this.progressbarMessenger = new ProgressbarMessenger(
-            MewFishing.conf().progressbarStayTime(),
+            plugin.config().progressbarStayTime(),
             ProgressbarGenerator.Builder.builder()
-                .left(MewFishing.translations().of("cooldownProgressbar.left").plain())
-                .full(MewFishing.translations().of("cooldownProgressbar.full").plain())
-                .empty(MewFishing.translations().of("cooldownProgressbar.empty").plain())
-                .right(MewFishing.translations().of("cooldownProgressbar.right").plain())
-                .width(MewFishing.conf().progressbarWidth())
+                .left(plugin.lang().of("cooldown_progressbar.left").plain())
+                .full(plugin.lang().of("cooldown_progressbar.full").plain())
+                .empty(plugin.lang().of("cooldown_progressbar.empty").plain())
+                .right(plugin.lang().of("cooldown_progressbar.right").plain())
+                .width(plugin.config().progressbarWidth())
                 .build()
         );
     }
@@ -84,8 +88,8 @@ public class FishPowerModule implements TerminableModule {
 
     @Override
     public void setup(@NotNull TerminableConsumer consumer) {
-        if (!MewFishing.conf().fishingPowerEnabled()) {
-            MewFishing.log("FishingPower", false);
+        if (!plugin.config().fishingPowerEnabled()) {
+            plugin.log("FishingPower", false);
             return;
         }
 
@@ -108,37 +112,26 @@ public class FishPowerModule implements TerminableModule {
             .bindWith(consumer);
     }
 
-    private void showProgressbar(Player player) {
-        ChargeBasedCooldown cooldown = fishingPowerMap.get(player.getUniqueId());
-        progressbarMessenger.show(
-            player,
-            () -> cooldown.elapsedOne() / (float) cooldown.getBaseTimeout(),
-            () -> MewFishing.translations().of("cooldownProgressbar.head").plain(),
-            () -> MewFishing.translations().of("cooldownProgressbar.tail")
-                .replace("remaining", cooldown.remainingTime(TimeUnit.SECONDS))
-                .replace("amount", cooldown.getAvailable())
-                .plain()
-        );
-    }
-
     private void onFish(PlayerFishEvent event) {
         Player player = event.getPlayer();
         showProgressbar(player);
 
         if (Metadata.provideForPlayer(player).getOrPut(KEY_HELP_COOLDOWN, () -> Cooldown.of(HELP_INTERVAL_SEC, TimeUnit.SECONDS)).test()) {
-            MewFishing.translations().of("tipSneakCheckStatus").send(player);
+            plugin.lang().of("msg_how_to_check_status").send(player);
         }
 
         if (EnumSet.of(State.CAUGHT_FISH, State.REEL_IN, State.BITE).contains(event.getState())) {
             // only count caught
 
             Entity caught = event.getCaught();
-            if (!(caught instanceof Item item))
+            if (!(caught instanceof Item item)) {
                 return;
+            }
 
-            for (String freeItem : MewFishing.conf().freeItems()) {
-                if (freeItem.contains(item.getItemStack().getType().name().toLowerCase()))
+            for (String freeItem : plugin.config().freeItems()) {
+                if (freeItem.contains(item.getItemStack().getType().name().toLowerCase())) {
                     return;
+                }
             }
 
             ChargeBasedCooldown cooldown = fishingPowerMap.get(player.getUniqueId());
@@ -147,10 +140,23 @@ public class FishPowerModule implements TerminableModule {
                 event.getHook().remove();
                 event.setCancelled(true);
                 if (Metadata.provideForPlayer(player).getOrPut(KEY_WARN_COOLDOWN, () -> Cooldown.of(WARN_INTERVAL_SEC, TimeUnit.SECONDS)).test()) {
-                    MewFishing.translations().of("fishingInWilderness").send(player);
+                    plugin.lang().of("msg_fishing_in_wild").send(player);
                 }
             }
         }
+    }
+
+    private void showProgressbar(Player player) {
+        ChargeBasedCooldown cooldown = fishingPowerMap.get(player.getUniqueId());
+        progressbarMessenger.show(
+            player,
+            () -> cooldown.elapsedOne() / (float) cooldown.getBaseTimeout(),
+            () -> plugin.lang().of("cooldown_progressbar.head").plain(),
+            () -> plugin.lang().of("cooldown_progressbar.tail")
+                .replace("remaining", cooldown.remainingTime(TimeUnit.SECONDS))
+                .replace("amount", cooldown.getAvailable())
+                .plain()
+        );
     }
 
 }

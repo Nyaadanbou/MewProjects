@@ -18,8 +18,6 @@ public class PickaxePower extends ExtendedJavaPlugin {
     @Override protected void enable() {
         this.saveDefaultConfig();
         this.reloadConfig();
-        this.saveResource("blocks.yml");
-        this.saveResource("pickaxes.yml");
 
         this.translations = new Translations(this, "languages");
 
@@ -57,12 +55,6 @@ public class PickaxePower extends ExtendedJavaPlugin {
 
     public @NotNull Translations getLang() {
         return translations;
-    }
-
-    private void saveResource(String path) {
-        if (!this.getDataFolder().toPath().resolve(path).toFile().exists()) {
-            this.saveResource(path, false);
-        }
     }
 
 }

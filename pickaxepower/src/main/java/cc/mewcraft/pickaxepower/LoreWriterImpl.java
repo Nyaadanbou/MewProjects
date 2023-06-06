@@ -35,10 +35,10 @@ public class LoreWriterImpl implements LoreWriter {
         if (item == null || item.getType().isAir() || !Tag.ITEMS_PICKAXES.isTagged(item.getType()))
             return item;
 
-        int pickaxePower = powerResolver.resolve(item);
+        PowerData pickaxePower = powerResolver.resolve(item);
 
         Component powerText = plugin.getLang().of("item_lore_pickaxe_power")
-            .replace("power", pickaxePower)
+            .replace("power", pickaxePower.power())
             .component();
 
         ItemMeta itemMeta = Objects.requireNonNull(item.getItemMeta());

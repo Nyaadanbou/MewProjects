@@ -16,9 +16,9 @@ public interface PowerResolver {
      *
      * @param item the item to be resolved
      *
-     * @return the power
+     * @return the pickaxe power
      */
-    int resolve(@NotNull ItemStack item);
+    PowerData resolve(@NotNull ItemStack item);
 
     /**
      * Resolves the power of specific block.
@@ -27,7 +27,8 @@ public interface PowerResolver {
      *
      * @param block the block to be resolved
      *
-     * @return current pickaxe power
+     * @return the block power
      */
-    int resolve(@NotNull Block block);
+    PowerData resolve(@NotNull Block block);
+
 }

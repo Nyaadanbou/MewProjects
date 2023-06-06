@@ -3,6 +3,7 @@ package cc.mewcraft.pickaxepower;
 import com.google.inject.Inject;
 import dev.lone.itemsadder.api.CustomBlock;
 import dev.lone.itemsadder.api.CustomStack;
+import org.bukkit.ChatColor;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -41,38 +42,52 @@ public class PowerResolverImpl implements PowerResolver {
     }
 
     @Override
-    public int resolve(final @NotNull ItemStack item) {
+    public PowerData resolve(final @NotNull ItemStack item) {
         if (pickaxePowerMap == null)
             // config error - all pickaxes have 0 power
-            return 0;
+            return new PowerData(0, item.translationKey());
 
         if (!Tag.ITEMS_PICKAXES.isTagged(item.getType()))
             // non-pickaxe items have 0 power
-            return 0;
+            return new PowerData(0, item.translationKey());
 
         CustomStack customStack = CustomStack.byItemStack(item);
         if (customStack == null) { // resolve vanilla pickaxes
             String namespacedId = item.getType().getKey().asString();
-            return pickaxePowerMap.getOrDefault(namespacedId, 0);
+            return new PowerData(
+                pickaxePowerMap.getOrDefault(namespacedId, 0),
+                item.translationKey()
+            );
         }
 
         // resolve itemsadder pickaxes
         String namespacedID = customStack.getNamespacedID();
-        return pickaxePowerMap.getOrDefault(namespacedID, 0);
+        //noinspection deprecation
+        return new PowerData(
+            pickaxePowerMap.getOrDefault(namespacedID, 0),
+            ChatColor.stripColor(customStack.getDisplayName())
+        );
     }
 
     @Override
-    public int resolve(final @NotNull Block block) {
+    public PowerData resolve(final @NotNull Block block) {
         if (blockPowerMap == null)
             // config not loaded correctly - disable all block breaking
-            return 999;
+            return new PowerData(999, block.translationKey());
 
         CustomBlock customBlock = CustomBlock.byAlreadyPlaced(block);
-        if (customBlock == null)
+        if (customBlock == null) {
             // all vanilla blocks have zero power as we don't handle them
-            return 0;
+            return new PowerData(0, block.translationKey());
+        }
 
+        // it's a custom block, return its power in config
         String namespacedID = customBlock.getNamespacedID();
-        return blockPowerMap.getOrDefault(namespacedID, 0);
+        //noinspection deprecation
+        return new PowerData(
+            blockPowerMap.getOrDefault(namespacedID, 0),
+            ChatColor.stripColor(customBlock.getDisplayName())
+        );
     }
+
 }

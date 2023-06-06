@@ -2,8 +2,10 @@ package cc.mewcraft.pickaxepower.listener;
 
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import cc.mewcraft.pickaxepower.PickaxePower;
+import cc.mewcraft.pickaxepower.PowerData;
 import cc.mewcraft.pickaxepower.PowerResolver;
 import com.google.inject.Inject;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,14 +42,15 @@ public class PlayerListener implements AutoCloseableListener {
             return;
         }
 
-        int pickaxePower = powerResolver.resolve(heldItem);
-        int blockPower = powerResolver.resolve(block);
+        PowerData pickaxePower = powerResolver.resolve(heldItem);
+        PowerData blockPower = powerResolver.resolve(block);
 
-        if (pickaxePower < blockPower) {
+        if (pickaxePower.power() < blockPower.power()) {
             event.setCancelled(true);
             event.setDropItems(false);
             plugin.getLang().of("msg_not_enough_pickaxe_power")
-                .replace("power", blockPower)
+                .resolver(Placeholder.component("power", blockPower.powerComponent()))
+                .resolver(Placeholder.component("block", blockPower.nameLiteralComponent()))
                 .actionBar(player);
         }
     }

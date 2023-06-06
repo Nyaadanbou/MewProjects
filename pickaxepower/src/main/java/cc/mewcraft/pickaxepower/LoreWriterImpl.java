@@ -1,11 +1,8 @@
 package cc.mewcraft.pickaxepower;
 
 import cc.mewcraft.mewcore.util.PDCUtils;
-import cc.mewcraft.mewcore.util.UtilComponent;
 import com.google.inject.Inject;
-import me.lucko.helper.function.chain.Chain;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
@@ -17,9 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import static net.kyori.adventure.text.Component.empty;
-import static net.kyori.adventure.text.Component.text;
 
 public class LoreWriterImpl implements LoreWriter {
     private static final NamespacedKey LORE_SIZE_KEY = new NamespacedKey("pickaxepower", "lore_size");

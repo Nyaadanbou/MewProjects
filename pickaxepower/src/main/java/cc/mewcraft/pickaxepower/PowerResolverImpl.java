@@ -6,46 +6,43 @@ import dev.lone.itemsadder.api.CustomStack;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.yaml.NodeStyle;
-import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class PowerResolverImpl implements PowerResolver {
 
-    private final @NonNull PickaxePower plugin;
-    private @MonotonicNonNull ConfigurationNode pickaxePowerNode;
-    private @MonotonicNonNull ConfigurationNode blockPowerNode;
+    private final @NotNull PickaxePower plugin;
+    private final @Nullable Map<String, Integer> pickaxePowerMap;
+    private final @Nullable Map<String, Integer> blockPowerMap;
 
     @Inject
     public PowerResolverImpl(final @NotNull PickaxePower plugin) {
         this.plugin = plugin;
 
-        try {
-            // Loads pickaxe power data
-            this.pickaxePowerNode = YamlConfigurationLoader.builder()
-                .file(plugin.getDataFolder().toPath().resolve("pickaxes.yml").toFile())
-                .indent(2).nodeStyle(NodeStyle.BLOCK)
-                .build().load();
+        this.pickaxePowerMap = Optional
+            .ofNullable(plugin.getConfig().getConfigurationSection("pickaxes"))
+            .map(sec -> {
+                HashMap<String, Integer> map = new HashMap<>();
+                sec.getKeys(false).forEach(k -> map.put(k, sec.getInt(k)));
+                return map;
+            }).orElse(null);
 
-            // Loads block power data
-            this.blockPowerNode = YamlConfigurationLoader.builder()
-                .file(plugin.getDataFolder().toPath().resolve("blocks.yml").toFile())
-                .indent(2).nodeStyle(NodeStyle.BLOCK)
-                .build()
-                .load();
-        } catch (ConfigurateException e) {
-            e.printStackTrace();
-            plugin.getSLF4JLogger().error("There is an error in the config file. This plugin will not work at all!");
-        }
+        this.blockPowerMap = Optional
+            .ofNullable(plugin.getConfig().getConfigurationSection("blocks"))
+            .map(sec -> {
+                HashMap<String, Integer> map = new HashMap<>();
+                sec.getKeys(false).forEach(k -> map.put(k, sec.getInt(k)));
+                return map;
+            }).orElse(null);
     }
 
     @Override
     public int resolve(final @NotNull ItemStack item) {
-        if (pickaxePowerNode == null)
+        if (pickaxePowerMap == null)
             // config error - all pickaxes have 0 power
             return 0;
 
@@ -54,19 +51,20 @@ public class PowerResolverImpl implements PowerResolver {
             return 0;
 
         CustomStack customStack = CustomStack.byItemStack(item);
-        if (customStack == null) {
+        if (customStack == null) { // resolve vanilla pickaxes
             String namespacedId = item.getType().getKey().asString();
-            return pickaxePowerNode.node(namespacedId).getInt(0);
+            return pickaxePowerMap.getOrDefault(namespacedId, 0);
         }
 
+        // resolve itemsadder pickaxes
         String namespacedID = customStack.getNamespacedID();
-        return pickaxePowerNode.node(namespacedID).getInt(0);
+        return pickaxePowerMap.getOrDefault(namespacedID, 0);
     }
 
     @Override
-    public int resolve(@NotNull final Block block) {
-        if (blockPowerNode == null)
-            // config not loaded correctly - disable all blocks
+    public int resolve(final @NotNull Block block) {
+        if (blockPowerMap == null)
+            // config not loaded correctly - disable all block breaking
             return 999;
 
         CustomBlock customBlock = CustomBlock.byAlreadyPlaced(block);
@@ -75,6 +73,6 @@ public class PowerResolverImpl implements PowerResolver {
             return 0;
 
         String namespacedID = customBlock.getNamespacedID();
-        return blockPowerNode.node(namespacedID).getInt(0);
+        return blockPowerMap.getOrDefault(namespacedID, 0);
     }
 }

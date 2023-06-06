@@ -37,14 +37,15 @@ public class LoreWriterImpl implements LoreWriter {
     }
 
     @Override
-    public ItemStack update(@Nullable final ItemStack item) {
+    public ItemStack update(final @Nullable ItemStack item) {
         if (item == null || item.getType().isAir() || !Tag.ITEMS_PICKAXES.isTagged(item.getType()))
             return item;
 
         int pickaxePower = powerResolver.resolve(item);
-        Component powerText = Chain.start(plugin.getConfig().getString("item.pickaxe-power-lore"))
-            .map(s -> UtilComponent.asComponent(s, Placeholder.component("power", text(pickaxePower))))
-            .end().orElse(empty());
+
+        Component powerText = plugin.getLang().of("item_lore_pickaxe_power")
+            .replace("power", pickaxePower)
+            .component();
 
         ItemMeta itemMeta = Objects.requireNonNull(item.getItemMeta());
         List<Component> lore = itemMeta.hasLore() ? Objects.requireNonNull(itemMeta.lore()) : new ArrayList<>();
@@ -56,7 +57,7 @@ public class LoreWriterImpl implements LoreWriter {
     }
 
     @Override
-    public ItemStack revert(@Nullable final ItemStack item) {
+    public ItemStack revert(final @Nullable ItemStack item) {
         if (item == null || item.getType().isAir() || !Tag.ITEMS_PICKAXES.isTagged(item.getType()))
             return item;
 

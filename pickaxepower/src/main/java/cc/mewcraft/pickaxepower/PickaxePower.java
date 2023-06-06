@@ -1,25 +1,27 @@
 package cc.mewcraft.pickaxepower;
 
+import cc.mewcraft.mewcore.message.Translations;
 import cc.mewcraft.pickaxepower.listener.PacketListener;
 import cc.mewcraft.pickaxepower.listener.PlayerListener;
-import cloud.commandframework.Command;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
-import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class PickaxePower extends ExtendedJavaPlugin {
 
+    private Translations translations;
     private CommandRegistry commandRegistry;
 
-    @Override
-    protected void enable() {
+    @Override protected void enable() {
         this.saveDefaultConfig();
         this.reloadConfig();
         this.saveResource("blocks.yml");
         this.saveResource("pickaxes.yml");
+
+        this.translations = new Translations(this, "languages");
 
         Injector injector = Guice.createInjector(new AbstractModule() {
             @Override protected void configure() {
@@ -36,7 +38,8 @@ public class PickaxePower extends ExtendedJavaPlugin {
 
         try {
             commandRegistry = new CommandRegistry(this);
-            Command<CommandSender> reloadCommand = commandRegistry.commandBuilder("pickaxepower")
+            commandRegistry.prepareCommand(commandRegistry
+                .commandBuilder("pickaxepower")
                 .literal("reload")
                 .permission("pickaxepower.command.reload")
                 .handler(context -> {
@@ -44,8 +47,7 @@ public class PickaxePower extends ExtendedJavaPlugin {
                     this.onEnable();
                     context.getSender().sendRichMessage("<aqua>" + this.getName() + " has been reloaded!");
                 })
-                .build();
-            commandRegistry.prepareCommand(reloadCommand);
+                .build());
             commandRegistry.registerCommands();
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,13 +55,14 @@ public class PickaxePower extends ExtendedJavaPlugin {
         }
     }
 
-    @Override
-    protected void disable() {
-
+    public @NotNull Translations getLang() {
+        return translations;
     }
 
     private void saveResource(String path) {
-        if (!this.getDataFolder().toPath().resolve(path).toFile().exists())
+        if (!this.getDataFolder().toPath().resolve(path).toFile().exists()) {
             this.saveResource(path, false);
+        }
     }
+
 }

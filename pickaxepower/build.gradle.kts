@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "cc.mewcraft"
-version = "1.0.0"
+version = "1.0.1"
 description = "Add pickaxe power system to your pickaxes!"
 
 dependencies {

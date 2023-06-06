@@ -1,19 +1,16 @@
 package cc.mewcraft.pickaxepower.listener;
 
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
-import cc.mewcraft.mewcore.util.UtilComponent;
 import cc.mewcraft.pickaxepower.PickaxePower;
 import cc.mewcraft.pickaxepower.PowerResolver;
 import com.google.inject.Inject;
-import me.lucko.helper.function.chain.Chain;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.NonNull;
-
-import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.minimessage.tag.resolver.Placeholder.component;
 
 public class PlayerListener implements AutoCloseableListener {
 
@@ -32,19 +29,26 @@ public class PlayerListener implements AutoCloseableListener {
     // TODO handle explosion?
     // TODO handle piston?
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
         Player player = event.getPlayer();
 
-        int pickaxePower = powerResolver.resolve(player.getActiveItem());
+        int heldItemSlot = player.getInventory().getHeldItemSlot();
+        ItemStack heldItem = player.getInventory().getItem(heldItemSlot);
+        if (heldItem == null) {
+            return;
+        }
+
+        int pickaxePower = powerResolver.resolve(heldItem);
         int blockPower = powerResolver.resolve(block);
 
         if (pickaxePower < blockPower) {
+            event.setCancelled(true);
             event.setDropItems(false);
-            Chain.start(this.plugin.getConfig().getString("messages.not-enough-pickaxe-power"))
-                .map(s -> UtilComponent.asComponent(s, component("power", text(blockPower))))
-                .apply(player::sendActionBar);
+            plugin.getLang().of("msg_not_enough_pickaxe_power")
+                .replace("power", blockPower)
+                .actionBar(player);
         }
     }
 

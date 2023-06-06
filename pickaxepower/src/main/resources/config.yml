@@ -1,7 +1,16 @@
-# The lore will be inserted into the head of existing item lore
-item:
-  pickaxe-power-lore: '<!em><yellow>镐力值：<white><power>'
-
-# Chat/Actionbar messages to be sent to clients
-messages:
-  not-enough-pickaxe-power: '镐力值不足（需要：<power>）'
+pickaxes:
+  minecraft:wooden_pickaxe: 1
+  minecraft:stone_pickaxe: 2
+  minecraft:iron_pickaxe: 3
+  minecraft:golden_pickaxe: 4
+  minecraft:diamond_pickaxe: 5
+  minecraft:netherite_pickaxe: 6
+  rpgitems:fossil_pickaxe: 15
+  rpgitems:dragon_crystal_pickaxe: 16
+  rpgitems:amethyst_pickaxe: 17
+blocks:
+  rpgblocks:dragon_crystal_ore: 15
+  rpgblocks:hemitite_ore: 15
+  rpgblocks:seber_ore: 16
+  rpgblocks:tamber_ore: 16
+  rpgblocks:dark_crystal_ore: 17

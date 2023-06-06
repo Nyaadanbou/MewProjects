@@ -7,9 +7,9 @@ import java.util.Locale;
 
 public class MMOCommands {
 
-    private final Main plugin;
+    private final RPGBridge plugin;
 
-    public MMOCommands(Main plugin) {
+    public MMOCommands(RPGBridge plugin) {
         this.plugin = plugin;
     }
 
@@ -22,8 +22,8 @@ public class MMOCommands {
                     ConsoleCommandSender sender = context.sender();
                     switch (parse) {
                         case "reload" -> {
-                            Main.reload();
-                            sender.sendMessage(Main.lang().getMiniMessage("reloadedConfig"));
+                            RPGBridge.reload();
+                            sender.sendMessage(RPGBridge.lang().getMiniMessage("reloadedConfig"));
                         }
                     }
                 })

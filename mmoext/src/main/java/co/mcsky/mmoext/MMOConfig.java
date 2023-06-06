@@ -7,12 +7,12 @@ import java.util.*;
 
 public class MMOConfig {
 
-    private final Main p;
+    private final RPGBridge p;
 
     private final Map<String, SummonItem> summonItemMap;
     private final Set<String> summonMobIds;
 
-    public MMOConfig(Main p) {
+    public MMOConfig(RPGBridge p) {
         this.p = p;
         this.summonItemMap = new HashMap<>();
         this.summonMobIds = new HashSet<>();

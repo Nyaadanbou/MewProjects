@@ -1,6 +1,6 @@
 package co.mcsky.mmoext.listener;
 
-import co.mcsky.mmoext.Main;
+import co.mcsky.mmoext.RPGBridge;
 import co.mcsky.mmoext.damage.defense.DefenseManager;
 import co.mcsky.mmoext.damage.indicator.DamageIndicatorManager;
 import co.mcsky.mmoext.damage.crit.CriticalHitManager;
@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 public class MythicMobListener implements Listener, Terminable {
 
     public MythicMobListener() {
-        Main.inst().registerListener(this);
+        RPGBridge.inst().registerListener(this);
     }
 
     @EventHandler

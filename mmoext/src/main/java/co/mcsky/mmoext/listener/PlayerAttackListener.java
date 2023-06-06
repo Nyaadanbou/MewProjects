@@ -1,6 +1,6 @@
 package co.mcsky.mmoext.listener;
 
-import co.mcsky.mmoext.Main;
+import co.mcsky.mmoext.RPGBridge;
 import co.mcsky.mmoext.damage.PlayerAttackHandler;
 import co.mcsky.mmoext.damage.defense.DefenseHandler;
 import co.mcsky.mmoext.damage.indicator.DamageIndicatorHandler;
@@ -29,7 +29,7 @@ public class PlayerAttackListener implements Listener, Terminable {
         handlers.add(new CriticalHitHandler());
         handlers.add(new DamageModifierHandler());
         handlers.add(new DamageIndicatorHandler()); // Damage indicator must be the last to run
-        Main.inst().registerListener(this);
+        RPGBridge.inst().registerListener(this);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

@@ -9,9 +9,9 @@ import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
 import java.util.logging.Level;
 
-public class Main extends ExtendedJavaPlugin {
+public class RPGBridge extends ExtendedJavaPlugin {
 
-    private static Main p;
+    private static RPGBridge p;
 
     // whether ItemsAdder has loaded all data
     public static boolean ITEMSADDER_LOADED = false;
@@ -20,7 +20,7 @@ public class Main extends ExtendedJavaPlugin {
     private MMOCommands commands;
     private MMOLanguages languages;
 
-    public static Main inst() {
+    public static RPGBridge inst() {
         return p;
     }
 

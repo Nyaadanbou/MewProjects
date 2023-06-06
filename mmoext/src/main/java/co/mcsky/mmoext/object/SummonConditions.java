@@ -2,7 +2,7 @@ package co.mcsky.mmoext.object;
 
 import cc.mewcraft.mewcore.util.UtilTowny;
 import co.mcsky.mmoext.HookId;
-import co.mcsky.mmoext.Main;
+import co.mcsky.mmoext.RPGBridge;
 import co.mcsky.mmoext.SimpleHook;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import me.lucko.helper.cooldown.Cooldown;
@@ -131,7 +131,7 @@ public class SummonConditions {
     }
 
     public long cooldownRemaining(UUID uuid, String itemId) {
-        var summon = Main.config().getSummonItem(itemId);
+        var summon = RPGBridge.config().getSummonItem(itemId);
         if (summon.isEmpty()) return 0L;
         return cooldownMap
             .computeIfAbsent(uuid, id -> Cooldown.of(this.cooldown, TimeUnit.SECONDS))
@@ -139,7 +139,7 @@ public class SummonConditions {
     }
 
     public boolean testCooldown(UUID uuid, String itemId) {
-        var summon = Main.config().getSummonItem(itemId);
+        var summon = RPGBridge.config().getSummonItem(itemId);
         if (summon.isEmpty()) return true;
         return cooldownMap
             .computeIfAbsent(uuid, id -> Cooldown.of(this.cooldown, TimeUnit.SECONDS))
@@ -147,7 +147,7 @@ public class SummonConditions {
     }
 
     public boolean testCooldownSilently(UUID uuid, String itemId) {
-        var summon = Main.config().getSummonItem(itemId);
+        var summon = RPGBridge.config().getSummonItem(itemId);
         if (summon.isEmpty()) return true;
         return cooldownMap
             .computeIfAbsent(uuid, id -> Cooldown.of(this.cooldown, TimeUnit.SECONDS))

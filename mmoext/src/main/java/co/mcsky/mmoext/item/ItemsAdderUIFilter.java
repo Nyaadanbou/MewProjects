@@ -1,6 +1,6 @@
 package co.mcsky.mmoext.item;
 
-import co.mcsky.mmoext.Main;
+import co.mcsky.mmoext.RPGBridge;
 import dev.lone.itemsadder.api.CustomStack;
 import dev.lone.itemsadder.api.ItemsAdder;
 import io.lumine.mythic.lib.api.crafting.uifilters.UIFilter;
@@ -63,7 +63,7 @@ public class ItemsAdderUIFilter implements UIFilter {
 
     @Override
     public boolean isValid(@NotNull String argument, @NotNull String data, @Nullable FriendlyFeedbackProvider ffp) {
-        if (!Main.ITEMSADDER_LOADED) {
+        if (!RPGBridge.ITEMSADDER_LOADED) {
             // TODO trick MythicLib, allowing ItemsAdder UIFilter to successfully register
             return true;
         }
@@ -96,7 +96,7 @@ public class ItemsAdderUIFilter implements UIFilter {
     @Nullable
     @Override
     public ItemStack getItemStack(@NotNull String argument, @NotNull String data, @Nullable FriendlyFeedbackProvider ffp) {
-        if (!Main.ITEMSADDER_LOADED) {
+        if (!RPGBridge.ITEMSADDER_LOADED) {
             // TODO ugly solution to prevent crafting station loading errors
             return ItemStackBuilder.of(Material.BARRIER).name("ITEMSADDER NOT LOADED").color(Color.RED).build();
         }
@@ -113,7 +113,7 @@ public class ItemsAdderUIFilter implements UIFilter {
     @NotNull
     @Override
     public ItemStack getDisplayStack(@NotNull String argument, @NotNull String data, @Nullable FriendlyFeedbackProvider ffp) {
-        if (!Main.ITEMSADDER_LOADED) {
+        if (!RPGBridge.ITEMSADDER_LOADED) {
             // TODO ugly solution to prevent crafting station loading errors
             return ItemStackBuilder.of(Material.BARRIER).name("ITEMSADDER NOT LOADED").color(Color.RED).build();
         }
@@ -130,7 +130,7 @@ public class ItemsAdderUIFilter implements UIFilter {
     @NotNull
     @Override
     public ArrayList<String> getDescription(@NotNull String argument, @NotNull String data) {
-        if (!Main.ITEMSADDER_LOADED) {
+        if (!RPGBridge.ITEMSADDER_LOADED) {
             // TODO ugly solution to prevent crafting station loading errors
             return (ArrayList<String>) List.of("ITEMSADDER NOT LOADED");
         }

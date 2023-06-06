@@ -1,6 +1,6 @@
 package co.mcsky.mmoext.config.loader;
 
-import co.mcsky.mmoext.Main;
+import co.mcsky.mmoext.RPGBridge;
 import co.mcsky.mmoext.config.bean.ExplosionEffectConfig;
 import co.mcsky.mmoext.config.bean.PotionEffectConfig;
 import co.mcsky.mmoext.config.bean.SoundEffectConfig;
@@ -27,7 +27,7 @@ public class SummonItemLoader {
 
     public Set<SummonItem> readAll() {
         Set<SummonItem> items = new HashSet<>();
-        var section = Main.inst().getConfig().getConfigurationSection("items");
+        var section = RPGBridge.inst().getConfig().getConfigurationSection("items");
         if (section == null) return items;
 
         section.getKeys(false).forEach(key -> {
@@ -123,7 +123,7 @@ public class SummonItemLoader {
             cond.setWilderness(condSec.getBoolean("wilderness"));
         }
 
-        Main.log(Level.INFO, "Summon Item Loaded: " + itemId + " -> " + mobId);
+        RPGBridge.log(Level.INFO, "Summon Item Loaded: " + itemId + " -> " + mobId);
 
         return Optional.of(summonItem);
     }

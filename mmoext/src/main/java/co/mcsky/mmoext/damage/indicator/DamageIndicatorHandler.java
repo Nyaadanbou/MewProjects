@@ -1,6 +1,6 @@
 package co.mcsky.mmoext.damage.indicator;
 
-import co.mcsky.mmoext.Main;
+import co.mcsky.mmoext.RPGBridge;
 import co.mcsky.mmoext.damage.PlayerAttackHandler;
 import co.mcsky.mmoext.damage.crit.CriticalHitManager;
 import io.lumine.mythic.core.mobs.ActiveMob;
@@ -27,10 +27,10 @@ public class DamageIndicatorHandler implements PlayerAttackHandler {
         DamageMetadata damageMeta = event.getDamage();
         Player player = event.getAttacker().getPlayer();
 
-        Component headText = Main.lang().getMiniMessage(player, "damage.headText").replaceText(config -> config.matchLiteral("{damagee}").replacement(activeMob.getDisplayName()));
-        Component tailText = Main.lang().getMiniMessage(player, "damage.tailText");
-        Component packetSeparator = Main.lang().getMiniMessage(player, "damage.packetSeparator");
-        Component typeSeparator = Main.lang().getMiniMessage(player, "damage.typeSeparator");
+        Component headText = RPGBridge.lang().getMiniMessage(player, "damage.headText").replaceText(config -> config.matchLiteral("{damagee}").replacement(activeMob.getDisplayName()));
+        Component tailText = RPGBridge.lang().getMiniMessage(player, "damage.tailText");
+        Component packetSeparator = RPGBridge.lang().getMiniMessage(player, "damage.packetSeparator");
+        Component typeSeparator = RPGBridge.lang().getMiniMessage(player, "damage.typeSeparator");
 
         TextComponent.Builder allPacketText = Component.text();
 
@@ -46,18 +46,18 @@ public class DamageIndicatorHandler implements PlayerAttackHandler {
                     if (typeAppended) {
                         type.append(typeSeparator);
                     }
-                    type.append(Main.lang().getMiniMessage(player, "damage.type." + requiredType.name().toLowerCase()));
+                    type.append(RPGBridge.lang().getMiniMessage(player, "damage.type." + requiredType.name().toLowerCase()));
                     typeAppended = true;
                 }
             }
             if (typeAppended) { // If this DamagePacket contains the DamageType we want
                 Component value;
                 if (CriticalHitManager.isVanillaCriticalHit(event) || damageMeta.isWeaponCriticalStrike() || damageMeta.isSkillCriticalStrike()) {
-                    value = Component.text(Main.config().getDamageFormat().formatted(packet.getFinalValue())).color(NamedTextColor.RED);
+                    value = Component.text(RPGBridge.config().getDamageFormat().formatted(packet.getFinalValue())).color(NamedTextColor.RED);
                 } else {
-                    value = Component.text(Main.config().getDamageFormat().formatted(packet.getFinalValue()));
+                    value = Component.text(RPGBridge.config().getDamageFormat().formatted(packet.getFinalValue()));
                 }
-                Component packetText = Main.lang().getMiniMessage(player, "damage.packetText")
+                Component packetText = RPGBridge.lang().getMiniMessage(player, "damage.packetText")
                         .replaceText(config -> config.matchLiteral("{value}").replacement(value))
                         .replaceText(config -> config.matchLiteral("{type}").replacement(type));
                 allPacketText.append(packetText);

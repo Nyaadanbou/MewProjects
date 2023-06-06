@@ -1,5 +1,5 @@
 name: MMOExt
-main: co.mcsky.mmoext.Main
+main: co.mcsky.mmoext.RPGBridge
 version: ${version}
 description: ${description}
 author: Nailm

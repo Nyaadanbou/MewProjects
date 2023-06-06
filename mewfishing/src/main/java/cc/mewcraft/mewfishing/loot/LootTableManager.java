@@ -59,7 +59,10 @@ public class LootTableManager {
         // we should cache it for each player
         // since you usually don't move when fishing
         Collection<LootTable> all = tableMap.values();
-        List<LootTable> matched = all.stream().filter(table -> table.evaluate(event)).toList();
+        List<LootTable> matched = all.stream()
+            .filter(table -> table.getWeight() > 0d) // don't draw tables of 0 weight
+            .filter(table -> table.evaluate(event))
+            .toList();
         return RandomSelector.weighted(matched).pick();
     }
 

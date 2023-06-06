@@ -27,10 +27,10 @@ public class DamageIndicatorHandler implements PlayerAttackHandler {
         DamageMetadata damageMeta = event.getDamage();
         Player player = event.getAttacker().getPlayer();
 
-        Component headText = RPGBridge.lang().getMiniMessage(player, "damage.headText").replaceText(config -> config.matchLiteral("{damagee}").replacement(activeMob.getDisplayName()));
-        Component tailText = RPGBridge.lang().getMiniMessage(player, "damage.tailText");
-        Component packetSeparator = RPGBridge.lang().getMiniMessage(player, "damage.packetSeparator");
-        Component typeSeparator = RPGBridge.lang().getMiniMessage(player, "damage.typeSeparator");
+        Component headText = RPGBridge.lang().getMiniMessage(player, "damage.head_text").replaceText(config -> config.matchLiteral("{damagee}").replacement(activeMob.getDisplayName()));
+        Component tailText = RPGBridge.lang().getMiniMessage(player, "damage.tail_text");
+        Component packetSeparator = RPGBridge.lang().getMiniMessage(player, "damage.packet_separator");
+        Component typeSeparator = RPGBridge.lang().getMiniMessage(player, "damage.type_separator");
 
         TextComponent.Builder allPacketText = Component.text();
 

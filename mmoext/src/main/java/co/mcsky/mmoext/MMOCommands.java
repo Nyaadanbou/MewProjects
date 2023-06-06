@@ -23,7 +23,7 @@ public class MMOCommands {
                     switch (parse) {
                         case "reload" -> {
                             RPGBridge.reload();
-                            sender.sendMessage(RPGBridge.lang().getMiniMessage("reloadedConfig"));
+                            sender.sendMessage(RPGBridge.lang().getMiniMessage("reloaded_config"));
                         }
                     }
                 })

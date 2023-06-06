@@ -54,7 +54,7 @@ public class SummonListener implements Listener, Terminable {
             cooldown.reset();
             event.setCancelled(true);
             if (Metadata.provideForPlayer(player).getOrPut(KEY_ANTI_CHAT_SPAM, () -> Cooldown.of(2, TimeUnit.SECONDS)).test()) {
-                player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.clickSpam"));
+                player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.click_spam"));
             }
             return;
         }
@@ -63,37 +63,37 @@ public class SummonListener implements Listener, Terminable {
         var loc = event.getPlayer().getLocation();
         var conditions = summonItem.get().getCondition();
         if (!conditions.testCooldownSilently(player.getUniqueId(), summonItem.get().getItemId())) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.cooldownRemaining", "sec", String.valueOf(conditions.cooldownRemaining(player.getUniqueId(), summonItem.get().getItemId()))));
+            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.cooldown_remaining", "sec", String.valueOf(conditions.cooldownRemaining(player.getUniqueId(), summonItem.get().getItemId()))));
             event.setCancelled(true);
             return;
         }
         if (!conditions.testWorld(player.getWorld().getName())) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.worldNotAllowed"));
+            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.world_not_allowed"));
             event.setCancelled(true);
             return;
         }
         if (!conditions.testBiome(loc.getBlock().getBiome())) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.biomeNotAllowed"));
+            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.biome_not_allowed"));
             event.setCancelled(true);
             return;
         }
         if (!conditions.testHeight(loc.getY())) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.heightNotAllowed"));
+            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.height_not_allowed"));
             event.setCancelled(true);
             return;
         }
         if (!conditions.testWilderness(loc)) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.notInWilderness"));
+            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.not_in_wilderness"));
             event.setCancelled(true);
             return;
         }
         if (!conditions.testNearbyActiveMobs(loc, summonItem.get().getMobId())) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.nearbySameMob"));
+            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.nearby_same_mob"));
             event.setCancelled(true);
             return;
         }
         if (!conditions.testOpenSpace(loc)) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.spaceNotEnough"));
+            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.space_not_enough"));
             event.setCancelled(true);
             return;
         }
@@ -103,7 +103,7 @@ public class SummonListener implements Listener, Terminable {
         if (boss.isEmpty()) {
             // This should never happen, but in case...
             Log.severe("Cannot find mob with ID: " + summonItem.get().getMobId());
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.fatalError"));
+            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.fatal_error"));
             event.setCancelled(true);
             return;
         }

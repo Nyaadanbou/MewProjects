@@ -7,9 +7,13 @@ authors: [ Nailm ]
 load-before: [ ]
 load-after:
   - name: helper
+  - name: helper-redis
   - name: MewCore
 dependencies:
   - name: helper
+    required: true
+    bootstrap: false
+  - name: helper-redis
     required: true
     bootstrap: false
   - name: MewCore

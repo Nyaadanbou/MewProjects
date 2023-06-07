@@ -1,11 +1,13 @@
 package cc.mewcraft.mythicmobsext.listener;
 
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
+import cc.mewcraft.mythicmobsext.feature.condition.MaxHealthCondition;
 import cc.mewcraft.mythicmobsext.feature.option.crit.CriticalHitManager;
 import cc.mewcraft.mythicmobsext.feature.option.defense.DefenseManager;
 import cc.mewcraft.mythicmobsext.feature.option.display.DamageDisplayManager;
 import cc.mewcraft.mythicmobsext.feature.option.modifier.DamageModifierManager;
 import com.google.inject.Inject;
+import io.lumine.mythic.bukkit.events.MythicConditionLoadEvent;
 import io.lumine.mythic.bukkit.events.MythicReloadedEvent;
 import org.bukkit.event.EventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -51,10 +53,15 @@ public class MythicMobListeners implements AutoCloseableListener {
         defenseManager.register();
     }
 
-    /*@EventHandler
+    @EventHandler
     public void onConditionLoad(MythicConditionLoadEvent event) {
+        String conditionName = event.getConditionName();
 
-    }*/
+        //noinspection SwitchStatementWithTooFewBranches
+        switch (conditionName) {
+            case "maxhealth" -> event.register(new MaxHealthCondition(event.getConfig()));
+        }
+    }
 
     /*@EventHandler
     public void onMechanicLoad(MythicMechanicLoadEvent event) {

@@ -1,9 +1,10 @@
 package cc.mewcraft.mewutils.module.death_logger;
 
-import cc.mewcraft.mewutils.api.MewPlugin;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
+import cc.mewcraft.mewutils.api.MewPlugin;
 import cc.mewcraft.mewutils.api.module.ModuleBase;
 import com.google.inject.Inject;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -52,16 +53,18 @@ public class DeathLoggerModule extends ModuleBase implements AutoCloseableListen
             return;
 
         getLang().of("death")
-            .replace("victim", Optional.ofNullable(entity.customName()).orElse(entity.name()))
-            .replace("reason", getLocalization(entity.getLastDamageCause().getCause()))
-            .replace("killer", Optional.ofNullable(entity.getKiller()).map(Player::getName).orElseGet(() -> entity
-                .getLocation()
-                .getNearbyPlayers(this.searchRadius)
-                .stream()
-                .map(Player::getName)
-                .reduce((acc, name) -> acc.concat(",").concat(name))
-                .orElse(getParentPlugin().getLang().of("none").plain())
-            ))
+            .resolver(
+                Placeholder.component("victim", Optional.ofNullable(entity.customName()).orElse(entity.name())),
+                Placeholder.unparsed("reason", getLocalization(entity.getLastDamageCause().getCause())),
+                Placeholder.unparsed("killer", Optional.ofNullable(entity.getKiller()).map(Player::getName).orElseGet(() -> entity
+                    .getLocation()
+                    .getNearbyPlayers(this.searchRadius)
+                    .stream()
+                    .map(Player::getName)
+                    .reduce((acc, name) -> acc.concat(",").concat(name))
+                    .orElse(getParentPlugin().getLang().of("none").plain())
+                ))
+            )
             .replace("x", entity.getLocation().getBlockX())
             .replace("y", entity.getLocation().getBlockY())
             .replace("z", entity.getLocation().getBlockZ())

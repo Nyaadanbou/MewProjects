@@ -10,7 +10,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.List;
@@ -55,55 +54,26 @@ public class DeathLoggerModule extends ModuleBase implements AutoCloseableListen
         getLang().of("death")
             .resolver(
                 Placeholder.component("victim", Optional.ofNullable(entity.customName()).orElse(entity.name())),
-                Placeholder.unparsed("reason", getLocalization(entity.getLastDamageCause().getCause())),
-                Placeholder.unparsed("killer", Optional.ofNullable(entity.getKiller()).map(Player::getName).orElseGet(() -> entity
-                    .getLocation()
-                    .getNearbyPlayers(this.searchRadius)
-                    .stream()
+                Placeholder.parsed("reason", Optional.ofNullable(entity.getLastDamageCause())
+                    .map(c -> c.getCause().name().toLowerCase())
+                    .map(c -> getLang().of("damage_cause." + c).plain())
+                    .orElseGet(() -> getParentPlugin().getLang().of("none").plain())),
+                Placeholder.parsed("killer", Optional.ofNullable(entity.getKiller())
                     .map(Player::getName)
-                    .reduce((acc, name) -> acc.concat(",").concat(name))
-                    .orElse(getParentPlugin().getLang().of("none").plain())
-                ))
+                    .orElseGet(() -> entity
+                        .getLocation()
+                        .getNearbyPlayers(this.searchRadius)
+                        .stream()
+                        .map(Player::getName)
+                        .reduce((acc, name) -> acc.concat(",").concat(name))
+                        .orElse(getParentPlugin().getLang().of("none").plain())
+                    ))
             )
             .replace("x", entity.getLocation().getBlockX())
             .replace("y", entity.getLocation().getBlockY())
             .replace("z", entity.getLocation().getBlockZ())
             .replace("world", entity.getLocation().getWorld().getName())
             .send(Bukkit.getServer()); // broadcast to entire server
-    }
-
-    private String getLocalization(EntityDamageEvent.DamageCause cause) {
-        return switch (cause) {
-            case FALL -> "跌落";
-            case FIRE, FIRE_TICK -> "火烧";
-            case LAVA -> "岩浆";
-            case VOID -> "虚空";
-            case MAGIC -> "魔法";
-            case CUSTOM -> "自定义";
-            case DRYOUT -> "干渴";
-            case FREEZE -> "冰冻";
-            case POISON -> "中毒";
-            case THORNS -> "荆棘";
-            case WITHER -> "凋零";
-            case CONTACT -> "接触";
-            case MELTING -> "融化";
-            case SUICIDE -> "自杀";
-            case CRAMMING -> "拥挤";
-            case DROWNING -> "淹死";
-            case HOT_FLOOR -> "高温地板";
-            case LIGHTNING -> "闪电";
-            case ENTITY_ATTACK -> "生物攻击";
-            case ENTITY_SWEEP_ATTACK -> "生物横扫攻击";
-            case PROJECTILE -> "弹射物";
-            case STARVATION -> "饥饿";
-            case SUFFOCATION -> "窒息";
-            case BLOCK_EXPLOSION -> "方块爆炸";
-            case ENTITY_EXPLOSION -> "实体爆炸";
-            case FALLING_BLOCK -> "跌落方块";
-            case DRAGON_BREATH -> "龙息";
-            case FLY_INTO_WALL -> "卡进墙里";
-            case SONIC_BOOM -> "音爆";
-        };
     }
 
     @Override public boolean checkRequirement() {

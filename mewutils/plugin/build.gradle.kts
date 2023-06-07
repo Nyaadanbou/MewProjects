@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cc.mewcraft"
-version = "1.23.0"
+version = "1.23.1"
 description = "A plugin consisting of many small features"
 
 dependencies {

@@ -54,7 +54,7 @@ public class SummonListener implements Listener, Terminable {
             cooldown.reset();
             event.setCancelled(true);
             if (Metadata.provideForPlayer(player).getOrPut(KEY_ANTI_CHAT_SPAM, () -> Cooldown.of(2, TimeUnit.SECONDS)).test()) {
-                player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.click_spam"));
+                RPGBridge.lang().of("summon.click_spam").send(player);
             }
             return;
         }
@@ -63,37 +63,39 @@ public class SummonListener implements Listener, Terminable {
         var loc = event.getPlayer().getLocation();
         var conditions = summonItem.get().getCondition();
         if (!conditions.testCooldownSilently(player.getUniqueId(), summonItem.get().getItemId())) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.cooldown_remaining", "sec", String.valueOf(conditions.cooldownRemaining(player.getUniqueId(), summonItem.get().getItemId()))));
+            RPGBridge.lang().of("summon.cooldown_remaining")
+                .replace("sec", conditions.cooldownRemaining(player.getUniqueId(), summonItem.get().getItemId()))
+                .send(player);
             event.setCancelled(true);
             return;
         }
         if (!conditions.testWorld(player.getWorld().getName())) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.world_not_allowed"));
+            RPGBridge.lang().of("summon.world_not_allowed").send(player);
             event.setCancelled(true);
             return;
         }
         if (!conditions.testBiome(loc.getBlock().getBiome())) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.biome_not_allowed"));
+            RPGBridge.lang().of("summon.biome_not_allowed").send(player);
             event.setCancelled(true);
             return;
         }
         if (!conditions.testHeight(loc.getY())) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.height_not_allowed"));
+            RPGBridge.lang().of("summon.height_not_allowed").send(player);
             event.setCancelled(true);
             return;
         }
         if (!conditions.testWilderness(loc)) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.not_in_wilderness"));
+            RPGBridge.lang().of("summon.not_in_wilderness").send(player);
             event.setCancelled(true);
             return;
         }
         if (!conditions.testNearbyActiveMobs(loc, summonItem.get().getMobId())) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.nearby_same_mob"));
+            RPGBridge.lang().of("summon.nearby_same_mob").send(player);
             event.setCancelled(true);
             return;
         }
         if (!conditions.testOpenSpace(loc)) {
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.space_not_enough"));
+            RPGBridge.lang().of("summon.space_not_enough").send(player);
             event.setCancelled(true);
             return;
         }
@@ -103,7 +105,7 @@ public class SummonListener implements Listener, Terminable {
         if (boss.isEmpty()) {
             // This should never happen, but in case...
             Log.severe("Cannot find mob with ID: " + summonItem.get().getMobId());
-            player.sendMessage(RPGBridge.lang().getMiniMessage(player, "summon.fatal_error"));
+            RPGBridge.lang().of("summon.fatal_error").send(player);
             event.setCancelled(true);
             return;
         }
@@ -144,9 +146,9 @@ public class SummonListener implements Listener, Terminable {
         // Delay mob spawning
         Schedulers.sync().runLater(() -> {
             boss.get().spawn(
-                    BukkitAdapter.adapt(loc),
-                    summonItem.get().getMobLevel(),
-                    SpawnReason.SUMMON
+                BukkitAdapter.adapt(loc),
+                summonItem.get().getMobLevel(),
+                SpawnReason.SUMMON
             );
         }, summonItem.get().getDelaySpawn());
 

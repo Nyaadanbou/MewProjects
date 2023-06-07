@@ -15,19 +15,18 @@ public class MMOCommands {
 
     public void register() {
         Commands.create()
-                .assertConsole()
-                .handler(context -> {
-                    context.arg(0).assertPresent();
-                    String parse = context.arg(0).parseOrFail(String.class).toLowerCase(Locale.ROOT);
-                    ConsoleCommandSender sender = context.sender();
-                    switch (parse) {
-                        case "reload" -> {
-                            RPGBridge.reload();
-                            sender.sendMessage(RPGBridge.lang().getMiniMessage("reloaded_config"));
-                        }
-                    }
-                })
-                .registerAndBind(plugin, "mmoext");
+            .assertConsole()
+            .handler(context -> {
+                context.arg(0).assertPresent();
+                String parse = context.arg(0).parseOrFail(String.class).toLowerCase(Locale.ROOT);
+                ConsoleCommandSender sender = context.sender();
+                if (parse.equals("reload")) {
+                    RPGBridge.reload();
+                    //noinspection UnstableApiUsage
+                    RPGBridge.lang().of("msg_reloaded_config").replace("plugin", plugin.getPluginMeta().getName()).send(sender);
+                }
+            })
+            .registerAndBind(plugin, "mmoext");
     }
 
 }

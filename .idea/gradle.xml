@@ -42,6 +42,10 @@
             <option value="$PROJECT_DIR$/proxychatbridge/common" />
             <option value="$PROJECT_DIR$/proxychatbridge/dist" />
             <option value="$PROJECT_DIR$/proxychatbridge/velocity" />
+            <option value="$PROJECT_DIR$/rpgext" />
+            <option value="$PROJECT_DIR$/rpgext/common" />
+            <option value="$PROJECT_DIR$/rpgext/mythiclibext" />
+            <option value="$PROJECT_DIR$/rpgext/mythicmobsext" />
           </set>
         </option>
       </GradleProjectSettings>

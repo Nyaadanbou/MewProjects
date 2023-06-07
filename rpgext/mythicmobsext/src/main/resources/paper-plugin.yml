@@ -1,0 +1,21 @@
+name: MythicMobsExt
+main: cc.mewcraft.mythicmobsext.MythicMobsExt
+version: ${version}
+description: ${description}
+author: Nailm
+api-version: 1.19
+load-before: [ ]
+load-after:
+  - name: helper
+  - name: MewCore
+dependencies:
+  - name: helper
+    required: true
+  - name: MewCore
+    required: true
+  - name: MythicLib
+    required: false
+  - name: MMOItems
+    required: false
+  - name: MythicMobs
+    required: false

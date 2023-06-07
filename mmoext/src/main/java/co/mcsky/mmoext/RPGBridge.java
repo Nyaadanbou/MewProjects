@@ -1,9 +1,6 @@
 package co.mcsky.mmoext;
 
-import co.mcsky.mmoext.item.ItemsAdderUIFilter;
-import co.mcsky.mmoext.listener.ItemsAdderListener;
-import co.mcsky.mmoext.listener.MythicMobListener;
-import co.mcsky.mmoext.listener.PlayerAttackListener;
+import cc.mewcraft.mewcore.message.Translations;
 import co.mcsky.mmoext.listener.SummonListener;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
@@ -13,12 +10,9 @@ public class RPGBridge extends ExtendedJavaPlugin {
 
     private static RPGBridge p;
 
-    // whether ItemsAdder has loaded all data
-    public static boolean ITEMSADDER_LOADED = false;
-
     private MMOConfig config;
     private MMOCommands commands;
-    private MMOLanguages languages;
+    private Translations languages;
 
     public static RPGBridge inst() {
         return p;
@@ -28,7 +22,7 @@ public class RPGBridge extends ExtendedJavaPlugin {
         return p.config;
     }
 
-    public static MMOLanguages lang() {
+    public static Translations lang() {
         return p.languages;
     }
 
@@ -40,11 +34,10 @@ public class RPGBridge extends ExtendedJavaPlugin {
         // Reload config and languages
         p.config.loadDefaultConfig();
         p.config.loadSummonItems();
-        p.languages = new MMOLanguages(p);
+        p.languages = new Translations(RPGBridge.p, "languages");
     }
 
-    @Override
-    protected void enable() {
+    @Override protected void enable() {
         p = this;
 
         commands = new MMOCommands(p);
@@ -53,24 +46,11 @@ public class RPGBridge extends ExtendedJavaPlugin {
         config = new MMOConfig(p);
         config.loadDefaultConfig();
 
-        languages = new MMOLanguages(p);
-
-        if (SimpleHook.hasPlugin(HookId.MYTHIC_LIB) && SimpleHook.hasPlugin(HookId.ITEMS_ADDER)) {
-            bind(new ItemsAdderListener());
-            ItemsAdderUIFilter.register();
-        }
+        languages = new Translations(this, "languages");
 
         if (SimpleHook.hasPlugin(HookId.MYTHIC_MOBS) && SimpleHook.hasPlugin(HookId.ITEMS_ADDER)) {
             bind(new SummonListener());
         }
-
-        if (SimpleHook.hasPlugin(HookId.MYTHIC_MOBS) && SimpleHook.hasPlugin(HookId.MYTHIC_LIB)) {
-            bind(new MythicMobListener());
-            bind(new PlayerAttackListener());
-        }
     }
-
-    @Override
-    protected void disable() {}
 
 }

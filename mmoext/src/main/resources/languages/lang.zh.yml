@@ -2,7 +2,7 @@
 # 语法参考 https://docs.adventure.kyori.net/minimessage/format.html
 # MiniMessage 在线预览 https://webui.adventure.kyori.net/
 
-reloaded_config: '<color:#99ff99>已重新载入配置和语言文件!</color>'
+msg_reloaded_config: '<color:#99ff99>已重新载入 <plugin>'
 
 summon:
   world_not_allowed: '<color:#ff9999> 召唤失败! 不能在当前世界召唤!'
@@ -14,20 +14,3 @@ summon:
   fatal_error: '<color:#ff9999> 召唤失败! 发生未知错误, 请将问题汇报到茶馆'
   cooldown_remaining: '<color:#ff9999> 召唤失败! 冷却剩余时间: <sec> 秒'
   click_spam: '<color:#ff9999> 你点的太快了! 喝杯茶休息一会儿吧'
-
-damage:
-  type:
-    magic: '<color:#ff77ee>★</color>'
-    physical: '<color:#ff9999>🗡</color>'
-    projectile: '<color:#afffff>🏹</color>'
-    weapon: '<gray>🪓</gray>'
-    skill: '<gray>🔥</gray>'
-    unarmed: '<gray>♦</gray>'
-    minion: '<gray>☃</gray>'
-    on_hit: '<gray>☄</gray>'
-    dot: '<gray>⌚</gray>'
-  head_text: '{damagee} 受到了伤害：'
-  packet_text: '<b><value><type></b>'
-  packet_separator: '+'
-  type_separator: ''
-  tail_text: ''

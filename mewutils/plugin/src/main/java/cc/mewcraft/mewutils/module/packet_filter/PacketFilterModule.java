@@ -11,9 +11,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PacketFilterModule extends ModuleBase implements AutoCloseableListener {
 
-    Set<UUID> afkPlayers; // players who are afk-ing
-    EnumSet<EntityType> filteredEntityTypes; // allowed entity packet types
-    Set<String> blockedPacketTypes; // names of packet type to be blocked
+    /**
+     * The UUIDs of the players who are afk-ing.
+     */
+    Set<UUID> afkPlayers;
+    /**
+     * Allowed entity packet types.
+     */
+    EnumSet<EntityType> filteredEntityTypes;
+    /**
+     * Names of the packet types to be blocked.
+     */
+    Set<String> blockedPacketTypes; //
 
     @Inject
     public PacketFilterModule(final MewPlugin parent) {
@@ -21,24 +30,24 @@ public class PacketFilterModule extends ModuleBase implements AutoCloseableListe
     }
 
     @Override protected void load() throws Exception {
-        // Initialize member fields
-        this.afkPlayers = Collections.newSetFromMap(new ConcurrentHashMap<>());
-        this.filteredEntityTypes = EnumSet.noneOf(EntityType.class);
-        this.blockedPacketTypes = new HashSet<>();
+        // Initialize class fields
+        afkPlayers = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-        // Read the config values
-        getConfigNode().node("whitelistEntities").getList(String.class, List.of())
-            .stream()
-            .map(EntityType::valueOf)
-            .forEach(entity -> {
-                this.filteredEntityTypes.add(entity);
-                info("Added whitelisted entity type: " + entity);
-            });
-        getConfigNode().node("blockedPackets").getList(String.class, List.of())
-            .forEach(type -> {
-                info("Added blocked packet type: " + type);
-                this.blockedPacketTypes.add(type);
-            });
+        // Read the config values:
+
+        filteredEntityTypes = EnumSet.noneOf(EntityType.class);
+        filteredEntityTypes.addAll(getConfigNode().node("whitelistEntities").getList(String.class, List.of()).stream().map(EntityType::valueOf).toList());
+        filteredEntityTypes.stream().map(Enum::name).reduce((e1, e2) -> e1 + ", " + e2).ifPresentOrElse(
+            types -> info("Added whitelisted entity type: " + types),
+            () -> info("Added whitelisted entity type: <Empty>")
+        );
+
+        blockedPacketTypes = new HashSet<>();
+        blockedPacketTypes.addAll(getConfigNode().node("blockedPackets").getList(String.class, List.of()));
+        blockedPacketTypes.stream().reduce((e1, e2) -> e1 + ", " + e2).ifPresentOrElse(
+            types -> info("Added blocked packet types: " + types),
+            () -> info("Added blocked packet types: <Empty>")
+        );
     }
 
     @Override protected void postLoad() {

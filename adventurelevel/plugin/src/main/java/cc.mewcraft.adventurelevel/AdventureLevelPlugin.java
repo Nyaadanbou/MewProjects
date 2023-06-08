@@ -5,6 +5,7 @@ import cc.mewcraft.adventurelevel.data.PlayerDataManager;
 import cc.mewcraft.adventurelevel.data.PlayerDataManagerImpl;
 import cc.mewcraft.adventurelevel.file.DataStorage;
 import cc.mewcraft.adventurelevel.file.SQLDataStorage;
+import cc.mewcraft.adventurelevel.hooks.luckperms.LevelContextCalculator;
 import cc.mewcraft.adventurelevel.listener.PickupExpListener;
 import cc.mewcraft.adventurelevel.listener.UserdataListener;
 import cc.mewcraft.adventurelevel.message.DataSyncMessenger;
@@ -95,6 +96,9 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
         // Register listeners
         registerListener(injector.getInstance(PickupExpListener.class)).bindWith(this);
         registerListener(injector.getInstance(UserdataListener.class)).bindWith(this);
+
+        // Register LuckPerms contexts
+        injector.getInstance(LevelContextCalculator.class).register();
 
         try {
             new CommandManager(this);

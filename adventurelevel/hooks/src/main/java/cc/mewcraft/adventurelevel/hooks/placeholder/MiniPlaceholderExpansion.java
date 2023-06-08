@@ -14,7 +14,7 @@ import java.math.RoundingMode;
 
 public class MiniPlaceholderExpansion implements Terminable {
 
-    private final PlayerDataManager playerDataManager;
+    private final @MonotonicNonNull PlayerDataManager playerDataManager;
     private @MonotonicNonNull Expansion expansion;
 
     @Inject

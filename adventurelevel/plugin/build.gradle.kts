@@ -27,8 +27,6 @@ dependencies {
     // libs that present as other plugins
     compileOnly(libs.helper) { isTransitive = false }
     compileOnly(libs.helper.redis)
-    compileOnly(libs.papi) { isTransitive = false }
-    compileOnly(libs.minipapi) { isTransitive = false }
     compileOnly(libs.essentials) { isTransitive = false }
 }
 

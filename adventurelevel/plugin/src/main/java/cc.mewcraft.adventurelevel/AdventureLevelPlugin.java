@@ -8,8 +8,8 @@ import cc.mewcraft.adventurelevel.file.SQLDataStorage;
 import cc.mewcraft.adventurelevel.listener.PickupExpListener;
 import cc.mewcraft.adventurelevel.listener.UserdataListener;
 import cc.mewcraft.adventurelevel.message.DataSyncMessenger;
-import cc.mewcraft.adventurelevel.placeholder.MiniPlaceholderExpansion;
-import cc.mewcraft.adventurelevel.placeholder.PAPIPlaceholderExpansion;
+import cc.mewcraft.adventurelevel.hooks.placeholder.MiniPlaceholderExpansion;
+import cc.mewcraft.adventurelevel.hooks.placeholder.PAPIPlaceholderExpansion;
 import cc.mewcraft.mewcore.message.Translations;
 import cc.mewcraft.mewcore.util.UtilFile;
 import com.google.inject.AbstractModule;
@@ -88,9 +88,11 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
         dataSyncMessenger = injector.getInstance(DataSyncMessenger.class);
         dataSyncMessenger.bindWith(this);
 
+        // Register placeholders
         injector.getInstance(MiniPlaceholderExpansion.class).register().bindWith(this);
         injector.getInstance(PAPIPlaceholderExpansion.class).register().bindWith(this);
 
+        // Register listeners
         registerListener(injector.getInstance(PickupExpListener.class)).bindWith(this);
         registerListener(injector.getInstance(UserdataListener.class)).bindWith(this);
 

@@ -1,4 +1,4 @@
-package cc.mewcraft.adventurelevel.placeholder;
+package cc.mewcraft.adventurelevel.hooks.placeholder;
 
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
 import com.google.inject.Inject;
@@ -13,7 +13,7 @@ public class PAPIPlaceholderExpansion implements Terminable {
     }
 
     public PAPIPlaceholderExpansion register() {
-        // TODO implement PlaceholderAPI expansion
+
         return this;
     }
 

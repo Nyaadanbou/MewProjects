@@ -1,4 +1,4 @@
-package cc.mewcraft.adventurelevel.placeholder;
+package cc.mewcraft.adventurelevel.hooks.placeholder;
 
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
 import cc.mewcraft.adventurelevel.level.category.LevelBean;

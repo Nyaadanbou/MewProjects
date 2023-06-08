@@ -1,11 +1,23 @@
 package cc.mewcraft.adventurelevel.hooks.placeholder;
 
+import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
+import cc.mewcraft.adventurelevel.level.category.LevelBean;
 import com.google.inject.Inject;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import me.lucko.helper.promise.Promise;
 import me.lucko.helper.terminable.Terminable;
+import org.bukkit.OfflinePlayer;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class PAPIPlaceholderExpansion implements Terminable {
-    private final PlayerDataManager playerDataManager;
+    private final @MonotonicNonNull PlayerDataManager playerDataManager;
+    private @MonotonicNonNull AdventureLevelExpansion placeholderExpansion;
 
     @Inject
     public PAPIPlaceholderExpansion(final PlayerDataManager playerDataManager) {
@@ -13,11 +25,64 @@ public class PAPIPlaceholderExpansion implements Terminable {
     }
 
     public PAPIPlaceholderExpansion register() {
-
+        placeholderExpansion = new AdventureLevelExpansion();
+        placeholderExpansion.register();
         return this;
     }
 
     @Override public void close() {
+        placeholderExpansion.unregister();
+    }
 
+    private class AdventureLevelExpansion extends PlaceholderExpansion {
+        @Override public @Nullable String onRequest(final OfflinePlayer player, final @NotNull String params) {
+            Promise<PlayerData> promise = playerDataManager.load(player);
+            if (!promise.isDone()) {
+                return ""; // don't wait it and just return empty string
+            }
+
+            LevelBean main = promise.join().getMainLevel();
+
+            return switch (params) {
+                case "level" -> String.valueOf(main.getLevel());
+                case "level_progress" -> {
+                    int currentExp = main.getExperience();
+                    double currentLevel = main.calculateTotalLevel(currentExp);
+                    yield BigDecimal.valueOf(currentLevel % 1)
+                        .scaleByPowerOfTen(2)
+                        .setScale(0, RoundingMode.FLOOR)
+                        .toPlainString();
+                }
+                case "experience" -> String.valueOf(main.getExperience());
+                case "experience_progress" -> {
+                    int exp = main.getExperience();
+                    int level = main.getLevel();
+                    int levelTotalExp = main.calculateTotalExperience(level);
+                    yield String.valueOf(exp - levelTotalExp);
+                }
+                case "experience_progress_max" -> {
+                    int level = main.getLevel();
+                    int nextLevelExpNeeded = main.calculateNeededExperience(level + 1);
+                    yield String.valueOf(nextLevelExpNeeded);
+                }
+                default -> "";
+            };
+        }
+
+        @Override public @NotNull String getIdentifier() {
+            return "adventurelevel";
+        }
+
+        @Override public @NotNull String getAuthor() {
+            return "Nailm";
+        }
+
+        @Override public @NotNull String getVersion() {
+            return "1.0.0";
+        }
+
+        @Override public boolean persist() {
+            return true;
+        }
     }
 }

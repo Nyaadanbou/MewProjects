@@ -12,7 +12,6 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.lucko.helper.promise.Promise;
-import me.lucko.helper.utils.Players;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
@@ -51,7 +50,7 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
                 // The delay is necessary to allow the message
                 // to be published and received on the network.
                 .thenApplyDelayedAsync(data -> {
-                    if (Players.get(data.getUuid())
+                    /*if (Players.get(data.getUuid())
                         .map(player -> !player.isOnline())
                         .orElse(true)) {
                         // Do not load the data for "ghost join"
@@ -60,7 +59,7 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
                             data.getUuid()
                         );
                         return data;
-                    }
+                    }*/
 
                     // Get data from message store first
                     TransientPlayerData message = messenger.get(key);

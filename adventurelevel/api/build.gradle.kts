@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "cc.mewcraft.adventurelevel"
-version = "1.0.0"
+version = "1.1.0"
 description = "Add adventure level to players"
 
 dependencies {

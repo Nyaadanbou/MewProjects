@@ -29,7 +29,7 @@ public class ManageExpCommand extends AbstractCommand {
     }
 
     private enum LevelOption {
-        MAIN(playerData -> playerData.getLevelBean(LevelCategory.PLAYER_DEATH)),
+        MAIN(playerData -> playerData.getLevelBean(LevelCategory.MAIN)),
         PLAYER_DEATH(playerData -> playerData.getLevelBean(LevelCategory.PLAYER_DEATH)),
         ENTITY_DEATH(playerData -> playerData.getLevelBean(LevelCategory.ENTITY_DEATH)),
         FURNACE(playerData -> playerData.getLevelBean(LevelCategory.FURNACE)),

@@ -23,7 +23,7 @@ public class RealPlayerData implements PlayerData {
     /**
      * A map containing all level beans.
      */
-    private final Map<LevelCategory, LevelBean> cateLevelMap;
+    private final Map<LevelCategory, LevelBean> levelBeanMap;
     /**
      * A variable indicating whether this player data has been fully loaded. If true (=complete), that means the data
      * has been fully loaded, and getters will return current values; otherwise, false (=incomplete) means it's not been
@@ -45,7 +45,7 @@ public class RealPlayerData implements PlayerData {
     ) {
         this.plugin = plugin;
         this.uuid = uuid;
-        this.cateLevelMap = new HashMap<>();
+        this.levelBeanMap = new HashMap<>();
 
         this.markAsIncomplete();
     }
@@ -55,16 +55,16 @@ public class RealPlayerData implements PlayerData {
      *
      * @param plugin   the plugin instance
      * @param uuid     the uuid of backed player
-     * @param levelMap the map must already be filled with instances of all level bean
+     * @param levelBeanMap the map must already be filled with instances of all level bean
      */
     public RealPlayerData(
         final AdventureLevelPlugin plugin,
         final UUID uuid,
-        final Map<LevelCategory, LevelBean> levelMap
+        final Map<LevelCategory, LevelBean> levelBeanMap
     ) {
         this.plugin = plugin;
         this.uuid = uuid;
-        this.cateLevelMap = levelMap;
+        this.levelBeanMap = levelBeanMap;
 
         this.markAsComplete();
     }
@@ -112,11 +112,11 @@ public class RealPlayerData implements PlayerData {
     }
 
     @Override public @NotNull LevelBean getLevelBean(LevelCategory category) {
-        return Objects.requireNonNull(cateLevelMap.get(category));
+        return Objects.requireNonNull(levelBeanMap.get(category));
     }
 
     @Override public @NotNull Map<LevelCategory, LevelBean> getLevelBeanMap() {
-        return cateLevelMap;
+        return levelBeanMap;
     }
 
     @Override public boolean complete() {

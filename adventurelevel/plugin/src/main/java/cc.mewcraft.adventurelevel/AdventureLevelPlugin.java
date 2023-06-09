@@ -2,7 +2,9 @@ package cc.mewcraft.adventurelevel;
 
 import cc.mewcraft.adventurelevel.command.CommandManager;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
+import cc.mewcraft.adventurelevel.data.PlayerDataManagerImpl;
 import cc.mewcraft.adventurelevel.file.DataStorage;
+import cc.mewcraft.adventurelevel.file.SQLDataStorage;
 import cc.mewcraft.adventurelevel.hooks.luckperms.LevelContextCalculator;
 import cc.mewcraft.adventurelevel.hooks.placeholder.MiniPlaceholderExpansion;
 import cc.mewcraft.adventurelevel.hooks.placeholder.PAPIPlaceholderExpansion;
@@ -44,6 +46,10 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
         injector = Guice.createInjector(new AbstractModule() {
             @Override protected void configure() {
                 bind(AdventureLevelPlugin.class).toInstance(AdventureLevelPlugin.this);
+
+                // bind interfaces to implementations
+                bind(DataStorage.class).to(SQLDataStorage.class);
+                bind(PlayerDataManager.class).to(PlayerDataManagerImpl.class);
 
                 // these classes are external, we can't use JIT bindings
                 bind(Redis.class).toInstance(getService(Redis.class));

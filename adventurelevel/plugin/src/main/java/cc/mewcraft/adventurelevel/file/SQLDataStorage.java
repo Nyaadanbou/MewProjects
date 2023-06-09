@@ -156,7 +156,7 @@ public class SQLDataStorage extends AbstractDataStorage {
             PreparedStatement stmt = conn.prepareStatement(insertUserdataQuery)
         ) {
             // Construct a map of empty level beans
-            Map<LevelCategory, LevelBean> cateLevelMap = new HashMap<>() {{
+            Map<LevelCategory, LevelBean> levels = new HashMap<>() {{
                 put(LevelCategory.MAIN, LevelBeanFactory.createLevelBean(LevelCategory.MAIN));
                 put(LevelCategory.PLAYER_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.PLAYER_DEATH));
                 put(LevelCategory.ENTITY_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.ENTITY_DEATH));
@@ -169,7 +169,7 @@ public class SQLDataStorage extends AbstractDataStorage {
                 put(LevelCategory.GRINDSTONE, LevelBeanFactory.createLevelBean(LevelCategory.GRINDSTONE));
             }};
 
-            PlayerData playerData = new RealPlayerData(plugin, uuid, cateLevelMap);
+            PlayerData playerData = new RealPlayerData(plugin, uuid, levels);
 
             stmt.setString(1, uuid.toString());
             stmt.setString(2, PlayerUtils.getNameFromUUID(uuid).toLowerCase());
@@ -226,7 +226,7 @@ public class SQLDataStorage extends AbstractDataStorage {
                     int grindstoneXp = rs.getInt(12);
 
                     // Construct the map of level beans with loaded xp
-                    Map<LevelCategory, LevelBean> subLevelMap = new HashMap<>() {{
+                    Map<LevelCategory, LevelBean> levels = new HashMap<>() {{
                         put(LevelCategory.MAIN, LevelBeanFactory.createLevelBean(LevelCategory.MAIN).withExperience(mainXp));
                         put(LevelCategory.PLAYER_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.PLAYER_DEATH).withExperience(playerDeathXp));
                         put(LevelCategory.ENTITY_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.ENTITY_DEATH).withExperience(entityDeathXp));
@@ -246,7 +246,7 @@ public class SQLDataStorage extends AbstractDataStorage {
                     );
 
                     // Collect all above and construct the final data
-                    return new RealPlayerData(plugin, uuid, subLevelMap);
+                    return new RealPlayerData(plugin, uuid, levels);
                 }
             }
         } catch (SQLException e) {

@@ -131,5 +131,10 @@
       <option name="name" value="maven17" />
       <option name="url" value="https://repo.md-5.net/content/repositories/snapshots/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven18" />
+      <option name="name" value="maven18" />
+      <option name="url" value="https://betonquest.org/nexus/repository/betonquest/" />
+    </remote-repository>
   </component>
 </project>

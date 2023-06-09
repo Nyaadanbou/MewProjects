@@ -4,6 +4,13 @@ include(":adventurelevel:api")
 include(":adventurelevel:plugin")
 include(":adventurelevel:hooks")
 
+include(":betonquestext")
+include(":betonquestext:adventurelevel")
+include(":betonquestext:brewery")
+include(":betonquestext:common")
+include(":betonquestext:itemsadder")
+include(":betonquestext:plugin")
+
 include(":catalog")
 include(":keepinv")
 include(":mewcore")

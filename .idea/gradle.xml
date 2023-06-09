@@ -26,6 +26,12 @@
             <option value="$PROJECT_DIR$/adventurelevel/api" />
             <option value="$PROJECT_DIR$/adventurelevel/hooks" />
             <option value="$PROJECT_DIR$/adventurelevel/plugin" />
+            <option value="$PROJECT_DIR$/betonquestext" />
+            <option value="$PROJECT_DIR$/betonquestext/adventurelevel" />
+            <option value="$PROJECT_DIR$/betonquestext/brewery" />
+            <option value="$PROJECT_DIR$/betonquestext/common" />
+            <option value="$PROJECT_DIR$/betonquestext/itemsadder" />
+            <option value="$PROJECT_DIR$/betonquestext/plugin" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/catalog" />
             <option value="$PROJECT_DIR$/keepinv" />

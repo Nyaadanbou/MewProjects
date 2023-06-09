@@ -40,6 +40,20 @@
         </processorPath>
         <module name="MewProjects.proxychatbridge.velocity.main" />
       </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar" />
+        </processorPath>
+        <module name="MewProjects.betonquestext.plugin.test" />
+        <module name="MewProjects.betonquestext.brewery.test" />
+        <module name="MewProjects.betonquestext.itemsadder.main" />
+        <module name="MewProjects.betonquestext.plugin.main" />
+        <module name="MewProjects.betonquestext.itemsadder.test" />
+        <module name="MewProjects.betonquestext.brewery.main" />
+        <module name="MewProjects.betonquestext.adventurelevel.main" />
+        <module name="MewProjects.betonquestext.adventurelevel.test" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />
   </component>

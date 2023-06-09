@@ -144,4 +144,11 @@ repositories {
             includeGroup("fr.neatmonster")
         }
     }
+
+    // BetonQuest
+    maven("https://betonquest.org/nexus/repository/betonquest/") {
+        content {
+            includeGroup("org.betonquest")
+        }
+    }
 }

@@ -14,6 +14,9 @@ dependencies {
     implementation(project(":betonquestext:adventurelevel"))
     implementation(project(":betonquestext:brewery"))
     implementation(project(":betonquestext:itemsadder"))
+
+    // libs to shade into the jar
+    implementation(libs.evalex)
 }
 
 tasks {

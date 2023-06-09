@@ -1,5 +1,7 @@
 package cc.mewcraft.betonquest;
 
+import cc.mewcraft.betonquest.adventurelevel.condition.ReachLevelCondition;
+import cc.mewcraft.betonquest.adventurelevel.event.ChangeLevelEvent;
 import cc.mewcraft.betonquest.brewery.condition.HasBrewCondition;
 import cc.mewcraft.betonquest.brewery.event.GiveBrewEvent;
 import cc.mewcraft.betonquest.brewery.event.TakeBrewEvent;
@@ -8,21 +10,10 @@ import me.lucko.helper.plugin.ExtendedJavaPlugin;
 import org.betonquest.betonquest.BetonQuest;
 
 public class BetonQuestExt extends ExtendedJavaPlugin {
-
-    public static BetonQuestExt INSTANCE;
-
-    private boolean devMode;
-
-    @Override
-    public void load() {
-        INSTANCE = this;
-    }
-
     @Override
     public void enable() {
         // Load config
         saveDefaultConfig();
-        devMode = getConfig().getBoolean("debug");
 
         // Brewery
         if (isPluginPresent("Brewery")) {
@@ -50,7 +41,8 @@ public class BetonQuestExt extends ExtendedJavaPlugin {
 
         // AdventureLevel
         if (isPluginPresent("AdventureLevel")) {
-
+            BetonQuest.getInstance().registerConditions("alevel", ReachLevelCondition.class);
+            BetonQuest.getInstance().registerEvents("alevel", ChangeLevelEvent.class);
         }
 
         // Reload when itemsadder data load done
@@ -58,9 +50,4 @@ public class BetonQuestExt extends ExtendedJavaPlugin {
         //         .handler(e -> BetonQuest.getInstance().reload())
         //         .bindWith(this);
     }
-
-    public boolean isDevMode() {
-        return devMode;
-    }
-
 }

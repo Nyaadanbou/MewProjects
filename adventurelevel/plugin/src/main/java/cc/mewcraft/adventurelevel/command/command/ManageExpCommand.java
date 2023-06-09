@@ -6,6 +6,7 @@ import cc.mewcraft.adventurelevel.command.CommandManager;
 import cc.mewcraft.adventurelevel.command.argument.PlayerDataArgument;
 import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import cloud.commandframework.Command;
 import cloud.commandframework.arguments.flags.CommandFlag;
 import cloud.commandframework.arguments.standard.EnumArgument;
@@ -28,16 +29,16 @@ public class ManageExpCommand extends AbstractCommand {
     }
 
     private enum LevelOption {
-        MAIN(PlayerData::getMainLevel),
-        PLAYER_DEATH(playerData -> playerData.getCateLevel(LevelBean.Category.PLAYER_DEATH)),
-        ENTITY_DEATH(playerData -> playerData.getCateLevel(LevelBean.Category.ENTITY_DEATH)),
-        FURNACE(playerData -> playerData.getCateLevel(LevelBean.Category.FURNACE)),
-        BREED(playerData -> playerData.getCateLevel(LevelBean.Category.BREED)),
-        VILLAGER_TRADE(playerData -> playerData.getCateLevel(LevelBean.Category.VILLAGER_TRADE)),
-        FISHING(playerData -> playerData.getCateLevel(LevelBean.Category.FISHING)),
-        BLOCK_BREAK(playerData -> playerData.getCateLevel(LevelBean.Category.BLOCK_BREAK)),
-        EXP_BOTTLE(playerData -> playerData.getCateLevel(LevelBean.Category.EXP_BOTTLE)),
-        GRINDSTONE(playerData -> playerData.getCateLevel(LevelBean.Category.GRINDSTONE));
+        MAIN(playerData -> playerData.getLevelBean(LevelCategory.PLAYER_DEATH)),
+        PLAYER_DEATH(playerData -> playerData.getLevelBean(LevelCategory.PLAYER_DEATH)),
+        ENTITY_DEATH(playerData -> playerData.getLevelBean(LevelCategory.ENTITY_DEATH)),
+        FURNACE(playerData -> playerData.getLevelBean(LevelCategory.FURNACE)),
+        BREED(playerData -> playerData.getLevelBean(LevelCategory.BREED)),
+        VILLAGER_TRADE(playerData -> playerData.getLevelBean(LevelCategory.VILLAGER_TRADE)),
+        FISHING(playerData -> playerData.getLevelBean(LevelCategory.FISHING)),
+        BLOCK_BREAK(playerData -> playerData.getLevelBean(LevelCategory.BLOCK_BREAK)),
+        EXP_BOTTLE(playerData -> playerData.getLevelBean(LevelCategory.EXP_BOTTLE)),
+        GRINDSTONE(playerData -> playerData.getLevelBean(LevelCategory.GRINDSTONE));
 
         public final Function<PlayerData, LevelBean> mapping;
 

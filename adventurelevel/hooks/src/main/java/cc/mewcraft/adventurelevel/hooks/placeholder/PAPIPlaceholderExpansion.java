@@ -3,6 +3,7 @@ package cc.mewcraft.adventurelevel.hooks.placeholder;
 import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
 import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -43,7 +44,7 @@ public class PAPIPlaceholderExpansion implements Terminable {
                 return ""; // don't wait it and just return empty string
             }
 
-            LevelBean main = promise.join().getMainLevel();
+            LevelBean main = promise.join().getLevelBean(LevelCategory.MAIN);
 
             return switch (params) {
                 case "level" -> String.valueOf(main.getLevel());

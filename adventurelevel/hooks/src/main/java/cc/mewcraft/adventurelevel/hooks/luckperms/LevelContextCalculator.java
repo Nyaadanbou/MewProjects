@@ -2,6 +2,7 @@ package cc.mewcraft.adventurelevel.hooks.luckperms;
 
 import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import com.google.inject.Inject;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.OfflinePlayer;
@@ -18,7 +19,7 @@ public class LevelContextCalculator {
     public void register() {
         LuckPermsProvider.get().getContextManager().registerCalculator((target, consumer) -> {
             PlayerData playerData = playerDataManager.load((OfflinePlayer) target).join();
-            String mainLevel = String.valueOf(playerData.getMainLevel().getLevel());
+            String mainLevel = String.valueOf(playerData.getLevelBean(LevelCategory.MAIN).getLevel());
             consumer.accept("adventure-level", mainLevel);
         });
     }

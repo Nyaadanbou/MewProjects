@@ -4,6 +4,7 @@ import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import com.ezylang.evalex.Expression;
 import com.google.common.collect.RangeMap;
 
+@SuppressWarnings("UnstableApiUsage")
 public class BreedLevelBean extends AbstractLevelBean {
     public BreedLevelBean(
         final AdventureLevelPlugin plugin,

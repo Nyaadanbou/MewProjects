@@ -2,7 +2,7 @@ package cc.mewcraft.adventurelevel.listener;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
-import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import com.google.inject.Inject;
@@ -32,12 +32,12 @@ public class PickupExpListener implements AutoCloseableListener {
             .load(event.getPlayer())
             .thenAcceptSync(playerData -> {
                 // Handle main level
-                playerData.getMainLevel().handleEvent(event);
+                playerData.getLevelBean(LevelCategory.MAIN).handleEvent(event);
 
-                // Handle categorical levels
-                LevelBean.Category levelCategory = LevelBean.Category.toLevelCategory(event.getExperienceOrb().getSpawnReason());
+                // Handle other levels
+                LevelCategory levelCategory = LevelCategory.toLevelCategory(event.getExperienceOrb().getSpawnReason());
                 if (levelCategory != null) {
-                    playerData.getCateLevel(levelCategory).handleEvent(event);
+                    playerData.getLevelBean(levelCategory).handleEvent(event);
                 }
             });
     }

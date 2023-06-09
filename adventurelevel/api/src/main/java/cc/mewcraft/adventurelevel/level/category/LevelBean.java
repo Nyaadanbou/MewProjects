@@ -2,9 +2,7 @@ package cc.mewcraft.adventurelevel.level.category;
 
 import cc.mewcraft.adventurelevel.level.modifier.ExperienceModifier;
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
-import org.bukkit.entity.ExperienceOrb;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -16,66 +14,6 @@ import java.util.Map;
  * is expensive.
  */
 public interface LevelBean {
-
-    enum Category {
-        /**
-         * Exp source is {@link org.bukkit.entity.ExperienceOrb.SpawnReason#PLAYER_DEATH}
-         */
-        PLAYER_DEATH,
-        /**
-         * Exp source is {@link org.bukkit.entity.ExperienceOrb.SpawnReason#ENTITY_DEATH}
-         */
-        ENTITY_DEATH,
-        /**
-         * Exp source is {@link org.bukkit.entity.ExperienceOrb.SpawnReason#FURNACE}
-         */
-        FURNACE,
-        /**
-         * Exp source is {@link org.bukkit.entity.ExperienceOrb.SpawnReason#BREED}
-         */
-        BREED,
-        /**
-         * Exp source is {@link org.bukkit.entity.ExperienceOrb.SpawnReason#VILLAGER_TRADE}
-         */
-        VILLAGER_TRADE,
-        /**
-         * Exp source is {@link org.bukkit.entity.ExperienceOrb.SpawnReason#FISHING}
-         */
-        FISHING,
-        /**
-         * Exp source is {@link org.bukkit.entity.ExperienceOrb.SpawnReason#BLOCK_BREAK}
-         */
-        BLOCK_BREAK,
-        /**
-         * Exp source is {@link org.bukkit.entity.ExperienceOrb.SpawnReason#EXP_BOTTLE}
-         */
-        EXP_BOTTLE,
-        /**
-         * Exp source is {@link org.bukkit.entity.ExperienceOrb.SpawnReason#GRINDSTONE}
-         */
-        GRINDSTONE;
-
-        /**
-         * @param reason the spawn reason
-         *
-         * @return returns an empty if the SpawnReason should not be counted
-         */
-        public static @Nullable Category toLevelCategory(@NotNull ExperienceOrb.SpawnReason reason) {
-            return switch (reason) {
-                case PLAYER_DEATH -> Category.PLAYER_DEATH;
-                case ENTITY_DEATH -> Category.ENTITY_DEATH;
-                case FURNACE -> Category.FURNACE;
-                case BREED -> Category.BREED;
-                case VILLAGER_TRADE -> Category.VILLAGER_TRADE;
-                case FISHING -> Category.FISHING;
-                case BLOCK_BREAK -> Category.BLOCK_BREAK;
-                case EXP_BOTTLE -> Category.EXP_BOTTLE;
-                case GRINDSTONE -> Category.GRINDSTONE;
-                case CUSTOM, UNKNOWN -> null;
-            };
-        }
-    }
-
     void handleEvent(PlayerPickupExperienceEvent event);
 
     /**

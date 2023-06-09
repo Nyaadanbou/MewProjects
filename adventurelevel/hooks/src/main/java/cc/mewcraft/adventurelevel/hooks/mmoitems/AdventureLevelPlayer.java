@@ -1,5 +1,6 @@
 package cc.mewcraft.adventurelevel.hooks.mmoitems;
 
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import net.Indyuce.mmoitems.api.player.PlayerData;
 import net.Indyuce.mmoitems.api.player.RPGPlayer;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +15,7 @@ public class AdventureLevelPlayer extends RPGPlayer {
 
     @Override public int getLevel() {
         if (isBackedDataAvailable()) {
-            return adventurePlayerData.getMainLevel().getLevel();
+            return adventurePlayerData.getLevelBean(LevelCategory.MAIN).getLevel();
         }
         return 0;
     }

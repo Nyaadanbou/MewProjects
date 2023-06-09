@@ -2,7 +2,7 @@ package cc.mewcraft.adventurelevel.message;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import cc.mewcraft.adventurelevel.data.PlayerData;
-import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import cc.mewcraft.adventurelevel.util.PlayerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -70,21 +70,21 @@ public class DataSyncMessenger implements Terminable {
     public void send(@NotNull PlayerData data) {
         channel.sendMessage(new TransientPlayerData(
             data.getUuid(),
-            data.getMainLevel().getExperience(),
-            data.getCateLevel(LevelBean.Category.BLOCK_BREAK).getExperience(),
-            data.getCateLevel(LevelBean.Category.BREED).getExperience(),
-            data.getCateLevel(LevelBean.Category.ENTITY_DEATH).getExperience(),
-            data.getCateLevel(LevelBean.Category.EXP_BOTTLE).getExperience(),
-            data.getCateLevel(LevelBean.Category.FISHING).getExperience(),
-            data.getCateLevel(LevelBean.Category.FURNACE).getExperience(),
-            data.getCateLevel(LevelBean.Category.GRINDSTONE).getExperience(),
-            data.getCateLevel(LevelBean.Category.PLAYER_DEATH).getExperience(),
-            data.getCateLevel(LevelBean.Category.VILLAGER_TRADE).getExperience()
+            data.getLevelBean(LevelCategory.MAIN).getExperience(),
+            data.getLevelBean(LevelCategory.BLOCK_BREAK).getExperience(),
+            data.getLevelBean(LevelCategory.BREED).getExperience(),
+            data.getLevelBean(LevelCategory.ENTITY_DEATH).getExperience(),
+            data.getLevelBean(LevelCategory.EXP_BOTTLE).getExperience(),
+            data.getLevelBean(LevelCategory.FISHING).getExperience(),
+            data.getLevelBean(LevelCategory.FURNACE).getExperience(),
+            data.getLevelBean(LevelCategory.GRINDSTONE).getExperience(),
+            data.getLevelBean(LevelCategory.PLAYER_DEATH).getExperience(),
+            data.getLevelBean(LevelCategory.VILLAGER_TRADE).getExperience()
         )).thenAcceptAsync(n -> {
             plugin.getSLF4JLogger().info("Sent userdata to channel: name={},uuid={},mainXp={}",
                 PlayerUtils.getNameFromUUID(data.getUuid()),
                 data.getUuid(),
-                data.getMainLevel().getExperience()
+                data.getLevelBean(LevelCategory.MAIN).getExperience()
             );
         });
     }

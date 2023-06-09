@@ -2,6 +2,7 @@ package cc.mewcraft.adventurelevel.data;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import cc.mewcraft.adventurelevel.file.DataStorage;
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import cc.mewcraft.adventurelevel.message.DataSyncMessenger;
 import cc.mewcraft.adventurelevel.message.TransientPlayerData;
 import cc.mewcraft.adventurelevel.util.PlayerUtils;
@@ -115,7 +116,7 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
                     plugin.getSLF4JLogger().info("Unloaded userdata from cache: name={},uuid={},mainXp={}",
                         PlayerUtils.getNameFromUUID(playerData.getUuid()),
                         playerData.getUuid(),
-                        playerData.getMainLevel().getExperience()
+                        playerData.getLevelBean(LevelCategory.MAIN).getExperience()
                     );
                 }
             });

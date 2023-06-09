@@ -5,6 +5,7 @@ import com.ezylang.evalex.Expression;
 import com.google.common.collect.RangeMap;
 import com.google.inject.Inject;
 
+@SuppressWarnings("UnstableApiUsage")
 public class FishingLevelBean extends AbstractLevelBean {
     @Inject
     public FishingLevelBean(

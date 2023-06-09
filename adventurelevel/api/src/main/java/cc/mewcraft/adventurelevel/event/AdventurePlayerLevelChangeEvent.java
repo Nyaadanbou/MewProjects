@@ -11,7 +11,7 @@ public class AdventurePlayerLevelChangeEvent extends PlayerEvent implements Canc
     private static final HandlerList HANDLERS = new HandlerList();
     private boolean cancelled;
 
-    public AdventurePlayerLevelChangeEvent(@NotNull final Player who) {
+    public AdventurePlayerLevelChangeEvent(final @NotNull Player who) {
         super(who);
     }
 

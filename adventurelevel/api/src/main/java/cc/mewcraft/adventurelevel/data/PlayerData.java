@@ -1,6 +1,7 @@
 package cc.mewcraft.adventurelevel.data;
 
 import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -20,11 +21,9 @@ public interface PlayerData {
 
     @NotNull UUID getUuid();
 
-    @NotNull LevelBean getCateLevel(LevelBean.Category category);
+    @NotNull LevelBean getLevelBean(LevelCategory category);
 
-    @NotNull Map<LevelBean.Category, LevelBean> getCateLevelMap();
-
-    @NotNull LevelBean getMainLevel();
+    @NotNull Map<LevelCategory, LevelBean> getLevelBeanMap();
 
     /**
      * Checks whether this PlayerData has been fully loaded, i.e., its states are valid and up-to-date.

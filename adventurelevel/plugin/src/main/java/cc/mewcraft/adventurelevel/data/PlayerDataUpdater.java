@@ -2,7 +2,7 @@ package cc.mewcraft.adventurelevel.data;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import cc.mewcraft.adventurelevel.level.LevelBeanFactory;
-import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import cc.mewcraft.adventurelevel.message.TransientPlayerData;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,14 +29,11 @@ public final class PlayerDataUpdater {
      * @return an updated PlayerData (the reference remains unchanged)
      */
     public static @NotNull PlayerData update(final @NotNull PlayerData data, final @NotNull TransientPlayerData source) {
-        // Update Main Level
-        data.getMainLevel().setExperience(source.mainXp());
-
-        // Update Categorical Levels
-        for (final LevelBean.Category cate : LevelBean.Category.values()) {
-            data.getCateLevelMap()
-                .computeIfAbsent(cate, LevelBeanFactory::createCateLevelBean)
-                .setExperience(source.getExpByCategory(cate));
+        // Update All Level Beans
+        for (final LevelCategory category : LevelCategory.values()) {
+            data.getLevelBeanMap()
+                .computeIfAbsent(category, LevelBeanFactory::createLevelBean)
+                .setExperience(source.getExpByCategory(category));
         }
 
         return data; // reference remains unchanged
@@ -51,21 +48,18 @@ public final class PlayerDataUpdater {
      * @return an updated PlayerData (the reference remains unchanged)
      */
     public static @NotNull PlayerData update(final @NotNull PlayerData data, final @NotNull PlayerData source) {
-        // Update Main Level
-        data.getMainLevel().setExperience(source.getMainLevel().getExperience());
-
-        // Update Categorical Levels
-        for (final LevelBean.Category cate : LevelBean.Category.values()) {
-            data.getCateLevelMap()
-                .computeIfAbsent(cate, LevelBeanFactory::createCateLevelBean)
-                .setExperience(source.getCateLevel(cate).getExperience());
+        // Update All Level Beans
+        for (final LevelCategory category : LevelCategory.values()) {
+            data.getLevelBeanMap()
+                .computeIfAbsent(category, LevelBeanFactory::createLevelBean)
+                .setExperience(source.getLevelBean(category).getExperience());
         }
 
         return data; // reference remains unchanged
     }
 
     private PlayerDataUpdater() {
-        throw new UnsupportedOperationException("This class cannot be instantiated.");
+        throw new UnsupportedOperationException("This class cannot be instantiated");
     }
 
 }

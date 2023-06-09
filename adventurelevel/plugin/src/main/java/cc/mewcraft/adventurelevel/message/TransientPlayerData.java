@@ -1,6 +1,6 @@
 package cc.mewcraft.adventurelevel.message;
 
-import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import me.lucko.helper.messaging.codec.Message;
 
 import java.util.UUID;
@@ -20,8 +20,9 @@ public record TransientPlayerData(
     int villagerTradeXp
 ) {
 
-    public int getExpByCategory(LevelBean.Category category) {
+    public int getExpByCategory(LevelCategory category) {
         return switch (category) {
+            case MAIN -> mainXp;
             case BLOCK_BREAK -> blockBreakXp;
             case BREED -> breedXp;
             case ENTITY_DEATH -> entityDeathXp;

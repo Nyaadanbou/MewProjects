@@ -1,7 +1,6 @@
 package cc.mewcraft.adventurelevel.data;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
-import cc.mewcraft.adventurelevel.level.LevelBeanFactory;
 import cc.mewcraft.adventurelevel.level.category.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,19 +12,24 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RealPlayerData implements PlayerData {
 
+    /**
+     * The plugin.
+     */
     private final AdventureLevelPlugin plugin;
+    /**
+     * The player's UUID.
+     */
     private final UUID uuid;
+    /**
+     * A map containing all level beans.
+     */
+    private final Map<LevelCategory, LevelBean> cateLevelMap;
     /**
      * A variable indicating whether this player data has been fully loaded. If true (=complete), that means the data
      * has been fully loaded, and getters will return current values; otherwise, false (=incomplete) means it's not been
      * fully loaded and the returned values should not be used.
      */
     private final AtomicBoolean complete = new AtomicBoolean(false);
-
-    // --- level data ---
-
-    private final LevelBean mainLevel;
-    private final Map<LevelBean.Category, LevelBean> cateLevelMap;
 
     /**
      * This constructor is used to fast create an empty PlayerData in the main thread.
@@ -41,8 +45,6 @@ public class RealPlayerData implements PlayerData {
     ) {
         this.plugin = plugin;
         this.uuid = uuid;
-
-        this.mainLevel = LevelBeanFactory.createMainLevelBean();
         this.cateLevelMap = new HashMap<>();
 
         this.markAsIncomplete();
@@ -51,22 +53,18 @@ public class RealPlayerData implements PlayerData {
     /**
      * You must pass in a complete set of data to this constructor.
      *
-     * @param plugin       the plugin instance
-     * @param uuid         the uuid of backed player
-     * @param mainLevel    the instance of main level
-     * @param cateLevelMap the map must already be filled with instances of each categorical level
+     * @param plugin   the plugin instance
+     * @param uuid     the uuid of backed player
+     * @param levelMap the map must already be filled with instances of all level bean
      */
     public RealPlayerData(
         final AdventureLevelPlugin plugin,
         final UUID uuid,
-        final MainLevelBean mainLevel,
-        final Map<LevelBean.Category, LevelBean> cateLevelMap
+        final Map<LevelCategory, LevelBean> levelMap
     ) {
         this.plugin = plugin;
         this.uuid = uuid;
-
-        this.mainLevel = mainLevel;
-        this.cateLevelMap = cateLevelMap;
+        this.cateLevelMap = levelMap;
 
         this.markAsComplete();
     }
@@ -93,16 +91,17 @@ public class RealPlayerData implements PlayerData {
         final PlayerDeathLevelBean playerDeathLevel,
         final VillagerTradeLevelBean villagerTradeLevel
     ) {
-        this(plugin, uuid, mainLevel, new HashMap<>() {{
-            put(LevelBean.Category.BLOCK_BREAK, blockBreakLevel);
-            put(LevelBean.Category.BREED, breedLevel);
-            put(LevelBean.Category.ENTITY_DEATH, entityDeathLevel);
-            put(LevelBean.Category.EXP_BOTTLE, expBottleLevel);
-            put(LevelBean.Category.FISHING, fishingLevel);
-            put(LevelBean.Category.FURNACE, furnaceLevel);
-            put(LevelBean.Category.GRINDSTONE, grindstoneLevel);
-            put(LevelBean.Category.PLAYER_DEATH, playerDeathLevel);
-            put(LevelBean.Category.VILLAGER_TRADE, villagerTradeLevel);
+        this(plugin, uuid, new HashMap<>() {{
+            put(LevelCategory.MAIN, mainLevel);
+            put(LevelCategory.BLOCK_BREAK, blockBreakLevel);
+            put(LevelCategory.BREED, breedLevel);
+            put(LevelCategory.ENTITY_DEATH, entityDeathLevel);
+            put(LevelCategory.EXP_BOTTLE, expBottleLevel);
+            put(LevelCategory.FISHING, fishingLevel);
+            put(LevelCategory.FURNACE, furnaceLevel);
+            put(LevelCategory.GRINDSTONE, grindstoneLevel);
+            put(LevelCategory.PLAYER_DEATH, playerDeathLevel);
+            put(LevelCategory.VILLAGER_TRADE, villagerTradeLevel);
         }});
     }
 
@@ -112,16 +111,12 @@ public class RealPlayerData implements PlayerData {
         return uuid;
     }
 
-    @Override public @NotNull LevelBean getCateLevel(LevelBean.Category category) {
+    @Override public @NotNull LevelBean getLevelBean(LevelCategory category) {
         return Objects.requireNonNull(cateLevelMap.get(category));
     }
 
-    @Override public @NotNull Map<LevelBean.Category, LevelBean> getCateLevelMap() {
+    @Override public @NotNull Map<LevelCategory, LevelBean> getLevelBeanMap() {
         return cateLevelMap;
-    }
-
-    @Override public @NotNull LevelBean getMainLevel() {
-        return mainLevel;
     }
 
     @Override public boolean complete() {

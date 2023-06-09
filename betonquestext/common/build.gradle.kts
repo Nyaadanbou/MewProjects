@@ -11,6 +11,8 @@ dependencies {
     api(libs.helper)
     api(libs.betonquest) {
         exclude("io.papermc")
+        exclude("com.comphenix.packetwrapper")
+        exclude("me.filoghost.holographicdisplays")
     }
 }
 

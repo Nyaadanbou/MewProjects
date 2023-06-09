@@ -1,6 +1,5 @@
 package cc.mewcraft.betonquest.itemsadder.util;
 
-import cc.mewcraft.betonquest.BetonQuestExt;
 import dev.lone.itemsadder.api.CustomBlock;
 import dev.lone.itemsadder.api.CustomStack;
 import lombok.CustomLog;
@@ -19,27 +18,23 @@ public final class ItemsAdderUtil {
     }
 
     public static void validateCustomStackSilently(@NotNull QuestPackage questPackage, @NotNull String namespacedID) {
-        if (!BetonQuestExt.INSTANCE.isDevMode())
-            return;
         CustomStack cs = CustomStack.getInstance(namespacedID);
         if (cs == null) {
-            LOG.info(questPackage, "Unknown item ID: " + namespacedID);
+            LOG.debug(questPackage, "Unknown item ID: " + namespacedID);
         }
     }
 
     public static void validateCustomBlockSilently(@NotNull QuestPackage questPackage, @NotNull String namespacedID) {
-        if (!BetonQuestExt.INSTANCE.isDevMode())
-            return;
         CustomBlock cb = CustomBlock.getInstance(namespacedID);
         if (cb == null) {
-            LOG.info(questPackage, "Unknown item ID: " + namespacedID);
+            LOG.debug(questPackage, "Unknown item ID: " + namespacedID);
         } else if (!cb.isBlock()) {
-            LOG.info(questPackage, "Item is not block: " + namespacedID);
+            LOG.debug(questPackage, "Item is not block: " + namespacedID);
         }
     }
 
     private ItemsAdderUtil() {
-        throw new UnsupportedOperationException("This class cannot instantiate");
+        throw new UnsupportedOperationException("This class cannot be instantiated");
     }
 
 }

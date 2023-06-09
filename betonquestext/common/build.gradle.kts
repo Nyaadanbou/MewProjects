@@ -4,12 +4,15 @@ plugins {
 
 dependencies {
     // server api
-    api(libs.server.paper)
+    compileOnlyApi(libs.server.paper)
+
+    // libs that need to be shaded
+    compileOnlyApi(libs.evalex)
 
     // libs that present as other plugins
-    api(project(":mewcore"))
-    api(libs.helper)
-    api(libs.betonquest) {
+    compileOnlyApi(project(":mewcore"))
+    compileOnlyApi(libs.helper)
+    compileOnlyApi(libs.betonquest) {
         exclude("io.papermc")
         exclude("com.comphenix.packetwrapper")
         exclude("me.filoghost.holographicdisplays")

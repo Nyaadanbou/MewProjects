@@ -4,6 +4,7 @@ import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
 import cc.mewcraft.adventurelevel.level.category.LevelBean;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.lucko.helper.promise.Promise;
 import me.lucko.helper.terminable.Terminable;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+@Singleton
 public class PAPIPlaceholderExpansion implements Terminable {
     private final @MonotonicNonNull PlayerDataManager playerDataManager;
     private @MonotonicNonNull AdventureLevelExpansion placeholderExpansion;

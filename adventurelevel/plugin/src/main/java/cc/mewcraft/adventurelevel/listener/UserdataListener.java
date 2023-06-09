@@ -3,11 +3,13 @@ package cc.mewcraft.adventurelevel.listener;
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+@Singleton
 public class UserdataListener implements AutoCloseableListener {
 
     private final AdventureLevelPlugin plugin;

@@ -5,6 +5,7 @@ import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.level.category.LevelBean;
 import cc.mewcraft.adventurelevel.util.PlayerUtils;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.lucko.helper.messaging.Channel;
 import me.lucko.helper.messaging.ChannelAgent;
 import me.lucko.helper.messaging.util.MappedChannelReceiver;
@@ -22,6 +23,7 @@ import java.util.function.Function;
  * <p>
  * Why we have this class? Because SQL database is too slow to save/load data when players switch servers.
  */
+@Singleton
 public class DataSyncMessenger implements Terminable {
 
     private static final String DATA_SYNC_CHANNEL = "adventure-level-data-sync";

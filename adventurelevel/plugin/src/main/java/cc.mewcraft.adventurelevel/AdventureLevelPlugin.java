@@ -2,21 +2,18 @@ package cc.mewcraft.adventurelevel;
 
 import cc.mewcraft.adventurelevel.command.CommandManager;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
-import cc.mewcraft.adventurelevel.data.PlayerDataManagerImpl;
 import cc.mewcraft.adventurelevel.file.DataStorage;
-import cc.mewcraft.adventurelevel.file.SQLDataStorage;
 import cc.mewcraft.adventurelevel.hooks.luckperms.LevelContextCalculator;
+import cc.mewcraft.adventurelevel.hooks.placeholder.MiniPlaceholderExpansion;
+import cc.mewcraft.adventurelevel.hooks.placeholder.PAPIPlaceholderExpansion;
 import cc.mewcraft.adventurelevel.listener.PickupExpListener;
 import cc.mewcraft.adventurelevel.listener.UserdataListener;
 import cc.mewcraft.adventurelevel.message.DataSyncMessenger;
-import cc.mewcraft.adventurelevel.hooks.placeholder.MiniPlaceholderExpansion;
-import cc.mewcraft.adventurelevel.hooks.placeholder.PAPIPlaceholderExpansion;
 import cc.mewcraft.mewcore.message.Translations;
 import cc.mewcraft.mewcore.util.UtilFile;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Singleton;
 import me.lucko.helper.messaging.Messenger;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 import me.lucko.helper.redis.Redis;
@@ -46,25 +43,11 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
 
         injector = Guice.createInjector(new AbstractModule() {
             @Override protected void configure() {
-                // plugin instance
                 bind(AdventureLevelPlugin.class).toInstance(AdventureLevelPlugin.this);
 
-                // listeners
-                bind(UserdataListener.class).in(Singleton.class);
-                bind(PickupExpListener.class).in(Singleton.class);
-
-                // data manager
-                bind(DataStorage.class).to(SQLDataStorage.class).in(Singleton.class);
-                bind(PlayerDataManager.class).to(PlayerDataManagerImpl.class).in(Singleton.class);
-
-                // data messenger
+                // these classes are external, we can't use JIT bindings
                 bind(Redis.class).toInstance(getService(Redis.class));
                 bind(Messenger.class).toInstance(getService(Redis.class));
-                bind(DataSyncMessenger.class).in(Singleton.class);
-
-                // placeholder expansions
-                bind(MiniPlaceholderExpansion.class).in(Singleton.class);
-                bind(PAPIPlaceholderExpansion.class).in(Singleton.class);
             }
         });
 
@@ -79,15 +62,11 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
 
         translations = new Translations(this, "languages");
 
-        dataStorage = injector.getInstance(DataStorage.class);
-        dataStorage.bindWith(this);
+        dataStorage = bind(injector.getInstance(DataStorage.class));
         dataStorage.init();
 
-        playerDataManager = injector.getInstance(PlayerDataManager.class);
-        playerDataManager.bindWith(this);
-
-        dataSyncMessenger = injector.getInstance(DataSyncMessenger.class);
-        dataSyncMessenger.bindWith(this);
+        playerDataManager = bind(injector.getInstance(PlayerDataManager.class));
+        dataSyncMessenger = bind(injector.getInstance(DataSyncMessenger.class));
 
         // Register placeholders
         injector.getInstance(MiniPlaceholderExpansion.class).register().bindWith(this);

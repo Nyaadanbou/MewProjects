@@ -8,6 +8,7 @@ import cc.mewcraft.adventurelevel.level.category.LevelBean;
 import cc.mewcraft.adventurelevel.level.category.MainLevelBean;
 import cc.mewcraft.adventurelevel.util.PlayerUtils;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +23,7 @@ import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
+@Singleton
 public class SQLDataStorage extends AbstractDataStorage {
 
     private static final String DATA_POOL_NAME = "AdventureLevelHikariPool";

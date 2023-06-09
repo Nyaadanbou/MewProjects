@@ -6,6 +6,7 @@ import cc.mewcraft.adventurelevel.level.category.LevelBean;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.bukkit.event.EventHandler;
 
 import static org.bukkit.event.EventPriority.HIGH;
@@ -13,6 +14,7 @@ import static org.bukkit.event.EventPriority.HIGH;
 /**
  * This listener is the entry point of our level system.
  */
+@Singleton
 public class PickupExpListener implements AutoCloseableListener {
 
     private final AdventureLevelPlugin plugin;

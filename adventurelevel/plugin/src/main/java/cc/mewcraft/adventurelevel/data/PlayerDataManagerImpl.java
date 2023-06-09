@@ -9,6 +9,7 @@ import com.google.common.cache.*;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.lucko.helper.promise.Promise;
 import me.lucko.helper.utils.Players;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+@Singleton
 public class PlayerDataManagerImpl implements PlayerDataManager {
     private final AdventureLevelPlugin plugin;
     private final DataStorage storage;

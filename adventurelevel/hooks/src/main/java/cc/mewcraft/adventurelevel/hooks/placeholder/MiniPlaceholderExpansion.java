@@ -3,6 +3,7 @@ package cc.mewcraft.adventurelevel.hooks.placeholder;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
 import cc.mewcraft.adventurelevel.level.category.LevelBean;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import io.github.miniplaceholders.api.Expansion;
 import me.lucko.helper.terminable.Terminable;
 import net.kyori.adventure.text.minimessage.tag.Tag;
@@ -12,6 +13,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+@Singleton
 public class MiniPlaceholderExpansion implements Terminable {
 
     private final @MonotonicNonNull PlayerDataManager playerDataManager;

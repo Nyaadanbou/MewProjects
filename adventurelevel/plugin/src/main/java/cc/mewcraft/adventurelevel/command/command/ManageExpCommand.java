@@ -13,6 +13,7 @@ import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.arguments.standard.IntegerArgument;
 import me.lucko.helper.function.chain.Chain;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -26,6 +27,83 @@ public class ManageExpCommand extends AbstractCommand {
 
     public ManageExpCommand(final AdventureLevelPlugin plugin, final CommandManager manager) {
         super(plugin, manager);
+    }
+
+    @Override public void register() {
+        Command<CommandSender> setExpCommand = manager.commandBuilder("adventurelevel")
+            .literal("set")
+            .argument(PlayerDataArgument.of("userdata"))
+            .argument(EnumArgument.of(LevelOption.class, "category"))
+            .argument(IntegerArgument.of("amount"))
+            .flag(CommandFlag.builder("level"))
+            .permission("adventurelevel.command.admin")
+            .handler(context -> {
+                CommandSender sender = context.getSender();
+
+                PlayerData userdata = context.get("userdata");
+                LevelOption category = context.get("category");
+                int amount = context.get("amount");
+
+                boolean useLevel = context.flags().isPresent("level");
+                TagResolver[] resolvers = {
+                    Placeholder.unparsed("player", Chain
+                        .start(userdata.getUuid())
+                        .map(Bukkit::getOfflinePlayer)
+                        .map(OfflinePlayer::getName)
+                        .end().orElse(NULL_PLAYER)),
+                    Placeholder.unparsed("category", category.name()),
+                    Placeholder.unparsed("amount", String.valueOf(amount))
+                };
+
+                if (useLevel) {
+                    category.mapping.apply(userdata).setLevel(amount);
+                    plugin.getLang().of("msg_player_level_is_set").resolver(resolvers).send(sender);
+                } else {
+                    category.mapping.apply(userdata).setExperience(amount);
+                    plugin.getLang().of("msg_player_xp_is_set").resolver(resolvers).send(sender);
+                }
+            })
+            .build();
+
+        Command<CommandSender> addExpCommand = manager.commandBuilder("adventurelevel")
+            .literal("add")
+            .argument(PlayerDataArgument.of("userdata"))
+            .argument(EnumArgument.of(LevelOption.class, "category"))
+            .argument(IntegerArgument.of("amount"))
+            .flag(CommandFlag.builder("level"))
+            .permission("adventurelevel.command.admin")
+            .handler(context -> {
+                CommandSender sender = context.getSender();
+
+                PlayerData userdata = context.get("userdata");
+                LevelOption category = context.get("category");
+                int amount = context.get("amount");
+
+                boolean useLevel = context.flags().isPresent("level");
+                TagResolver[] resolvers = {
+                    Placeholder.unparsed("player", Chain
+                        .start(userdata.getUuid())
+                        .map(Bukkit::getOfflinePlayer)
+                        .map(OfflinePlayer::getName)
+                        .end().orElse(NULL_PLAYER)),
+                    Placeholder.unparsed("category", category.name()),
+                    Placeholder.unparsed("amount", String.valueOf(amount))
+                };
+
+                if (useLevel) {
+                    category.mapping.apply(userdata).addLevel(amount);
+                    plugin.getLang().of("msg_player_level_is_added").resolver(resolvers).send(sender);
+                } else {
+                    category.mapping.apply(userdata).addExperience(amount);
+                    plugin.getLang().of("msg_player_xp_is_added").resolver(resolvers).send(sender);
+                }
+            })
+            .build();
+
+        manager.register(List.of(
+            setExpCommand,
+            addExpCommand
+        ));
     }
 
     private enum LevelOption {
@@ -45,79 +123,6 @@ public class ManageExpCommand extends AbstractCommand {
         LevelOption(Function<PlayerData, LevelBean> mapping) {
             this.mapping = mapping;
         }
-    }
-
-    @Override public void register() {
-        Command<CommandSender> setExpCommand = manager.commandBuilder("adventurelevel")
-            .literal("set")
-            .argument(PlayerDataArgument.of("userdata"))
-            .argument(EnumArgument.of(LevelOption.class, "category"))
-            .argument(IntegerArgument.of("amount"))
-            .flag(CommandFlag.builder("level").withAliases("l"))
-            .permission("adventurelevel.command.admin")
-            .handler(context -> {
-                CommandSender sender = context.getSender();
-
-                PlayerData userdata = context.get("userdata");
-                LevelOption category = context.get("category");
-                int amount = context.get("amount");
-
-                boolean useLevel = context.flags().isPresent("level");
-                if (useLevel)
-                    category.mapping.apply(userdata).setLevel(amount);
-                else
-                    category.mapping.apply(userdata).setExperience(amount);
-
-                plugin.getLang().of("msg_player_xp_is_set")
-                    .resolver(
-                        Placeholder.unparsed("player", Chain
-                            .start(userdata.getUuid())
-                            .map(Bukkit::getOfflinePlayer)
-                            .map(OfflinePlayer::getName)
-                            .end().orElse(NULL_PLAYER)),
-                        Placeholder.unparsed("category", category.name()),
-                        Placeholder.unparsed("amount", String.valueOf(amount))
-                    ).send(sender);
-            })
-            .build();
-
-        Command<CommandSender> addExpCommand = manager.commandBuilder("adventurelevel")
-            .literal("add")
-            .argument(PlayerDataArgument.of("userdata"))
-            .argument(EnumArgument.of(LevelOption.class, "category"))
-            .argument(IntegerArgument.of("amount"))
-            .flag(CommandFlag.builder("level").withAliases("l"))
-            .permission("adventurelevel.command.admin")
-            .handler(context -> {
-                CommandSender sender = context.getSender();
-
-                PlayerData userdata = context.get("userdata");
-                LevelOption category = context.get("category");
-                int amount = context.get("amount");
-
-                boolean useLevel = context.flags().isPresent("level");
-                if (useLevel)
-                    category.mapping.apply(userdata).addLevel(amount);
-                else
-                    category.mapping.apply(userdata).addExperience(amount);
-
-                plugin.getLang().of("msg_player_xp_is_added")
-                    .resolver(
-                        Placeholder.unparsed("player", Chain
-                            .start(userdata.getUuid())
-                            .map(Bukkit::getOfflinePlayer)
-                            .map(OfflinePlayer::getName)
-                            .end().orElse(NULL_PLAYER)),
-                        Placeholder.unparsed("category", category.name()),
-                        Placeholder.unparsed("amount", String.valueOf(amount))
-                    ).send(sender);
-            })
-            .build();
-
-        manager.register(List.of(
-            setExpCommand,
-            addExpCommand
-        ));
     }
 
 }

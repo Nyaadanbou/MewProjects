@@ -21,12 +21,8 @@ help:
     - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/crops>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
   enchants:
     - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/enchants>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
-  waystones:
-    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/waystones>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
   tp:
     - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/teleport>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
-  pets:
-    - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/pets>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
   spawn:
     - "<hover:show_text:'点击查看帮助'><click:open_url:https://wiki.mewcraft.cc/survival/spawn>[<color:#58ff4d>点击这里</color>]</click></hover> 查看帮助"
   eco:

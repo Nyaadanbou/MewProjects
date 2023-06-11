@@ -1,36 +1,71 @@
 package cc.mewcraft.mewhelp;
 
+import cc.mewcraft.mewcore.message.Translations;
+import cc.mewcraft.mewhelp.command.CommandRegistry;
+import cc.mewcraft.mewhelp.command.HelpTopicArgument;
+import cc.mewcraft.mewhelp.object.HelpTopic;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
+import org.bukkit.command.CommandSender;
 
 public final class MewHelp extends ExtendedJavaPlugin {
+    public static MewHelp INSTANCE;
 
-    public static MewHelp p;
+    private TopicManager config;
+    private Translations translations;
 
-    public MewConfig config;
-    public MewMessages messages;
-    public HelpCommand commands;
-
-    public static void debug(String message) {
-        if (p.config.getDebug())
-            p.getLogger().info("[DEBUG] " + message);
-    }
-
-    public void reload() {
-        disable();
-        enable();
+    public static MewHelp getInstance() {
+        return INSTANCE;
     }
 
     @Override
     protected void enable() {
-        p = this;
+        INSTANCE = this;
 
-        config = new MewConfig(this);
-        config.loadDefaultConfig();
+        translations = new Translations(this, "languages");
 
-        messages = new MewMessages(this);
-        commands = bindModule(new HelpCommand());
+        config = new TopicManager(this);
+        config.loadConfig();
+
+        try {
+            CommandRegistry commandRegistry = bind(new CommandRegistry(this));
+
+            // Prepare command: /help <topic>
+            commandRegistry.prepareCommand(commandRegistry
+                .commandBuilder("help")
+                .argument(HelpTopicArgument.of("topic"))
+                .handler(ctx -> {
+                    HelpTopic topic = ctx.get("topic");
+                    CommandSender sender = ctx.getSender();
+                    topic.components().forEach(sender::sendMessage);
+                }).build()
+            );
+            // Prepare command: /help reload
+            commandRegistry.prepareCommand(commandRegistry
+                .commandBuilder("help")
+                .literal("reload")
+                .permission("mewhelp.admin")
+                .handler(ctx -> {
+                    onDisable();
+                    onEnable();
+                    getLanguages().of("msg_reloaded_config").send(ctx.getSender());
+                }).build()
+            );
+            // Register all commands
+            commandRegistry.registerCommands();
+        } catch (Exception e) {
+            getSLF4JLogger().error("Failed to register commands!");
+        }
     }
 
     @Override
     protected void disable() {}
+
+    public TopicManager getTopicManager() {
+        return config;
+    }
+
+    public Translations getLanguages() {
+        return translations;
+    }
+
 }

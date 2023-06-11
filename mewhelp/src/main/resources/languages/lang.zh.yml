@@ -2,9 +2,6 @@
 # 语法参考 https://docs.adventure.kyori.net/minimessage/format.html
 # MiniMessage 在线预览 https://webui.adventure.kyori.net/
 
-prefix:
-  info: '<dark_gray>[<dark_green><b>!</b></dark_green>]</dark_gray> '
-  warn: '<dark_gray>[<red><b>!</b></red>]</dark_gray> '
-
-reloadedConfig: '<gray>已重新载入 config.yml</gray>'
-useTabforHelp: '<gray>输入 <aqua>/{command} [TAB]</aqua> 查看更多帮助信息'
+msg_loaded_topics: "Successfully loaded <amount> help topics!"
+msg_reloaded_config: '<gray>已重新载入 <plugin> by <author>'
+msg_use_tab_for_help: '<gray>输入 <aqua>/<command> [TAB]</aqua> 查看更多信息'

@@ -65,7 +65,7 @@ public class HelpTopicArgument extends CommandArgument<CommandSender, HelpTopic>
                 new IllegalArgumentException(
                     MewHelp.getInstance().getLanguages()
                         .of("msg_use_tab_for_help")
-                        .resolver(Placeholder.unparsed("command", commandContext.getRawInput().get(0)))
+                        .replace("command", commandContext.getRawInput().get(0))
                         .locale(sender)
                         .plain()
                 )

@@ -47,9 +47,14 @@ public final class MewHelp extends ExtendedJavaPlugin {
                 .handler(ctx -> {
                     onDisable();
                     onEnable();
-                    getLanguages().of("msg_reloaded_config").send(ctx.getSender());
+                    //noinspection UnstableApiUsage
+                    getLanguages().of("msg_reloaded_config")
+                        .replace("plugin", getPluginMeta().getName())
+                        .replace("author", getPluginMeta().getAuthors().get(0))
+                        .send(ctx.getSender());
                 }).build()
             );
+
             // Register all commands
             commandRegistry.registerCommands();
         } catch (Exception e) {

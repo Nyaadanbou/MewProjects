@@ -42,6 +42,7 @@
             <option value="$PROJECT_DIR$/mewutils/base" />
             <option value="$PROJECT_DIR$/mewutils/plugin" />
             <option value="$PROJECT_DIR$/mmoext" />
+            <option value="$PROJECT_DIR$/persistentserver" />
             <option value="$PROJECT_DIR$/pickaxepower" />
             <option value="$PROJECT_DIR$/proxychatbridge" />
             <option value="$PROJECT_DIR$/proxychatbridge/bukkit" />

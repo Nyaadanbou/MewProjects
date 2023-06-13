@@ -21,6 +21,7 @@ include(":mewutils:plugin")
 include(":mewfishing")
 include(":mewhelp")
 include(":mmoext")
+include(":persistentserver")
 include(":pickaxepower")
 
 include(":proxychatbridge")

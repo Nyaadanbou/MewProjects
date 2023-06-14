@@ -1,14 +1,8 @@
 plugins {
-    id("cc.mewcraft.java-conventions")
-    id("cc.mewcraft.repository-conventions")
-    id("cc.mewcraft.publishing-conventions")
-    alias(libs.plugins.indra)
-    alias(libs.plugins.shadow)
+    id("cc.mewcraft.deploy-conventions")
 }
 
-group = project(":adventurelevel:api").group
-version = project(":adventurelevel:api").version
-description = project(":adventurelevel:api").description
+project.ext.set("name", "AdventureLevel")
 
 dependencies {
     // api module
@@ -31,16 +25,6 @@ dependencies {
 }
 
 tasks {
-    assemble {
-        dependsOn(shadowJar)
-    }
-    jar {
-        archiveClassifier.set("noshade")
-    }
-    shadowJar {
-        archiveBaseName.set("AdventureLevel")
-        archiveClassifier.set("")
-    }
     processResources {
         filesMatching("**/paper-plugin.yml") {
             expand(
@@ -51,27 +35,4 @@ tasks {
             )
         }
     }
-    register("deployJar") {
-        doLast {
-            exec {
-                commandLine("rsync", shadowJar.get().archiveFile.get().asFile.absoluteFile, "dev:data/dev/jar")
-            }
-        }
-    }
-    register("deployJarFresh") {
-        dependsOn(build)
-        finalizedBy(named("deployJar"))
-    }
 }
-
-indra {
-    javaVersions().target(17)
-}
-
-/*publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-        }
-    }
-}*/

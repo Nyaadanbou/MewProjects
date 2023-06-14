@@ -1,9 +1,10 @@
 plugins {
     id("cc.mewcraft.java-conventions")
     id("cc.mewcraft.repository-conventions")
-    alias(libs.plugins.indra)
     alias(libs.plugins.paperweight.userdev)
 }
+
+project.ext.set("name", "MewFishing")
 
 group = "cc.mewcraft"
 description = "Let's customize fishing!"
@@ -38,7 +39,7 @@ tasks {
         dependsOn(reobfJar)
     }
     reobfJar {
-        outputJar.set(layout.buildDirectory.file("MewFishing-${project.version}.jar"))
+        outputJar.set(layout.buildDirectory.file("${rootProject.name}-${project.version}.jar"))
     }
     processResources {
         filesMatching("**/paper-plugin.yml") {
@@ -61,8 +62,4 @@ tasks {
         dependsOn(build)
         finalizedBy(named("deployJar"))
     }
-}
-
-indra {
-    javaVersions().target(17)
 }

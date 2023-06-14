@@ -3,13 +3,19 @@ plugins {
     `maven-publish`
 }
 
+group = "cc.mewcraft.conventions"
+version = "1.0.0"
+
 repositories {
     mavenCentral()
     gradlePluginPortal()
 }
 
-group = "cc.mewcraft.conventions"
-version = "1.0.0"
+dependencies {
+    implementation("net.kyori.indra", "net.kyori.indra.gradle.plugin", "3.1.1")
+    implementation("com.github.johnrengelman.shadow", "com.github.johnrengelman.shadow.gradle.plugin", "8.1.1")
+    // implementation("net.minecrell.plugin-yml.paper", "net.minecrell.plugin-yml.paper.gradle.plugin", "0.5.3")
+}
 
 // it allows to publish my convention plugins
 // which may be used by my other projects

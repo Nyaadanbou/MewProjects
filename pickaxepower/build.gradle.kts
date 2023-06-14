@@ -1,9 +1,10 @@
 plugins {
     id("cc.mewcraft.java-conventions")
+    id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.repository-conventions")
-    alias(libs.plugins.indra)
-    alias(libs.plugins.shadow)
 }
+
+project.ext.set("name", "PickaxePower")
 
 group = "cc.mewcraft"
 version = "1.0.1"
@@ -21,32 +22,13 @@ dependencies {
 }
 
 tasks {
-    jar {
-        archiveBaseName.set("PickaxePower")
-    }
     processResources {
         filesMatching("**/paper-plugin.yml") {
-            expand(
-                mapOf(
-                    "version" to "${project.version}",
-                    "description" to project.description
-                )
+            val mappings = mapOf(
+                "version" to "${project.version}",
+                "description" to project.description
             )
+            expand(mappings)
         }
     }
-    register("deployJar") {
-        doLast {
-            exec {
-                commandLine("rsync", jar.get().archiveFile.get().asFile.absoluteFile, "dev:data/dev/jar")
-            }
-        }
-    }
-    register("deployJarFresh") {
-        dependsOn(build)
-        finalizedBy(named("deployJar"))
-    }
-}
-
-indra {
-    javaVersions().target(17)
 }

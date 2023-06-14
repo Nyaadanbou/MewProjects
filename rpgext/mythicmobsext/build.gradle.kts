@@ -1,6 +1,8 @@
 plugins {
-    alias(libs.plugins.indra)
+    id("cc.mewcraft.deploy-conventions")
 }
+
+project.ext.set("name", "MythicMobsExt")
 
 group = "cc.mewcraft.mythicmobsext"
 version = "1.1.0"
@@ -22,9 +24,6 @@ dependencies {
 }
 
 tasks {
-    jar {
-        archiveBaseName.set("MythicMobsExt")
-    }
     processResources {
         filesMatching("**/paper-plugin.yml") {
             expand(
@@ -35,19 +34,4 @@ tasks {
             )
         }
     }
-    register("deployJar") {
-        doLast {
-            exec {
-                commandLine("rsync", jar.get().archiveFile.get().asFile.absoluteFile, "dev:data/dev/jar")
-            }
-        }
-    }
-    register("deployJarFresh") {
-        dependsOn(build)
-        finalizedBy(named("deployJar"))
-    }
-}
-
-indra {
-    javaVersions().target(17)
 }

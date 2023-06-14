@@ -1,7 +1,3 @@
-plugins {
-    alias(libs.plugins.indra)
-}
-
 dependencies {
     // server api
     compileOnlyApi(libs.server.paper)
@@ -17,8 +13,4 @@ dependencies {
         exclude("com.comphenix.packetwrapper")
         exclude("me.filoghost.holographicdisplays")
     }
-}
-
-indra {
-    javaVersions().target(17)
 }

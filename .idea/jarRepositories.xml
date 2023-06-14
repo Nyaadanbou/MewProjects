@@ -136,5 +136,15 @@
       <option name="name" value="maven18" />
       <option name="url" value="https://betonquest.org/nexus/repository/betonquest/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven17" />
+      <option name="name" value="maven17" />
+      <option name="url" value="https://repo.codemc.io/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven21" />
+      <option name="name" value="maven21" />
+      <option name="url" value="https://oss.sonatype.org/content/groups/public/" />
+    </remote-repository>
   </component>
 </project>

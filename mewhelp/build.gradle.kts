@@ -1,8 +1,10 @@
 plugins {
     id("cc.mewcraft.java-conventions")
+    id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.repository-conventions")
-    alias(libs.plugins.indra)
 }
+
+project.ext.set("name", "MewHelp")
 
 group = "cc.mewcraft"
 version = "1.1.0"
@@ -15,9 +17,6 @@ dependencies {
 }
 
 tasks {
-    jar {
-        archiveBaseName.set("MewHelp")
-    }
     processResources {
         filesMatching("**/paper-plugin.yml") {
             expand(
@@ -28,16 +27,4 @@ tasks {
             )
         }
     }
-    register("deployJarFresh") {
-        dependsOn(build)
-        doLast {
-            exec {
-                commandLine("rsync", jar.get().archiveFile.get().asFile.path, "dev:data/dev/jar")
-            }
-        }
-    }
-}
-
-indra {
-    javaVersions().target(17)
 }

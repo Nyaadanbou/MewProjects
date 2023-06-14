@@ -1,5 +1,6 @@
 rootProject.name = "MewProjects"
 
+include(":adventurelevel")
 include(":adventurelevel:api")
 include(":adventurelevel:plugin")
 include(":adventurelevel:hooks")
@@ -34,3 +35,9 @@ include(":rpgext")
 include(":rpgext:common")
 include(":rpgext:mythiclibext")
 include(":rpgext:mythicmobsext")
+
+include(":townyext")
+include(":townyext:towny-bonus")
+include(":townyext:towny-link")
+include(":townyext:towny-origin")
+include(":townyext:towny-portal")

@@ -1,8 +1,9 @@
 plugins {
     id("io.freefair.lombok")
-    alias(libs.plugins.indra)
-    alias(libs.plugins.shadow)
+    id("cc.mewcraft.deploy-conventions")
 }
+
+project.ext.set("name", "BetonQuestExt")
 
 version = "1.3.1"
 description = "Brings BetonQuest more integrations with 3rd party plugins"
@@ -20,16 +21,6 @@ dependencies {
 }
 
 tasks {
-    assemble {
-        dependsOn(shadowJar)
-    }
-    jar {
-        archiveClassifier.set("noshade")
-    }
-    shadowJar {
-        archiveBaseName.set("BetonQuestExt")
-        archiveClassifier.set("")
-    }
     processResources {
         filesMatching("**/paper-plugin.yml") {
             expand(
@@ -40,19 +31,4 @@ tasks {
             )
         }
     }
-    register("deployJar") {
-        doLast {
-            exec {
-                commandLine("rsync", shadowJar.get().archiveFile.get().asFile.absoluteFile, "dev:data/dev/jar")
-            }
-        }
-    }
-    register("deployJarFresh") {
-        dependsOn(build)
-        finalizedBy(named("deployJar"))
-    }
-}
-
-indra {
-    javaVersions().target(17)
 }

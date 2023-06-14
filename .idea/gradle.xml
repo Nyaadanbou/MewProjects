@@ -53,6 +53,11 @@
             <option value="$PROJECT_DIR$/rpgext/common" />
             <option value="$PROJECT_DIR$/rpgext/mythiclibext" />
             <option value="$PROJECT_DIR$/rpgext/mythicmobsext" />
+            <option value="$PROJECT_DIR$/townyext" />
+            <option value="$PROJECT_DIR$/townyext/towny-bonus" />
+            <option value="$PROJECT_DIR$/townyext/towny-link" />
+            <option value="$PROJECT_DIR$/townyext/towny-origin" />
+            <option value="$PROJECT_DIR$/townyext/towny-portal" />
           </set>
         </option>
       </GradleProjectSettings>

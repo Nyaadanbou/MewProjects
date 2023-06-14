@@ -1,6 +1,8 @@
 plugins {
-    alias(libs.plugins.indra)
+    id("cc.mewcraft.deploy-conventions")
 }
+
+project.ext.set("name", "MythicLibExt")
 
 group = "cc.mewcraft.mythiclibext"
 version = "1.0.0"
@@ -21,9 +23,6 @@ dependencies {
 }
 
 tasks {
-    jar {
-        archiveBaseName.set("MythicLibExt")
-    }
     processResources {
         filesMatching("**/paper-plugin.yml") {
             expand(
@@ -34,19 +33,4 @@ tasks {
             )
         }
     }
-    register("deployJar") {
-        doLast {
-            exec {
-                commandLine("rsync", jar.get().archiveFile.get().asFile.absoluteFile, "dev:data/dev/jar")
-            }
-        }
-    }
-    register("deployJarFresh") {
-        dependsOn(build)
-        finalizedBy(named("deployJar"))
-    }
-}
-
-indra {
-    javaVersions().target(17)
 }

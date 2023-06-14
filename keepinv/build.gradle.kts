@@ -1,9 +1,10 @@
 plugins {
     id("cc.mewcraft.java-conventions")
+    id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.repository-conventions")
-    alias(libs.plugins.indra)
-    alias(libs.plugins.shadow)
 }
+
+project.ext.set("name", "KeepInv")
 
 group = "cc.mewcraft"
 version = "1.0.0"
@@ -19,9 +20,8 @@ dependencies {
 }
 
 tasks {
-    jar {
-        archiveBaseName.set("KeepInv")
-    }
+    project.ext.set("name", "AdventureLevel")
+
     processResources {
         filesMatching("**/paper-plugin.yml") {
             expand(
@@ -32,19 +32,4 @@ tasks {
             )
         }
     }
-    register("deployJar") {
-        doLast {
-            exec {
-                commandLine("rsync", jar.get().archiveFile.get().asFile.absoluteFile, "dev:data/dev/jar")
-            }
-        }
-    }
-    register("deployJarFresh") {
-        dependsOn(build)
-        finalizedBy(named("deployJar"))
-    }
-}
-
-indra {
-    javaVersions().target(17)
 }

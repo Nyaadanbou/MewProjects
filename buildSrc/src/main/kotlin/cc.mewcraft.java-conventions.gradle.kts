@@ -1,5 +1,7 @@
 plugins {
     `java-library`
+    id("net.kyori.indra")
+    id("com.github.johnrengelman.shadow")
 }
 
 dependencies {
@@ -9,6 +11,22 @@ dependencies {
     compileOnly("org.apiguardian", "apiguardian-api", "1.1.2")
 }
 
+tasks {
+    compileJava {
+        dependsOn(clean)
+    }
+    assemble {
+        dependsOn(shadowJar)
+    }
+    shadowJar {
+        archiveClassifier.set("shaded")
+    }
+}
+
 java {
     withSourcesJar()
+}
+
+indra {
+    javaVersions().target(17)
 }

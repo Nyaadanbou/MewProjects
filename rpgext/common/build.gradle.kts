@@ -1,7 +1,3 @@
-plugins {
-    alias(libs.plugins.indra)
-}
-
 dependencies {
     // server api
     compileOnly(libs.server.paper)
@@ -11,8 +7,4 @@ dependencies {
     compileOnly(libs.helper)
     compileOnly(libs.itemsadder)
     compileOnly(libs.mythiclib)
-}
-
-indra {
-    javaVersions().target(17)
 }

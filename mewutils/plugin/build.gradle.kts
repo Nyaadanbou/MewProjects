@@ -1,8 +1,10 @@
 plugins {
     id("cc.mewcraft.java-conventions")
+    id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.repository-conventions")
-    alias(libs.plugins.shadow)
 }
+
+project.ext.set("name", "MewUtils")
 
 group = "cc.mewcraft"
 version = "1.23.1"
@@ -21,16 +23,6 @@ dependencies {
 }
 
 tasks {
-    jar {
-        archiveClassifier.set("nonshade")
-    }
-    assemble {
-        dependsOn(shadowJar)
-    }
-    shadowJar {
-        // Shadow is only used to include classes from other modules
-        archiveFileName.set("MewUtils-${project.version}.jar")
-    }
     processResources {
         filesMatching("**/paper-plugin.yml") {
             expand(
@@ -40,16 +32,5 @@ tasks {
                 )
             )
         }
-    }
-    register("deployJar") {
-        doLast {
-            exec {
-                commandLine("rsync", shadowJar.get().archiveFile.get().asFile.absoluteFile, "dev:data/dev/jar")
-            }
-        }
-    }
-    register("deployJarFresh") {
-        dependsOn(build)
-        finalizedBy(named("deployJar"))
     }
 }

@@ -1,18 +1,20 @@
 plugins {
     id("cc.mewcraft.java-conventions")
+    id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.repository-conventions")
     id("cc.mewcraft.publishing-conventions")
-    alias(libs.plugins.indra)
-    alias(libs.plugins.shadow)
 }
+
+project.ext.set("name", "MewCore")
 
 group = "cc.mewcraft"
 version = "5.17.1"
 description = "Common code of all Mewcraft plugins."
 
 // Reference: https://youtrack.jetbrains.com/issue/IDEA-276365
-configurations.compileOnlyApi {
-    isCanBeResolved = true
+configurations {
+    compileOnlyApi { isCanBeResolved = true }
+    implementation { isCanBeResolved = true }
 }
 
 dependencies {
@@ -59,27 +61,13 @@ dependencies {
 }
 
 tasks {
-    assemble {
-        dependsOn(shadowJar)
-    }
     shadowJar {
-        archiveBaseName.set("MewCore")
-        archiveClassifier.set("shaded")
-        configurations = listOf(project.configurations.compileOnlyApi.get())
+        configurations = listOf(
+            project.configurations.implementation.get(),
+            project.configurations.compileOnlyApi.get()
+        )
 
         // Paper Plugins have isolated classloaders so relocating classes is no longer needed
-        /*val path = "cc.mewcraft.lib."
-        relocate("com.mojang.authlib", path + "authlib")
-        relocate("com.mojang.util", path + "authlib.util")
-        relocate("org.apache.commons", path + "apache.commons")
-
-        relocate("cloud.commandframework", path + "commandframework")
-
-        relocate("org.spongepowered.configurate", path + "configurate")
-        relocate("org.yaml.snakeyaml", path + "snakeyaml")
-        relocate("io.leangen.geantyref", path + "geantyref") // shared by "configurate" and "commandfrmaework"
-
-        relocate("de.themoep.utils.lang", path + "lang")*/
     }
     processResources {
         filesMatching("**/paper-plugin.yml") {
@@ -91,27 +79,4 @@ tasks {
             )
         }
     }
-    register("deployJar") {
-        doLast {
-            exec {
-                commandLine("rsync", shadowJar.get().archiveFile.get().asFile.absoluteFile, "dev:data/dev/jar")
-            }
-        }
-    }
-    register("deployJarFresh") {
-        dependsOn(build)
-        finalizedBy(named("deployJar"))
-    }
 }
-
-indra {
-    javaVersions().target(17)
-}
-
-/*publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-        }
-    }
-}*/

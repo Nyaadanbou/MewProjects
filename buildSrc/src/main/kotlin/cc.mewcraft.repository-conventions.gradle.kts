@@ -1,16 +1,9 @@
 repositories {
     mavenCentral()
 
-    maven(uri("${System.getenv("HOME")}/MewcraftRepository")) {
-        /*content {
-            includeGroup("me.lucko")
-            includeGroup("cc.mewcraft")
-            includeGroup("su.nexmedia")
-        }*/
-    }
+    maven(uri("${System.getenv("HOME")}/MewcraftRepository"))
 
-    // TODO Move to the MewcraftRepository
-    // Locally cached projects
+    // Locally cached projects TODO Move to the MewcraftRepository
     mavenLocal {
         content {
             includeGroup("me.lucko")
@@ -19,6 +12,7 @@ repositories {
             includeGroup("com.github.DieReicheErethons")
             includeGroup("su.nightexpress.gamepoints")
             includeGroup("at.helpch") // ChatChat
+            includeGroup("me.hsgamer.bettergui")
         }
     }
 
@@ -134,6 +128,14 @@ repositories {
     maven("https://repo.codemc.io/repository/maven-snapshots/") {
         content {
             includeGroup("net.wesjd")
+        }
+    }
+
+    // BetterGUI
+    maven("https://repo.codemc.io/repository/maven-public/") {
+        content {
+            includeGroup("me.hsgamer")
+            includeGroup("me.hsgamer.bettergui")
         }
     }
 

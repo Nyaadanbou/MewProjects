@@ -13,10 +13,28 @@
 weight: 50.5
 
 # Conditions to be met for this loot table to be triggered.
-# (Required. Set to "conditions: []" to have no conditions.)
+# (Required. Set to "conditions: {}" to have no conditions.)
 conditions:
+  # This condition is met if: ANY cron expression matches OR it's an empty list
+  # Crontab Guru Tools: https://crontab.guru/every-monday
+  cron_expression:
+    - '* * * * MON'
+  # This condition is met if: ANY server matches OR it's an empty list
+  # The server id is defined in the LuckPerms static contexts
+  server:
+    - home1
+  # This condition is met if: ALL weather matches OR it's an empty list
+  # Available values: clear, not_clear, thundering, not_thundering
+  weather:
+    - not_clear
+    - thundering
+  # This condition is met if: ANY moon phase matches OR it's an empty list
+  # Available values: https://jd.papermc.io/paper/1.20/io/papermc/paper/world/MoonPhase.html
+  moon_phase:
+    - full_moon
+    - new_moon
   # This condition is met if: ANY biome matches OR it's an empty list
-  biomes:
+  biome:
     - minecraft:plains # write plain string to match exactly
     - ^terra:overworld/overworld/.*river.* # start with "^" to match with regex
 

@@ -7,7 +7,7 @@ plugins {
 
 group = "cc.mewcraft"
 description = "Let's customize fishing!"
-version = "1.14.0"
+version = "1.15.0"
 
 dependencies {
     // NMS

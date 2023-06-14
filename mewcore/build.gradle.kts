@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "cc.mewcraft"
-version = "5.17.0"
+version = "5.17.1"
 description = "Common code of all Mewcraft plugins."
 
 // Reference: https://youtrack.jetbrains.com/issue/IDEA-276365
@@ -26,6 +26,7 @@ dependencies {
     compileOnlyApi(libs.configurate)
     compileOnlyApi(libs.lang.bukkit)
     compileOnlyApi(libs.lang.velocity)
+    compileOnlyApi(libs.cronutils)
     compileOnlyApi(libs.authlib) {
         exclude("com.google.guava")
         exclude("com.google.code.gson")

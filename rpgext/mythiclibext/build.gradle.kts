@@ -1,5 +1,6 @@
 plugins {
     id("cc.mewcraft.deploy-conventions")
+    id("cc.mewcraft.paper-plugins")
 }
 
 project.ext.set("name", "MythicLibExt")
@@ -20,17 +21,4 @@ dependencies {
     compileOnly(libs.helper)
     compileOnly(libs.mythiclib)
     compileOnly(libs.itemsadder)
-}
-
-tasks {
-    processResources {
-        filesMatching("**/paper-plugin.yml") {
-            expand(
-                mapOf(
-                    "version" to "${project.version}",
-                    "description" to project.description
-                )
-            )
-        }
-    }
 }

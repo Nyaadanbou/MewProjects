@@ -2,6 +2,7 @@ plugins {
     id("cc.mewcraft.java-conventions")
     id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.repository-conventions")
+    id("cc.mewcraft.paper-plugins")
 }
 
 project.ext.set("name", "MewUtils")
@@ -20,17 +21,4 @@ dependencies {
     compileOnly(libs.itemsadder)
     compileOnly(libs.protocollib)
     compileOnly(libs.essentials) { isTransitive = false }
-}
-
-tasks {
-    processResources {
-        filesMatching("**/paper-plugin.yml") {
-            expand(
-                mapOf(
-                    "version" to "${project.version}",
-                    "description" to project.description
-                )
-            )
-        }
-    }
 }

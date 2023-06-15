@@ -1,3 +1,7 @@
+plugins {
+    id("cc.mewcraft.deploy-conventions")
+}
+
 project.ext.set("name", "ProxyChatBridge")
 
 dependencies {
@@ -10,7 +14,7 @@ dependencies {
 }
 
 tasks {
-    shadowJar {
-        relocate("net.gauntletmc.adventure.serializer.binary", "com.ranull.proxychatbridge.adventure.serializer.binary")
-    }
+    // shadowJar {
+    //     relocate("net.gauntletmc.adventure.serializer.binary", "com.ranull.proxychatbridge.adventure.serializer.binary")
+    // }
 }

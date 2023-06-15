@@ -2,6 +2,7 @@ plugins {
     id("cc.mewcraft.java-conventions")
     id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.repository-conventions")
+    id("cc.mewcraft.paper-plugins")
 }
 
 project.ext.set("name", "PickaxePower")
@@ -19,16 +20,4 @@ dependencies {
     compileOnly(libs.helper) { isTransitive = false }
     compileOnly(libs.protocollib)
     compileOnly(libs.itemsadder)
-}
-
-tasks {
-    processResources {
-        filesMatching("**/paper-plugin.yml") {
-            val mappings = mapOf(
-                "version" to "${project.version}",
-                "description" to project.description
-            )
-            expand(mappings)
-        }
-    }
 }

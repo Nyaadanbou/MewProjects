@@ -1,6 +1,7 @@
 plugins {
     id("io.freefair.lombok")
     id("cc.mewcraft.deploy-conventions")
+    id("cc.mewcraft.paper-plugins")
 }
 
 project.ext.set("name", "BetonQuestExt")
@@ -18,17 +19,4 @@ dependencies {
 
     // libs to shade into the jar
     implementation(libs.evalex)
-}
-
-tasks {
-    processResources {
-        filesMatching("**/paper-plugin.yml") {
-            expand(
-                mapOf(
-                    "version" to "${project.version}",
-                    "description" to project.description
-                )
-            )
-        }
-    }
 }

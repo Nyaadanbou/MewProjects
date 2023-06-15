@@ -1,6 +1,7 @@
 plugins {
     id("cc.mewcraft.java-conventions")
     id("cc.mewcraft.repository-conventions")
+    id("cc.mewcraft.paper-plugins")
     alias(libs.plugins.paperweight.userdev)
 }
 
@@ -39,17 +40,7 @@ tasks {
         dependsOn(reobfJar)
     }
     reobfJar {
-        outputJar.set(layout.buildDirectory.file("${rootProject.name}-${project.version}.jar"))
-    }
-    processResources {
-        filesMatching("**/paper-plugin.yml") {
-            expand(
-                mapOf(
-                    "version" to "${project.version}",
-                    "description" to project.description
-                )
-            )
-        }
+        outputJar.set(layout.buildDirectory.file("${ext.get("name")}-${project.version}.jar"))
     }
     register("deployJar") {
         doLast {

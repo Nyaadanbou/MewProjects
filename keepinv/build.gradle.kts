@@ -2,6 +2,7 @@ plugins {
     id("cc.mewcraft.java-conventions")
     id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.repository-conventions")
+    id("cc.mewcraft.paper-plugins")
 }
 
 project.ext.set("name", "KeepInv")
@@ -17,19 +18,4 @@ dependencies {
     // 3rd party plugins
     compileOnly(libs.helper) { isTransitive = false }
     compileOnly(libs.itemsadder)
-}
-
-tasks {
-    project.ext.set("name", "AdventureLevel")
-
-    processResources {
-        filesMatching("**/paper-plugin.yml") {
-            expand(
-                mapOf(
-                    "version" to "${project.version}",
-                    "description" to project.description
-                )
-            )
-        }
-    }
 }

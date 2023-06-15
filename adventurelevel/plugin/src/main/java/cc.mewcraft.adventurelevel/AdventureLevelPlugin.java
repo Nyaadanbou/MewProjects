@@ -74,13 +74,13 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
         playerDataManager = bind(injector.getInstance(PlayerDataManager.class));
         dataSyncMessenger = bind(injector.getInstance(DataSyncMessenger.class));
 
-        // Register placeholders
-        injector.getInstance(MiniPlaceholderExpansion.class).register().bindWith(this);
-        injector.getInstance(PAPIPlaceholderExpansion.class).register().bindWith(this);
-
         // Register listeners
         registerListener(injector.getInstance(PickupExpListener.class)).bindWith(this);
         registerListener(injector.getInstance(UserdataListener.class)).bindWith(this);
+
+        // Register placeholders
+        injector.getInstance(MiniPlaceholderExpansion.class).register().bindWith(this);
+        injector.getInstance(PAPIPlaceholderExpansion.class).register().bindWith(this);
 
         // Register LuckPerms contexts
         injector.getInstance(LevelContextCalculator.class).register();

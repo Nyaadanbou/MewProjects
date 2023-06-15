@@ -7,28 +7,24 @@ import cc.mewcraft.adventurelevel.command.argument.PlayerDataArgument;
 import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.level.category.LevelBean;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
+import cc.mewcraft.adventurelevel.util.PlayerUtils;
 import cloud.commandframework.Command;
 import cloud.commandframework.arguments.flags.CommandFlag;
 import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.arguments.standard.IntegerArgument;
-import me.lucko.helper.function.chain.Chain;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 import java.util.function.Function;
 
 public class ManageExpCommand extends AbstractCommand {
-
-    private static final String NULL_PLAYER = "NULL";
-
     public ManageExpCommand(final AdventureLevelPlugin plugin, final CommandManager manager) {
         super(plugin, manager);
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override public void register() {
         Command<CommandSender> setExpCommand = manager.commandBuilder("adventurelevel")
             .literal("set")
@@ -46,11 +42,7 @@ public class ManageExpCommand extends AbstractCommand {
 
                 boolean useLevel = context.flags().isPresent("level");
                 TagResolver[] resolvers = {
-                    Placeholder.unparsed("player", Chain
-                        .start(userdata.getUuid())
-                        .map(Bukkit::getOfflinePlayer)
-                        .map(OfflinePlayer::getName)
-                        .end().orElse(NULL_PLAYER)),
+                    Placeholder.unparsed("player", PlayerUtils.getNameFromUUID(userdata.getUuid())),
                     Placeholder.unparsed("category", category.name()),
                     Placeholder.unparsed("amount", String.valueOf(amount))
                 };
@@ -81,11 +73,7 @@ public class ManageExpCommand extends AbstractCommand {
 
                 boolean useLevel = context.flags().isPresent("level");
                 TagResolver[] resolvers = {
-                    Placeholder.unparsed("player", Chain
-                        .start(userdata.getUuid())
-                        .map(Bukkit::getOfflinePlayer)
-                        .map(OfflinePlayer::getName)
-                        .end().orElse(NULL_PLAYER)),
+                    Placeholder.unparsed("player", PlayerUtils.getNameFromUUID(userdata.getUuid())),
                     Placeholder.unparsed("category", category.name()),
                     Placeholder.unparsed("amount", String.valueOf(amount))
                 };
@@ -107,16 +95,16 @@ public class ManageExpCommand extends AbstractCommand {
     }
 
     private enum LevelOption {
-        MAIN(playerData -> playerData.getLevelBean(LevelCategory.MAIN)),
-        PLAYER_DEATH(playerData -> playerData.getLevelBean(LevelCategory.PLAYER_DEATH)),
-        ENTITY_DEATH(playerData -> playerData.getLevelBean(LevelCategory.ENTITY_DEATH)),
-        FURNACE(playerData -> playerData.getLevelBean(LevelCategory.FURNACE)),
-        BREED(playerData -> playerData.getLevelBean(LevelCategory.BREED)),
-        VILLAGER_TRADE(playerData -> playerData.getLevelBean(LevelCategory.VILLAGER_TRADE)),
-        FISHING(playerData -> playerData.getLevelBean(LevelCategory.FISHING)),
-        BLOCK_BREAK(playerData -> playerData.getLevelBean(LevelCategory.BLOCK_BREAK)),
-        EXP_BOTTLE(playerData -> playerData.getLevelBean(LevelCategory.EXP_BOTTLE)),
-        GRINDSTONE(playerData -> playerData.getLevelBean(LevelCategory.GRINDSTONE));
+        main(playerData -> playerData.getLevelBean(LevelCategory.MAIN)),
+        player_death(playerData -> playerData.getLevelBean(LevelCategory.PLAYER_DEATH)),
+        entity_death(playerData -> playerData.getLevelBean(LevelCategory.ENTITY_DEATH)),
+        furnace(playerData -> playerData.getLevelBean(LevelCategory.FURNACE)),
+        breed(playerData -> playerData.getLevelBean(LevelCategory.BREED)),
+        villager_trade(playerData -> playerData.getLevelBean(LevelCategory.VILLAGER_TRADE)),
+        fishing(playerData -> playerData.getLevelBean(LevelCategory.FISHING)),
+        block_break(playerData -> playerData.getLevelBean(LevelCategory.BLOCK_BREAK)),
+        exp_bottle(playerData -> playerData.getLevelBean(LevelCategory.EXP_BOTTLE)),
+        grindstone(playerData -> playerData.getLevelBean(LevelCategory.GRINDSTONE));
 
         public final Function<PlayerData, LevelBean> mapping;
 

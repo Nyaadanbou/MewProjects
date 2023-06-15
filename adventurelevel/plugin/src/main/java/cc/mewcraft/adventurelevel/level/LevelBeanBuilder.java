@@ -2,7 +2,7 @@ package cc.mewcraft.adventurelevel.level;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import cc.mewcraft.adventurelevel.level.category.*;
-import cc.mewcraft.adventurelevel.util.RangeUtils;
+import cc.mewcraft.mewcore.util.RangeUtils;
 import com.ezylang.evalex.Expression;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.TreeRangeMap;

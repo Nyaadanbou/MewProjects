@@ -4,21 +4,13 @@ description: ${description}
 main: cc.mewcraft.mewfishing.MewFishing
 api-version: 1.19
 authors: [ Nailm ]
-load-before: [ ]
-load-after:
-  - name: helper
-  - name: helper-redis
-  - name: MewCore
 dependencies:
-  - name: helper
-    required: true
-    bootstrap: false
-  - name: helper-redis
-    required: true
-    bootstrap: false
-  - name: MewCore
-    required: true
-    bootstrap: false
-  - name: GemsEconomy
-    required: false
-    bootstrap: false
+  server:
+    helper:
+      load: BEFORE
+    helper-redis:
+      load: BEFORE
+    MewCore:
+      load: BEFORE
+    GemsEconomy:
+      load: BEFORE

@@ -9,7 +9,7 @@ project.ext.set("name", "MewFishing")
 
 group = "cc.mewcraft"
 description = "Let's customize fishing!"
-version = "1.15.0"
+version = "1.15.1"
 
 dependencies {
     // NMS

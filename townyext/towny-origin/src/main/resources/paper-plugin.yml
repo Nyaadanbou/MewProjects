@@ -4,26 +4,29 @@ description: ${description}
 main: cc.mewcraft.townyorigin.TownyOrigin
 api-version: 1.19
 authors: [ Nailm ]
-load-before: [ ]
-load-after:
-  - name: helper
-  - name: MewCore
 dependencies:
-  - name: helper
-    required: true
-    bootstrap: false
-  - name: MewCore
-    required: true
-    bootstrap: false
-  - name: LuckPerms
-    required: true
-    bootstrap: false
-  - name: Towny
-    required: false
-    bootstrap: false
-  - name: PlaceholderAPI
-    required: false
-    bootstrap: false
-  - name: MiniPlaceholders
-    required: false
-    bootstrap: false
+  server:
+    helper:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    MewCore:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    LuckPerms:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    Towny:
+      load: OMIT
+      required: true
+      join-classpath: true
+    PlaceholderAPI:
+      load: OMIT
+      required: true
+      join-classpath: true
+    MiniPlaceholders:
+      load: OMIT
+      required: true
+      join-classpath: true

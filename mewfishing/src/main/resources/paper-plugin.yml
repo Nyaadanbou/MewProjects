@@ -8,9 +8,17 @@ dependencies:
   server:
     helper:
       load: BEFORE
+      required: true
+      join-classpath: true
     helper-redis:
       load: BEFORE
+      required: true
+      join-classpath: true
     MewCore:
       load: BEFORE
+      required: true
+      join-classpath: true
     GemsEconomy:
-      load: BEFORE
+      load: OMIT
+      required: true
+      join-classpath: true

@@ -1,0 +1,23 @@
+# 文化的名字 不能与其他文化重复
+name: touhou
+
+# 文化的 Wiki 链接
+pageUrl: 'https://wiki.mewcraft.cc/culture'
+
+# 每个国家等级所对应的加成
+levels:
+  # 国家等级 0 代表第一个等级
+  # 请参考 Towny/config.yml
+  # 必须枚举完所有的国家等级
+  # 否则该文化的加成不会生效
+  '0':
+    # 加成列表，每一行写加成的名字（name）
+    - exp_1
+  '1':
+    - money_1
+  '2':
+    - potion_effect_1
+  '3':
+    - upkeep_town_1
+  '4':
+    - upkeep_nation_1

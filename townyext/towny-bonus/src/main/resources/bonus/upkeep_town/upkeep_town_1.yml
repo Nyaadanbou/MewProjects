@@ -1,0 +1,21 @@
+# 加成的名字 不能跟其他加成重复（包括其他文件夹的）
+name: upkeep_town_1
+
+# 加成类型为修饰城镇维护费
+type: town_upkeep_modifier
+
+# 以何种方式发出提示
+# 可用的值：CHAT, TITLE, ACTION_BAR
+messageOptions:
+  - ACTION_BAR
+
+# 具体配置
+# 根据上面 type 的不同
+# 下面的具体配置也不同
+
+# 数值范围 -1 ~ +1
+# 负数意为减免
+# 正数意为增加
+# 0 意为不修改
+# 最终维护费 = 原始维护费 * (1 + multiplier)
+multiplier: 0.2

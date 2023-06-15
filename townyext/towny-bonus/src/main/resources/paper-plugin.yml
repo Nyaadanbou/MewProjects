@@ -1,0 +1,21 @@
+name: TownyBonus
+version: ${version}
+description: ${description}
+main: cc.mewcraft.townybonus.TownyBonus
+api-version: 1.19
+authors: [ Nailm ]
+load-before: [ ]
+load-after:
+  - name: helper
+  - name: MewCore
+  - name: Towny
+dependencies:
+  - name: helper
+    required: true
+    bootstrap: false
+  - name: MewCore
+    required: true
+    bootstrap: false
+  - name: Towny
+    required: true
+    bootstrap: false

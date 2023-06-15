@@ -1,0 +1,32 @@
+# 下面的消息支持 MiniMessage 语法格式
+# 语法参考 https://docs.adventure.kyori.net/minimessage/format.html
+# MiniMessage 在线预览 https://webui.adventure.kyori.net/
+
+prefix:
+  info: '<dark_gray>[<dark_green><b>!</b></dark_green>]</dark_gray> '
+  warn: '<dark_gray>[<red><b>!</b></red>]</dark_gray> '
+
+reloadedConfig: '已重新载入!'
+cultureAddedToNation: '国家 {nation} 的文化已更新为 {culture}'
+cultureRemovedFromNation: '已移除国家 {nation} 的文化'
+
+screen:
+  hoverText: '点击查看文化资料 (Wiki)'
+  plainText: '文化: {culture}'
+
+bonus:
+  exp:
+    chat: '你获得了 {total} 经验 (原: {base}, 额外: {extra})'
+    title: '你获得了 {extra} 额外经验'
+    subtitle: '原经验: {base}, 总经验: {total}'
+    actionbar: '你获得了 {total} 经验 (原: {base}, 额外: {extra})'
+  money:
+    chat: '你获得了 {amount} 软妹币!'
+    title: '你获得了 {amount} 软妹币!'
+    subtitle: '你获得了 {amount} 软妹币!'
+    actionbar: '你获得了 {amount} 软妹币!'
+  effect:
+    chat: '你获得了 <lang:{type}> 药水效果!'
+    title: '你获得了 <lang:{type}> 药水效果!'
+    subtitle: '你获得了 <lang:{type}> 药水效果!'
+    actionbar: '你获得了 <lang:{type}> 药水效果!'

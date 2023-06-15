@@ -1,0 +1,24 @@
+# 加成的名字 不能跟其他加成重复（包括其他文件夹的）
+name: exp_1
+
+# 加成类型为经验
+type: exp
+
+# 以何种方式发出提示
+# 可用的值：CHAT, TITLE, ACTION_BAR
+messageOptions:
+  - ACTION_BAR
+
+# 具体配置
+# 根据上面 type 的不同
+# 下面的具体配置也不同
+
+# 触发加成的概率
+# 概率 = number / range
+chance:
+  range: 10000
+  number: 8000
+
+# 原本生物所掉落的经验倍率
+# 最终获得经验 = 原始经验 * multiplier
+multiplier: 1.5

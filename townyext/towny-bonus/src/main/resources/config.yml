@@ -1,0 +1,28 @@
+# 在控台显示更多内部信息
+debug: true
+
+# 默认的国家文化页面链接
+defaultCulturePageURL: 'https://wiki.mewcraft.cc/culture'
+
+# 米团有关的城镇/国家奖励
+mituanBonus:
+
+  # 米团玩家拥有的权限
+  groupName: group.test
+
+  # 米团与城镇维护费（不考虑文化加成）
+  townUpkeepMultiplier:
+    # 城镇里所有米团加起来最多可以减少的百分比
+    max: 25
+    # 每个米团减少的维护费百分比（1-100 的整数）
+    # 乘法叠加，最终减免的百分比 = [(100-base)/100]^n * 100
+    # 其中 n = 城镇里的米团数量
+    base: 4
+
+  # 米团与国家维护费（不考虑文化加成）
+  nationUpkeepMultiplier:
+    # 国家里所有米团加起来最多可以减少的百分比
+    max: 25
+    # 每个米团减少的维护费百分比（1-100 的整数）
+    # 国家维护费的算法跟城镇的一样
+    base: 4

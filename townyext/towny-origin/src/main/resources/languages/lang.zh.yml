@@ -1,0 +1,6 @@
+ph_none_origin: "无"
+
+msg_inventory_kept_for_other_reasons: "由于你被神灵祝福，本次死亡没有掉落任何物品"
+msg_inventory_kept_for_inside_origin: "由于您身处家乡，本次死亡没有掉落任何物品"
+msg_inventory_not_kept_for_none_origin: "由于您没有家乡，本次死亡掉落了所有物品和经验"
+msg_inventory_not_kept_for_outside_origin: "由于您不在家乡，本次死亡掉落了所有物品和经验"

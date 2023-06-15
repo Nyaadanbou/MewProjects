@@ -4,37 +4,26 @@ description: ${description}
 main: cc.mewcraft.mewcore.MewCore
 api-version: 1.19
 authors: [ Nailm ]
-load-before: [ ]
-load-after:
-  - name: helper
 dependencies:
-  - name: helper
-    required: true
-    bootstrap: false
-  - name: Vault
-    required: false
-    bootstrap: false
-  - name: Towny
-    required: false
-    bootstrap: false
-  - name: LuckPerms
-    required: false
-    bootstrap: false
-  - name: PlaceholderAPI
-    required: false
-    bootstrap: false
-  - name: ItemsAdder
-    required: false
-    bootstrap: false
-  - name: MythicLib
-    required: false
-    bootstrap: false
-  - name: MMOItems
-    required: false
-    bootstrap: false
-  - name: InteractiveBooks
-    required: false
-    bootstrap: false
-  - name: Brewery
-    required: false
-    bootstrap: false
+  server:
+    helper:
+      load: BEFORE
+      required: true
+    Vault:
+      required: false
+    Towny:
+      required: false
+    LuckPerms:
+      required: false
+    PlaceholderAPI:
+      required: false
+    ItemsAdder:
+      required: false
+    MythicLib:
+      required: false
+    MMOItems:
+      required: false
+    InteractiveBooks:
+      required: false
+    Brewery:
+      required: false

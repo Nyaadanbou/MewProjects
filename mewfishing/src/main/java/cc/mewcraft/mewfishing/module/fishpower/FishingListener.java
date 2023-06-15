@@ -3,7 +3,7 @@ package cc.mewcraft.mewfishing.module.fishpower;
 import cc.mewcraft.mewcore.cooldown.StackableCooldown;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import cc.mewcraft.mewcore.progressbar.ProgressbarDisplay;
-import cc.mewcraft.mewcore.util.NetworkUtils;
+import cc.mewcraft.mewcore.util.ServerOriginUtils;
 import cc.mewcraft.mewfishing.MewFishing;
 import cc.mewcraft.mewfishing.event.AutoFishEvent;
 import com.google.inject.Inject;
@@ -48,7 +48,7 @@ public class FishingListener implements AutoCloseableListener {
     public void onAutoFish(AutoFishEvent event) {
         Player player = event.getPlayer();
 
-        if (NetworkUtils.atOriginServer(player)) {
+        if (ServerOriginUtils.atOrigin(player.getUniqueId())) {
             // At origin server, it does not consume power
             return;
         }
@@ -63,7 +63,7 @@ public class FishingListener implements AutoCloseableListener {
     public void onSneak(PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
 
-        if (NetworkUtils.atOriginServer(player)) {
+        if (ServerOriginUtils.atOrigin(player.getUniqueId())) {
             // At origin server, it does not consume power
             return;
         }
@@ -80,7 +80,7 @@ public class FishingListener implements AutoCloseableListener {
 
         Player player = event.getPlayer();
 
-        if (NetworkUtils.atOriginServer(event.getPlayer())) {
+        if (ServerOriginUtils.atOrigin(player.getUniqueId())) {
             // At origin server, it does not consume power
             return;
         }

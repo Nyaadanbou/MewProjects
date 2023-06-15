@@ -22,7 +22,7 @@ public class ServerCondition implements Conditioned {
         }
 
         return serverList.stream().anyMatch(server ->
-            ServerInfo.SERVER_NAME.get().map(t -> t.equals(server)).orElse(false)
+            server.equals(ServerInfo.SERVER_ID.get())
         );
     }
 }

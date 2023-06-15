@@ -4,26 +4,27 @@ plugins {
 }
 
 tasks {
-    val inputJar = lazy { shadowJar.get().archiveFile.get().asFile.absolutePath }
-    val outputName = lazy { "${ext.get("name")}-${project.version}.jar" }
-    val outputJar = lazy { layout.buildDirectory.file(outputName.value).get().asFile.absolutePath }
+    val inputJarPath = lazy { shadowJar.get().archiveFile.get().asFile.absolutePath }
+    val finalJarName = lazy { "${ext.get("name")}-${project.version}.jar" }
+    val finalJarPath = lazy { layout.buildDirectory.file(finalJarName.value).get().asFile.absolutePath }
 
     build {
         finalizedBy("copyJar")
     }
     register<Copy>("copyJar") {
-        from(inputJar.value)
+        from(inputJarPath.value)
         into(layout.buildDirectory)
-        rename("${project.name}.*\\.jar", outputName.value)
+        rename("${project.name}.*\\.jar", finalJarName.value)
     }
     register("deployJar") {
         doLast {
             exec {
-                commandLine("rsync", outputJar.value, "dev:data/dev/jar")
+                commandLine("rsync", finalJarPath.value, "dev:data/dev/jar")
             }
         }
     }
     register("deployJarFresh") {
         dependsOn(build)
+        finalizedBy(named("deployJar"))
     }
 }

@@ -5,7 +5,7 @@ plugins {
 project.ext.set("name", "TownyOrigin")
 
 group = "cc.mewcraft.townyorigin"
-version = "1.0.0"
+version = "1.0.1"
 description = "Records the origin of players, powered by LuckPerms"
 
 dependencies {

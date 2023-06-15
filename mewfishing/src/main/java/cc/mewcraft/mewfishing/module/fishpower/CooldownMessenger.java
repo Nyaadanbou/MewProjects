@@ -35,8 +35,7 @@ public class CooldownMessenger implements Listener, Terminable {
 
     private record CooldownMessage(@NotNull UUID uuid, long lastTested) {}
 
-    @Inject
-    CooldownMessenger(
+    @Inject CooldownMessenger(
         final @NotNull MewFishing plugin,
         final @NotNull CooldownManager cooldownManager
     ) {
@@ -84,7 +83,7 @@ public class CooldownMessenger implements Listener, Terminable {
             getData(player.getUniqueId()).ifPresent(cooldown::setLastTested);
         }, plugin.config().networkLatency(), TimeUnit.MILLISECONDS);
 
-        // NB: delay 1 tick to allow the message to be spread
+        // NB: delay a while to allow the message to be spread
     }
 
     @Override public void close() {

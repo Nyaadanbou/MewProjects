@@ -62,22 +62,28 @@ public class LootTableImpl implements LootTable {
         return lootEntries.pick();
     }
 
-    @Override public Collection<Loot> drawAll(final FishLootEvent event) {
+    @Override public Collection<Loot> drawMatched(final FishLootEvent event) {
         List<Loot> loots = new ArrayList<>(rolls);
+
         if (isReplacement()) {
             for (int i = 0; i < getRolls(); i++) {
                 Loot pick = lootEntries.pick();
-                if (pick.evaluate(event)) // only pick it if conditions are met
+                if (pick.evaluate(event)) {
+                    // Only pick it if conditions are met
                     loots.add(pick);
+                }
             }
         } else {
             RandomCollection<Loot> copy = lootEntries.copy();
             for (int i = 0; i < getRolls() && !copy.isEmpty(); i++) {
                 Loot poll = copy.poll();
-                if (poll.evaluate(event)) // only pick it if conditions are met
+                if (poll.evaluate(event)) {
+                    // Only pick it if conditions are met
                     loots.add(poll);
+                }
             }
         }
+
         return loots;
     }
 

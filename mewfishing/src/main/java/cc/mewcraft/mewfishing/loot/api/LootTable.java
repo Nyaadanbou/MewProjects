@@ -63,7 +63,7 @@ public interface LootTable extends Weighted, Conditioned {
      *
      * @return {@literal N} random loots from this loot table
      */
-    Collection<Loot> drawAll(FishLootEvent event);
+    Collection<Loot> drawMatched(FishLootEvent event);
 
     /**
      * Get the weight where this loot table will be selected from all tables.

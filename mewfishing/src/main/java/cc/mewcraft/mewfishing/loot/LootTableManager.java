@@ -11,6 +11,8 @@ import cc.mewcraft.mewfishing.loot.impl.serializer.*;
 import cc.mewcraft.mewfishing.loot.impl.table.LootTableImpl;
 import cc.mewcraft.mewfishing.util.RandomCollection;
 import com.google.common.collect.ImmutableMap;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import io.leangen.geantyref.TypeToken;
 import me.lucko.helper.random.RandomSelector;
 import org.apache.commons.io.FileUtils;
@@ -24,6 +26,7 @@ import java.io.File;
 import java.util.*;
 import java.util.logging.Level;
 
+@Singleton
 @DefaultQualifier(NonNull.class)
 public class LootTableManager {
 
@@ -31,6 +34,7 @@ public class LootTableManager {
     private final Map<String, LootTable> tableMap;
     private final RandomCollection<LootTable> tableRandom;
 
+    @Inject
     public LootTableManager(final MewFishing plugin) {
         this.plugin = plugin;
         this.tableMap = new HashMap<>();
@@ -55,9 +59,9 @@ public class LootTableManager {
      * @return a loot table
      */
     public LootTable drawMatched(FishLootEvent event) {
-        // TODO kinda expensive
-        // we should cache it for each player
-        // since you usually don't move when fishing
+        // TODO Kinda expensive!
+        //  We should cache it for each player
+        //  since you usually don't move when fishing.
         Collection<LootTable> all = tableMap.values();
         List<LootTable> matched = all.stream()
             .filter(table -> table.getWeight() > 0d) // don't draw tables of 0 weight

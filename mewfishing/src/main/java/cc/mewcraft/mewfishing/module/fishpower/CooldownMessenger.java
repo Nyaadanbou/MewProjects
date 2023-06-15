@@ -2,6 +2,8 @@ package cc.mewcraft.mewfishing.module.fishpower;
 
 import cc.mewcraft.mewcore.cooldown.StackableCooldown;
 import cc.mewcraft.mewfishing.MewFishing;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.lucko.helper.Schedulers;
 import me.lucko.helper.messaging.Channel;
 import me.lucko.helper.messaging.Messenger;
@@ -23,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * This class synchronize cooldown upon join/quit across servers.
  */
+@Singleton
 public class CooldownMessenger implements Listener, Terminable {
 
     private final MewFishing plugin;
@@ -32,6 +35,7 @@ public class CooldownMessenger implements Listener, Terminable {
 
     private record CooldownMessage(@NotNull UUID uuid, long lastTested) {}
 
+    @Inject
     CooldownMessenger(
         final @NotNull MewFishing plugin,
         final @NotNull CooldownManager cooldownManager

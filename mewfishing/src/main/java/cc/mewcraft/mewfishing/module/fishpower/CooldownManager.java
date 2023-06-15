@@ -6,6 +6,8 @@ import cc.mewcraft.mewfishing.MewFishing;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.lucko.helper.cooldown.Cooldown;
 import me.xanium.gemseconomy.GemsEconomy;
 import me.xanium.gemseconomy.api.GemsEconomyAPI;
@@ -20,6 +22,7 @@ import java.util.logging.Level;
 /**
  * This class provides cooldown lookup and creation.
  */
+@Singleton
 public class CooldownManager {
 
     /**
@@ -27,6 +30,7 @@ public class CooldownManager {
      */
     private final StackableCooldownMap<UUID> cooldownMap;
 
+    @Inject
     CooldownManager(final MewFishing plugin) {
         LoadingCache<UUID, Long> powerCache = CacheBuilder.newBuilder() // Used to get the maximum stacks of cooldown
             .expireAfterWrite(Duration.of(plugin.config().powerTimeout(), ChronoUnit.SECONDS))

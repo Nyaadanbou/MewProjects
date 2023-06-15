@@ -1,9 +1,9 @@
 name: ProxyChatBridge
-main: com.ranull.proxychatbridge.bukkit.ProxyChatBridge
 version: ${version}
+description: ${description}
+main: com.ranull.proxychatbridge.bukkit.ProxyChatBridge
 api-version: 1.19
 authors: [ Nailm ]
-description: ${description}
 load-before: [ ]
 load-after: [ ]
 dependencies:

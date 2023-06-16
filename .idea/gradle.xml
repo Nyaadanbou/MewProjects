@@ -38,6 +38,11 @@
             <option value="$PROJECT_DIR$/mewcore" />
             <option value="$PROJECT_DIR$/mewfishing" />
             <option value="$PROJECT_DIR$/mewhelp" />
+            <option value="$PROJECT_DIR$/mewnms" />
+            <option value="$PROJECT_DIR$/mewnms/1_19_r3" />
+            <option value="$PROJECT_DIR$/mewnms/1_20_r1" />
+            <option value="$PROJECT_DIR$/mewnms/api" />
+            <option value="$PROJECT_DIR$/mewnms/plugin" />
             <option value="$PROJECT_DIR$/mewutils" />
             <option value="$PROJECT_DIR$/mewutils/base" />
             <option value="$PROJECT_DIR$/mewutils/plugin" />

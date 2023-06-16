@@ -1,20 +1,19 @@
 repositories {
-    mavenCentral()
-
     maven(uri("${System.getenv("HOME")}/MewcraftRepository"))
 
     // Locally cached projects TODO Move to the MewcraftRepository
     mavenLocal {
         content {
-            includeGroup("me.lucko")
             includeGroup("net.Indyuce")
             includeGroup("net.leonardo_dgs")
             includeGroup("com.github.DieReicheErethons")
             includeGroup("su.nightexpress.gamepoints")
             includeGroup("at.helpch") // ChatChat
-            includeGroup("me.hsgamer.bettergui")
+            includeGroup("me.hsgamer.bettergui") // MaskedGUI
         }
     }
+
+    mavenCentral()
 
     // Purpur MC
     maven("https://repo.purpurmc.org/snapshots") {

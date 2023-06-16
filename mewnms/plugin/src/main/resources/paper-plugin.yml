@@ -1,0 +1,17 @@
+name: MewNMS
+version: ${version}
+description: ${description}
+main: cc.mewcraft.nms.MewNMSPlugin
+api-version: 1.19
+authors: [ Nailm ]
+dependencies:
+  bootstrap: { }
+  server:
+    helper:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    MewCore:
+      load: BEFORE
+      required: true
+      join-classpath: true

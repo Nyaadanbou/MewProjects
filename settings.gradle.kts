@@ -16,6 +16,12 @@ include(":catalog")
 include(":keepinv")
 include(":mewcore")
 
+include(":mewnms")
+include(":mewnms:api")
+include(":mewnms:plugin")
+include(":mewnms:1_19_r3")
+include(":mewnms:1_20_r1")
+
 include(":mewutils:base")
 include(":mewutils:plugin")
 

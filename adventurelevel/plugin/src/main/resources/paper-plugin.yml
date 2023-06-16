@@ -10,18 +10,28 @@ dependencies:
     helper:
       load: BEFORE
       required: true
+      join-classpath: true
     helper-redis:
       load: BEFORE
       required: true
+      join-classpath: true
     helper-sql:
       load: BEFORE
       required: true
+      join-classpath: true
     MewCore:
       load: BEFORE
       required: true
+      join-classpath: true
     PlaceholderAPI:
-      required: false
+      load: OMIT
+      required: true
+      join-classpath: true
     MiniPlaceholders:
-      required: false
+      load: OMIT
+      required: true
+      join-classpath: true
     LuckPerms:
-      required: false
+      load: OMIT
+      required: true
+      join-classpath: true

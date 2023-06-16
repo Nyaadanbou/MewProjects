@@ -4,18 +4,26 @@ version: ${version}
 description: ${description}
 author: Nailm
 api-version: 1.19
-load-before:
-  - name: MMOItems
-load-after:
-  - name: helper
-  - name: MewCore
-  - name: MythicLib
 dependencies:
-  - name: helper
-    required: true
-  - name: MewCore
-    required: true
-  - name: MythicLib
-    required: false
-  - name: ItemsAdder
-    required: false
+  bootstrap: { }
+  server:
+    helper:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    MewCore:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    MythicLib:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    MMOItems:
+      load: AFTER
+      required: false
+      join-classpath: false
+    ItemsAdder:
+      load: OMIT
+      required: true
+      join-classpath: true

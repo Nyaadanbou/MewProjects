@@ -4,14 +4,14 @@ description: ${description}
 main: cc.mewcraft.mewhelp.MewHelp
 api-version: 1.19
 authors: [ Nailm ]
-load-before: [ ]
-load-after:
-  - name: helper
-  - name: MewCore
 dependencies:
-  - name: helper
-    required: true
-    bootstrap: false
-  - name: MewCore
-    required: true
-    bootstrap: false
+  bootstrap: { }
+  server:
+    helper:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    MewCore:
+      load: BEFORE
+      required: true
+      join-classpath: true

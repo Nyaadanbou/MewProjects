@@ -4,18 +4,22 @@ version: ${version}
 description: ${description}
 author: Nailm
 api-version: 1.19
-load-before: [ ]
-load-after:
-  - name: helper
-  - name: MewCore
 dependencies:
-  - name: helper
-    required: true
-  - name: MewCore
-    required: true
-  - name: ProtocolLib
-    required: false
-  - name: ItemsAdder
-    required: false
-  - name: Towny
-    required: false
+  bootstrap: { }
+  server:
+    helper:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    MewCore:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    ProtocolLib:
+      load: OMIT
+      required: true
+      join-classpath: true
+    ItemsAdder:
+      load: OMIT
+      required: true
+      join-classpath: true

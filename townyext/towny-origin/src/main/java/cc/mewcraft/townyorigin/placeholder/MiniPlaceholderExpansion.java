@@ -5,19 +5,15 @@ import cc.mewcraft.townyorigin.TownyOrigin;
 import io.github.miniplaceholders.api.Expansion;
 import me.lucko.helper.terminable.Terminable;
 import net.kyori.adventure.text.minimessage.tag.Tag;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.entity.Player;
 
 public class MiniPlaceholderExpansion implements Terminable {
 
     private final TownyOrigin plugin;
-    private final LuckPerms luckPerms;
     private Expansion expansion;
 
     public MiniPlaceholderExpansion(final TownyOrigin plugin) {
         this.plugin = plugin;
-        this.luckPerms = LuckPermsProvider.get();
     }
 
     public MiniPlaceholderExpansion register() {

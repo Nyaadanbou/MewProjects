@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.paperweight.userdev)
 }
 
-project.ext.set("name", "MewFishing")
+project.ext.set("name", "MewFish")
 
 group = "cc.mewcraft"
 description = "Let's customize fishing!"

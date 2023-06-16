@@ -18,6 +18,10 @@ dependencies:
       load: BEFORE
       required: true
       join-classpath: true
+    MewNMS:
+      load: OMIT
+      required: true
+      join-classpath: true
     GemsEconomy:
       load: OMIT
       required: true

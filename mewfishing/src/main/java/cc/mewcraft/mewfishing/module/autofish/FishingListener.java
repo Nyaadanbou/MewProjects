@@ -3,7 +3,7 @@ package cc.mewcraft.mewfishing.module.autofish;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import cc.mewcraft.mewfishing.MewFishing;
 import cc.mewcraft.mewfishing.event.AutoFishEvent;
-import cc.mewcraft.mewfishing.nms.player.PlayerAction;
+import cc.mewcraft.mewfishing.util.PlayerActions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.lucko.helper.Schedulers;
@@ -43,7 +43,7 @@ public class FishingListener implements AutoCloseableListener {
                 .after(event.getState() == PlayerFishEvent.State.BITE
                     ? plugin.config().ticksAfterBitten()
                     : plugin.config().ticksAfterCaught())
-                .run(() -> PlayerAction.doRightClick(player));
+                .run(() -> PlayerActions.useFishingRod(player));
         }
     }
 }

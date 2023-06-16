@@ -2,7 +2,7 @@ package cc.mewcraft.mewfishing.loot.impl.condition;
 
 import cc.mewcraft.mewfishing.event.FishLootEvent;
 import cc.mewcraft.mewfishing.loot.api.Conditioned;
-import cc.mewcraft.mewfishing.nms.biome.BiomeKeyFinder;
+import cc.mewcraft.nms.MewNMSProvider;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -25,7 +25,7 @@ public class BiomeCondition implements Conditioned {
     }
 
     @Override public boolean evaluate(final FishLootEvent event) {
-        String test = BiomeKeyFinder.getBiomeKey(event.getPlayer().getLocation()).asString();
+        String test = MewNMSProvider.get().biomeKey(event.getPlayer().getLocation()).asString();
 
         if (biomes.isEmpty()) // empty means to match any biome
             return true;

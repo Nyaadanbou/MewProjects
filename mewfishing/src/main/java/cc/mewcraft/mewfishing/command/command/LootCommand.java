@@ -3,7 +3,7 @@ package cc.mewcraft.mewfishing.command.command;
 import cc.mewcraft.mewfishing.MewFishing;
 import cc.mewcraft.mewfishing.command.AbstractCommand;
 import cc.mewcraft.mewfishing.command.CommandManager;
-import cc.mewcraft.mewfishing.nms.biome.BiomeKeyFinder;
+import cc.mewcraft.nms.MewNMSProvider;
 import cloud.commandframework.Command;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -24,7 +24,8 @@ public class LootCommand extends AbstractCommand {
             .handler(context -> {
                 Player sender = (Player) context.getSender();
                 Location location = sender.getLocation();
-                sender.sendMessage(BiomeKeyFinder.getBiomeKeyString(location));
+                String biome = MewNMSProvider.get().biomeKey(location).asString();
+                sender.sendMessage(biome);
             }).build();
 
         manager.register(List.of(lootCommand));

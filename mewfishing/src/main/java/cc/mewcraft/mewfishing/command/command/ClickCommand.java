@@ -3,7 +3,7 @@ package cc.mewcraft.mewfishing.command.command;
 import cc.mewcraft.mewfishing.MewFishing;
 import cc.mewcraft.mewfishing.command.AbstractCommand;
 import cc.mewcraft.mewfishing.command.CommandManager;
-import cc.mewcraft.mewfishing.nms.player.PlayerAction;
+import cc.mewcraft.mewfishing.util.PlayerActions;
 import cloud.commandframework.Command;
 import cloud.commandframework.bukkit.arguments.selector.MultiplePlayerSelector;
 import cloud.commandframework.bukkit.parsers.selector.MultiplePlayerSelectorArgument;
@@ -18,13 +18,16 @@ public class ClickCommand extends AbstractCommand {
 
     @Override public void register() {
         Command<CommandSender> checkCommand = manager.commandBuilder("mewfish")
-            .literal("click")
+            .literal("use")
             .argument(MultiplePlayerSelectorArgument.of("player"))
-            .permission("mewfishing.command.click")
+            .permission("mewfishing.command.use")
             .handler(context -> {
                 CommandSender sender = context.getSender();
-                MultiplePlayerSelector player = context.get("player");
-                player.getPlayers().forEach(PlayerAction::doRightClick);
+                MultiplePlayerSelector players = context.get("player");
+
+                // Make selected players use fishing rod
+                players.getPlayers().forEach(PlayerActions::useFishingRod);
+
                 sender.sendMessage("Done!");
             }).build();
 

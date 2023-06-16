@@ -16,14 +16,14 @@ tasks {
         into(layout.buildDirectory)
         rename("${project.name}.*\\.jar", finalJarName.value)
     }
-    register("deployJar") {
+    register<Task>("deployJar") {
         doLast {
             exec {
                 commandLine("rsync", finalJarPath.value, "dev:data/dev/jar")
             }
         }
     }
-    register("deployJarFresh") {
+    register<Task>("deployJarFresh") {
         dependsOn(build)
         finalizedBy(named("deployJar"))
     }

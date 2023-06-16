@@ -5,7 +5,7 @@ import cc.mewcraft.mewfishing.command.command.*;
 import cloud.commandframework.Command;
 import cloud.commandframework.brigadier.CloudBrigadierManager;
 import cloud.commandframework.bukkit.CloudBukkitCapabilities;
-import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
+import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.minecraft.extras.AudienceProvider;
 import cloud.commandframework.minecraft.extras.MinecraftExceptionHandler;
 import cloud.commandframework.paper.PaperCommandManager;
@@ -21,7 +21,7 @@ public class CommandManager extends PaperCommandManager<CommandSender> {
     public CommandManager(MewFishing plugin) throws Exception {
         super(
             plugin,
-            AsynchronousCommandExecutionCoordinator.<CommandSender>builder().build(),
+            CommandExecutionCoordinator.simpleCoordinator(),
             Function.identity(),
             Function.identity()
         );

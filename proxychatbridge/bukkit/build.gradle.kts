@@ -1,5 +1,4 @@
 plugins {
-    id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.paper-plugins")
 }
 

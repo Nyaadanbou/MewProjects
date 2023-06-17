@@ -1,6 +1,6 @@
 ph_none_origin: "无"
 
-msg_cannot_join_town_outside_origin: "这不是你的家乡，无法加入城镇"
+msg_cannot_join_town_outside_origin: "<player> 的家乡不在此，无法加入城镇"
 msg_cannot_new_town_outside_origin: "这不是你的家乡，无法创建城镇"
 
 msg_inventory_kept_for_other_reasons: "由于你被神灵祝福，本次死亡没有掉落任何物品"

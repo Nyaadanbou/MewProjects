@@ -50,7 +50,7 @@ public class TownyListener implements AutoCloseableListener {
 
         if (ServerOriginUtils.hasOrigin(resident.getUUID()) && !ServerOriginUtils.atOrigin(resident.getUUID())) {
             event.setCancelled(true);
-            event.setCancelMessage(plugin.getLang().of("msg_cannot_join_town_outside_origin").plain());
+            event.setCancelMessage(plugin.getLang().of("msg_cannot_join_town_outside_origin").replace("player", resident.getName()).plain());
         }
     }
 

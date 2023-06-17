@@ -17,9 +17,9 @@ import java.util.UUID;
 
 public final class ServerOriginUtils {
     /**
-     * Gets the server origin of specific user.
+     * Gets the server-origin-id of specific user.
      */
-    public static @Nullable String getOrigin(@NonNull User user) {
+    public static @Nullable String getOriginId(@NonNull User user) {
         return user
             .getCachedData()
             .getMetaData()
@@ -27,17 +27,27 @@ public final class ServerOriginUtils {
     }
 
     /**
+     * Gets the server-origin-name of specific user.
+     */
+    public static @Nullable String getOriginName(@NonNull User user) {
+        return user
+            .getCachedData()
+            .getMetaData()
+            .getMetaValue(NetworkConstants.SERVER_ORIGIN_NAME_KEY);
+    }
+
+    /**
      * Checks if specific user has a server origin.
      */
     public static boolean hasOrigin(@NonNull User user) {
-        return getOrigin(user) != null;
+        return getOriginId(user) != null;
     }
 
     /**
      * Checks if specific user is at his server origin.
      */
     public static boolean atOrigin(@NonNull User user) {
-        @Nullable String origin = getOrigin(user);
+        @Nullable String origin = getOriginId(user);
         @Nullable String server = ServerInfo.SERVER_ID.get();
         return origin != null && origin.equals(server);
     }
@@ -88,8 +98,12 @@ public final class ServerOriginUtils {
     }
 
     //<editor-fold desc="Expanded Methods">
-    public static @Nullable String getOrigin(@NonNull UUID uuid) {
-        return getUser(uuid).map(ServerOriginUtils::getOrigin).orElse(null);
+    public static @Nullable String getOriginId(@NonNull UUID uuid) {
+        return getUser(uuid).map(ServerOriginUtils::getOriginId).orElse(null);
+    }
+
+    public static @Nullable String getOriginName(@NonNull UUID uuid) {
+        return getUser(uuid).map(ServerOriginUtils::getOriginName).orElse(null);
     }
 
     public static boolean hasOrigin(@NonNull UUID uuid) {

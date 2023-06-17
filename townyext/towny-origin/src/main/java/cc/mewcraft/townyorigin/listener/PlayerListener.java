@@ -31,7 +31,7 @@ public class PlayerListener implements AutoCloseableListener {
             return;
         }
 
-        if (ServerOriginUtils.getOrigin(player.getUniqueId()) == null) {
+        if (!ServerOriginUtils.hasOrigin(player.getUniqueId())) {
             plugin.getLang().of("msg_inventory_not_kept_for_none_origin").title(player);
             return; // The player doesn't have server-origin-id set
         }

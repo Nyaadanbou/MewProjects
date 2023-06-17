@@ -3,8 +3,11 @@ package cc.mewcraft.townyorigin.listener;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import cc.mewcraft.mewcore.util.ServerOriginUtils;
 import cc.mewcraft.townyorigin.TownyOrigin;
+import com.palmergames.bukkit.towny.event.PreNewTownEvent;
 import com.palmergames.bukkit.towny.event.TownAddResidentEvent;
+import com.palmergames.bukkit.towny.event.TownPreAddResidentEvent;
 import com.palmergames.bukkit.towny.object.Resident;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 public class TownyListener implements AutoCloseableListener {
@@ -32,9 +35,36 @@ public class TownyListener implements AutoCloseableListener {
             return;
         }
 
-        boolean success = ServerOriginUtils.setOrigin(resident.getUUID());
-        if (success) {
+        if (ServerOriginUtils.setOrigin(resident.getUUID())) {
             plugin.getSLF4JLogger().info("New server origin set: {}{uuid={}}", resident.getName(), resident.getUUID());
+        }
+    }
+
+    @EventHandler
+    public void OnPreJoinTown(TownPreAddResidentEvent event) {
+        // We listen to the TownPreAddResidentEvent:
+        // If the player already has a server origin,
+        // we don't allow the player to join town.
+
+        Resident resident = event.getResident();
+
+        if (ServerOriginUtils.hasOrigin(resident.getUUID()) && !ServerOriginUtils.atOrigin(resident.getUUID())) {
+            event.setCancelled(true);
+            event.setCancelMessage(plugin.getLang().of("msg_cannot_join_town_outside_origin").plain());
+        }
+    }
+
+    @EventHandler
+    public void OnPreCreateTown(PreNewTownEvent event) {
+        // We listen to the TownPreAddResidentEvent:
+        // If the player already has a server origin,
+        // we don't allow the player to create new town.
+
+        Player player = event.getPlayer();
+
+        if (ServerOriginUtils.hasOrigin(player.getUniqueId()) && !ServerOriginUtils.atOrigin(player.getUniqueId())) {
+            event.setCancelled(true);
+            event.setCancelMessage(plugin.getLang().of("msg_cannot_new_town_outside_origin").locale(player).plain());
         }
     }
 }

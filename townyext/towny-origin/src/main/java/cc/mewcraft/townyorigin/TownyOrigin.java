@@ -4,6 +4,7 @@ import cc.mewcraft.mewcore.message.Translations;
 import cc.mewcraft.townyorigin.listener.PlayerListener;
 import cc.mewcraft.townyorigin.listener.TownyListener;
 import cc.mewcraft.townyorigin.placeholder.MiniPlaceholderExpansion;
+import cc.mewcraft.townyorigin.placeholder.PAPIPlaceholderExpansion;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
 public class TownyOrigin extends ExtendedJavaPlugin {
@@ -15,6 +16,7 @@ public class TownyOrigin extends ExtendedJavaPlugin {
 
         // Register placeholders
         new MiniPlaceholderExpansion(this).register().bindWith(this);
+        new PAPIPlaceholderExpansion(this).register().bindWith(this);
 
         // Register listeners
         registerListener(new PlayerListener(this)).bindWith(this);

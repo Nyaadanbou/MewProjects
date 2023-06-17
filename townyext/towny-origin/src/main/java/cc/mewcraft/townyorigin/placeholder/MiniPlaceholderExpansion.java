@@ -23,14 +23,14 @@ public class MiniPlaceholderExpansion implements Terminable {
             // return server-origin-id
             .audiencePlaceholder("origin_id", (audience, queue, ctx) -> {
                 Player player = (Player) audience;
-                String serverOriginId = ServerOriginUtils.getOrigin(player.getUniqueId());
+                String serverOriginId = ServerOriginUtils.getOriginId(player.getUniqueId());
                 return Tag.preProcessParsed(serverOriginId != null ? serverOriginId : "");
             })
 
             // return server-origin-name
             .audiencePlaceholder("origin_name", (audience, queue, ctx) -> {
                 Player player = (Player) audience;
-                String serverOriginName = ServerOriginUtils.getOrigin(player.getUniqueId());
+                String serverOriginName = ServerOriginUtils.getOriginName(player.getUniqueId());
                 return Tag.preProcessParsed(serverOriginName != null
                     ? serverOriginName
                     : plugin.getLang().of("ph_none_origin").plain()

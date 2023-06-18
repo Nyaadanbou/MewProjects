@@ -20,13 +20,13 @@ dependencies:
       join-classpath: true
     Towny:
       load: OMIT
-      required: true
+      required: false
       join-classpath: true
     PlaceholderAPI:
       load: OMIT
-      required: true
+      required: false
       join-classpath: true
     MiniPlaceholders:
       load: OMIT
-      required: true
+      required: false
       join-classpath: true

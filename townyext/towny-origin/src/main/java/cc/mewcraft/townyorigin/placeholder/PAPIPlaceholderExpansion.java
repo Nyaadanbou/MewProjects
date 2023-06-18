@@ -17,6 +17,10 @@ public class PAPIPlaceholderExpansion implements Terminable {
     }
 
     public PAPIPlaceholderExpansion register() {
+        if (plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            return this;
+        }
+
         expansion = new TownyOriginExpansion();
         expansion.register();
         return this;

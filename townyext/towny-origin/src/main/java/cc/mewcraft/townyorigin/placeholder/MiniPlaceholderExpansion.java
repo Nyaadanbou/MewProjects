@@ -17,6 +17,10 @@ public class MiniPlaceholderExpansion implements Terminable {
     }
 
     public MiniPlaceholderExpansion register() {
+        if (plugin.getServer().getPluginManager().getPlugin("MiniPlaceholders") == null) {
+            return this;
+        }
+
         this.expansion = Expansion.builder("townyorigin")
             .filter(Player.class)
 

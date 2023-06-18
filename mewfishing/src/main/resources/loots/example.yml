@@ -28,6 +28,16 @@ conditions:
   weather:
     - not_clear
     - thundering
+  # This condition is met if: ANY height matches OR it's an empty list
+  height:
+    - '[0,64)'
+    - '(-∞,-16]'
+    - '[64,+∞)'
+  # This condition is met if: ANY time matches OR it's an empty list
+  # More information: https://minecraft.fandom.com/wiki/Daylight_cycle
+  time:
+    - '[0,13000]'
+    - '[18000,21000]'
   # This condition is met if: ANY moon phase matches OR it's an empty list
   # Available values: https://jd.papermc.io/paper/1.20/io/papermc/paper/world/MoonPhase.html
   moon_phase:

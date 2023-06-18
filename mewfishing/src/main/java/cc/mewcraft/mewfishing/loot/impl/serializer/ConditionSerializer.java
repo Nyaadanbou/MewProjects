@@ -41,15 +41,20 @@ public class ConditionSerializer implements TypeSerializer<List<Conditioned>> {
         MoonPhaseCondition moonPhaseCondition = new MoonPhaseCondition(moonPhaseList);
         conditions.add(moonPhaseCondition);
 
-        // --- height ---
+        // Height conditions
         List<String> heightList = node.node("height").getList(String.class, ArrayList::new);
         HeightCondition heightCondition = new HeightCondition(heightList);
         conditions.add(heightCondition);
 
+        // Time conditions
+        List<String> timeList = node.node("time").getList(String.class, ArrayList::new);
+        TimeCondition timeCondition = new TimeCondition(timeList);
+        conditions.add(timeCondition);
+
         return conditions;
     }
 
-    @Override public void serialize(final Type type, @Nullable final List<Conditioned> obj, final ConfigurationNode node) {
+    @Override public void serialize(final Type type, final @Nullable List<Conditioned> obj, final ConfigurationNode node) {
 
     }
 }

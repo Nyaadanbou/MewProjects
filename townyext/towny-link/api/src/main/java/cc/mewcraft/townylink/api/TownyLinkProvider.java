@@ -1,4 +1,4 @@
-package cc.mewcraft.townylink;
+package cc.mewcraft.townylink.api;
 
 public class TownyLinkProvider {
 }

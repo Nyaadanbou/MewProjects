@@ -1,24 +1,8 @@
-plugins {
-    id("cc.mewcraft.paper-plugins")
-}
+subprojects {
+    apply(plugin = "cc.mewcraft.java-conventions")
+    apply(plugin = "cc.mewcraft.repository-conventions")
 
-project.ext.set("name", "TownyLink")
-
-group = "cc.mewcraft.townylink"
-version = "1.2.0"
-description = "Sync Towny data between your server network"
-
-dependencies {
-    // server api
-    compileOnly(libs.server.paper)
-
-    // my own libs
-    compileOnly(project(":mewcore"))
-
-    // plugin libs
-    compileOnly(libs.towny)
-    compileOnly(libs.helper) { isTransitive = false }
-    compileOnly(libs.helper.redis)
-    compileOnly(libs.luckperms)
-    compileOnly(libs.connector.bukkit)
+    group = "cc.mewcraft.townylink"
+    version = "1.2.0"
+    description = "Sync Towny data between your server network"
 }

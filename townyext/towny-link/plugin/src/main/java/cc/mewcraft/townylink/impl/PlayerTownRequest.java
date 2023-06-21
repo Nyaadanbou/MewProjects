@@ -26,7 +26,7 @@ public class PlayerTownRequest implements ConversationMessage {
     @Override public String toString() {
         return "PlayerTownRequest{" +
                "id=" + id +
-               ", serverId='" + serverId + '\'' +
+               ", serverId=" + serverId +
                ", playerId=" + playerId +
                '}';
     }

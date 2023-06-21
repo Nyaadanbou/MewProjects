@@ -21,7 +21,7 @@ public class ServerNationRequest implements ConversationMessage {
     @Override public String toString() {
         return "ServerNationRequest{" +
                "id=" + id +
-               ", serverId='" + serverId + '\'' +
+               ", serverId=" + serverId +
                '}';
     }
 }

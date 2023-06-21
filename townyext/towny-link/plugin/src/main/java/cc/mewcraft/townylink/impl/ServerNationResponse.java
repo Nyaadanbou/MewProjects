@@ -29,7 +29,7 @@ public class ServerNationResponse implements ConversationMessage {
     @Override public String toString() {
         return "ServerNationResponse{" +
                "id=" + id +
-               ", sourceServer='" + sourceServer + '\'' +
+               ", sourceServer=" + sourceServer +
                '}';
     }
 }

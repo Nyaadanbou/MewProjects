@@ -21,7 +21,7 @@ public class ServerTownRequest implements ConversationMessage {
     @Override public String toString() {
         return "ServerTownRequest{" +
                "id=" + id +
-               ", serverId='" + serverId + '\'' +
+               ", serverId=" + serverId +
                '}';
     }
 }

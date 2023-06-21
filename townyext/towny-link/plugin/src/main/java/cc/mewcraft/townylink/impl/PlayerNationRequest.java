@@ -23,7 +23,7 @@ public class PlayerNationRequest implements ConversationMessage {
     @Override public String toString() {
         return "PlayerNationRequest{" +
                "id=" + id +
-               ", serverId='" + serverId + '\'' +
+               ", serverId=" + serverId +
                ", playerId=" + playerId +
                '}';
     }

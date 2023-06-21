@@ -28,7 +28,7 @@ public class PlayerTownResponse implements ConversationMessage {
     @Override public String toString() {
         return "PlayerTownResponse{" +
                "id=" + id +
-               ", sourceServer='" + sourceServer + '\'' +
+               ", sourceServer=" + sourceServer +
                '}';
     }
 }

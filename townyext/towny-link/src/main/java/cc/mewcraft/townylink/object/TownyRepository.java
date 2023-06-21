@@ -1,7 +1,8 @@
 package cc.mewcraft.townylink.object;
 
-import cc.mewcraft.townylink.TownyLink;
+import cc.mewcraft.townylink.TownyLinkPlugin;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,14 +10,15 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Singleton
 public class TownyRepository {
 
-    private final TownyLink plugin;
+    private final TownyLinkPlugin plugin;
     private final Set<String> townNames;
     private final Set<String> nationNames;
 
     @Inject
-    public TownyRepository(final TownyLink plugin) {
+    public TownyRepository(final TownyLinkPlugin plugin) {
         this.plugin = plugin;
         this.townNames = Collections.newSetFromMap(new ConcurrentHashMap<>());
         this.nationNames = Collections.newSetFromMap(new ConcurrentHashMap<>());

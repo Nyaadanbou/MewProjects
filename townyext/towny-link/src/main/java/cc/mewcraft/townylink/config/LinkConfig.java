@@ -1,6 +1,7 @@
 package cc.mewcraft.townylink.config;
 
-import cc.mewcraft.townylink.TownyLink;
+import cc.mewcraft.townylink.TownyLinkPlugin;
+import cc.mewcraft.townylink.impl.PlayerNationRequest;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -9,11 +10,11 @@ import java.util.List;
 @Singleton
 public class LinkConfig {
 
-    private final TownyLink plugin;
+    private final TownyLinkPlugin plugin;
     private final List<String> targetServers; // currently not used
 
     @Inject
-    public LinkConfig(final TownyLink plugin) {
+    public LinkConfig(final TownyLinkPlugin plugin) {
         this.plugin = plugin;
         this.targetServers = plugin.getConfig().getStringList("target-servers");
     }

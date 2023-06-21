@@ -2,24 +2,26 @@ package cc.mewcraft.townylink.listener;
 
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import cc.mewcraft.mewcore.util.UtilComponent;
-import cc.mewcraft.townylink.TownyLink;
+import cc.mewcraft.townylink.TownyLinkPlugin;
 import cc.mewcraft.townylink.messager.Action;
 import cc.mewcraft.townylink.messager.Messenger;
 import cc.mewcraft.townylink.util.TownyUtils;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.lucko.helper.Schedulers;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.server.ServerLoadEvent;
 
 import java.util.concurrent.TimeUnit;
 
+@Singleton
 public class ServerListener implements AutoCloseableListener {
 
-    private final TownyLink plugin;
+    private final TownyLinkPlugin plugin;
     private final Messenger messenger;
 
     @Inject
-    public ServerListener(final TownyLink plugin, final Messenger messenger) {
+    public ServerListener(final TownyLinkPlugin plugin, final Messenger messenger) {
         this.plugin = plugin;
         this.messenger = messenger;
     }

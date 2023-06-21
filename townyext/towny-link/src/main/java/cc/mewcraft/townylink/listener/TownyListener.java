@@ -1,25 +1,27 @@
 package cc.mewcraft.townylink.listener;
 
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
-import cc.mewcraft.townylink.TownyLink;
+import cc.mewcraft.townylink.TownyLinkPlugin;
 import cc.mewcraft.townylink.messager.Action;
 import cc.mewcraft.townylink.messager.Messenger;
 import cc.mewcraft.townylink.object.TownyRepository;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.palmergames.bukkit.towny.event.*;
 import com.palmergames.bukkit.towny.event.nation.PreNewNationEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
+@Singleton
 public class TownyListener implements AutoCloseableListener {
 
-    private final TownyLink plugin;
+    private final TownyLinkPlugin plugin;
     private final Messenger messenger;
     private final TownyRepository repository;
 
     @Inject
     public TownyListener(
-        final TownyLink plugin,
+        final TownyLinkPlugin plugin,
         final Messenger messenger,
         final TownyRepository repository
     ) {

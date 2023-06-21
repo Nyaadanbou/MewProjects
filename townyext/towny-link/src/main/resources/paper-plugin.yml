@@ -1,8 +1,7 @@
-name: TownyLink
+name: TownyLinkPlugin
 version: ${version}
 description: ${description}
-main: cc.mewcraft.townylink.TownyLink
-loader: cc.mewcraft.townylink.TownyLinkLoader
+main: cc.mewcraft.townylink.TownyLinkPlugin
 api-version: 1.19
 authors: [ Nailm ]
 dependencies:
@@ -12,13 +11,21 @@ dependencies:
       load: BEFORE
       required: true
       join-classpath: true
+    helper-redis:
+      load: BEFORE
+      required: true
+      join-classpath: true
     MewCore:
       load: BEFORE
       required: true
       join-classpath: true
-    Towny:
+    LuckPerms:
       load: OMIT
       required: true
+      join-classpath: true
+    Towny:
+      load: OMIT
+      required: false
       join-classpath: true
     ConnectorPlugin:
       load: OMIT

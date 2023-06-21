@@ -1,6 +1,6 @@
 package cc.mewcraft.townylink.messager;
 
-import cc.mewcraft.townylink.TownyLink;
+import cc.mewcraft.townylink.TownyLinkPlugin;
 import cc.mewcraft.townylink.object.TownyRepository;
 import cc.mewcraft.townylink.util.TownyUtils;
 import com.google.common.io.ByteArrayDataInput;
@@ -23,14 +23,14 @@ import java.util.function.BiConsumer;
 @SuppressWarnings("UnstableApiUsage")
 public class ConnectorMessenger implements Messenger, Terminable {
 
-    private final TownyLink plugin;
+    private final TownyLinkPlugin plugin;
     private final TownyRepository repository;
     private final BukkitConnectorPlugin connectorPlugin;
     private final ConnectingPlugin connectingPlugin = () -> "TownyLink";
 
     @Inject
     public ConnectorMessenger(
-        final TownyLink plugin,
+        final TownyLinkPlugin plugin,
         final TownyRepository repository,
         final BukkitConnectorPlugin connectorPlugin
     ) {

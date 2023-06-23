@@ -8,11 +8,7 @@ import cc.mewcraft.townylink.config.LinkConfig;
 import cc.mewcraft.townylink.impl.LinkRequestImpl;
 import cc.mewcraft.townylink.listener.PlayerListener;
 import cc.mewcraft.townylink.sync.TownyListener;
-import com.google.inject.AbstractModule;
-import com.google.inject.ConfigurationException;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.ProvisionException;
+import com.google.inject.*;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
 public class TownyLinkPlugin extends ExtendedJavaPlugin {
@@ -50,7 +46,7 @@ public class TownyLinkPlugin extends ExtendedJavaPlugin {
             pluginCommands = injector.getInstance(PluginCommands.class);
             pluginCommands.registerCommands();
         } catch (ConfigurationException | ProvisionException e) {
-            getSLF4JLogger().error("Failed to register commands!");
+            getSLF4JLogger().error("Failed to register commands!", e);
         }
     }
 

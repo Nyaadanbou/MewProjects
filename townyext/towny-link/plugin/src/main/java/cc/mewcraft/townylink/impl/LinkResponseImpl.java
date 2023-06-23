@@ -58,7 +58,7 @@ class LinkResponseImpl { // package private
                         UUID conversationId = message.getConversationId();
                         ImmutableSet<UUID> residents = town.getResidents().stream().map(Resident::getUUID).collect(ImmutableSet.toImmutableSet());
                         TownData townData = new TownData(town.getName(), town.getUUID(), Position.of(town.getSpawn()), residents);
-                        linkRequest.plugin.getSLF4JLogger().info("Reply - {}", message);
+                        linkRequest.plugin.getSLF4JLogger().debug("Reply - {}", message);
                         return new PlayerTownResponse(conversationId, sourceServer, townData);
                     } catch (TownyException e) {
                         linkRequest.plugin.getSLF4JLogger().warn("Null Reply - No spawn location found - {}", message);
@@ -69,7 +69,7 @@ class LinkResponseImpl { // package private
             } else {
                 // This server is not the requested server - don't reply it
 
-                linkRequest.plugin.getSLF4JLogger().info("No Reply - {}", message);
+                linkRequest.plugin.getSLF4JLogger().debug("No Reply - {}", message);
                 return ConversationReply.noReply();
             }
         });
@@ -97,7 +97,7 @@ class LinkResponseImpl { // package private
                         UUID conversationId = message.getConversationId();
                         ImmutableSet<UUID> residents = nation.getResidents().stream().map(Resident::getUUID).collect(ImmutableSet.toImmutableSet());
                         NationData nationData = new NationData(nation.getName(), nation.getUUID(), Position.of(nation.getSpawn()), residents);
-                        linkRequest.plugin.getSLF4JLogger().info("Reply - {}", message);
+                        linkRequest.plugin.getSLF4JLogger().debug("Reply - {}", message);
                         return new PlayerNationResponse(conversationId, sourceServer, nationData);
                     } catch (TownyException e) {
                         linkRequest.plugin.getSLF4JLogger().warn("Null Reply - No spawn location found - {}", message);
@@ -108,7 +108,7 @@ class LinkResponseImpl { // package private
             } else {
                 // This server is not the requested server - don't reply it
 
-                linkRequest.plugin.getSLF4JLogger().info("No Reply - {}", message);
+                linkRequest.plugin.getSLF4JLogger().debug("No Reply - {}", message);
                 return ConversationReply.noReply();
             }
         });
@@ -121,14 +121,14 @@ class LinkResponseImpl { // package private
 
                 Promise<ServerTownResponse> promise = Promise.supplyingAsync(() -> {
                     ImmutableSet<TownData> townDataList = getTowns();
-                    linkRequest.plugin.getSLF4JLogger().info("Reply - {}", message);
+                    linkRequest.plugin.getSLF4JLogger().debug("Reply - {}", message);
                     return new ServerTownResponse(message.getConversationId(), sourceServer, townDataList);
                 });
                 return ConversationReply.ofPromise(promise);
             } else {
                 // This server is not the requested server - don't reply it
 
-                linkRequest.plugin.getSLF4JLogger().info("No Reply - {}", message);
+                linkRequest.plugin.getSLF4JLogger().debug("No Reply - {}", message);
                 return ConversationReply.noReply();
             }
         });
@@ -141,14 +141,14 @@ class LinkResponseImpl { // package private
 
                 Promise<ServerNationResponse> promise = Promise.supplyingAsync(() -> {
                     ImmutableSet<NationData> nationDataList = getNations();
-                    linkRequest.plugin.getSLF4JLogger().info("Reply - {}", message);
+                    linkRequest.plugin.getSLF4JLogger().debug("Reply - {}", message);
                     return new ServerNationResponse(message.getConversationId(), sourceServer, nationDataList);
                 });
                 return ConversationReply.ofPromise(promise);
             } else {
                 // This server is not the requested server - don't reply it
 
-                linkRequest.plugin.getSLF4JLogger().info("No Reply - {}", message);
+                linkRequest.plugin.getSLF4JLogger().debug("No Reply - {}", message);
                 return ConversationReply.noReply();
             }
         });
@@ -161,14 +161,14 @@ class LinkResponseImpl { // package private
 
                 Promise<GlobalTownResponse> promise = Promise.supplyingAsync(() -> {
                     ImmutableSet<TownData> townDataList = getTowns();
-                    linkRequest.plugin.getSLF4JLogger().info("Reply - {}", message);
+                    linkRequest.plugin.getSLF4JLogger().debug("Reply - {}", message);
                     return new GlobalTownResponse(message.getConversationId(), townDataList);
                 });
                 return ConversationReply.ofPromise(promise);
             } else {
                 // This server is the sender itself
 
-                linkRequest.plugin.getSLF4JLogger().info("No Reply - {}", message);
+                linkRequest.plugin.getSLF4JLogger().debug("No Reply - {}", message);
                 return ConversationReply.noReply();
             }
         });
@@ -181,14 +181,14 @@ class LinkResponseImpl { // package private
 
                 Promise<GlobalNationResponse> promise = Promise.supplyingAsync(() -> {
                     ImmutableSet<NationData> nationDataList = getNations();
-                    linkRequest.plugin.getSLF4JLogger().info("Reply - {}", message);
+                    linkRequest.plugin.getSLF4JLogger().debug("Reply - {}", message);
                     return new GlobalNationResponse(message.getConversationId(), nationDataList);
                 });
                 return ConversationReply.ofPromise(promise);
             } else {
                 // This server is the sender itself
 
-                linkRequest.plugin.getSLF4JLogger().info("No Reply - {}", message);
+                linkRequest.plugin.getSLF4JLogger().debug("No Reply - {}", message);
                 return ConversationReply.noReply();
             }
         });

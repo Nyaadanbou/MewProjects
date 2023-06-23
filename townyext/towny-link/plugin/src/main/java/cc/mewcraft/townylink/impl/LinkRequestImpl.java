@@ -16,7 +16,6 @@ import me.lucko.helper.promise.Promise;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -63,7 +62,9 @@ public class LinkRequestImpl implements TownyLink {
     @Override public @NonNull Promise<TownData> requestPlayerTown(final String serverId, final UUID playerId) {
         PlayerTownRequest request = new PlayerTownRequest(serverId, playerId);
         Promise<TownData> promise = Promise.empty();
-        plugin.getSLF4JLogger().info("Request - {}", request);
+        plugin.getSLF4JLogger().debug("Request - {}", request);
+
+        // Send request and await replies
         playerTownChannel.sendMessage(request, new ConversationReplyListener<>() {
             @Override public @NonNull RegistrationAction onReply(final @NonNull PlayerTownResponse reply) {
                 promise.supply(reply.townData);
@@ -71,17 +72,20 @@ public class LinkRequestImpl implements TownyLink {
             }
 
             @Override public void onTimeout(final @NonNull List<PlayerTownResponse> replies) {
-                plugin.getSLF4JLogger().info("Request Timeout - {}", request);
+                plugin.getSLF4JLogger().debug("Request Timeout - {}", request);
                 promise.supplyException(new TimeoutException("Request timed out"));
             }
         }, 1, TimeUnit.SECONDS);
+
         return promise;
     }
 
     @Override public @NonNull Promise<NationData> requestPlayerNation(final String serverId, final UUID playerId) {
         PlayerNationRequest request = new PlayerNationRequest(serverId, playerId);
         Promise<NationData> promise = Promise.empty();
-        plugin.getSLF4JLogger().info("Request - {}", request);
+        plugin.getSLF4JLogger().debug("Request - {}", request);
+
+        // Send request and await replies
         playerNationChannel.sendMessage(request, new ConversationReplyListener<>() {
             @Override public @NonNull RegistrationAction onReply(final @NonNull PlayerNationResponse reply) {
                 promise.supply(reply.nationData);
@@ -89,17 +93,20 @@ public class LinkRequestImpl implements TownyLink {
             }
 
             @Override public void onTimeout(final @NonNull List<PlayerNationResponse> replies) {
-                plugin.getSLF4JLogger().info("Request Timeout - {}", request);
+                plugin.getSLF4JLogger().debug("Request Timeout - {}", request);
                 promise.supplyException(new TimeoutException("Request timed out"));
             }
         }, 1, TimeUnit.SECONDS);
+
         return promise;
     }
 
     @Override public @NonNull Promise<ImmutableSet<TownData>> requestServerTown(final String serverId) {
         ServerTownRequest request = new ServerTownRequest(serverId);
         Promise<ImmutableSet<TownData>> promise = Promise.empty();
-        plugin.getSLF4JLogger().info("Request - {}", request);
+        plugin.getSLF4JLogger().debug("Request - {}", request);
+
+        // Send request and await replies
         serverTownChannel.sendMessage(request, new ConversationReplyListener<>() {
             @Override public @NonNull RegistrationAction onReply(final @NonNull ServerTownResponse reply) {
                 promise.supply(reply.townDataSet);
@@ -107,17 +114,20 @@ public class LinkRequestImpl implements TownyLink {
             }
 
             @Override public void onTimeout(final @NonNull List<ServerTownResponse> replies) {
-                plugin.getSLF4JLogger().info("Request Timeout - {}", request);
+                plugin.getSLF4JLogger().debug("Request Timeout - {}", request);
                 promise.supplyException(new TimeoutException("Request timed out"));
             }
         }, 1, TimeUnit.SECONDS);
+
         return promise;
     }
 
     @Override public @NonNull Promise<ImmutableSet<NationData>> requestServerNation(final String serverId) {
         ServerNationRequest request = new ServerNationRequest(serverId);
         Promise<ImmutableSet<NationData>> promise = Promise.empty();
-        plugin.getSLF4JLogger().info("Request - {}", request);
+        plugin.getSLF4JLogger().debug("Request - {}", request);
+
+        // Send request and await replies
         serverNationChannel.sendMessage(request, new ConversationReplyListener<>() {
             @Override public @NonNull RegistrationAction onReply(final @NonNull ServerNationResponse reply) {
                 promise.supply(reply.nationDataSet);
@@ -125,10 +135,11 @@ public class LinkRequestImpl implements TownyLink {
             }
 
             @Override public void onTimeout(final @NonNull List<ServerNationResponse> replies) {
-                plugin.getSLF4JLogger().info("Request Timeout - {}", request);
+                plugin.getSLF4JLogger().debug("Request Timeout - {}", request);
                 promise.supplyException(new TimeoutException("Request timed out"));
             }
         }, 1, TimeUnit.SECONDS);
+
         return promise;
     }
 
@@ -136,25 +147,26 @@ public class LinkRequestImpl implements TownyLink {
         String senderServer = ServerInfo.SERVER_ID.get();
         GlobalTownRequest request = new GlobalTownRequest(senderServer);
         Promise<ImmutableSet<TownData>> promise = Promise.empty();
-        List<GlobalTownResponse> replies = new ArrayList<>();
-        plugin.getSLF4JLogger().info("Request - {}", request);
+        plugin.getSLF4JLogger().debug("Request - {}", request);
 
+        // Send request and await replies
         globalTownChannel.sendMessage(request, new ConversationReplyListener<>() {
             @Override public @NotNull RegistrationAction onReply(final @NotNull GlobalTownResponse reply) {
-                replies.add(reply);
                 return RegistrationAction.CONTINUE_LISTENING;
             }
 
             @Override public void onTimeout(final @NotNull List<GlobalTownResponse> replies) {
-                plugin.getSLF4JLogger().info("Request Timeout - {}", request);
-                promise.supplyException(new TimeoutException("Request timed out"));
+                // The method onTimeout() is a straight way to collect
+                // all the replies within the duration of request timeout
+
+                plugin.getSLF4JLogger().debug("Request Done - {}", request);
+                promise.supply(replies
+                    .stream()
+                    .flatMap(t -> t.townDataSet.stream())
+                    .collect(ImmutableSet.toImmutableSet())
+                );
             }
-        }, 1, TimeUnit.SECONDS).supplyExceptionallyAsync(() -> {
-            Thread.sleep(1000); // sleep for 1s to receive the responses from ALL servers
-            ImmutableSet<TownData> townDataList = replies.stream().flatMap(t -> t.townDataSet.stream()).collect(ImmutableSet.toImmutableSet());
-            promise.supply(townDataList);
-            return null;
-        });
+        }, 1, TimeUnit.SECONDS /* spend 1s receiving responses from ALL servers */);
 
         return promise;
     }
@@ -163,25 +175,23 @@ public class LinkRequestImpl implements TownyLink {
         String senderServer = ServerInfo.SERVER_ID.get();
         GlobalNationRequest request = new GlobalNationRequest(senderServer);
         Promise<ImmutableSet<NationData>> promise = Promise.empty();
-        List<GlobalNationResponse> replies = new ArrayList<>();
-        plugin.getSLF4JLogger().info("Request - {}", request);
+        plugin.getSLF4JLogger().debug("Request - {}", request);
 
+        // Send request and await replies
         globalNationChannel.sendMessage(request, new ConversationReplyListener<>() {
             @Override public @NotNull RegistrationAction onReply(final @NotNull GlobalNationResponse reply) {
-                replies.add(reply);
                 return RegistrationAction.CONTINUE_LISTENING;
             }
 
             @Override public void onTimeout(final @NotNull List<GlobalNationResponse> replies) {
-                plugin.getSLF4JLogger().info("Request Timeout - {}", request);
-                promise.supplyException(new TimeoutException("Request timed out"));
+                plugin.getSLF4JLogger().debug("Request Done - {}", request);
+                promise.supply(replies
+                    .stream()
+                    .flatMap(t -> t.nationDataSet.stream())
+                    .collect(ImmutableSet.toImmutableSet())
+                );
             }
-        }, 1, TimeUnit.SECONDS).supplyExceptionallyAsync(() -> {
-            Thread.sleep(1000); // sleep for 1s to receive the responses from ALL servers
-            ImmutableSet<NationData> nationDataList = replies.stream().flatMap(t -> t.nationDataSet.stream()).collect(ImmutableSet.toImmutableSet());
-            promise.supply(nationDataList);
-            return null;
-        });
+        }, 1, TimeUnit.SECONDS /* spend 1s receiving responses from ALL servers */);
 
         return promise;
     }

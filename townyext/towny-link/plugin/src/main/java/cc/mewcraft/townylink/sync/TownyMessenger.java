@@ -17,8 +17,10 @@ import me.lucko.helper.messaging.Channel;
 import me.lucko.helper.messaging.ChannelAgent;
 import me.lucko.helper.messaging.Messenger;
 import me.lucko.helper.promise.Promise;
-import me.lucko.helper.terminable.Terminable;
+import me.lucko.helper.terminable.TerminableConsumer;
+import me.lucko.helper.terminable.module.TerminableModule;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -27,65 +29,74 @@ import java.util.UUID;
  * This class manages the Global Data of Towny.
  */
 @Singleton
-public class TownyMessenger implements Terminable {
+public class TownyMessenger implements TerminableModule {
     private final TownyLinkPlugin plugin;
-    private final GlobalDataHolder globalData;
+    private final GlobalDataHolder holder;
 
-    private final Channel<NewGovernmentPacket> newChannel;
-    private final Channel<DeleteGovernmentPacket> deleteChannel;
-    private final Channel<InitialGovernmentPacket> initChannel;
+    private final Channel<NewGovernmentPacket> creationChannel;
+    private final Channel<DeleteGovernmentPacket> deletionChannel;
+    private final Channel<InitialGovernmentPacket> initializationChannel;
 
-    private final ChannelAgent<NewGovernmentPacket> newAgent;
-    private final ChannelAgent<DeleteGovernmentPacket> deleteAgent;
-    private final ChannelAgent<InitialGovernmentPacket> initAgent;
+    private final ChannelAgent<NewGovernmentPacket> creationAgent;
+    private final ChannelAgent<DeleteGovernmentPacket> deletionAgent;
+    private final ChannelAgent<InitialGovernmentPacket> initializationAgent;
 
     @Inject
-    public TownyMessenger(final TownyLinkPlugin plugin, final GlobalDataHolder globalData) {
+    public TownyMessenger(final TownyLinkPlugin plugin, final GlobalDataHolder holder) {
         this.plugin = plugin;
-        this.globalData = globalData;
+        this.holder = holder;
+
         Messenger messenger = plugin.getService(Messenger.class);
-        this.initChannel = messenger.getChannel("init-government", InitialGovernmentPacket.class);
-        this.newChannel = messenger.getChannel("new-government", NewGovernmentPacket.class);
-        this.deleteChannel = messenger.getChannel("delete-government", DeleteGovernmentPacket.class);
-        this.initAgent = initChannel.newAgent();
-        this.newAgent = newChannel.newAgent();
-        this.deleteAgent = deleteChannel.newAgent();
+
+        this.creationChannel = messenger.getChannel("new-government", NewGovernmentPacket.class);
+        this.deletionChannel = messenger.getChannel("delete-government", DeleteGovernmentPacket.class);
+        this.initializationChannel = messenger.getChannel("init-government", InitialGovernmentPacket.class);
+
+        this.creationAgent = creationChannel.newAgent();
+        this.deletionAgent = deletionChannel.newAgent();
+        this.initializationAgent = initializationChannel.newAgent();
+    }
+
+    @Override public void setup(final @NotNull TerminableConsumer consumer) {
+        consumer.bind(creationAgent);
+        consumer.bind(deletionAgent);
+        consumer.bind(initializationAgent);
 
         // --- Register listeners ---
 
-        initAgent.addListener((agent, message) -> {
+        initializationAgent.addListener((agent, message) -> {
             String currentServer = ServerInfo.SERVER_ID.get();
             if (Objects.equals(currentServer, message.sender())) {
                 return; // message comes from current server - ignore it
             }
 
             switch (message.type()) {
-                case TOWN -> message.data().forEach(globalData::putTown);
-                case NATION -> message.data().forEach(globalData::putNation);
+                case TOWN -> message.data().forEach(holder::putTown);
+                case NATION -> message.data().forEach(holder::putNation);
             }
         });
 
-        newAgent.addListener((agent, message) -> {
+        creationAgent.addListener((agent, message) -> {
             String currentServer = ServerInfo.SERVER_ID.get();
             if (Objects.equals(currentServer, message.sender())) {
                 return; // message comes from current server - ignore it
             }
 
             switch (message.type()) {
-                case TOWN -> globalData.putTown(new GovernmentObject(message.uuid(), message.name()));
-                case NATION -> globalData.putNation(new GovernmentObject(message.uuid(), message.name()));
+                case TOWN -> holder.putTown(new GovernmentObject(message.uuid(), message.name()));
+                case NATION -> holder.putNation(new GovernmentObject(message.uuid(), message.name()));
             }
         });
 
-        deleteAgent.addListener((agent, message) -> {
+        deletionAgent.addListener((agent, message) -> {
             String currentServer = ServerInfo.SERVER_ID.get();
             if (Objects.equals(currentServer, message.sender())) {
                 return; // message comes from current server - ignore it
             }
 
             switch (message.type()) {
-                case TOWN -> globalData.removeTown(message.uuid());
-                case NATION -> globalData.removeNation(message.uuid());
+                case TOWN -> holder.removeTown(message.uuid());
+                case NATION -> holder.removeNation(message.uuid());
             }
         });
     }
@@ -111,14 +122,14 @@ public class TownyMessenger implements Terminable {
             // Request towns from other servers
             .thenComposeAsync(n -> TownyLinkProvider.get().requestGlobalTown())
             .thenAcceptAsync(data -> {
-                data.stream().map(t -> new GovernmentObject(t.id(), t.name())).forEach(globalData::putTown);
+                data.stream().map(t -> new GovernmentObject(t.id(), t.name())).forEach(holder::putTown);
                 plugin.getSLF4JLogger().info("Received total {} towns from other servers", data.size());
             })
 
             // Request nations from other servers
             .thenComposeAsync(n -> TownyLinkProvider.get().requestGlobalNation())
             .thenAcceptAsync(data -> {
-                data.stream().map(t -> new GovernmentObject(t.id(), t.name())).forEach(globalData::putNation);
+                data.stream().map(t -> new GovernmentObject(t.id(), t.name())).forEach(holder::putNation);
                 plugin.getSLF4JLogger().info("Received total {} nations from other servers", data.size());
             })
 
@@ -134,7 +145,7 @@ public class TownyMessenger implements Terminable {
         String sender = ServerInfo.SERVER_ID.get();
         NewGovernmentPacket packet = new NewGovernmentPacket(sender, uuid, name, type);
         plugin.getSLF4JLogger().info("Broadcast government update - {}", packet);
-        newChannel.sendMessage(packet);
+        creationChannel.sendMessage(packet);
     }
 
     void broadcastDelete(GovernmentType type, @NonNull UUID uuid) {
@@ -144,7 +155,7 @@ public class TownyMessenger implements Terminable {
         String sender = ServerInfo.SERVER_ID.get();
         DeleteGovernmentPacket packet = new DeleteGovernmentPacket(sender, uuid, type);
         plugin.getSLF4JLogger().info("Broadcast government update - {}", packet);
-        deleteChannel.sendMessage(packet);
+        deletionChannel.sendMessage(packet);
     }
 
     void broadcastExisting(@NonNull GovernmentType type, ImmutableSet<GovernmentObject> data) {
@@ -153,12 +164,6 @@ public class TownyMessenger implements Terminable {
         String sender = ServerInfo.SERVER_ID.get();
         InitialGovernmentPacket packet = new InitialGovernmentPacket(sender, type, data);
         plugin.getSLF4JLogger().info("Broadcast {} {} to the network - {}", data.size(), type.name().toLowerCase() + "(s)", packet);
-        initChannel.sendMessage(packet);
-    }
-
-    @Override public void close() {
-        initAgent.close();
-        newAgent.close();
-        deleteAgent.close();
+        initializationChannel.sendMessage(packet);
     }
 }

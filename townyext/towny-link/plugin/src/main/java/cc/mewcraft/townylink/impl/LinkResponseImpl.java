@@ -12,7 +12,7 @@ import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
 import me.lucko.helper.messaging.conversation.ConversationReply;
 import me.lucko.helper.promise.Promise;
-import me.lucko.helper.serialize.Position;
+import me.lucko.helper.serialize.Point;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Objects;
@@ -57,7 +57,7 @@ class LinkResponseImpl { // package private
                     try {
                         UUID conversationId = message.getConversationId();
                         ImmutableSet<UUID> residents = town.getResidents().stream().map(Resident::getUUID).collect(ImmutableSet.toImmutableSet());
-                        TownData townData = new TownData(town.getName(), town.getUUID(), Position.of(town.getSpawn()), residents);
+                        TownData townData = new TownData(town.getName(), town.getUUID(), Point.of(town.getSpawn()), residents);
                         linkRequest.plugin.getSLF4JLogger().debug("Reply - {}", message);
                         return new PlayerTownResponse(conversationId, sourceServer, townData);
                     } catch (TownyException e) {
@@ -96,7 +96,7 @@ class LinkResponseImpl { // package private
                     try {
                         UUID conversationId = message.getConversationId();
                         ImmutableSet<UUID> residents = nation.getResidents().stream().map(Resident::getUUID).collect(ImmutableSet.toImmutableSet());
-                        NationData nationData = new NationData(nation.getName(), nation.getUUID(), Position.of(nation.getSpawn()), residents);
+                        NationData nationData = new NationData(nation.getName(), nation.getUUID(), Point.of(nation.getSpawn()), residents);
                         linkRequest.plugin.getSLF4JLogger().debug("Reply - {}", message);
                         return new PlayerNationResponse(conversationId, sourceServer, nationData);
                     } catch (TownyException e) {
@@ -204,14 +204,13 @@ class LinkResponseImpl { // package private
                 townDataSet.add(new TownData(
                     town.getName(),
                     town.getUUID(),
-                    Position.of(town.getSpawn()),
+                    Point.of(town.getSpawn()),
                     town.getResidents().stream().map(Resident::getUUID).collect(ImmutableSet.toImmutableSet())
                 ));
             } catch (TownyException e) {
                 // Skip towns without spawn location
                 linkRequest.plugin.getSLF4JLogger().warn("No spawn location found for town \"{}\"", town.getName());
             }
-
         }
         return townDataSet.build();
     }
@@ -226,7 +225,7 @@ class LinkResponseImpl { // package private
                 nationDataSet.add(new NationData(
                     nation.getName(),
                     nation.getUUID(),
-                    Position.of(nation.getSpawn()),
+                    Point.of(nation.getSpawn()),
                     nation.getResidents().stream().map(Resident::getUUID).collect(ImmutableSet.toImmutableSet())
                 ));
             } catch (TownyException e) {

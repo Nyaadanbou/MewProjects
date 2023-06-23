@@ -1,4 +1,4 @@
-name: TownyLinkPlugin
+name: TownyLink
 version: ${version}
 description: ${description}
 main: cc.mewcraft.townylink.TownyLinkPlugin
@@ -27,7 +27,7 @@ dependencies:
       load: OMIT
       required: false
       join-classpath: true
-    ConnectorPlugin:
+    HuskHomes:
       load: OMIT
       required: false
       join-classpath: true

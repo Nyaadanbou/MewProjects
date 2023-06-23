@@ -13,6 +13,7 @@ import me.lucko.helper.messaging.Messenger;
 import me.lucko.helper.messaging.conversation.ConversationChannel;
 import me.lucko.helper.messaging.conversation.ConversationReplyListener;
 import me.lucko.helper.promise.Promise;
+import me.lucko.helper.terminable.TerminableConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,13 +51,13 @@ public class LinkRequestImpl implements TownyLink {
         }
     }
 
-    @Override public void close() {
-        playerTownChannel.close();
-        playerNationChannel.close();
-        serverTownChannel.close();
-        serverNationChannel.close();
-        globalTownChannel.close();
-        globalNationChannel.close();
+    @Override public void setup(final @NotNull TerminableConsumer consumer) {
+        consumer.bind(playerTownChannel);
+        consumer.bind(playerNationChannel);
+        consumer.bind(serverTownChannel);
+        consumer.bind(serverNationChannel);
+        consumer.bind(globalTownChannel);
+        consumer.bind(globalNationChannel);
     }
 
     @Override public @NonNull Promise<TownData> requestPlayerTown(final String serverId, final UUID playerId) {

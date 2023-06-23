@@ -2,13 +2,12 @@ package cc.mewcraft.townylink.api;
 
 import com.google.common.collect.ImmutableSet;
 import me.lucko.helper.promise.Promise;
-import me.lucko.helper.terminable.Terminable;
+import me.lucko.helper.terminable.module.TerminableModule;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.List;
 import java.util.UUID;
 
-public interface TownyLink extends Terminable {
+public interface TownyLink extends TerminableModule {
 
     /**
      * Requests the town of specific player in specific server.

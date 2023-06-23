@@ -5,9 +5,12 @@ import cc.mewcraft.townylink.api.TownyLink;
 import cc.mewcraft.townylink.api.TownyLinkProvider;
 import cc.mewcraft.townylink.command.PluginCommands;
 import cc.mewcraft.townylink.config.LinkConfig;
+import cc.mewcraft.townylink.hook.HuskHomesHook;
 import cc.mewcraft.townylink.impl.LinkRequestImpl;
 import cc.mewcraft.townylink.listener.PlayerListener;
 import cc.mewcraft.townylink.sync.TownyListener;
+import cc.mewcraft.townylink.teleport.DummyTeleport;
+import cc.mewcraft.townylink.teleport.NetworkTeleport;
 import com.google.inject.*;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
@@ -26,19 +29,19 @@ public class TownyLinkPlugin extends ExtendedJavaPlugin {
     }
 
     @Override protected void enable() {
-        saveDefaultConfig();
-        this.config = new LinkConfig(this);
-        this.translations = new Translations(this);
-
         Injector injector = Guice.createInjector(new MainModule());
 
+        saveDefaultConfig();
+        this.config = injector.getInstance(LinkConfig.class);
+        this.translations = injector.getInstance(Translations.class);
+
         // Provide API instance
-        TownyLinkProvider.register(injector.getInstance(TownyLink.class));
+        TownyLinkProvider.register(bindModule(injector.getInstance(TownyLink.class)));
 
         // Register listeners
-        registerListener(injector.getInstance(PlayerListener.class)).bindWith(this);
+        registerListener(bind(injector.getInstance(PlayerListener.class)));
         if (isPluginPresent("Towny")) {
-            registerListener(injector.getInstance(TownyListener.class)).bindWith(this);
+            registerListener(bindModule(injector.getInstance(TownyListener.class)));
         }
 
         // Register commands
@@ -53,7 +56,15 @@ public class TownyLinkPlugin extends ExtendedJavaPlugin {
     private class MainModule extends AbstractModule {
         @Override protected void configure() {
             bind(TownyLinkPlugin.class).toInstance(TownyLinkPlugin.this);
+
             bind(TownyLink.class).to(LinkRequestImpl.class);
+            bind(Translations.class).toProvider(() -> new Translations(TownyLinkPlugin.this));
+
+            if (isPluginPresent("HuskHomes")) {
+                bind(NetworkTeleport.class).to(HuskHomesHook.class);
+            } else {
+                bind(NetworkTeleport.class).to(DummyTeleport.class);
+            }
         }
     }
 

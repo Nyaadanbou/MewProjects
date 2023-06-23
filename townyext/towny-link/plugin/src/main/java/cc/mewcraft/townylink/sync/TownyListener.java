@@ -6,53 +6,41 @@ import cc.mewcraft.townylink.sync.local.GlobalDataHolder;
 import cc.mewcraft.townylink.sync.packet.GovernmentType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.palmergames.bukkit.towny.event.CancellableTownyEvent;
-import com.palmergames.bukkit.towny.event.DeleteNationEvent;
-import com.palmergames.bukkit.towny.event.DeleteTownEvent;
-import com.palmergames.bukkit.towny.event.NationPreRenameEvent;
-import com.palmergames.bukkit.towny.event.NewNationEvent;
-import com.palmergames.bukkit.towny.event.NewTownEvent;
-import com.palmergames.bukkit.towny.event.PreNewTownEvent;
-import com.palmergames.bukkit.towny.event.RenameNationEvent;
-import com.palmergames.bukkit.towny.event.RenameTownEvent;
-import com.palmergames.bukkit.towny.event.TownPreRenameEvent;
+import com.palmergames.bukkit.towny.event.*;
 import com.palmergames.bukkit.towny.event.nation.PreNewNationEvent;
 import me.lucko.helper.Schedulers;
+import me.lucko.helper.terminable.TerminableConsumer;
+import me.lucko.helper.terminable.module.TerminableModule;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.server.ServerLoadEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 @Singleton
-public class TownyListener implements AutoCloseableListener {
+public class TownyListener implements AutoCloseableListener, TerminableModule {
     private final TownyLinkPlugin plugin;
-    private final GlobalDataHolder dataHolder;
+    private final GlobalDataHolder holder;
     private final TownyMessenger messenger;
 
     @Inject
     public TownyListener(
         final TownyLinkPlugin plugin,
-        final GlobalDataHolder dataHolder,
+        final GlobalDataHolder holder,
         final TownyMessenger messenger
     ) {
         this.plugin = plugin;
-        this.dataHolder = dataHolder;
+        this.holder = holder;
         this.messenger = messenger;
     }
 
-    //<editor-fold desc="Start initial synchronization of Towny data">
+    @Override public void setup(final @NotNull TerminableConsumer consumer) {
+        consumer.bind(this);
+        consumer.bindModule(messenger);
 
-    @EventHandler
-    public void onServerStart(ServerLoadEvent event) {
-        if (event.getType() != ServerLoadEvent.LoadType.STARTUP) {
-            return;
-        }
-
-        Schedulers.sync().runLater(messenger::sync, 20);
+        // Start initial synchronization of global data in the network
+        Schedulers.bukkit().scheduleSyncDelayedTask(plugin, messenger::sync, 20);
     }
-
-    //</editor-fold>
 
     //<editor-fold desc="Prevent duplicate towns/nations on creation">
 
@@ -142,7 +130,7 @@ public class TownyListener implements AutoCloseableListener {
      * Convenient method to cancel new town.
      */
     private void cancelTownName(CancellableTownyEvent event, Player player, String name) {
-        if (dataHolder.hasTown(name)) {
+        if (holder.hasTown(name)) {
             plugin.getSLF4JLogger().info("Cancelled new town due to duplicate name: {}", name);
             event.setCancelled(true);
             event.setCancelMessage(plugin.getLang().of("town_name_already_exists")
@@ -157,7 +145,7 @@ public class TownyListener implements AutoCloseableListener {
      * Convenient method to cancel new nation.
      */
     private void cancelNationName(CancellableTownyEvent event, Player player, String name) {
-        if (dataHolder.hasNation(name)) {
+        if (holder.hasNation(name)) {
             plugin.getSLF4JLogger().info("Cancelled new nation due to duplicate name: {}", name);
             event.setCancelled(true);
             event.setCancelMessage(plugin.getLang().of("nation_name_already_exists")

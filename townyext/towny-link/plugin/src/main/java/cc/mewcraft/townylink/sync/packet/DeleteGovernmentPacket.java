@@ -15,4 +15,11 @@ public record DeleteGovernmentPacket(
     @NonNull UUID uuid,
     @NonNull GovernmentType type
 ) {
+    @Override public String toString() {
+        return "DeleteGovernmentPacket{" +
+               "sender=" + sender +
+               ", uuid=" + uuid +
+               ", type=" + type +
+               '}';
+    }
 }

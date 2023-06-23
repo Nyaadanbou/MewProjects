@@ -13,4 +13,10 @@ public record InitialGovernmentPacket(
     @NonNull GovernmentType type,
     @NonNull ImmutableSet<GovernmentObject> data
 ) {
+    @Override public String toString() {
+        return "InitialGovernmentPacket{" +
+               "sender=" + sender +
+               ", type=" + type +
+               '}';
+    }
 }

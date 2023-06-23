@@ -2,17 +2,22 @@ package cc.mewcraft.townylink.sync;
 
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import cc.mewcraft.townylink.TownyLinkPlugin;
-import cc.mewcraft.townylink.api.TownyLinkProvider;
 import cc.mewcraft.townylink.sync.local.GlobalDataHolder;
-import cc.mewcraft.townylink.sync.local.GovernmentObject;
 import cc.mewcraft.townylink.sync.packet.GovernmentType;
-import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.palmergames.bukkit.towny.TownyAPI;
-import com.palmergames.bukkit.towny.event.*;
+import com.palmergames.bukkit.towny.event.CancellableTownyEvent;
+import com.palmergames.bukkit.towny.event.DeleteNationEvent;
+import com.palmergames.bukkit.towny.event.DeleteTownEvent;
+import com.palmergames.bukkit.towny.event.NationPreRenameEvent;
+import com.palmergames.bukkit.towny.event.NewNationEvent;
+import com.palmergames.bukkit.towny.event.NewTownEvent;
+import com.palmergames.bukkit.towny.event.PreNewTownEvent;
+import com.palmergames.bukkit.towny.event.RenameNationEvent;
+import com.palmergames.bukkit.towny.event.RenameTownEvent;
+import com.palmergames.bukkit.towny.event.TownPreRenameEvent;
 import com.palmergames.bukkit.towny.event.nation.PreNewNationEvent;
-import me.lucko.helper.promise.Promise;
+import me.lucko.helper.Schedulers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.server.ServerLoadEvent;
@@ -44,40 +49,7 @@ public class TownyListener implements AutoCloseableListener {
             return;
         }
 
-        Promise.start()
-
-            // Report start of the process
-            .thenRunDelayedSync(() -> plugin.getSLF4JLogger().info("Starting Towny data synchronization process ..."), 20)
-
-            // Broadcast towns and nations from this server to the network
-            .thenRunAsync(() -> {
-
-                ImmutableSet.Builder<GovernmentObject> townData = ImmutableSet.builder();
-                TownyAPI.getInstance().getTowns().forEach(town -> townData.add(new GovernmentObject(town.getUUID(), town.getName())));
-                messenger.broadcastExisting(GovernmentType.TOWN, townData.build());
-
-                ImmutableSet.Builder<GovernmentObject> nationData = ImmutableSet.builder();
-                TownyAPI.getInstance().getNations().forEach(nation -> nationData.add(new GovernmentObject(nation.getUUID(), nation.getName())));
-                messenger.broadcastExisting(GovernmentType.NATION, nationData.build());
-
-            })
-
-            // Request towns from other servers
-            .thenComposeAsync(n -> TownyLinkProvider.get().requestGlobalTown())
-            .thenAcceptAsync(data -> {
-                data.stream().map(t -> new GovernmentObject(t.id(), t.name())).forEach(dataHolder::putTown);
-                plugin.getSLF4JLogger().info("Received total {} towns from other servers", data.size());
-            })
-
-            // Request nations from other servers
-            .thenComposeAsync(n -> TownyLinkProvider.get().requestGlobalNation())
-            .thenAcceptAsync(data -> {
-                data.stream().map(t -> new GovernmentObject(t.id(), t.name())).forEach(dataHolder::putNation);
-                plugin.getSLF4JLogger().info("Received total {} nations from other servers", data.size());
-            })
-
-            // Report end of the process
-            .thenRunAsync(() -> plugin.getSLF4JLogger().info("Synchronization process completed! Any errors have been reported above."));
+        Schedulers.sync().runLater(messenger::sync, 20);
     }
 
     //</editor-fold>

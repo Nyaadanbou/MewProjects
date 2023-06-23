@@ -17,4 +17,12 @@ public record NewGovernmentPacket(
     @NonNull String name,
     @NonNull GovernmentType type
 ) {
+    @Override public String toString() {
+        return "NewGovernmentPacket{" +
+               "sender=" + sender +
+               ", uuid=" + uuid +
+               ", name=" + name +
+               ", type=" + type +
+               '}';
+    }
 }

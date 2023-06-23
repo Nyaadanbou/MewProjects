@@ -1,25 +1,25 @@
-package cc.mewcraft.townylink.impl;
+package cc.mewcraft.townylink.impl.packet;
 
-import cc.mewcraft.townylink.api.NationData;
+import cc.mewcraft.townylink.api.TownData;
+import com.google.common.collect.ImmutableSet;
 import me.lucko.helper.messaging.conversation.ConversationMessage;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.UUID;
 
-public class ServerNationResponse implements ConversationMessage {
+public class ServerTownResponse implements ConversationMessage {
     private final UUID id;
-    final String sourceServer;
-    final List<NationData> nationDataList;
+    public final String sourceServer;
+    public final ImmutableSet<TownData> townDataSet;
 
-    public ServerNationResponse(
+    public ServerTownResponse(
         final UUID id,
         final String sourceServer,
-        final List<NationData> nationDataList
+        final ImmutableSet<TownData> townDataSet
     ) {
         this.id = id;
         this.sourceServer = sourceServer;
-        this.nationDataList = nationDataList;
+        this.townDataSet = townDataSet;
     }
 
     @Override public @NotNull UUID getConversationId() {
@@ -27,7 +27,7 @@ public class ServerNationResponse implements ConversationMessage {
     }
 
     @Override public String toString() {
-        return "ServerNationResponse{" +
+        return "ServerTownResponse{" +
                "id=" + id +
                ", sourceServer=" + sourceServer +
                '}';

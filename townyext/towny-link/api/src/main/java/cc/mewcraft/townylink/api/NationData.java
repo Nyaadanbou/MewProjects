@@ -1,17 +1,17 @@
 package cc.mewcraft.townylink.api;
 
-import org.bukkit.Location;
+import com.google.common.collect.ImmutableSet;
+import me.lucko.helper.serialize.Position;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.List;
 import java.util.UUID;
 
 public record NationData(
     @NonNull String name,
     @NonNull UUID id,
-    @Nullable Location location,
-    @NonNull List<UUID> residents
+    @Nullable Position location,
+    @NonNull ImmutableSet<UUID> residents
 ) {
     @Override public String toString() {
         return "NationData{" +

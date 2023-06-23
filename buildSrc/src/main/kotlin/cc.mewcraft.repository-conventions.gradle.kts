@@ -153,4 +153,11 @@ repositories {
             includeGroup("org.betonquest")
         }
     }
+
+    // HuskHomes, HuskTowns, HuskSync
+    maven("https://repo.william278.net/releases") {
+        content {
+            includeGroup("net.william278")
+        }
+    }
 }

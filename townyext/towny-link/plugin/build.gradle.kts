@@ -9,7 +9,7 @@ version = "1.2.0"
 description = "Sync Towny data between your server network"
 
 dependencies {
-    compileOnly(project(":townyext:towny-link:api"))
+    implementation(project(":townyext:towny-link:api"))
 
     // server api
     compileOnly(libs.server.paper)
@@ -23,4 +23,5 @@ dependencies {
     compileOnly(libs.helper.redis)
     compileOnly(libs.luckperms)
     compileOnly(libs.connector.bukkit)
+    compileOnly(libs.huskhomes)
 }

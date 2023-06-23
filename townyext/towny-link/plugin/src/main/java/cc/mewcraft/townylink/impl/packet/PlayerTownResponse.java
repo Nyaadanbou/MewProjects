@@ -1,4 +1,4 @@
-package cc.mewcraft.townylink.impl;
+package cc.mewcraft.townylink.impl.packet;
 
 import cc.mewcraft.townylink.api.TownData;
 import me.lucko.helper.messaging.conversation.ConversationMessage;
@@ -8,8 +8,8 @@ import java.util.UUID;
 
 public class PlayerTownResponse implements ConversationMessage {
     private final UUID id;
-    final String sourceServer;
-    final TownData townData;
+    public final String sourceServer;
+    public final TownData townData;
 
     public PlayerTownResponse(
         final UUID id,

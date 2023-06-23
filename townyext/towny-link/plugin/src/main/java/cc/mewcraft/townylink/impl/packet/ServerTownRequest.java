@@ -1,19 +1,17 @@
-package cc.mewcraft.townylink.impl;
+package cc.mewcraft.townylink.impl.packet;
 
 import me.lucko.helper.messaging.conversation.ConversationMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class PlayerNationRequest implements ConversationMessage {
+public class ServerTownRequest implements ConversationMessage {
     private final UUID id;
-    final String serverId;
-    final UUID playerId;
+    public final String serverId;
 
-    public PlayerNationRequest(final String serverId, final UUID playerId) {
+    public ServerTownRequest(final String serverId) {
         this.id = UUID.randomUUID();
         this.serverId = serverId;
-        this.playerId = playerId;
     }
 
     @Override public @NotNull UUID getConversationId() {
@@ -21,10 +19,9 @@ public class PlayerNationRequest implements ConversationMessage {
     }
 
     @Override public String toString() {
-        return "PlayerNationRequest{" +
+        return "ServerTownRequest{" +
                "id=" + id +
                ", serverId=" + serverId +
-               ", playerId=" + playerId +
                '}';
     }
 }

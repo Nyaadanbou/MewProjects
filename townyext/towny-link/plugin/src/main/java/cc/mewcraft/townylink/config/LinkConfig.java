@@ -1,7 +1,6 @@
 package cc.mewcraft.townylink.config;
 
 import cc.mewcraft.townylink.TownyLinkPlugin;
-import cc.mewcraft.townylink.impl.PlayerNationRequest;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

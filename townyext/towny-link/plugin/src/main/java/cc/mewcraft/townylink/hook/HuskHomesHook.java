@@ -31,6 +31,8 @@ public class HuskHomesHook implements NetworkTeleport {
             point.getPosition().getX(),
             point.getPosition().getY(),
             point.getPosition().getZ(),
+            point.getDirection().getYaw(),
+            point.getDirection().getPitch(),
             World.from(point.getPosition().getWorld(), UUID.randomUUID()),
             server
         );

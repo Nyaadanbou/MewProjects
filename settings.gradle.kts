@@ -43,6 +43,7 @@ include(":rpgext:mythiclibext")
 include(":rpgext:mythicmobsext")
 
 include(":townyext")
+include(":townyext:towny-board")
 include(":townyext:towny-bonus")
 include(":townyext:towny-link")
 include(":townyext:towny-link:api")

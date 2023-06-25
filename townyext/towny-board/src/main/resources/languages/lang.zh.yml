@@ -1,0 +1,9 @@
+msg_plugin_reloaded: <aqua>已重新载入 <plugin> <version> by <author>
+
+msg_you_have_no_book_in_hand: <gold>msg_you_have_no_book_in_hand
+msg_you_have_no_nation: <gold>msg_you_have_no_nation
+msg_you_have_no_town: <gold>msg_you_have_no_town
+msg_nation_board_updated: <gold>msg_nation_board_updated
+msg_nation_board_opened: <gold>msg_nation_board_opened
+msg_town_board_updated: <gold>msg_town_board_updated
+msg_town_board_opened: <gold>msg_town_board_opened

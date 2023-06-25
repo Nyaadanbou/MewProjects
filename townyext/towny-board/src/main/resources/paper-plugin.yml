@@ -1,0 +1,21 @@
+name: TownyBoard
+version: ${version}
+description: ${description}
+main: cc.mewcraft.townyboard.TownyBoardPlugin
+api-version: 1.19
+authors: [ Nailm ]
+dependencies:
+  bootstrap: { }
+  server:
+    helper:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    MewCore:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    Towny:
+      load: OMIT
+      required: true
+      join-classpath: true

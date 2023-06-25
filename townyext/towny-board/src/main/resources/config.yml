@@ -1,0 +1,27 @@
+default_town_board:
+  title: 空的法令
+  author: 匿名
+  pages:
+    0:
+      - 这是一本空的城镇法令
+      - 镇长可在此颁布新法令
+      - ''
+      - 镇长颁布法令的方法：
+      - 手持书，输入指令 /t set law
+      - ''
+      - 居民查看法令的方法：
+      - 输入指令 /t law
+
+default_nation_board:
+  title: 空的法令
+  author: 匿名
+  pages:
+    0:
+      - 这是一本空的国家法令
+      - 国王可在此颁布新法令
+      - ''
+      - 国王颁布法令的方法：
+      - 手持书，输入指令 /n set law
+      - ''
+      - 居民查看法令的方法：
+      - 输入指令 /n law

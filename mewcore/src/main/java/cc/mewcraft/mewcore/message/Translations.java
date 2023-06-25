@@ -14,8 +14,9 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * A sophisticated builder of all the translated messages, additionally providing convenience methods to quickly send
- * message to an audience.
+ * A sophisticated builder of all the translated messages,
+ * additionally providing convenience methods to quickly
+ * send message to an audience.
  */
 @SuppressWarnings("unused")
 public class Translations {

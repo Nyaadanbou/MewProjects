@@ -1,13 +1,14 @@
 package cc.mewcraft.townyboard.command_addon;
 
 import cc.mewcraft.townyboard.TownyBoardPlugin;
-import cc.mewcraft.townyboard.board.BoardDataField;
 import cc.mewcraft.townyboard.board.BoardDefaults;
 import cc.mewcraft.townyboard.board.GsonBoard;
 import cc.mewcraft.townyboard.board.MiniMessageBoard;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownyObject;
+import com.palmergames.bukkit.towny.object.metadata.StringDataField;
+import me.lucko.helper.gson.GsonProvider;
 import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -19,6 +20,8 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -54,10 +57,15 @@ public class LawCommand {
     @NotNull Book readBook(@NotNull TownyObject object) {
         Objects.requireNonNull(object);
 
-        if (object.hasMeta(BOARD_CDF_KEY, BoardDataField.class)) {
+        if (object.hasMeta(BOARD_CDF_KEY)) {
             // The towny object has the gsonBoard set - read it and return the book
-            BoardDataField metadata = Objects.requireNonNull(object.getMetadata(BOARD_CDF_KEY, BoardDataField.class));
-            GsonBoard gsonBoard = metadata.getValue();
+
+            // Decode: Metadata -> Byte Array -> Json String -> Object
+            StringDataField metadata = Objects.requireNonNull(object.getMetadata(BOARD_CDF_KEY, StringDataField.class));
+            byte[] decode = Base64.getDecoder().decode(metadata.getValue().getBytes(StandardCharsets.UTF_8));
+            String decodeString = new String(decode, StandardCharsets.UTF_8);
+            GsonBoard gsonBoard = GsonProvider.standard().fromJson(decodeString, GsonBoard.class);
+
             return readBook(gsonBoard);
         }
 
@@ -92,7 +100,7 @@ public class LawCommand {
         return Book.book(title, author, pages);
     }
 
-    @NotNull BoardDataField writeDataField(@NotNull Book book) {
+    @NotNull StringDataField writeDataField(@NotNull Book book) {
         Objects.requireNonNull(book);
 
         String title;
@@ -110,7 +118,10 @@ public class LawCommand {
         // Book#pages() always return non-null
         pages = book.pages().stream().map(GsonComponentSerializer.gson()::serialize).toList();
 
+        // Encode: Object -> Json String -> Base64 String -> Metadata
         GsonBoard gsonBoard = new GsonBoard(title, author, pages);
-        return new BoardDataField(BOARD_CDF_KEY, gsonBoard);
+        String json = GsonProvider.standard().toJson(gsonBoard, GsonBoard.class);
+        String base64 = Base64.getEncoder().encodeToString(json.getBytes(StandardCharsets.UTF_8));
+        return new StringDataField(BOARD_CDF_KEY, base64);
     }
 }

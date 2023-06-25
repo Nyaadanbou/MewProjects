@@ -1,12 +1,12 @@
 package cc.mewcraft.townyboard.command_addon;
 
 import cc.mewcraft.townyboard.TownyBoardPlugin;
-import cc.mewcraft.townyboard.board.BoardDataField;
 import cc.mewcraft.townyboard.board.BoardDefaults;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.metadata.StringDataField;
 import net.kyori.adventure.inventory.Book;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,7 +38,7 @@ public class NationSetLawCommand extends LawCommand implements CommandExecutor {
             return true;
         }
 
-        BoardDataField boardDataField = writeDataField(book);
+        StringDataField boardDataField = writeDataField(book);
         nation.addMetaData(boardDataField);
         plugin.getLang().of("msg_nation_board_updated").send(player);
 

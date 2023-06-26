@@ -2,7 +2,6 @@ name: MewUtils
 version: ${version}
 description: ${description}
 main: cc.mewcraft.mewutils.MewUtils
-loader: cc.mewcraft.mewutils.MewUtilsLoader
 api-version: 1.19
 authors: [ Nailm ]
 dependencies:

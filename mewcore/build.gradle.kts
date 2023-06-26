@@ -9,7 +9,7 @@ plugins {
 project.ext.set("name", "MewCore")
 
 group = "cc.mewcraft"
-version = "5.17.2"
+version = "5.17.3"
 description = "Common code of all Mewcraft plugins."
 
 // Reference: https://youtrack.jetbrains.com/issue/IDEA-276365
@@ -23,6 +23,7 @@ dependencies {
     compileOnlyApi(libs.guice)
     compileOnlyApi(libs.hikari)
     compileOnlyApi(libs.anvilgui)
+    compileOnlyApi(libs.bundles.invui)
     compileOnlyApi(libs.bundles.cmds) {
         exclude("net.kyori")
     }

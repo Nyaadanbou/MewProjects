@@ -161,4 +161,11 @@ repositories {
             includeGroup("net.william278")
         }
     }
+
+    // Nova, InvGUI
+    maven("https://repo.xenondevs.xyz/releases") {
+        content {
+            includeGroup("xyz.xenondevs.invui")
+        }
+    }
 }

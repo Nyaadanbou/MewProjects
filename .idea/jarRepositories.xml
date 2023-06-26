@@ -151,5 +151,10 @@
       <option name="name" value="maven20" />
       <option name="url" value="https://repo.william278.net/releases" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven21" />
+      <option name="name" value="maven21" />
+      <option name="url" value="https://repo.xenondevs.xyz/releases" />
+    </remote-repository>
   </component>
 </project>

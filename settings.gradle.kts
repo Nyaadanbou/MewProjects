@@ -43,6 +43,7 @@ include(":rpgext")
 include(":rpgext:common")
 include(":rpgext:mythiclibext")
 include(":rpgext:mythicmobsext")
+include(":rpgext:reforge")
 
 include(":townyext")
 include(":townyext:towny-board")

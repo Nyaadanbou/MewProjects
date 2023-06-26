@@ -27,6 +27,7 @@ dependencies {
         exclude("net.kyori")
     }
     compileOnlyApi(libs.configurate)
+    compileOnlyApi(libs.simplixstorage)
     compileOnlyApi(libs.lang.bukkit)
     compileOnlyApi(libs.lang.velocity)
     compileOnlyApi(libs.cronutils)

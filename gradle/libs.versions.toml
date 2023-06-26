@@ -26,6 +26,7 @@ authlib = { group = "com.mojang", name = "authlib", version = "1.5.25" }
 evalex = { group = "com.ezylang", name = "EvalEx", version = "3.0.4" }
 adventure-binaryserializer = { group = "com.github.Moulberry", name = "adventure-binary-serializer", version = "master-SNAPSHOT" }
 cronutils = { group = "com.cronutils", name = "cron-utils", version = "9.2.0" }
+simplixstorage = { group = "com.github.simplix-softworks", name = "simplixstorage", version = "3.2.6" }
 
 # deps that present as other plugins
 mewcore = { group = "cc.mewcraft", name = "mewcore", version = "latest.release" }
@@ -79,4 +80,5 @@ checker = ["checker-qual", "apiguardian-api", "annotations"]
 indra = { id = "net.kyori.indra", version = "3.1.1" }
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
 paperweight-userdev = { id = "io.papermc.paperweight.userdev", version = "1.5.5" }
-pluginyml-bukkit = { id = "net.minecrell.plugin-yml.bukkit", version = "0.5.3" }
+pluginyml-bukkit = { id = "net.minecrell.plugin-yml.bukkit", version = "0.6.0" }
+pluginyml-paper = { id = "net.minecrell.plugin-yml.paper", version = "0.6.0" }

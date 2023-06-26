@@ -58,6 +58,7 @@ repositories {
     // All projects hosted on jitpack
     maven("https://jitpack.io") {
         content {
+            includeGroup("com.github.simplix-softworks") // SimplixStorage
             includeGroup("com.github.TownyAdvanced")
             includeGroup("com.github.MilkBowl")
             includeGroup("com.github.LoneDev6")

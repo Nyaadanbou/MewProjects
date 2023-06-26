@@ -13,6 +13,8 @@ include(":betonquestext:itemsadder")
 include(":betonquestext:plugin")
 
 include(":catalog")
+
+include(":ibooks")
 include(":keepinv")
 include(":mewcore")
 

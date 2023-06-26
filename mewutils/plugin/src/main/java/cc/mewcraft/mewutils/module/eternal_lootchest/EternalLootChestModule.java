@@ -23,16 +23,19 @@ public class EternalLootChestModule extends ModuleBase implements AutoCloseableL
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
         if (event.getBlock().getState() instanceof Chest chest) {
-            if (chest.hasLootTable())
+            if (chest.hasLootTable()) {
                 event.setCancelled(true);
+                getLang().of("msg_lootchest_cannot_be_destroyed").send(event.getPlayer());
+            }
         }
     }
 
-    @EventHandler
+    /*@EventHandler*/ // Allow chest to be destroyed by explosion
     public void onExplode(BlockExplodeEvent event) {
         if (event.getBlock().getState() instanceof Chest chest) {
-            if (chest.hasLootTable())
+            if (chest.hasLootTable()) {
                 event.setCancelled(true);
+            }
         }
     }
 }

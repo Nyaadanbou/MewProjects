@@ -9,7 +9,7 @@ plugins {
 project.ext.set("name", "MewCore")
 
 group = "cc.mewcraft"
-version = "5.17.1"
+version = "5.17.2"
 description = "Common code of all Mewcraft plugins."
 
 // Reference: https://youtrack.jetbrains.com/issue/IDEA-276365

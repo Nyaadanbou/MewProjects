@@ -5,7 +5,10 @@ import cc.mewcraft.townyboard.board.BoardDefaults;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.TownyMessaging;
+import com.palmergames.bukkit.towny.TownyUniverse;
 import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.Translation;
 import net.kyori.adventure.inventory.Book;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,6 +31,11 @@ public class NationViewLawCommand extends LawCommand implements CommandExecutor 
         Nation nation = TownyAPI.getInstance().getNation(player);
         if (nation == null) {
             plugin.getLang().of("msg_you_have_no_nation").send(player);
+            return true;
+        }
+
+        if (!TownyUniverse.getInstance().getPermissionSource().testPermission(player, "townyboard.command.nation.law")) {
+            TownyMessaging.sendErrorMsg(player, Translation.of("msg_err_command_disable"));
             return true;
         }
 

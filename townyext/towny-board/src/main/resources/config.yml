@@ -1,3 +1,21 @@
+# 当法令设置成功时，向全体居民播放的音效
+#
+# 在 'minecraft' 命名空间下的音效列表
+# https://www.digminecraft.com/lists/sound_list_pc.php
+# 支持由资源包添加的自定义音效，填写完整的资源路径即可
+sounds:
+  town:
+    sound: minecraft:block.anvil.use
+    volume: 1.0
+    pitch: 1.0
+  nation:
+    sound: minecraft:block.anvil.use
+    volume: 1.0
+    pitch: 1.0
+
+# 默认城镇法令
+#
+# 当城镇未设置法令时，居民查看法令所显示的内容
 default_town_board:
   title: 空的法令
   author: 匿名
@@ -12,6 +30,9 @@ default_town_board:
       - 居民查看法令的方法：
       - 输入指令 /t law
 
+# 默认国家法令
+#
+# 当国家未设置法令时，居民查看法令所显示的内容
 default_nation_board:
   title: 空的法令
   author: 匿名

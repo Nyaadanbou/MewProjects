@@ -19,7 +19,7 @@ configurations {
 }
 
 dependencies {
-    // Shaded libs - these will be loaded by my other plugins
+    // Shaded libs - these will be loaded by my other plugins // TODO should just be "implementation" unless it's super essential
     compileOnlyApi(libs.guice)
     compileOnlyApi(libs.hikari)
     compileOnlyApi(libs.anvilgui)

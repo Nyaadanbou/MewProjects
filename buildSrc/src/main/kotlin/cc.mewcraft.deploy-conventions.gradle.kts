@@ -14,7 +14,7 @@ tasks {
     register<Copy>("copyJar") {
         from(inputJarPath.value)
         into(layout.buildDirectory)
-        rename("${project.name}.*\\.jar", finalJarName.value)
+        rename("(?i)${project.name}.*\\.jar", finalJarName.value)
     }
     register<Task>("deployJar") {
         doLast {

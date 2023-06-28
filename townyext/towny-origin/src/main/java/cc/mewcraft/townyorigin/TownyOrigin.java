@@ -20,7 +20,9 @@ public class TownyOrigin extends ExtendedJavaPlugin {
 
         // Register listeners
         registerListener(new PlayerListener(this)).bindWith(this);
-        registerListener(new TownyListener(this)).bindWith(this);
+        if (isPluginPresent("Towny")) {
+            registerListener(new TownyListener(this)).bindWith(this);
+        }
     }
 
     public Translations getLang() {

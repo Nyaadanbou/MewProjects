@@ -9,9 +9,9 @@ import com.google.common.cache.LoadingCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.lucko.helper.cooldown.Cooldown;
-import me.xanium.gemseconomy.GemsEconomy;
-import me.xanium.gemseconomy.api.GemsEconomyAPI;
-import me.xanium.gemseconomy.currency.Currency;
+import me.xanium.gemseconomy.api.Currency;
+import me.xanium.gemseconomy.api.GemsEconomy;
+import me.xanium.gemseconomy.api.GemsEconomyProvider;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -30,19 +30,18 @@ public class CooldownManager {
      */
     private final StackableCooldownMap<UUID> cooldownMap;
 
-    @Inject
-    CooldownManager(final MewFishing plugin) {
+    @Inject CooldownManager(final MewFishing plugin) {
         LoadingCache<UUID, Long> powerCache = CacheBuilder.newBuilder() // Used to get the maximum stacks of cooldown
             .expireAfterWrite(Duration.of(plugin.config().powerTimeout(), ChronoUnit.SECONDS))
             .build(CacheLoader.from(k -> {
-                GemsEconomyAPI api = GemsEconomy.getAPI();
+                GemsEconomy economy = GemsEconomyProvider.get();
                 String currencyName = plugin.config().currencyName();
-                Currency currency = api.getCurrency(currencyName);
+                Currency currency = economy.getCurrency(currencyName);
                 if (currency == null) {
                     plugin.log(Level.SEVERE, "Currency not found: " + currencyName);
                     return 0L;
                 }
-                return (long) api.getBalance(k, currency);
+                return (long) economy.getBalance(k, currency);
             }));
         Cooldown base = Cooldown.of(plugin.config().powerTimeout(), TimeUnit.SECONDS);
         this.cooldownMap = StackableCooldownMap.create(base, powerCache::getUnchecked);

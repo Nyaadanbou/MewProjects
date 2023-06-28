@@ -9,7 +9,7 @@ project.ext.set("name", "MewFish")
 
 group = "cc.mewcraft"
 description = "Let's customize fishing!"
-version = "1.15.2"
+version = "1.15.3"
 
 dependencies {
     // Server API
@@ -25,7 +25,7 @@ dependencies {
     compileOnly(libs.luckperms)
     compileOnly(libs.vault) { isTransitive = false }
     compileOnly(libs.towny)
-    compileOnly(libs.gemseconomy)
+    compileOnly(project(":economy:api"))
 
     // Test
     testImplementation(libs.server.paper)

@@ -37,7 +37,7 @@ public class MiniPlaceholderExpansion implements Terminable {
                 String serverOriginName = ServerOriginUtils.getOriginName(player.getUniqueId());
                 return Tag.preProcessParsed(serverOriginName != null
                     ? serverOriginName
-                    : plugin.getLang().of("ph_none_origin").plain()
+                    : plugin.getLang().of("msg_none_origin").plain()
                 );
             })
 

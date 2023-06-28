@@ -43,7 +43,7 @@ public class PAPIPlaceholderExpansion implements Terminable {
                 }
                 case "origin_name" -> {
                     String originName = ServerOriginUtils.getOriginName(player.getUniqueId());
-                    yield originName != null ? originName : plugin.getLang().of("ph_none_origin").plain();
+                    yield originName != null ? originName : plugin.getLang().of("msg_none_origin").plain();
                 }
                 default -> "";
             };

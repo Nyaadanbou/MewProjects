@@ -34,6 +34,12 @@
             <option value="$PROJECT_DIR$/betonquestext/plugin" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/catalog" />
+            <option value="$PROJECT_DIR$/economy" />
+            <option value="$PROJECT_DIR$/economy/api" />
+            <option value="$PROJECT_DIR$/economy/bukkit" />
+            <option value="$PROJECT_DIR$/economy/mini" />
+            <option value="$PROJECT_DIR$/economy/papi" />
+            <option value="$PROJECT_DIR$/economy/velocity" />
             <option value="$PROJECT_DIR$/ibooks" />
             <option value="$PROJECT_DIR$/keepinv" />
             <option value="$PROJECT_DIR$/mewcore" />
@@ -59,6 +65,7 @@
             <option value="$PROJECT_DIR$/rpgext/common" />
             <option value="$PROJECT_DIR$/rpgext/mythiclibext" />
             <option value="$PROJECT_DIR$/rpgext/mythicmobsext" />
+            <option value="$PROJECT_DIR$/rpgext/reforge" />
             <option value="$PROJECT_DIR$/townyext" />
             <option value="$PROJECT_DIR$/townyext/towny-board" />
             <option value="$PROJECT_DIR$/townyext/towny-bonus" />

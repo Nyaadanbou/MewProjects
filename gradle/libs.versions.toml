@@ -48,8 +48,8 @@ interactivebooks = { group = "net.leonardo_dgs", name = "InteractiveBooks", vers
 brewery = { group = "com.github.DieReicheErethons", name = "Brewery", version = "3.1.1" }
 minipapi = { group = "io.github.miniplaceholders", name = "miniplaceholders-api", version = "2.1.0" }
 papi = { group = "me.clip", name = "placeholderapi", version = "2.11.2" }
-gemseco = { group = "me.xanium.gemseconomy", name = "bukkit", version = "1.3.9" }
-gemseconomy = { group = "me.xanium.gemseconomy", name = "bukkit", version = "1.3.9" }
+gemseco = { group = "me.xanium.gemseconomy", name = "api", version = "latest.release" }
+gemseconomy = { group = "me.xanium.gemseconomy", name = "api", version = "latest.release" }
 protocollib = { group = "com.comphenix.protocol", name = "ProtocolLib", version = "5.0.0" }
 connector-core = { group = "de.themoep.connectorplugin", name = "core", version = "1.5-SNAPSHOT" }
 connector-bukkit = { group = "de.themoep.connectorplugin", name = "bukkit", version = "1.5-SNAPSHOT" }

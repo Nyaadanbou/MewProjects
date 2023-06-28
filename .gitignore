@@ -1,4 +1,8 @@
 .idea
 .gradle
+
 **/out
 **/build
+
+# ignore sub repos
+/economy

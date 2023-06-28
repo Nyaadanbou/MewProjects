@@ -14,6 +14,13 @@ include(":betonquestext:plugin")
 
 include(":catalog")
 
+include(":economy")
+include(":economy:api")
+include(":economy:bukkit")
+include(":economy:velocity")
+include(":economy:mini")
+include(":economy:papi")
+
 include(":ibooks")
 include(":keepinv")
 include(":mewcore")

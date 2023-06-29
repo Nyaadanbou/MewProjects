@@ -4,12 +4,10 @@ repositories {
     // Locally cached projects TODO Move to the MewcraftRepository
     mavenLocal {
         content {
-            includeGroup("io.lumine") // MythicLib
-            includeGroup("net.Indyuce") // MMOItems
+            includeGroup("at.helpch") // ChatChat
             includeGroup("net.leonardo_dgs") // InteractiveBooks
             includeGroup("com.github.DieReicheErethons") // Brewery
             includeGroup("su.nightexpress.gamepoints") // GamePoints
-            includeGroup("at.helpch") // ChatChat
             includeGroup("me.hsgamer.bettergui") // MaskedGUI
         }
     }

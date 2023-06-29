@@ -13,6 +13,9 @@ dependencies {
     // my own libs
     compileOnly(project(":mewcore"))
 
+    // libs in core
+    compileOnly(libs.hikari)
+
     // server api
     compileOnly(libs.server.paper)
 

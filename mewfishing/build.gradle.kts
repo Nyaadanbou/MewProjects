@@ -12,11 +12,16 @@ description = "Let's customize fishing!"
 version = "1.15.3"
 
 dependencies {
+    // core libs
+    compileOnly(project(":mewcore"))
+    // libs in core
+    compileOnly(libs.configurate)
+    compileOnly(libs.cronutils)
+
     // Server API
     compileOnly(libs.server.paper)
 
     // Plugin libs
-    compileOnly(project(":mewcore"))
     compileOnly(project(":mewnms:api"))
     compileOnly(libs.helper)
     compileOnly(libs.helper.redis)

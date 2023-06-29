@@ -13,31 +13,34 @@ version = "5.17.3"
 description = "Common code of all Mewcraft plugins."
 
 // Reference: https://youtrack.jetbrains.com/issue/IDEA-276365
-configurations {
+/*configurations {
     compileOnlyApi { isCanBeResolved = true }
     implementation { isCanBeResolved = true }
-}
+}*/
 
 dependencies {
-    // Shaded libs - these will be loaded by my other plugins // TODO should just be "implementation" unless it's super essential
+    // Shaded libs at compile path - these are essential for plugin development
     compileOnlyApi(libs.guice)
-    compileOnlyApi(libs.hikari)
-    compileOnlyApi(libs.anvilgui)
-    compileOnlyApi(libs.bundles.invui)
     compileOnlyApi(libs.bundles.cmds) {
         exclude("net.kyori")
     }
-    compileOnlyApi(libs.configurate)
-    compileOnlyApi(libs.simplixstorage)
     compileOnlyApi(libs.lang.bukkit)
-    compileOnlyApi(libs.lang.velocity)
-    compileOnlyApi(libs.cronutils)
     compileOnlyApi(libs.authlib) {
         exclude("com.google.guava")
         exclude("com.google.code.gson")
         exclude("com.google.code.findbugs")
         exclude("org.apache.logging.log4j")
     }
+
+    // Shaded libs at runtime path - these are optional
+    // Consumers are expected to declare these dependencies
+    // at [compile path] if they need these dependencies
+    implementation(libs.hikari)
+    implementation(libs.anvilgui)
+    implementation(libs.bundles.invui)
+    implementation(libs.configurate)
+    implementation(libs.simplixstorage)
+    implementation(libs.cronutils)
 
     // Plugin libs - these will be present as other plugins
     compileOnly(libs.helper)
@@ -65,10 +68,10 @@ dependencies {
 
 tasks {
     shadowJar {
-        configurations = listOf(
+        /*configurations = listOf(
             project.configurations.implementation.get(),
             project.configurations.compileOnlyApi.get()
-        )
+        )*/
 
         // Paper Plugins have isolated classloaders so relocating classes is no longer needed
     }

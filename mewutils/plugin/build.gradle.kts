@@ -14,6 +14,9 @@ description = "A plugin consisting of many small features"
 dependencies {
     implementation(project(":mewutils:base"))
 
+    // libs from core
+    compileOnly(libs.anvilgui)
+
     // 3rd party plugins
     compileOnly(libs.luckperms)
     compileOnly(libs.vault) { isTransitive = false }

@@ -26,4 +26,5 @@ dependencies {
 
     // to implement RPGHandler and RPGPlayer
     compileOnly(libs.mmoitems)
+    compileOnly(libs.mythiclib)
 }

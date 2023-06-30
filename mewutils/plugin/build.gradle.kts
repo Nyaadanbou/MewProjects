@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":mewutils:base"))
 
     // libs from core
+    compileOnly(libs.configurate)
     compileOnly(libs.anvilgui)
 
     // 3rd party plugins

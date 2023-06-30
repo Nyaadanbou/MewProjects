@@ -14,9 +14,10 @@ version = "1.15.3"
 dependencies {
     // core libs
     compileOnly(project(":mewcore"))
-    // libs in core
+    // libs embedded in core
     compileOnly(libs.configurate)
     compileOnly(libs.cronutils)
+    compileOnly(libs.commons.io)
 
     // Server API
     compileOnly(libs.server.paper)

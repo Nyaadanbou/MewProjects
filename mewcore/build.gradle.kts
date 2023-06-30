@@ -20,21 +20,32 @@ description = "Common code of all Mewcraft plugins."
 }*/
 
 dependencies {
-    // Shaded libs at compile path - these are essential for plugin development
+    // Libs at compile path - these are essential for plugin development
     compileOnlyApi(libs.guice)
     compileOnlyApi(libs.lang.bukkit)
     compileOnlyApi(libs.bundles.cmds) {
         exclude("net.kyori")
     }
 
-    // Shaded libs at runtime path - these are optional
+    // Libs at runtime path - these are optional
     // Consumers are expected to declare these dependencies
     // at [compile path] if they need these dependencies
+
+    // Dependency injection
+    runtimeOnly(libs.guice)
+    // i18n
+    runtimeOnly(libs.lang.bukkit)
+    // Commands
+    runtimeOnly(libs.bundles.cmds)
+    // Database
     runtimeOnly(libs.hikari)
+    // GUIs
     runtimeOnly(libs.anvilgui)
     runtimeOnly(libs.bundles.invui)
+    // Configuration
     runtimeOnly(libs.configurate)
     runtimeOnly(libs.simplixstorage)
+    // Utilities
     runtimeOnly(libs.cronutils)
     runtimeOnly(libs.authlib) {
         exclude("com.google.guava")
@@ -43,7 +54,7 @@ dependencies {
         exclude("org.apache.logging.log4j")
     }
 
-    // Libs provided by core (itself)
+    // Libs embedded by core (itself)
     compileOnly(libs.authlib)
     compileOnly(libs.configurate)
 

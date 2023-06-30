@@ -66,6 +66,7 @@
             <option value="$PROJECT_DIR$/rpgext/mythiclibext" />
             <option value="$PROJECT_DIR$/rpgext/mythicmobsext" />
             <option value="$PROJECT_DIR$/rpgext/reforge" />
+            <option value="$PROJECT_DIR$/rpgext/reforgegui" />
             <option value="$PROJECT_DIR$/townyext" />
             <option value="$PROJECT_DIR$/townyext/towny-board" />
             <option value="$PROJECT_DIR$/townyext/towny-bonus" />

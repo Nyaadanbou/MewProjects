@@ -1,0 +1,36 @@
+# Configuration of [how] an item is reforged.
+# Settings depend on specific reforge provider.
+
+# Following are reforge providers and their corresponding settings.
+reforge_options:
+
+  # Reforge provider: MMOItems
+  #
+  # Option specification:
+  # 1. keepName - 保留名字
+  # 2. keepLore - 保留描述
+  # 3. keepEnchantments - 保留附魔
+  # 4. keepUpgrades - 保留升级
+  # 5. keepGemStones - 保留宝石
+  # 6. keepSoulBind - 保留灵魂绑定
+  # 7. keepExternalSH
+  # 8. reRoll - 保留随机数值
+  # 9. keepModifications - 保留修饰符
+  # 10. keepAdvancedEnchantments
+  # 11. keepSkins - 保留皮肤
+  # 12. KeepTier - 保留品质
+  #
+  # List of options (key: data)
+  mmoitems:
+    normal: "3,8"
+    bedrock: "1,2,3,4,5,6,7,8,9,10,11,12"
+
+  # Reforge provider: ItemsAdder
+  #
+  # Option specification: TODO
+  #
+  # List of options (key: data)
+  itemsadder:
+    # Available options (key: data)
+    example1: "unimplemented"
+    example2: "unimplemented"

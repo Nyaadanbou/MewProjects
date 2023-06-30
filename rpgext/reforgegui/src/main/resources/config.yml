@@ -1,0 +1,27 @@
+# 重铸所使用的配置的 key
+# 需要参考 plugins/Reforge/config.yml
+reforge_option: normal
+
+# 重铸音效设置
+reforge_sound:
+  start: minecraft:entity.villager.work_weaponsmith
+  anim: minecraft:block.smithing_table.use
+  done: minecraft:block.anvil.use
+
+# GUI 相关设置
+gui:
+  # 容器标题
+  title: <b>重铸</b> (预览版 非最终内容)
+  # 容器布局
+  layout:
+    - "# # # # # # # # #"
+    - "# # i # o # c # #"
+    - "# # # # # # # # #"
+    - "# # u u u u u # #"
+    - "# # u u u u u # #"
+    - "# # # # # # # # #"
+  # 元素定义
+  elements:
+    '#':
+      name: ""
+      lore: ""

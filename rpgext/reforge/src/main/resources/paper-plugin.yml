@@ -1,0 +1,25 @@
+name: Reforge
+main: cc.mewcraft.reforge.ReforgePlugin
+version: ${version}
+description: ${description}
+author: Nailm
+api-version: 1.19
+dependencies:
+  bootstrap: { }
+  server:
+    helper:
+      load: OMIT
+      required: true
+      join-classpath: true
+    MewCore:
+      load: OMIT
+      required: true
+      join-classpath: true
+    MythicLib:
+      load: OMIT
+      required: true
+      join-classpath: true
+    MMOItems:
+      load: OMIT
+      required: true
+      join-classpath: true

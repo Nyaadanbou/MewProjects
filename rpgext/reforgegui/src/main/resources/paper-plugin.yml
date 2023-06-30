@@ -1,0 +1,26 @@
+name: ReforgeGui
+main: cc.mewcraft.reforge.gui.ReforgePlugin
+version: ${version}
+description: ${description}
+author: Nailm
+api-version: 1.19
+dependencies:
+  bootstrap: { }
+  server:
+    helper:
+      load: OMIT
+      required: true
+      join-classpath: true
+    MewCore:
+      load: OMIT
+      required: true
+      join-classpath: true
+    Reforge:
+      load: OMIT
+      required: true
+      join-classpath: true
+    GemsEconomy:
+      load: OMIT
+      required: true
+      join-classpath: true
+

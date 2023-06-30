@@ -46,6 +46,7 @@ dependencies {
     runtimeOnly(libs.configurate)
     runtimeOnly(libs.simplixstorage)
     // Utilities
+    runtimeOnly(libs.commons.io)
     runtimeOnly(libs.cronutils)
     runtimeOnly(libs.authlib) {
         exclude("com.google.guava")

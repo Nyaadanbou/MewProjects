@@ -29,7 +29,9 @@ adventure-binaryserializer = { group = "com.github.Moulberry", name = "adventure
 cronutils = { group = "com.cronutils", name = "cron-utils", version = "9.2.0" }
 simplixstorage = { group = "com.github.simplix-softworks", name = "simplixstorage", version = "3.2.6" }
 invui-core = { group = "xyz.xenondevs.invui", name = "invui-core", version.ref = "invui" }
-invui-invaccess = { group = "xyz.xenondevs.invui", name = "inventory-access-r13", version.ref = "invui" }
+invui-invaccess = { group = "xyz.xenondevs.invui", name = "inventory-access", version.ref = "invui" }
+invui-invaccess-r13 = { group = "xyz.xenondevs.invui", name = "inventory-access-r13", version.ref = "invui" }
+commons-io = { group = "commons-io", name = "commons-io", version = "latest.release" }
 
 # deps that present as other plugins
 mewcore = { group = "cc.mewcraft", name = "mewcore", version = "latest.release" }
@@ -77,7 +79,7 @@ junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version =
 
 cmds = ["cloud-paper", "cloud-minecraft-extras"]
 checker = ["checker-qual", "apiguardian-api", "annotations"]
-invui = [ "invui-core", "invui-invaccess" ]
+invui = [ "invui-core", "invui-invaccess", "invui-invaccess-r13" ]
 
 [plugins]
 

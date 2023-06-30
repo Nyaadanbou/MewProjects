@@ -14,6 +14,8 @@ dependencies {
 
     // my own libs
     compileOnly(project(":mewcore"))
+    // libs embedded in core
+    compileOnly(libs.commons.io)
 
     // libs that present as other plugins
     compileOnly(libs.towny)

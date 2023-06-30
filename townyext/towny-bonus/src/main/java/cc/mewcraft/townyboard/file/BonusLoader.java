@@ -1,9 +1,16 @@
 package cc.mewcraft.townyboard.file;
 
-import cc.mewcraft.townyboard.object.bonus.*;
-import cc.mewcraft.townyboard.util.UtilNumber;
 import cc.mewcraft.townyboard.TownyBonus;
+import cc.mewcraft.townyboard.object.bonus.Bonus;
+import cc.mewcraft.townyboard.object.bonus.BonusExp;
+import cc.mewcraft.townyboard.object.bonus.BonusMoney;
+import cc.mewcraft.townyboard.object.bonus.BonusPotionEffect;
+import cc.mewcraft.townyboard.object.bonus.BonusType;
+import cc.mewcraft.townyboard.object.bonus.BonusUpkeepNation;
+import cc.mewcraft.townyboard.object.bonus.BonusUpkeepTown;
+import cc.mewcraft.townyboard.object.bonus.NoticeType;
 import cc.mewcraft.townyboard.util.Raffle;
+import cc.mewcraft.townyboard.util.UtilNumber;
 import com.google.common.base.Preconditions;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,7 +21,11 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * A loader to read all bonus files.

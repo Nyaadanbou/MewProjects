@@ -1,8 +1,16 @@
 package cc.mewcraft.mewcore.util;
 
+import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -12,27 +20,34 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class UtilFile {
+    public static boolean copyFile(final @Nullable File origin, final @Nullable File targetFile) {
+        if (origin == null || targetFile == null) {
+            return false;
+        }
 
-    public static boolean copyFile(final File toCopy, final File destFile) {
         try {
-            return UtilFile.copyStream(new FileInputStream(toCopy), new FileOutputStream(destFile));
+            return UtilFile.copyStream(new FileInputStream(origin), new FileOutputStream(targetFile));
         } catch (final FileNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    private static boolean copyFilesRecursively(final File toCopy, final File destDir) {
-        assert destDir.isDirectory();
+    private static boolean copyFilesRecursively(final @Nullable File origin, final @Nullable File targetDir) {
+        if (origin == null || targetDir == null) {
+            return false;
+        }
 
-        if (!toCopy.isDirectory()) {
-            return UtilFile.copyFile(toCopy, new File(destDir, toCopy.getName()));
+        Preconditions.checkArgument(targetDir.isDirectory());
+
+        if (!origin.isDirectory()) {
+            return UtilFile.copyFile(origin, new File(targetDir, origin.getName()));
         } else {
-            final File newDestinationDir = new File(destDir, toCopy.getName());
+            final File newDestinationDir = new File(targetDir, origin.getName());
             if (!newDestinationDir.exists() && !newDestinationDir.mkdir()) {
                 return false;
             }
-            for (final File child : Objects.requireNonNull(toCopy.listFiles())) {
+            for (final File child : Objects.requireNonNull(origin.listFiles())) {
                 if (!UtilFile.copyFilesRecursively(child, newDestinationDir)) {
                     return false;
                 }
@@ -41,8 +56,11 @@ public class UtilFile {
         return true;
     }
 
-    public static boolean copyJarResourcesRecursively(final File destDir,
-            final JarURLConnection jarConnection) throws IOException {
+    public static boolean copyJarResourcesRecursively(final @Nullable File targetDir, final @Nullable JarURLConnection jarConnection)
+        throws IOException {
+        if (targetDir == null || jarConnection == null) {
+            return false;
+        }
 
         final JarFile jarFile = jarConnection.getJarFile();
 
@@ -51,7 +69,7 @@ public class UtilFile {
             if (entry.getName().startsWith(jarConnection.getEntryName())) {
                 final String filename = StringUtils.removeStart(entry.getName(), jarConnection.getEntryName());
 
-                final File f = new File(destDir, filename);
+                final File f = new File(targetDir, filename);
                 if (!entry.isDirectory()) {
                     final InputStream entryInputStream = jarFile.getInputStream(entry);
                     if (!UtilFile.copyStream(entryInputStream, f)) {
@@ -68,14 +86,17 @@ public class UtilFile {
         return true;
     }
 
-    public static boolean copyResourcesRecursively(
-            final URL originUrl, final File destination) {
+    public static boolean copyResourcesRecursively(final @Nullable URL origin, final @Nullable File target) {
+        if (origin == null || target == null) {
+            return false;
+        }
+
         try {
-            final URLConnection urlConnection = originUrl.openConnection();
+            final URLConnection urlConnection = origin.openConnection();
             if (urlConnection instanceof JarURLConnection) {
-                return UtilFile.copyJarResourcesRecursively(destination, (JarURLConnection) urlConnection);
+                return UtilFile.copyJarResourcesRecursively(target, (JarURLConnection) urlConnection);
             } else {
-                return UtilFile.copyFilesRecursively(new File(originUrl.getPath()), destination);
+                return UtilFile.copyFilesRecursively(new File(origin.getPath()), target);
             }
         } catch (final IOException e) {
             e.printStackTrace();
@@ -83,7 +104,11 @@ public class UtilFile {
         return false;
     }
 
-    private static boolean copyStream(final InputStream is, final File f) {
+    private static boolean copyStream(final @Nullable InputStream is, final @Nullable File f) {
+        if (is == null || f == null) {
+            return false;
+        }
+
         try {
             return UtilFile.copyStream(is, new FileOutputStream(f));
         } catch (final FileNotFoundException e) {
@@ -92,7 +117,11 @@ public class UtilFile {
         return false;
     }
 
-    private static boolean copyStream(final InputStream is, final OutputStream os) {
+    private static boolean copyStream(final @Nullable InputStream is, final @Nullable OutputStream os) {
+        if (is == null || os == null) {
+            return false;
+        }
+
         try {
             final byte[] buf = new byte[1024];
             int len;
@@ -108,7 +137,10 @@ public class UtilFile {
         return false;
     }
 
-    private static boolean ensureDirectoryExists(final File f) {
+    private static boolean ensureDirectoryExists(final @Nullable File f) {
+        if (f == null) {
+            return false;
+        }
         return f.exists() || f.mkdir();
     }
 }

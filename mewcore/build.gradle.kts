@@ -9,7 +9,7 @@ plugins {
 project.ext.set("name", "MewCore")
 
 group = "cc.mewcraft"
-version = "5.17.3"
+version = "5.17.4"
 description = "Common code of all Mewcraft plugins."
 
 // Reference: https://youtrack.jetbrains.com/issue/IDEA-276365
@@ -20,16 +20,19 @@ description = "Common code of all Mewcraft plugins."
 }*/
 
 dependencies {
-    // Libs at compile path - these are essential for plugin development
+    // Dependencies at [compile path]
+    // These dependencies are essential for plugin development,
+    // so we just expose them to the consumers at compile path.
     compileOnlyApi(libs.guice)
     compileOnlyApi(libs.lang.bukkit)
     compileOnlyApi(libs.bundles.cmds) {
         exclude("net.kyori")
     }
 
-    // Libs at runtime path - these are optional
+    // Dependencies at [runtime path]
+    // These dependencies will be shaded in the final jar.
     // Consumers are expected to declare these dependencies
-    // at [compile path] if they need these dependencies
+    // at [compile path] if they need these dependencies.
 
     // Dependency injection
     runtimeOnly(libs.guice)

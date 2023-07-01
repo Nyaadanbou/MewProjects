@@ -3,15 +3,19 @@ package cc.mewcraft.townyorigin.listener;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import cc.mewcraft.mewcore.util.ServerOriginUtils;
 import cc.mewcraft.townyorigin.TownyOrigin;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+@Singleton
 public class PlayerListener implements AutoCloseableListener {
 
     private final TownyOrigin plugin;
 
+    @Inject
     public PlayerListener(TownyOrigin plugin) {
         this.plugin = plugin;
     }

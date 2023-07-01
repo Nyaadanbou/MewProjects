@@ -1,3 +1,5 @@
+msg_plugin_reloaded: <aqua>已重新载入 <plugin> <version> by <author>
+
 msg_none_origin: "无"
 
 msg_cannot_join_town_outside_origin: "<player> 的家乡不在此，无法加入城镇"

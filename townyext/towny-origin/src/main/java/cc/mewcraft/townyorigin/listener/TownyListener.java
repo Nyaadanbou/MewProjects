@@ -3,6 +3,8 @@ package cc.mewcraft.townyorigin.listener;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import cc.mewcraft.mewcore.util.ServerOriginUtils;
 import cc.mewcraft.townyorigin.TownyOrigin;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.palmergames.bukkit.towny.event.PreNewTownEvent;
 import com.palmergames.bukkit.towny.event.TownAddResidentEvent;
 import com.palmergames.bukkit.towny.event.TownPreAddResidentEvent;
@@ -10,9 +12,11 @@ import com.palmergames.bukkit.towny.object.Resident;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
+@Singleton
 public class TownyListener implements AutoCloseableListener {
     private final TownyOrigin plugin;
 
+    @Inject
     public TownyListener(TownyOrigin plugin) {
         this.plugin = plugin;
 

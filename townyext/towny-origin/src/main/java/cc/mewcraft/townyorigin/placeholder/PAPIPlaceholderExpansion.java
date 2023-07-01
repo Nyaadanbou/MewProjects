@@ -2,16 +2,20 @@ package cc.mewcraft.townyorigin.placeholder;
 
 import cc.mewcraft.mewcore.util.ServerOriginUtils;
 import cc.mewcraft.townyorigin.TownyOrigin;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.lucko.helper.terminable.Terminable;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Singleton
 public class PAPIPlaceholderExpansion implements Terminable {
     private final TownyOrigin plugin;
     private TownyOriginExpansion expansion;
 
+    @Inject
     public PAPIPlaceholderExpansion(final TownyOrigin plugin) {
         this.plugin = plugin;
     }

@@ -22,8 +22,6 @@ import me.lucko.helper.redis.Redis;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class AdventureLevelPlugin extends ExtendedJavaPlugin implements AdventureLevel {
     private static @MonotonicNonNull AdventureLevelPlugin INSTANCE;
 
@@ -61,7 +59,7 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
         saveDefaultConfig();
         if (!getDataFolder().toPath().resolve("categories").toFile().exists()) {
             UtilFile.copyResourcesRecursively(
-                Objects.requireNonNull(getClassLoader().getResource("categories")),
+                getClassLoader().getResource("categories"),
                 getDataFolder().toPath().resolve("categories").toFile()
             );
         }

@@ -28,17 +28,15 @@ public class PickupExpListener implements AutoCloseableListener {
 
     @EventHandler(priority = HIGH, ignoreCancelled = true)
     public void onPickupExp(PlayerPickupExperienceEvent event) {
-        playerDataManager
-            .load(event.getPlayer())
-            .thenAcceptSync(playerData -> {
-                // Handle main level
-                playerData.getLevelBean(LevelCategory.MAIN).handleEvent(event);
+        playerDataManager.load(event.getPlayer()).thenAcceptSync(playerData -> {
+            // Handle main level
+            playerData.getLevelBean(LevelCategory.MAIN).handleEvent(event);
 
-                // Handle other levels
-                LevelCategory levelCategory = LevelCategory.toLevelCategory(event.getExperienceOrb().getSpawnReason());
-                if (levelCategory != null) {
-                    playerData.getLevelBean(levelCategory).handleEvent(event);
-                }
-            });
+            // Handle other levels
+            LevelCategory levelCategory = LevelCategory.toLevelCategory(event.getExperienceOrb().getSpawnReason());
+            if (levelCategory != null) {
+                playerData.getLevelBean(levelCategory).handleEvent(event);
+            }
+        });
     }
 }

@@ -6,7 +6,7 @@ plugins {
 project.ext.set("name", "ReforgeGui")
 
 group = "cc.mewcraft.reforge.gui"
-version = "1.0.0"
+version = "1.0.1"
 description = "Provides GUIs for the item reforge mechanism"
 
 dependencies {

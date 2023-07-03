@@ -7,7 +7,7 @@ import me.xanium.gemseconomy.api.GemsEconomyProvider;
 import java.util.Objects;
 import java.util.UUID;
 
-public class CurrencyIngredient implements ReforgeIngredient {
+public class CurrencyIngredient implements ReforgeIngredient<UUID> {
     final String identifier; // Identifier of currency
     final double amount; // Required amount
 
@@ -16,13 +16,13 @@ public class CurrencyIngredient implements ReforgeIngredient {
         this.amount = amount;
     }
 
-    public boolean has(UUID uuid) {
+    @Override public boolean has(UUID uuid) {
         GemsEconomy econ = GemsEconomyProvider.get();
         Currency currency = Objects.requireNonNull(econ.getCurrency(identifier));
         return econ.getBalance(uuid, currency) >= amount;
     }
 
-    public void consume(UUID uuid) {
+    @Override public void consume(UUID uuid) {
         GemsEconomy econ = GemsEconomyProvider.get();
         Currency currency = Objects.requireNonNull(econ.getCurrency(identifier));
         econ.withdraw(uuid, amount, currency);

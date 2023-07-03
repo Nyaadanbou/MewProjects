@@ -42,9 +42,9 @@ public class ReforgeWindowWrapper {
         }).addCloseHandler(() -> {
             // Return all items to player inventory if closing window
             PlayerInventory playerInventory = viewer.getInventory();
-            addItem(playerInventory, guiWrapper.inputInv0.getItems());
-            addItem(playerInventory, guiWrapper.inputInv1.getItems());
-            addItem(playerInventory, guiWrapper.outputInv.getItems());
+            addItem(playerInventory, guiWrapper.transformInventory.getItems());
+            addItem(playerInventory, guiWrapper.ingredientInventory.getItems());
+            addItem(playerInventory, guiWrapper.outputInventory.getItems());
         }).open(viewer);
     }
 

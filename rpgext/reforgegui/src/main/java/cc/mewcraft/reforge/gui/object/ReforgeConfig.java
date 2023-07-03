@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 @Singleton
 public class ReforgeConfig {
     private final ReforgePlugin plugin;
-    private final Map<String, List<ReforgeIngredient>> ingredientMap;
+    private final Map<String, List<ReforgeIngredient<?>>> ingredientMap;
 
     @Inject
     public ReforgeConfig(final ReforgePlugin plugin) {
@@ -89,7 +89,7 @@ public class ReforgeConfig {
         return item != null && ingredientMap.containsKey(item.asReference());
     }
 
-    public @NotNull List<ReforgeIngredient> getIngredients(final @NotNull ItemStack key) {
+    public @NotNull List<ReforgeIngredient<?>> getIngredients(final @NotNull ItemStack key) {
         PluginItem<?> item = PluginItemRegistry.get().fromItemStack(key);
         return ingredientMap.get(item.asReference());
     }

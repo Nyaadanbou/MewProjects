@@ -27,9 +27,9 @@ public class ReforgeGuiWrapper {
     private final ReforgePlugin plugin;
     private final ReforgeConfig config;
     final Gui gui;
-    final VirtualInventory inputInv0;
-    final VirtualInventory inputInv1;
-    final VirtualInventory outputInv;
+    final VirtualInventory transformInventory;
+    final VirtualInventory ingredientInventory;
+    final VirtualInventory outputInventory;
 
     @Inject
     public ReforgeGuiWrapper(final ReforgePlugin plugin, final ReforgeConfig config) {
@@ -37,22 +37,22 @@ public class ReforgeGuiWrapper {
         this.config = config;
 
         // Initialize inventories
-        this.inputInv0 = new VirtualInventory(1);
-        this.inputInv1 = new VirtualInventory(10);
-        this.outputInv = new VirtualInventory(1);
+        this.transformInventory = new VirtualInventory(1);
+        this.ingredientInventory = new VirtualInventory(10);
+        this.outputInventory = new VirtualInventory(1);
 
-        // Set GUI priorities so that items go to inputInv0 first when shift-click moving items
-        inputInv0.setGuiPriority(2);
-        inputInv1.setGuiPriority(1);
+        // Set GUI priorities so that items go to transformInventory first when shift-click moving items
+        transformInventory.setGuiPriority(2);
+        ingredientInventory.setGuiPriority(1);
 
-        // Stop viewer adding items to outputInv
-        outputInv.setPreUpdateHandler(event -> {
+        // Stop viewer adding items to outputInventory
+        outputInventory.setPreUpdateHandler(event -> {
             if (!event.isRemove()) event.setCancelled(true);
         });
 
-        // Stop viewer adding items to inputInv0 if outputInv is not empty
-        inputInv0.setPreUpdateHandler(event -> {
-            if (!outputInv.isEmpty()) event.setCancelled(true);
+        // Stop viewer adding items to transformInventory if outputInventory is not empty
+        transformInventory.setPreUpdateHandler(event -> {
+            if (!outputInventory.isEmpty()) event.setCancelled(true);
         });
 
         String[] layout = plugin.getConfig().getStringList("gui.layout").toArray(String[]::new);
@@ -61,9 +61,9 @@ public class ReforgeGuiWrapper {
         this.gui = Gui.normal()
             .setStructure(layout)
             .addIngredient('#', background)
-            .addIngredient('i', inputInv0)
-            .addIngredient('u', inputInv1)
-            .addIngredient('o', outputInv)
+            .addIngredient('i', transformInventory)
+            .addIngredient('u', ingredientInventory)
+            .addIngredient('o', outputInventory)
             .addIngredient('c', new ReforgeItem())
             .build();
     }
@@ -76,7 +76,7 @@ public class ReforgeGuiWrapper {
         @Override public void handleClick(final @NotNull ClickType clickType, final @NotNull Player player, final @NotNull InventoryClickEvent event) {
             if (clickType.isLeftClick()) {
                 // Check if the input inventory has item
-                ItemStack item = inputInv0.getItem(0);
+                ItemStack item = transformInventory.getItem(0);
                 if (item == null) {
                     player.sendMessage("No item in input inventory");
                     return;
@@ -87,10 +87,10 @@ public class ReforgeGuiWrapper {
                     player.sendMessage("This item cannot be reforged");
                     return;
                 }
-                List<ReforgeIngredient> ingredients = config.getIngredients(item);
-                for (final ReforgeIngredient ingredient : ingredients) {
+                List<ReforgeIngredient<?>> ingredients = config.getIngredients(item);
+                for (final ReforgeIngredient<?> ingredient : ingredients) {
                     if (ingredient instanceof ItemStackIngredient ii) {
-                        if (!ii.has(inputInv1)) {
+                        if (!ii.has(ingredientInventory)) {
                             player.sendMessage("You don't have enough items to reforge it");
                             return;
                         }
@@ -107,9 +107,9 @@ public class ReforgeGuiWrapper {
                 }
 
                 // Preconditions are met - let's consume ingredients
-                for (final ReforgeIngredient ingredient : ingredients) {
+                for (final ReforgeIngredient<?> ingredient : ingredients) {
                     if (ingredient instanceof ItemStackIngredient ii)
-                        ii.consume(inputInv1);
+                        ii.consume(ingredientInventory);
                     else if (ingredient instanceof CurrencyIngredient ci)
                         ci.consume(player.getUniqueId());
                     else
@@ -117,7 +117,7 @@ public class ReforgeGuiWrapper {
                 }
 
                 // Ingredients are consumed - refresh the inventory
-                inputInv1.notifyWindows();
+                ingredientInventory.notifyWindows();
 
                 // Required ingredients are consumed - let's reforge it
                 String option = Objects.requireNonNull(plugin.getConfig().getString("reforge_option"));
@@ -129,8 +129,8 @@ public class ReforgeGuiWrapper {
                 }
 
                 // Set contents of in/out inventories
-                inputInv0.setItemSilently(0, null);
-                outputInv.setItemSilently(0, optional.get());
+                transformInventory.setItemSilently(0, null);
+                outputInventory.setItemSilently(0, optional.get());
 
                 // Play sound when done
                 @Subst("minecraft:entity.villager.work_weaponsmith")

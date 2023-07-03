@@ -4,7 +4,7 @@ import cc.mewcraft.mewcore.item.api.PluginItem;
 import org.bukkit.inventory.ItemStack;
 import xyz.xenondevs.invui.inventory.Inventory;
 
-public class ItemStackIngredient implements ReforgeIngredient {
+public class ItemStackIngredient implements ReforgeIngredient<Inventory> {
     final PluginItem<?> item; // Backed by PluginItem
     final int amount; // Required amount (maximum can be greater than 64)
 
@@ -17,7 +17,7 @@ public class ItemStackIngredient implements ReforgeIngredient {
         this.amount = amount;
     }
 
-    public boolean has(Inventory inventory) {
+    @Override public boolean has(Inventory inventory) {
         int leftOver = amount; // remaining amount to check
         for (final ItemStack i : inventory.getUnsafeItems()) {
             if (leftOver <= 0) {
@@ -30,7 +30,7 @@ public class ItemStackIngredient implements ReforgeIngredient {
         return false;
     }
 
-    public void consume(Inventory inventory) {
+    @Override public void consume(Inventory inventory) {
         int leftOver = amount; // remaining amount to consume
         ItemStack[] items = inventory.getUnsafeItems();
         for (int i = 0; i < items.length; i++) {

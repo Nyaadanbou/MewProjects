@@ -10,7 +10,7 @@ import java.util.UUID;
 public final class PlayerUtils {
 
     public static @NotNull String getNameFromUUID(UUID uuid) {
-        return Players.getOffline(uuid).map(OfflinePlayer::getName).orElse("Null");
+        return Players.getOffline(uuid).map(OfflinePlayer::getName).orElse("null");
     }
 
     public static @Nullable String getNameFromUUIDNullable(UUID uuid) {

@@ -9,7 +9,6 @@ import io.github.miniplaceholders.api.Expansion;
 import me.lucko.helper.terminable.Terminable;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -17,8 +16,8 @@ import java.math.RoundingMode;
 @Singleton
 public class MiniPlaceholderExpansion implements Terminable {
 
-    private final @MonotonicNonNull PlayerDataManager playerDataManager;
-    private @MonotonicNonNull Expansion expansion;
+    private final PlayerDataManager playerDataManager;
+    private Expansion expansion;
 
     @Inject
     public MiniPlaceholderExpansion(final PlayerDataManager playerDataManager) {

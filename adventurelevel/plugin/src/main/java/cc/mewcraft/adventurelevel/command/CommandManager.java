@@ -34,13 +34,13 @@ public class CommandManager extends PaperCommandManager<CommandSender> {
             if (brigManager != null) {
                 brigManager.setNativeNumberSuggestions(false);
             }
-            plugin.getSLF4JLogger().info("Successfully registered Mojang Brigadier support for commands.");
+            plugin.getSLF4JLogger().info("Successfully registered Mojang Brigadier support for commands");
         }
 
         // ---- Register Asynchronous Completion Listener ----
         if (hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
             registerAsynchronousCompletions();
-            plugin.getSLF4JLogger().info("Successfully registered asynchronous command completion listener.");
+            plugin.getSLF4JLogger().info("Successfully registered asynchronous command completion listener");
         }
 
         // ---- Change default exception messages ----

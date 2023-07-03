@@ -1,13 +1,15 @@
-package cc.mewcraft.adventurelevel.message;
+package cc.mewcraft.adventurelevel.message.packet;
 
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import me.lucko.helper.messaging.codec.Message;
 
 import java.util.UUID;
 
-@Message(codec = TransientPlayerDataCodec.class) // use specific Codec instead of GsonCodec to encode/decode this class
-public record TransientPlayerData(
+@Message(codec = PlayerDataCodec.class) // use specific Codec instead of GsonCodec to encode/decode this class
+public record PlayerDataPacket(
     UUID uuid,
+    String server,
+    long timestamp,
     int mainXp,
     int blockBreakXp,
     int breedXp,
@@ -34,5 +36,4 @@ public record TransientPlayerData(
             case VILLAGER_TRADE -> villagerTradeXp;
         };
     }
-
 }

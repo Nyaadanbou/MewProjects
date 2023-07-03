@@ -10,26 +10,23 @@ import cc.mewcraft.adventurelevel.hooks.placeholder.MiniPlaceholderExpansion;
 import cc.mewcraft.adventurelevel.hooks.placeholder.PAPIPlaceholderExpansion;
 import cc.mewcraft.adventurelevel.listener.PickupExpListener;
 import cc.mewcraft.adventurelevel.listener.UserdataListener;
-import cc.mewcraft.adventurelevel.message.DataSyncMessenger;
+import cc.mewcraft.adventurelevel.message.PlayerDataMessenger;
 import cc.mewcraft.mewcore.message.Translations;
 import cc.mewcraft.mewcore.util.UtilFile;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import me.lucko.helper.messaging.Messenger;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
-import me.lucko.helper.redis.Redis;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.NotNull;
 
 public class AdventureLevelPlugin extends ExtendedJavaPlugin implements AdventureLevel {
-    private static @MonotonicNonNull AdventureLevelPlugin INSTANCE;
+    private static AdventureLevelPlugin INSTANCE;
 
-    private @MonotonicNonNull Injector injector;
-    private @MonotonicNonNull DataStorage dataStorage;
-    private @MonotonicNonNull DataSyncMessenger dataSyncMessenger;
-    private @MonotonicNonNull PlayerDataManager playerDataManager;
-    private @MonotonicNonNull Translations translations;
+    private Injector injector;
+    private DataStorage dataStorage;
+    private PlayerDataMessenger playerDataMessenger;
+    private PlayerDataManager playerDataManager;
+    private Translations translations;
 
     public static @NotNull AdventureLevelPlugin getInstance() {
         return INSTANCE;
@@ -48,10 +45,6 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
                 // bind interfaces to implementations
                 bind(DataStorage.class).to(SQLDataStorage.class);
                 bind(PlayerDataManager.class).to(PlayerDataManagerImpl.class);
-
-                // these classes are external, we can't use JIT bindings
-                bind(Redis.class).toInstance(getService(Redis.class));
-                bind(Messenger.class).toInstance(getService(Redis.class));
             }
         });
 
@@ -70,7 +63,8 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
         dataStorage.init();
 
         playerDataManager = bind(injector.getInstance(PlayerDataManager.class));
-        dataSyncMessenger = bind(injector.getInstance(DataSyncMessenger.class));
+        playerDataMessenger = bind(injector.getInstance(PlayerDataMessenger.class));
+        playerDataMessenger.registerListeners();
 
         // Register listeners
         registerListener(injector.getInstance(PickupExpListener.class)).bindWith(this);
@@ -86,13 +80,9 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
         try {
             new CommandManager(this);
         } catch (Exception e) {
-            getLogger().severe("Failed to initialise commands!");
+            getSLF4JLogger().error("Failed to register commands", e);
             e.printStackTrace();
         }
-    }
-
-    @Override protected void disable() {
-
     }
 
     public @NotNull DataStorage getDataStorage() {
@@ -103,8 +93,8 @@ public class AdventureLevelPlugin extends ExtendedJavaPlugin implements Adventur
         return playerDataManager;
     }
 
-    public @NotNull DataSyncMessenger getPlayerDataMessenger() {
-        return dataSyncMessenger;
+    public @NotNull PlayerDataMessenger getPlayerDataMessenger() {
+        return playerDataMessenger;
     }
 
     public @NotNull Translations getLang() {

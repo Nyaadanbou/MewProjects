@@ -21,7 +21,7 @@ public class AdventureLevelPlayer extends RPGPlayer {
     }
 
     @Override public String getClassName() {
-        return "";
+        return "None";
     }
 
     @Override public double getMana() {
@@ -38,10 +38,6 @@ public class AdventureLevelPlayer extends RPGPlayer {
 
     @Override public void setStamina(final double value) {
         // we don't support stamina yet
-    }
-
-    public cc.mewcraft.adventurelevel.data.PlayerData getAdventurePlayerData() {
-        return adventurePlayerData;
     }
 
     public void setAdventurePlayerData(final @NotNull cc.mewcraft.adventurelevel.data.PlayerData adventurePlayerData) {

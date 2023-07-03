@@ -185,21 +185,14 @@ public class SQLDataStorage extends AbstractDataStorage {
             stmt.setInt(12, 0);
             stmt.execute();
 
-            plugin.getSLF4JLogger().info("Created userdata in database: name={},uuid={},mainXp={}",
-                PlayerUtils.getNameFromUUID(uuid),
-                playerData.getUuid(),
-                playerData.getLevelBean(LevelCategory.MAIN).getExperience()
-            );
+            plugin.getSLF4JLogger().info("Created userdata in database: name={}, mainXp={}", PlayerUtils.getNameFromUUID(uuid), playerData.getLevelBean(LevelCategory.MAIN).getExperience());
 
             return playerData;
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        plugin.getSLF4JLogger().error("Failed to create userdata in database: name={},uuid={}",
-            PlayerUtils.getNameFromUUID(uuid),
-            uuid
-        );
+        plugin.getSLF4JLogger().warn("Failed to create userdata in database: name={}, uuid={}", PlayerUtils.getNameFromUUID(uuid), uuid);
 
         return PlayerData.DUMMY;
     }
@@ -239,11 +232,7 @@ public class SQLDataStorage extends AbstractDataStorage {
                         put(LevelCategory.GRINDSTONE, LevelBeanFactory.createLevelBean(LevelCategory.GRINDSTONE).withExperience(grindstoneXp));
                     }};
 
-                    plugin.getSLF4JLogger().info("Loaded userdata from database: name={},uuid={},mainXp={}",
-                        PlayerUtils.getNameFromUUID(uuid),
-                        uuid,
-                        mainXp
-                    );
+                    plugin.getSLF4JLogger().info("Fully loaded userdata from database: name={}, mainXp={}", PlayerUtils.getNameFromUUID(uuid), mainXp);
 
                     // Collect all above and construct the final data
                     return new RealPlayerData(plugin, uuid, levels);
@@ -253,10 +242,7 @@ public class SQLDataStorage extends AbstractDataStorage {
             e.printStackTrace();
         }
 
-        plugin.getSLF4JLogger().info("Userdata not found in database: name={},uuid={}",
-            PlayerUtils.getNameFromUUID(uuid),
-            uuid
-        );
+        plugin.getSLF4JLogger().warn("Userdata not found in database: name={}, uuid={}", PlayerUtils.getNameFromUUID(uuid), uuid);
 
         return PlayerData.DUMMY;
     }
@@ -288,11 +274,7 @@ public class SQLDataStorage extends AbstractDataStorage {
             stmt.setInt(12, playerData.getLevelBean(LevelCategory.GRINDSTONE).getExperience());
             stmt.execute();
 
-            plugin.getSLF4JLogger().info("Saved userdata to database: name={},uuid={},mainXp={}",
-                PlayerUtils.getNameFromUUID(playerData.getUuid()),
-                playerData.getUuid(),
-                playerData.getLevelBean(LevelCategory.MAIN).getExperience()
-            );
+            plugin.getSLF4JLogger().info("Saved userdata to database: name={}, mainXp={}", PlayerUtils.getNameFromUUID(playerData.getUuid()), playerData.getLevelBean(LevelCategory.MAIN).getExperience());
         } catch (SQLException e) {
             e.printStackTrace();
         }

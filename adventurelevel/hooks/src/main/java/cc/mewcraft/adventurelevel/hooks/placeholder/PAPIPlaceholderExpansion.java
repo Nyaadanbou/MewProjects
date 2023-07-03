@@ -10,7 +10,6 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.lucko.helper.promise.Promise;
 import me.lucko.helper.terminable.Terminable;
 import org.bukkit.OfflinePlayer;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,8 +18,8 @@ import java.math.RoundingMode;
 
 @Singleton
 public class PAPIPlaceholderExpansion implements Terminable {
-    private final @MonotonicNonNull PlayerDataManager playerDataManager;
-    private @MonotonicNonNull AdventureLevelExpansion placeholderExpansion;
+    private final PlayerDataManager playerDataManager;
+    private AdventureLevelExpansion placeholderExpansion;
 
     @Inject
     public PAPIPlaceholderExpansion(final PlayerDataManager playerDataManager) {

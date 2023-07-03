@@ -3,7 +3,7 @@ package cc.mewcraft.adventurelevel.data;
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import cc.mewcraft.adventurelevel.level.LevelBeanFactory;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
-import cc.mewcraft.adventurelevel.message.TransientPlayerData;
+import cc.mewcraft.adventurelevel.message.packet.PlayerDataPacket;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -21,15 +21,14 @@ import java.util.UUID;
 public final class PlayerDataUpdater {
 
     /**
-     * Updates states of the specific PlayerData from given TransientPlayerData.
+     * Updates states of the specific PlayerData from given PlayerDataPacket.
      *
      * @param data   a PlayerData whose states are to be updated. This will be the return value
      * @param source a data sent on the network which the states are copied from
      *
      * @return an updated PlayerData (the reference remains unchanged)
      */
-    public static @NotNull PlayerData update(final @NotNull PlayerData data, final @NotNull TransientPlayerData source) {
-        // Update All Level Beans
+    public static @NotNull PlayerData update(final @NotNull PlayerData data, final @NotNull PlayerDataPacket source) {
         for (final LevelCategory category : LevelCategory.values()) {
             data.getLevelBeanMap()
                 .computeIfAbsent(category, LevelBeanFactory::createLevelBean)
@@ -48,7 +47,6 @@ public final class PlayerDataUpdater {
      * @return an updated PlayerData (the reference remains unchanged)
      */
     public static @NotNull PlayerData update(final @NotNull PlayerData data, final @NotNull PlayerData source) {
-        // Update All Level Beans
         for (final LevelCategory category : LevelCategory.values()) {
             data.getLevelBeanMap()
                 .computeIfAbsent(category, LevelBeanFactory::createLevelBean)

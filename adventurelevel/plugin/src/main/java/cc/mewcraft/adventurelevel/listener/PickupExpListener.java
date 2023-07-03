@@ -38,12 +38,12 @@ public class PickupExpListener implements AutoCloseableListener {
         }
 
         // Handle main level
-        data.getLevelBean(LevelCategory.MAIN).handleEvent(event);
+        data.getLevel(LevelCategory.MAIN).handleEvent(event);
 
         // Handle other levels
         LevelCategory levelCategory = LevelCategory.toLevelCategory(event.getExperienceOrb().getSpawnReason());
         if (levelCategory != null) {
-            data.getLevelBean(levelCategory).handleEvent(event);
+            data.getLevel(levelCategory).handleEvent(event);
         }
     }
 }

@@ -20,7 +20,7 @@ public class AdventureLevelPlayer extends RPGPlayer {
         cc.mewcraft.adventurelevel.data.PlayerData adventurePlayerData = AdventureLevelProvider.get().getPlayerDataManager().load(uuid);
 
         if (adventurePlayerData.complete()) {
-            return adventurePlayerData.getLevelBean(LevelCategory.MAIN).getLevel();
+            return adventurePlayerData.getLevel(LevelCategory.MAIN).getLevel();
         } else {
             return 0;
         }

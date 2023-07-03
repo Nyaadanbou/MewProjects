@@ -3,12 +3,10 @@ package cc.mewcraft.adventurelevel.level.category;
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import com.ezylang.evalex.Expression;
 import com.google.common.collect.RangeMap;
-import com.google.inject.Inject;
 
 @SuppressWarnings("UnstableApiUsage")
-public class GrindstoneLevelBean extends AbstractLevelBean {
-    @Inject
-    public GrindstoneLevelBean(
+public class BreedLevel extends AbstractLevel {
+    public BreedLevel(
         final AdventureLevelPlugin plugin,
         final int maxLevel,
         final RangeMap<Integer, Expression> levelToExpFormulae,

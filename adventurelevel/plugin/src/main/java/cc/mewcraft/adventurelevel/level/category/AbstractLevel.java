@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 
 @SuppressWarnings("UnstableApiUsage")
-public abstract class AbstractLevelBean implements LevelBean {
+public abstract class AbstractLevel implements Level {
 
     protected final AdventureLevelPlugin plugin;
     protected final int maxLevel;
@@ -35,7 +35,7 @@ public abstract class AbstractLevelBean implements LevelBean {
      */
     protected final RangeMap<Integer, Expression> nextLevelFormulae;
 
-    public AbstractLevelBean(
+    public AbstractLevel(
         final AdventureLevelPlugin plugin,
         final int maxLevel,
         final RangeMap<Integer, Expression> levelToExpFormula,

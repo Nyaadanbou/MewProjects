@@ -6,9 +6,9 @@ import com.google.common.collect.RangeMap;
 import com.google.inject.Inject;
 
 @SuppressWarnings("UnstableApiUsage")
-public class ExpBottleLevelBean extends AbstractLevelBean {
+public class FurnaceLevel extends AbstractLevel {
     @Inject
-    public ExpBottleLevelBean(
+    public FurnaceLevel(
         final AdventureLevelPlugin plugin,
         final int maxLevel,
         final RangeMap<Integer, Expression> levelToExpFormulae,

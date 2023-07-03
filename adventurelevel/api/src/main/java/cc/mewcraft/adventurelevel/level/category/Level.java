@@ -13,7 +13,7 @@ import java.util.Map;
  * derived from the {@link #calculateTotalLevel(int)}. Implementation may cache the number of levels if the calculation
  * is expensive.
  */
-public interface LevelBean {
+public interface Level {
     void handleEvent(PlayerPickupExperienceEvent event);
 
     /**
@@ -106,27 +106,27 @@ public interface LevelBean {
     int getMaxLevel();
 
     /**
-     * Sets the experience value of this bean and returns itself.
+     * Sets the experience value of this level and returns itself.
      *
      * @param value the new experience value
      *
      * @return this instance
      */
     @SuppressWarnings("unchecked")
-    default <T extends LevelBean> T withExperience(int value) {
+    default <T extends Level> T withExperience(int value) {
         this.setExperience(value);
         return (T) this;
     }
 
     /**
-     * Sets the number of levels of this bean and returns itself.
+     * Sets the number of levels of this level and returns itself.
      *
      * @param level the new number of levels
      *
      * @return this instance
      */
     @SuppressWarnings("unchecked")
-    default <T extends LevelBean> T withLevel(int level) {
+    default <T extends Level> T withLevel(int level) {
         this.setLevel(level);
         return (T) this;
     }

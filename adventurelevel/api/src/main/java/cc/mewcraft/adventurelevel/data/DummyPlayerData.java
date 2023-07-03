@@ -1,6 +1,6 @@
 package cc.mewcraft.adventurelevel.data;
 
-import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.Level;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import cc.mewcraft.adventurelevel.level.modifier.ExperienceModifier;
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
@@ -11,17 +11,17 @@ import java.util.Map;
 import java.util.UUID;
 
 public class DummyPlayerData implements PlayerData {
-    private static final DummyLevelBean DUMMY_LEVEL_BEAN = new DummyLevelBean();
+    private static final DummyLevel DUMMY_LEVEL = new DummyLevel();
 
     @Override public @NotNull UUID getUuid() {
         return new UUID(0, 0);
     }
 
-    @Override public @NotNull LevelBean getLevelBean(final LevelCategory category) {
-        return DUMMY_LEVEL_BEAN;
+    @Override public @NotNull Level getLevel(final LevelCategory category) {
+        return DUMMY_LEVEL;
     }
 
-    @Override public @NotNull Map<LevelCategory, LevelBean> getLevelBeanMap() {
+    @Override public @NotNull Map<LevelCategory, Level> asMap() {
         return new HashMap<>();
     }
 
@@ -38,9 +38,9 @@ public class DummyPlayerData implements PlayerData {
     }
 
     /**
-     * A Dummy Level Bean that does nothing.
+     * A Dummy Level that does nothing.
      */
-    private static class DummyLevelBean implements LevelBean {
+    private static class DummyLevel implements Level {
         @Override public void handleEvent(final PlayerPickupExperienceEvent event) {}
         @Override public int calculateTotalExperience(final int level) {return 0;}
         @Override public int calculateNeededExperience(final int currentLevel) {return 0;}

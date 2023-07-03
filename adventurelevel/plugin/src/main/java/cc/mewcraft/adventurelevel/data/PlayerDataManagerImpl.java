@@ -88,7 +88,7 @@ public class PlayerDataManagerImpl implements PlayerDataManager {
             // We need to save it into file in case the entry is evicted and then lost.
             storage.save(data);
 
-            plugin.getSLF4JLogger().info("Saved and unloaded userdata: name={}, mainXp={}", PlayerUtils.getNameFromUUID(data.getUuid()), data.getLevelBean(LevelCategory.MAIN).getExperience());
+            plugin.getSLF4JLogger().info("Saved and unloaded userdata: name={}, mainXp={}", PlayerUtils.getNameFromUUID(data.getUuid()), data.getLevel(LevelCategory.MAIN).getExperience());
         }
     }
 

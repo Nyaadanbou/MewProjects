@@ -6,9 +6,9 @@ import com.google.common.collect.RangeMap;
 import com.google.inject.Inject;
 
 @SuppressWarnings("UnstableApiUsage")
-public class VillagerTradeLevelBean extends AbstractLevelBean {
+public class VillagerTradeLevel extends AbstractLevel {
     @Inject
-    public VillagerTradeLevelBean(
+    public VillagerTradeLevel(
         final AdventureLevelPlugin plugin,
         final int maxLevel,
         final RangeMap<Integer, Expression> levelToExpFormulae,

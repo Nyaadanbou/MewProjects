@@ -2,7 +2,7 @@ package cc.mewcraft.betonquest.adventurelevel.event;
 
 import cc.mewcraft.adventurelevel.AdventureLevelProvider;
 import cc.mewcraft.adventurelevel.data.PlayerData;
-import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.Level;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import org.betonquest.betonquest.Instruction;
 import org.betonquest.betonquest.api.QuestEvent;
@@ -27,7 +27,7 @@ public class ChangeLevelEvent extends QuestEvent {
 
     @Override protected Void execute(final Profile profile) throws QuestRuntimeException {
         PlayerData data = AdventureLevelProvider.get().getPlayerDataManager().load(profile.getPlayerUUID());
-        LevelBean level = data.getLevelBean(category);
+        Level level = data.getLevel(category);
 
         if (mode == Mode.ADD) {
             if (this.level) {

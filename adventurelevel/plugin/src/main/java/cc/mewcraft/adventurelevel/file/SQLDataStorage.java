@@ -3,8 +3,8 @@ package cc.mewcraft.adventurelevel.file;
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
 import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.data.RealPlayerData;
-import cc.mewcraft.adventurelevel.level.LevelBeanFactory;
-import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.LevelFactory;
+import cc.mewcraft.adventurelevel.level.category.Level;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import cc.mewcraft.adventurelevel.util.PlayerUtils;
 import com.google.inject.Inject;
@@ -154,18 +154,18 @@ public class SQLDataStorage extends AbstractDataStorage {
             Connection conn = connectionPool.getConnection();
             PreparedStatement stmt = conn.prepareStatement(insertUserdataQuery)
         ) {
-            // Construct a map of empty level beans
-            ConcurrentHashMap<LevelCategory, LevelBean> levels = new ConcurrentHashMap<>() {{
-                put(LevelCategory.MAIN, LevelBeanFactory.createLevelBean(LevelCategory.MAIN));
-                put(LevelCategory.PLAYER_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.PLAYER_DEATH));
-                put(LevelCategory.ENTITY_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.ENTITY_DEATH));
-                put(LevelCategory.FURNACE, LevelBeanFactory.createLevelBean(LevelCategory.FURNACE));
-                put(LevelCategory.BREED, LevelBeanFactory.createLevelBean(LevelCategory.BREED));
-                put(LevelCategory.VILLAGER_TRADE, LevelBeanFactory.createLevelBean(LevelCategory.VILLAGER_TRADE));
-                put(LevelCategory.FISHING, LevelBeanFactory.createLevelBean(LevelCategory.FISHING));
-                put(LevelCategory.BLOCK_BREAK, LevelBeanFactory.createLevelBean(LevelCategory.BLOCK_BREAK));
-                put(LevelCategory.EXP_BOTTLE, LevelBeanFactory.createLevelBean(LevelCategory.EXP_BOTTLE));
-                put(LevelCategory.GRINDSTONE, LevelBeanFactory.createLevelBean(LevelCategory.GRINDSTONE));
+            // Construct a map of empty levels
+            ConcurrentHashMap<LevelCategory, Level> levels = new ConcurrentHashMap<>() {{
+                put(LevelCategory.MAIN, LevelFactory.newLevel(LevelCategory.MAIN));
+                put(LevelCategory.PLAYER_DEATH, LevelFactory.newLevel(LevelCategory.PLAYER_DEATH));
+                put(LevelCategory.ENTITY_DEATH, LevelFactory.newLevel(LevelCategory.ENTITY_DEATH));
+                put(LevelCategory.FURNACE, LevelFactory.newLevel(LevelCategory.FURNACE));
+                put(LevelCategory.BREED, LevelFactory.newLevel(LevelCategory.BREED));
+                put(LevelCategory.VILLAGER_TRADE, LevelFactory.newLevel(LevelCategory.VILLAGER_TRADE));
+                put(LevelCategory.FISHING, LevelFactory.newLevel(LevelCategory.FISHING));
+                put(LevelCategory.BLOCK_BREAK, LevelFactory.newLevel(LevelCategory.BLOCK_BREAK));
+                put(LevelCategory.EXP_BOTTLE, LevelFactory.newLevel(LevelCategory.EXP_BOTTLE));
+                put(LevelCategory.GRINDSTONE, LevelFactory.newLevel(LevelCategory.GRINDSTONE));
             }};
 
             PlayerData playerData = new RealPlayerData(plugin, uuid, levels);
@@ -184,7 +184,7 @@ public class SQLDataStorage extends AbstractDataStorage {
             stmt.setInt(12, 0);
             stmt.execute();
 
-            plugin.getSLF4JLogger().info("Created userdata in database: name={}, mainXp={}", PlayerUtils.getNameFromUUID(uuid), playerData.getLevelBean(LevelCategory.MAIN).getExperience());
+            plugin.getSLF4JLogger().info("Created userdata in database: name={}, mainXp={}", PlayerUtils.getNameFromUUID(uuid), playerData.getLevel(LevelCategory.MAIN).getExperience());
 
             return playerData;
         } catch (SQLException e) {
@@ -217,18 +217,18 @@ public class SQLDataStorage extends AbstractDataStorage {
                     int expBottleXp = rs.getInt(11);
                     int grindstoneXp = rs.getInt(12);
 
-                    // Construct the map of level beans with loaded xp
-                    ConcurrentHashMap<LevelCategory, LevelBean> levels = new ConcurrentHashMap<>() {{
-                        put(LevelCategory.MAIN, LevelBeanFactory.createLevelBean(LevelCategory.MAIN).withExperience(mainXp));
-                        put(LevelCategory.PLAYER_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.PLAYER_DEATH).withExperience(playerDeathXp));
-                        put(LevelCategory.ENTITY_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.ENTITY_DEATH).withExperience(entityDeathXp));
-                        put(LevelCategory.FURNACE, LevelBeanFactory.createLevelBean(LevelCategory.FURNACE).withExperience(furnaceXp));
-                        put(LevelCategory.BREED, LevelBeanFactory.createLevelBean(LevelCategory.BREED).withExperience(breedXp));
-                        put(LevelCategory.VILLAGER_TRADE, LevelBeanFactory.createLevelBean(LevelCategory.VILLAGER_TRADE).withExperience(villagerTradeXp));
-                        put(LevelCategory.FISHING, LevelBeanFactory.createLevelBean(LevelCategory.FISHING).withExperience(fishingXp));
-                        put(LevelCategory.BLOCK_BREAK, LevelBeanFactory.createLevelBean(LevelCategory.BLOCK_BREAK).withExperience(blockBreakXp));
-                        put(LevelCategory.EXP_BOTTLE, LevelBeanFactory.createLevelBean(LevelCategory.EXP_BOTTLE).withExperience(expBottleXp));
-                        put(LevelCategory.GRINDSTONE, LevelBeanFactory.createLevelBean(LevelCategory.GRINDSTONE).withExperience(grindstoneXp));
+                    // Construct the map of levels with loaded xp
+                    ConcurrentHashMap<LevelCategory, Level> levels = new ConcurrentHashMap<>() {{
+                        put(LevelCategory.MAIN, LevelFactory.newLevel(LevelCategory.MAIN).withExperience(mainXp));
+                        put(LevelCategory.PLAYER_DEATH, LevelFactory.newLevel(LevelCategory.PLAYER_DEATH).withExperience(playerDeathXp));
+                        put(LevelCategory.ENTITY_DEATH, LevelFactory.newLevel(LevelCategory.ENTITY_DEATH).withExperience(entityDeathXp));
+                        put(LevelCategory.FURNACE, LevelFactory.newLevel(LevelCategory.FURNACE).withExperience(furnaceXp));
+                        put(LevelCategory.BREED, LevelFactory.newLevel(LevelCategory.BREED).withExperience(breedXp));
+                        put(LevelCategory.VILLAGER_TRADE, LevelFactory.newLevel(LevelCategory.VILLAGER_TRADE).withExperience(villagerTradeXp));
+                        put(LevelCategory.FISHING, LevelFactory.newLevel(LevelCategory.FISHING).withExperience(fishingXp));
+                        put(LevelCategory.BLOCK_BREAK, LevelFactory.newLevel(LevelCategory.BLOCK_BREAK).withExperience(blockBreakXp));
+                        put(LevelCategory.EXP_BOTTLE, LevelFactory.newLevel(LevelCategory.EXP_BOTTLE).withExperience(expBottleXp));
+                        put(LevelCategory.GRINDSTONE, LevelFactory.newLevel(LevelCategory.GRINDSTONE).withExperience(grindstoneXp));
                     }};
 
                     plugin.getSLF4JLogger().info("Fully loaded userdata from database: name={}, mainXp={}", PlayerUtils.getNameFromUUID(uuid), mainXp);
@@ -261,19 +261,19 @@ public class SQLDataStorage extends AbstractDataStorage {
         ) {
             stmt.setString(1, playerData.getUuid().toString());
             stmt.setString(2, PlayerUtils.getNameFromUUID(playerData.getUuid()).toLowerCase());
-            stmt.setInt(3, playerData.getLevelBean(LevelCategory.MAIN).getExperience());
-            stmt.setInt(4, playerData.getLevelBean(LevelCategory.PLAYER_DEATH).getExperience());
-            stmt.setInt(5, playerData.getLevelBean(LevelCategory.ENTITY_DEATH).getExperience());
-            stmt.setInt(6, playerData.getLevelBean(LevelCategory.FURNACE).getExperience());
-            stmt.setInt(7, playerData.getLevelBean(LevelCategory.BREED).getExperience());
-            stmt.setInt(8, playerData.getLevelBean(LevelCategory.VILLAGER_TRADE).getExperience());
-            stmt.setInt(9, playerData.getLevelBean(LevelCategory.FISHING).getExperience());
-            stmt.setInt(10, playerData.getLevelBean(LevelCategory.BLOCK_BREAK).getExperience());
-            stmt.setInt(11, playerData.getLevelBean(LevelCategory.EXP_BOTTLE).getExperience());
-            stmt.setInt(12, playerData.getLevelBean(LevelCategory.GRINDSTONE).getExperience());
+            stmt.setInt(3, playerData.getLevel(LevelCategory.MAIN).getExperience());
+            stmt.setInt(4, playerData.getLevel(LevelCategory.PLAYER_DEATH).getExperience());
+            stmt.setInt(5, playerData.getLevel(LevelCategory.ENTITY_DEATH).getExperience());
+            stmt.setInt(6, playerData.getLevel(LevelCategory.FURNACE).getExperience());
+            stmt.setInt(7, playerData.getLevel(LevelCategory.BREED).getExperience());
+            stmt.setInt(8, playerData.getLevel(LevelCategory.VILLAGER_TRADE).getExperience());
+            stmt.setInt(9, playerData.getLevel(LevelCategory.FISHING).getExperience());
+            stmt.setInt(10, playerData.getLevel(LevelCategory.BLOCK_BREAK).getExperience());
+            stmt.setInt(11, playerData.getLevel(LevelCategory.EXP_BOTTLE).getExperience());
+            stmt.setInt(12, playerData.getLevel(LevelCategory.GRINDSTONE).getExperience());
             stmt.execute();
 
-            plugin.getSLF4JLogger().info("Saved userdata to database: name={}, mainXp={}", PlayerUtils.getNameFromUUID(playerData.getUuid()), playerData.getLevelBean(LevelCategory.MAIN).getExperience());
+            plugin.getSLF4JLogger().info("Saved userdata to database: name={}, mainXp={}", PlayerUtils.getNameFromUUID(playerData.getUuid()), playerData.getLevel(LevelCategory.MAIN).getExperience());
         } catch (SQLException e) {
             e.printStackTrace();
         }

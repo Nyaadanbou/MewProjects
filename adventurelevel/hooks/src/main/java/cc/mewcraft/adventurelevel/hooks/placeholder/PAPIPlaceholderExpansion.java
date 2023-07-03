@@ -2,7 +2,7 @@ package cc.mewcraft.adventurelevel.hooks.placeholder;
 
 import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
-import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.Level;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -40,7 +40,7 @@ public class PAPIPlaceholderExpansion implements Terminable {
             PlayerData data = playerDataManager.load(player);
             if (!data.complete()) return "";
 
-            LevelBean main = data.getLevelBean(LevelCategory.MAIN);
+            Level main = data.getLevel(LevelCategory.MAIN);
 
             return switch (params) {
                 case "level" -> String.valueOf(main.getLevel());

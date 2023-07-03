@@ -11,11 +11,11 @@ import java.math.RoundingMode;
 import java.util.Map;
 
 @SuppressWarnings("UnstableApiUsage")
-public class MainLevelBean extends AbstractLevelBean {
+public class MainLevel extends AbstractLevel {
 
     private final Map<ExperienceOrb.SpawnReason, Double> experienceModifiers;
 
-    public MainLevelBean(
+    public MainLevel(
         final AdventureLevelPlugin plugin,
         final int maxLevel,
         final RangeMap<Integer, Expression> levelToExpFormulae,

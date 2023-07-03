@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @SuppressWarnings("UnstableApiUsage")
-class LevelBeanBuilder {
+class LevelBuilder {
     private final AdventureLevelPlugin plugin;
     private final ConfigurationSection config;
 
@@ -33,14 +33,14 @@ class LevelBeanBuilder {
      */
     private final TreeRangeMap<Integer, Expression> exp3;
 
-    public static @NotNull LevelBeanBuilder builder(@NotNull AdventureLevelPlugin plugin, @NotNull ConfigurationSection config) {
+    public static @NotNull LevelBuilder builder(@NotNull AdventureLevelPlugin plugin, @NotNull ConfigurationSection config) {
         Preconditions.checkNotNull(plugin, "plugin");
         Preconditions.checkNotNull(config, "config");
 
-        return new LevelBeanBuilder(plugin, config);
+        return new LevelBuilder(plugin, config);
     }
 
-    private LevelBeanBuilder(AdventureLevelPlugin plugin, ConfigurationSection config) {
+    private LevelBuilder(AdventureLevelPlugin plugin, ConfigurationSection config) {
         this.plugin = plugin;
         this.config = config;
 
@@ -67,7 +67,7 @@ class LevelBeanBuilder {
         }
     }
 
-    public @NotNull LevelBean build(@NotNull LevelCategory category) {
+    public @NotNull Level build(@NotNull LevelCategory category) {
         return switch (category) {
             case MAIN -> {
                 Map<ExperienceOrb.SpawnReason, Double> experienceModifiers = new HashMap<>() {{
@@ -75,17 +75,17 @@ class LevelBeanBuilder {
                         put(reason, config.getDouble("experience_modifiers." + reason.name().toLowerCase()));
                     }
                 }};
-                yield new MainLevelBean(plugin, maximumLevel, exp1, exp2, exp3, experienceModifiers);
+                yield new MainLevel(plugin, maximumLevel, exp1, exp2, exp3, experienceModifiers);
             }
-            case PLAYER_DEATH -> new PlayerDeathLevelBean(plugin, maximumLevel, exp1, exp2, exp3);
-            case ENTITY_DEATH -> new EntityDeathLevelBean(plugin, maximumLevel, exp1, exp2, exp3);
-            case FURNACE -> new FurnaceLevelBean(plugin, maximumLevel, exp1, exp2, exp3);
-            case BREED -> new BreedLevelBean(plugin, maximumLevel, exp1, exp2, exp3);
-            case VILLAGER_TRADE -> new VillagerTradeLevelBean(plugin, maximumLevel, exp1, exp2, exp3);
-            case FISHING -> new FishingLevelBean(plugin, maximumLevel, exp1, exp2, exp3);
-            case BLOCK_BREAK -> new BlockBreakLevelBean(plugin, maximumLevel, exp1, exp2, exp3);
-            case EXP_BOTTLE -> new ExpBottleLevelBean(plugin, maximumLevel, exp1, exp2, exp3);
-            case GRINDSTONE -> new GrindstoneLevelBean(plugin, maximumLevel, exp1, exp2, exp3);
+            case PLAYER_DEATH -> new PlayerDeathLevel(plugin, maximumLevel, exp1, exp2, exp3);
+            case ENTITY_DEATH -> new EntityDeathLevel(plugin, maximumLevel, exp1, exp2, exp3);
+            case FURNACE -> new FurnaceLevel(plugin, maximumLevel, exp1, exp2, exp3);
+            case BREED -> new BreedLevel(plugin, maximumLevel, exp1, exp2, exp3);
+            case VILLAGER_TRADE -> new VillagerTradeLevel(plugin, maximumLevel, exp1, exp2, exp3);
+            case FISHING -> new FishingLevel(plugin, maximumLevel, exp1, exp2, exp3);
+            case BLOCK_BREAK -> new BlockBreakLevel(plugin, maximumLevel, exp1, exp2, exp3);
+            case EXP_BOTTLE -> new ExpBottleLevel(plugin, maximumLevel, exp1, exp2, exp3);
+            case GRINDSTONE -> new GrindstoneLevel(plugin, maximumLevel, exp1, exp2, exp3);
         };
     }
 }

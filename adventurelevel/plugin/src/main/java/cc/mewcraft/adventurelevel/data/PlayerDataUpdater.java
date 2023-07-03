@@ -1,7 +1,7 @@
 package cc.mewcraft.adventurelevel.data;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
-import cc.mewcraft.adventurelevel.level.LevelBeanFactory;
+import cc.mewcraft.adventurelevel.level.LevelFactory;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import cc.mewcraft.adventurelevel.message.packet.PlayerDataPacket;
 import org.jetbrains.annotations.NotNull;
@@ -30,8 +30,8 @@ public final class PlayerDataUpdater {
      */
     public static @NotNull PlayerData update(final @NotNull PlayerData data, final @NotNull PlayerDataPacket source) {
         for (final LevelCategory category : LevelCategory.values()) {
-            data.getLevelBeanMap()
-                .computeIfAbsent(category, LevelBeanFactory::createLevelBean)
+            data.asMap()
+                .computeIfAbsent(category, LevelFactory::newLevel)
                 .setExperience(source.getExpByCategory(category));
         }
 
@@ -48,9 +48,9 @@ public final class PlayerDataUpdater {
      */
     public static @NotNull PlayerData update(final @NotNull PlayerData data, final @NotNull PlayerData source) {
         for (final LevelCategory category : LevelCategory.values()) {
-            data.getLevelBeanMap()
-                .computeIfAbsent(category, LevelBeanFactory::createLevelBean)
-                .setExperience(source.getLevelBean(category).getExperience());
+            data.asMap()
+                .computeIfAbsent(category, LevelFactory::newLevel)
+                .setExperience(source.getLevel(category).getExperience());
         }
 
         return data; // reference remains unchanged

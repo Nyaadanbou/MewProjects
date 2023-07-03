@@ -30,7 +30,7 @@ public class ReachLevelCondition extends Condition {
             return false;
         }
 
-        int level = data.getLevelBean(category).getLevel();
+        int level = data.getLevel(category).getLevel();
 
         try {
             return evaluator.with("level", level).evaluate().getBooleanValue();

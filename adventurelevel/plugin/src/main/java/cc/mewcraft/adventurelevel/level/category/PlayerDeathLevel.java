@@ -6,9 +6,9 @@ import com.google.common.collect.RangeMap;
 import com.google.inject.Inject;
 
 @SuppressWarnings("UnstableApiUsage")
-public class EntityDeathLevelBean extends AbstractLevelBean {
+public class PlayerDeathLevel extends AbstractLevel {
     @Inject
-    public EntityDeathLevelBean(
+    public PlayerDeathLevel(
         final AdventureLevelPlugin plugin,
         final int maxLevel,
         final RangeMap<Integer, Expression> levelToExpFormulae,

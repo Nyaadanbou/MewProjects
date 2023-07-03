@@ -26,7 +26,7 @@ public class LevelContextCalculator {
             PlayerData data = playerDataManager.load((OfflinePlayer) target);
             consumer.accept("adventure-level",
                 data.complete()
-                    ? String.valueOf(data.getLevelBean(LevelCategory.MAIN).getLevel())
+                    ? String.valueOf(data.getLevel(LevelCategory.MAIN).getLevel())
                     : "0"
             );
         });

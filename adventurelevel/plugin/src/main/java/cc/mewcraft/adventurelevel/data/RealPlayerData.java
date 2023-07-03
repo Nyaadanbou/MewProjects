@@ -1,7 +1,7 @@
 package cc.mewcraft.adventurelevel.data;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
-import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.Level;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,9 +21,9 @@ public class RealPlayerData implements PlayerData {
      */
     private final UUID uuid;
     /**
-     * A map containing all level beans.
+     * A map containing all levels.
      */
-    private final ConcurrentHashMap<LevelCategory, LevelBean> levelBeanMap;
+    private final ConcurrentHashMap<LevelCategory, Level> levelMap;
     /**
      * A variable indicating whether this player data has been fully loaded. If true (=complete), that means the data
      * has been fully loaded, and getters will return current values; otherwise, false (=incomplete) means it's not been
@@ -47,7 +47,7 @@ public class RealPlayerData implements PlayerData {
 
         this.plugin = plugin;
         this.uuid = uuid;
-        this.levelBeanMap = new ConcurrentHashMap<>();
+        this.levelMap = new ConcurrentHashMap<>();
     }
 
     /**
@@ -55,30 +55,30 @@ public class RealPlayerData implements PlayerData {
      *
      * @param plugin       the plugin instance
      * @param uuid         the uuid of backed player
-     * @param levelBeanMap the map must already be filled with instances of all level bean
+     * @param levelMap the map must already be filled with instances of all levels
      */
     public RealPlayerData(
         final AdventureLevelPlugin plugin,
         final UUID uuid,
-        final ConcurrentHashMap<LevelCategory, LevelBean> levelBeanMap
+        final ConcurrentHashMap<LevelCategory, Level> levelMap
     ) {
         markAsComplete();
 
         this.plugin = plugin;
         this.uuid = uuid;
-        this.levelBeanMap = levelBeanMap;
+        this.levelMap = levelMap;
     }
 
     @Override public @NotNull UUID getUuid() {
         return uuid;
     }
 
-    @Override public @NotNull LevelBean getLevelBean(LevelCategory category) {
-        return Objects.requireNonNull(levelBeanMap.get(category));
+    @Override public @NotNull Level getLevel(LevelCategory category) {
+        return Objects.requireNonNull(levelMap.get(category));
     }
 
-    @Override public @NotNull Map<LevelCategory, LevelBean> getLevelBeanMap() {
-        return levelBeanMap;
+    @Override public @NotNull Map<LevelCategory, Level> asMap() {
+        return levelMap;
     }
 
     @Override public boolean complete() {

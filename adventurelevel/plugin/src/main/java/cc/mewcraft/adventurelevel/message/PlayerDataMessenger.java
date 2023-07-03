@@ -108,17 +108,17 @@ public class PlayerDataMessenger implements Terminable {
             data.getUuid(),
             ServerInfo.SERVER_ID.get(),
             System.currentTimeMillis(),
-            data.getLevelBean(LevelCategory.MAIN).getExperience(),
-            data.getLevelBean(LevelCategory.BLOCK_BREAK).getExperience(),
-            data.getLevelBean(LevelCategory.BREED).getExperience(),
-            data.getLevelBean(LevelCategory.ENTITY_DEATH).getExperience(),
-            data.getLevelBean(LevelCategory.EXP_BOTTLE).getExperience(),
-            data.getLevelBean(LevelCategory.FISHING).getExperience(),
-            data.getLevelBean(LevelCategory.FURNACE).getExperience(),
-            data.getLevelBean(LevelCategory.GRINDSTONE).getExperience(),
-            data.getLevelBean(LevelCategory.PLAYER_DEATH).getExperience(),
-            data.getLevelBean(LevelCategory.VILLAGER_TRADE).getExperience()
-        )).thenAcceptAsync(n -> plugin.getSLF4JLogger().info("Published userdata to channel: name={}, mainXp={}", PlayerUtils.getNameFromUUID(data.getUuid()), data.getLevelBean(LevelCategory.MAIN).getExperience()));
+            data.getLevel(LevelCategory.MAIN).getExperience(),
+            data.getLevel(LevelCategory.BLOCK_BREAK).getExperience(),
+            data.getLevel(LevelCategory.BREED).getExperience(),
+            data.getLevel(LevelCategory.ENTITY_DEATH).getExperience(),
+            data.getLevel(LevelCategory.EXP_BOTTLE).getExperience(),
+            data.getLevel(LevelCategory.FISHING).getExperience(),
+            data.getLevel(LevelCategory.FURNACE).getExperience(),
+            data.getLevel(LevelCategory.GRINDSTONE).getExperience(),
+            data.getLevel(LevelCategory.PLAYER_DEATH).getExperience(),
+            data.getLevel(LevelCategory.VILLAGER_TRADE).getExperience()
+        )).thenAcceptAsync(n -> plugin.getSLF4JLogger().info("Published userdata to channel: name={}, mainXp={}", PlayerUtils.getNameFromUUID(data.getUuid()), data.getLevel(LevelCategory.MAIN).getExperience()));
     }
 
     /**

@@ -1,6 +1,7 @@
 package cc.mewcraft.betonquest.adventurelevel.condition;
 
 import cc.mewcraft.adventurelevel.AdventureLevelProvider;
+import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import com.ezylang.evalex.EvaluationException;
 import com.ezylang.evalex.Expression;
@@ -24,11 +25,12 @@ public class ReachLevelCondition extends Condition {
     }
 
     @Override protected Boolean execute(final Profile profile) throws QuestRuntimeException {
-        int level = AdventureLevelProvider.get()
-            .getPlayerDataManager()
-            .load(profile.getPlayerUUID())
-            .join()
-            .getLevelBean(category).getLevel();
+        PlayerData data = AdventureLevelProvider.get().getPlayerDataManager().load(profile.getPlayerUUID());
+        if (!data.complete()) {
+            return false;
+        }
+
+        int level = data.getLevelBean(category).getLevel();
 
         try {
             return evaluator.with("level", level).evaluate().getBooleanValue();

@@ -9,7 +9,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
-import xyz.xenondevs.invui.InvUI;
 
 public class ReforgePlugin extends ExtendedJavaPlugin {
     private Injector injector;
@@ -34,13 +33,6 @@ public class ReforgePlugin extends ExtendedJavaPlugin {
                 getClassLoader().getResource("items"),
                 getDataFolder().toPath().resolve("items").toFile()
             );
-        }
-
-        // Required if using paper plugin system
-        try {
-            InvUI.getInstance().setPlugin(this);
-        } catch (IllegalStateException ignored) {
-            // TODO Remove the try-catch after InvUI#isPluginSet() is introduced
         }
 
         injector = Guice.createInjector(new AbstractModule() {

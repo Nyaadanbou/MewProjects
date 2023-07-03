@@ -29,6 +29,13 @@ public class PickupExpListener implements AutoCloseableListener {
     @EventHandler(priority = HIGH, ignoreCancelled = true)
     public void onPickupExp(PlayerPickupExperienceEvent event) {
         playerDataManager.load(event.getPlayer()).thenAcceptSync(playerData -> {
+            if (!playerData.complete()) {
+                // Cancel event if data is not completed.
+                // This avoids potential experience loss.
+                event.setCancelled(true);
+                return;
+            }
+
             // Handle main level
             playerData.getLevelBean(LevelCategory.MAIN).handleEvent(event);
 

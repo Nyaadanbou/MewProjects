@@ -1,17 +1,17 @@
 package cc.mewcraft.adventurelevel.data;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
-import cc.mewcraft.adventurelevel.level.category.*;
+import cc.mewcraft.adventurelevel.level.category.LevelBean;
+import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RealPlayerData implements PlayerData {
-
     /**
      * The plugin.
      */
@@ -23,7 +23,7 @@ public class RealPlayerData implements PlayerData {
     /**
      * A map containing all level beans.
      */
-    private final Map<LevelCategory, LevelBean> levelBeanMap;
+    private final ConcurrentHashMap<LevelCategory, LevelBean> levelBeanMap;
     /**
      * A variable indicating whether this player data has been fully loaded. If true (=complete), that means the data
      * has been fully loaded, and getters will return current values; otherwise, false (=incomplete) means it's not been
@@ -43,69 +43,31 @@ public class RealPlayerData implements PlayerData {
         final AdventureLevelPlugin plugin,
         final UUID uuid
     ) {
+        markAsIncomplete();
+
         this.plugin = plugin;
         this.uuid = uuid;
-        this.levelBeanMap = new HashMap<>();
-
-        this.markAsIncomplete();
+        this.levelBeanMap = new ConcurrentHashMap<>();
     }
 
     /**
      * You must pass in a complete set of data to this constructor.
      *
-     * @param plugin   the plugin instance
-     * @param uuid     the uuid of backed player
+     * @param plugin       the plugin instance
+     * @param uuid         the uuid of backed player
      * @param levelBeanMap the map must already be filled with instances of all level bean
      */
     public RealPlayerData(
         final AdventureLevelPlugin plugin,
         final UUID uuid,
-        final Map<LevelCategory, LevelBean> levelBeanMap
+        final ConcurrentHashMap<LevelCategory, LevelBean> levelBeanMap
     ) {
+        markAsComplete();
+
         this.plugin = plugin;
         this.uuid = uuid;
         this.levelBeanMap = levelBeanMap;
-
-        this.markAsComplete();
     }
-
-    //<editor-fold desc="Unused">
-
-    /**
-     * You must pass in a complete set of data to this constructor.
-     *
-     * @param plugin the plugin instance
-     * @param uuid   the uuid of backed player
-     */
-    public RealPlayerData(
-        final AdventureLevelPlugin plugin,
-        final UUID uuid,
-        final MainLevelBean mainLevel,
-        final BlockBreakLevelBean blockBreakLevel,
-        final BreedLevelBean breedLevel,
-        final EntityDeathLevelBean entityDeathLevel,
-        final ExpBottleLevelBean expBottleLevel,
-        final FishingLevelBean fishingLevel,
-        final FurnaceLevelBean furnaceLevel,
-        final GrindstoneLevelBean grindstoneLevel,
-        final PlayerDeathLevelBean playerDeathLevel,
-        final VillagerTradeLevelBean villagerTradeLevel
-    ) {
-        this(plugin, uuid, new HashMap<>() {{
-            put(LevelCategory.MAIN, mainLevel);
-            put(LevelCategory.BLOCK_BREAK, blockBreakLevel);
-            put(LevelCategory.BREED, breedLevel);
-            put(LevelCategory.ENTITY_DEATH, entityDeathLevel);
-            put(LevelCategory.EXP_BOTTLE, expBottleLevel);
-            put(LevelCategory.FISHING, fishingLevel);
-            put(LevelCategory.FURNACE, furnaceLevel);
-            put(LevelCategory.GRINDSTONE, grindstoneLevel);
-            put(LevelCategory.PLAYER_DEATH, playerDeathLevel);
-            put(LevelCategory.VILLAGER_TRADE, villagerTradeLevel);
-        }});
-    }
-
-    //</editor-fold>
 
     @Override public @NotNull UUID getUuid() {
         return uuid;
@@ -132,5 +94,4 @@ public class RealPlayerData implements PlayerData {
         complete.set(true);
         return this;
     }
-
 }

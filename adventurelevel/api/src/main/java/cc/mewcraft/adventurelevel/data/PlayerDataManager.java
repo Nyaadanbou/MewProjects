@@ -9,28 +9,27 @@ import java.util.Map;
 import java.util.UUID;
 
 public interface PlayerDataManager extends Terminable {
+    @NotNull PlayerData load(@NotNull UUID uuid);
 
-    @NotNull Promise<PlayerData> load(@NotNull UUID uuid);
-
-    default @NotNull Promise<PlayerData> load(@NotNull OfflinePlayer player) {
+    default @NotNull PlayerData load(@NotNull OfflinePlayer player) {
         return load(player.getUniqueId());
     }
 
     @NotNull Promise<PlayerData> save(@NotNull PlayerData playerData);
 
     default @NotNull Promise<PlayerData> save(@NotNull OfflinePlayer player) {
-        return load(player.getUniqueId()).thenComposeAsync(this::save);
+        return save(load(player.getUniqueId()));
     }
 
-    @NotNull Promise<UUID> unload(@NotNull UUID uuid);
+    @NotNull UUID unload(@NotNull UUID uuid);
 
-    default @NotNull Promise<UUID> unload(@NotNull OfflinePlayer player) {
+    default @NotNull UUID unload(@NotNull OfflinePlayer player) {
         return unload(player.getUniqueId());
     }
 
     void refresh(@NotNull UUID uuid);
 
-    @NotNull Map<UUID, Promise<PlayerData>> asMap();
+    @NotNull Map<UUID, PlayerData> asMap();
 
     /**
      * Implementation Requirement: This should save all cached player data to file when being called.

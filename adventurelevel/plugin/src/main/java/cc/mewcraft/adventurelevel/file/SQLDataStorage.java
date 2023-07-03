@@ -17,9 +17,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
@@ -156,7 +155,7 @@ public class SQLDataStorage extends AbstractDataStorage {
             PreparedStatement stmt = conn.prepareStatement(insertUserdataQuery)
         ) {
             // Construct a map of empty level beans
-            Map<LevelCategory, LevelBean> levels = new HashMap<>() {{
+            ConcurrentHashMap<LevelCategory, LevelBean> levels = new ConcurrentHashMap<>() {{
                 put(LevelCategory.MAIN, LevelBeanFactory.createLevelBean(LevelCategory.MAIN));
                 put(LevelCategory.PLAYER_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.PLAYER_DEATH));
                 put(LevelCategory.ENTITY_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.ENTITY_DEATH));
@@ -219,7 +218,7 @@ public class SQLDataStorage extends AbstractDataStorage {
                     int grindstoneXp = rs.getInt(12);
 
                     // Construct the map of level beans with loaded xp
-                    Map<LevelCategory, LevelBean> levels = new HashMap<>() {{
+                    ConcurrentHashMap<LevelCategory, LevelBean> levels = new ConcurrentHashMap<>() {{
                         put(LevelCategory.MAIN, LevelBeanFactory.createLevelBean(LevelCategory.MAIN).withExperience(mainXp));
                         put(LevelCategory.PLAYER_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.PLAYER_DEATH).withExperience(playerDeathXp));
                         put(LevelCategory.ENTITY_DEATH, LevelBeanFactory.createLevelBean(LevelCategory.ENTITY_DEATH).withExperience(entityDeathXp));

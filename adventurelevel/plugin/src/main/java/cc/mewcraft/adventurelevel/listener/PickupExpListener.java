@@ -1,6 +1,7 @@
 package cc.mewcraft.adventurelevel.listener;
 
 import cc.mewcraft.adventurelevel.AdventureLevelPlugin;
+import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
@@ -28,22 +29,21 @@ public class PickupExpListener implements AutoCloseableListener {
 
     @EventHandler(priority = HIGH, ignoreCancelled = true)
     public void onPickupExp(PlayerPickupExperienceEvent event) {
-        playerDataManager.load(event.getPlayer()).thenAcceptSync(playerData -> {
-            if (!playerData.complete()) {
-                // Cancel event if data is not completed.
-                // This avoids potential experience loss.
-                event.setCancelled(true);
-                return;
-            }
+        PlayerData data = playerDataManager.load(event.getPlayer());
+        if (!data.complete()) {
+            // Cancel event if data is not completed.
+            // This avoids potential experience loss.
+            event.setCancelled(true);
+            return;
+        }
 
-            // Handle main level
-            playerData.getLevelBean(LevelCategory.MAIN).handleEvent(event);
+        // Handle main level
+        data.getLevelBean(LevelCategory.MAIN).handleEvent(event);
 
-            // Handle other levels
-            LevelCategory levelCategory = LevelCategory.toLevelCategory(event.getExperienceOrb().getSpawnReason());
-            if (levelCategory != null) {
-                playerData.getLevelBean(levelCategory).handleEvent(event);
-            }
-        });
+        // Handle other levels
+        LevelCategory levelCategory = LevelCategory.toLevelCategory(event.getExperienceOrb().getSpawnReason());
+        if (levelCategory != null) {
+            data.getLevelBean(levelCategory).handleEvent(event);
+        }
     }
 }

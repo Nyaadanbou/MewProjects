@@ -7,7 +7,6 @@ import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.lucko.helper.promise.Promise;
 import me.lucko.helper.terminable.Terminable;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
@@ -38,12 +37,10 @@ public class PAPIPlaceholderExpansion implements Terminable {
 
     private class AdventureLevelExpansion extends PlaceholderExpansion {
         @Override public @Nullable String onRequest(final OfflinePlayer player, final @NotNull String params) {
-            Promise<PlayerData> promise = playerDataManager.load(player);
-            if (!promise.isDone()) {
-                return ""; // don't wait it and just return empty string
-            }
+            PlayerData data = playerDataManager.load(player);
+            if (!data.complete()) return "";
 
-            LevelBean main = promise.join().getLevelBean(LevelCategory.MAIN);
+            LevelBean main = data.getLevelBean(LevelCategory.MAIN);
 
             return switch (params) {
                 case "level" -> String.valueOf(main.getLevel());

@@ -19,7 +19,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 
 @NonnullByDefault
@@ -64,16 +63,10 @@ public class PlayerDataArgument extends CommandArgument<CommandSender, PlayerDat
                 );
             }
 
-            try {
-                PlayerData playerData = AdventureLevelPlugin.getInstance().getPlayerDataManager().load(offlinePlayer).get();
-                if (!playerData.equals(PlayerData.DUMMY)) {
-                    inputQueue.remove();
-                    return ArgumentParseResult.success(playerData);
-                }
-            } catch (InterruptedException | ExecutionException e) {
-                return ArgumentParseResult.failure(
-                    new IllegalArgumentException(AdventureLevelPlugin.getInstance().getLang().of("msg_player_is_null").plain())
-                );
+            PlayerData playerData = AdventureLevelPlugin.getInstance().getPlayerDataManager().load(offlinePlayer);
+            if (!playerData.equals(PlayerData.DUMMY)) {
+                inputQueue.remove();
+                return ArgumentParseResult.success(playerData);
             }
 
             return ArgumentParseResult.failure(

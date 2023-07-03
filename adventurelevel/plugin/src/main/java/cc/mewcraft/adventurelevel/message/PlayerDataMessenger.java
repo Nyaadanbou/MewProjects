@@ -58,7 +58,9 @@ public class PlayerDataMessenger implements Terminable {
     ) {
         this.plugin = plugin;
         this.playerDataManager = playerDataManager;
-        this.messageStore = CacheBuilder.newBuilder().expireAfterWrite(Duration.of(3, ChronoUnit.SECONDS)).build();
+
+        long networkLatencyMilliseconds = Math.max(0, plugin.getConfig().getLong("synchronization.network_latency_milliseconds"));
+        this.messageStore = CacheBuilder.newBuilder().expireAfterWrite(Duration.of(networkLatencyMilliseconds * 2L, ChronoUnit.MILLIS)).build();
 
         // Get and define the channel.
         this.channel = plugin.getService(Messenger.class).getChannel(SYNC_CHANNEL, PlayerDataPacket.class);
@@ -79,17 +81,16 @@ public class PlayerDataMessenger implements Terminable {
             messageStore.put(uuid, message);
 
             if (playerDataManager.asMap().containsKey(uuid)) {
-                playerDataManager.asMap().get(uuid).thenAcceptAsync(data -> {
-                    if (data.complete()) {
-                        // Here we only need to update 'complete' entry.
+                PlayerData data = playerDataManager.asMap().get(uuid);
+                if (data.complete()) {
+                    // Here we only need to update 'complete' entry.
 
-                        // Incomplete means that the entry is newly created (or re-added),
-                        // in which case the CacheLoader will handle the data loading.
+                    // Incomplete means that the entry is newly created (or re-added),
+                    // in which case the CacheLoader will handle the data loading.
 
-                        PlayerDataUpdater.update(data, message);
-                        plugin.getSLF4JLogger().info("Update userdata in cache: name={}, mainXp={}", PlayerUtils.getNameFromUUIDNullable(uuid), message.mainXp());
-                    }
-                });
+                    PlayerDataUpdater.update(data, message);
+                    plugin.getSLF4JLogger().info("Update userdata in cache: name={}, mainXp={}", PlayerUtils.getNameFromUUIDNullable(uuid), message.mainXp());
+                }
             }
         });
     }

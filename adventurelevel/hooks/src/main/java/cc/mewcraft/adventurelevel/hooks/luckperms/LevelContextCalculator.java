@@ -4,7 +4,6 @@ import cc.mewcraft.adventurelevel.data.PlayerData;
 import cc.mewcraft.adventurelevel.data.PlayerDataManager;
 import cc.mewcraft.adventurelevel.level.category.LevelCategory;
 import com.google.inject.Inject;
-import me.lucko.helper.promise.Promise;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.OfflinePlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -24,10 +23,10 @@ public class LevelContextCalculator {
         // "dummy" values when not available yet.
 
         LuckPermsProvider.get().getContextManager().registerCalculator((target, consumer) -> {
-            Promise<PlayerData> promise = playerDataManager.load((OfflinePlayer) target);
+            PlayerData data = playerDataManager.load((OfflinePlayer) target);
             consumer.accept("adventure-level",
-                promise.isDone()
-                    ? String.valueOf(promise.join().getLevelBean(LevelCategory.MAIN).getLevel())
+                data.complete()
+                    ? String.valueOf(data.getLevelBean(LevelCategory.MAIN).getLevel())
                     : "0"
             );
         });

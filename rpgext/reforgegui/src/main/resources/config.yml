@@ -10,9 +10,6 @@ reforge_sound:
 
 # GUI 相关设置
 gui:
-  # 容器标题
-  title: <b>重铸</b> (预览版 非最终内容)
-  # 容器布局
   layout:
     - "# # # # # # # # #"
     - "# # i # o # c # #"
@@ -20,8 +17,3 @@ gui:
     - "# # u u u u u # #"
     - "# # u u u u u # #"
     - "# # # # # # # # #"
-  # 元素定义
-  elements:
-    '#':
-      name: ""
-      lore: ""

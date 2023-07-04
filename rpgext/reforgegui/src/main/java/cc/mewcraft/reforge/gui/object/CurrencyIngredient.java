@@ -27,4 +27,16 @@ public class CurrencyIngredient implements ReforgeIngredient<UUID> {
         Currency currency = Objects.requireNonNull(econ.getCurrency(identifier));
         econ.withdraw(uuid, amount, currency);
     }
+
+    public String simpleFormat() {
+        GemsEconomy econ = GemsEconomyProvider.get();
+        Currency currency = Objects.requireNonNull(econ.getCurrency(identifier));
+        return currency.simpleFormat(amount);
+    }
+
+    public String fancyFormat() {
+        GemsEconomy econ = GemsEconomyProvider.get();
+        Currency currency = Objects.requireNonNull(econ.getCurrency(identifier));
+        return currency.fancyFormat(amount);
+    }
 }

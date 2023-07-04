@@ -31,7 +31,7 @@ public class ReforgeConfig {
         this.ingredientMap = new HashMap<>();
 
         // Load all reforge ingredient config files
-        Collection<File> files = FileUtils.listFiles(new File(plugin.getDataFolder(), "items"), new String[]{"yml"}, true);
+        Collection<File> files = FileUtils.listFiles(new File(plugin.getDataFolder(), "item"), new String[]{"yml"}, true);
         PluginItemRegistry itemRegistry = PluginItemRegistry.get();
         Pattern currencyIngredientPattern = Pattern.compile("(\\$)(\\d*\\.?\\d*)(\\D+)");
 

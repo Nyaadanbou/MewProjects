@@ -26,6 +26,7 @@ public class PluginCommands {
 
         registry.prepareCommand(registry
             .commandBuilder("reforgegui")
+            .literal("open")
             .argument(PlayerArgument.optional("target"))
             .permission("reforgegui.command.open")
             .handler(ctx -> {

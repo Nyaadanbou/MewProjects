@@ -1,0 +1,7 @@
+msg_empty_transform_slot: 没有需要重铸的东西。请先将物品放入重铸槽再进行重铸
+msg_none_reforge_recipe: 我没有办法为你重铸 <item>。试试服务器独有的武器装备吧
+msg_insufficient_items_ingredient: 重铸所需要的材料不足。你需要先准备好这些材料：<item>
+msg_insufficient_currency_ingredient: 重铸所需要的货币不足。你还需要准备这么多货币：<currency>
+msg_internal_error: <red>重铸发生内部错误，请汇报到上古茶馆并附带发生时间
+msg_item_list_separator: ' '
+msg_item_display_format: '<item> × <amount>'

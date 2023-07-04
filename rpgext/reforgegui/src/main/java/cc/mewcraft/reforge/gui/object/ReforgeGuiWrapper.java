@@ -5,6 +5,9 @@ import cc.mewcraft.reforge.gui.ReforgePlugin;
 import com.google.inject.Inject;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.JoinConfiguration;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -23,13 +26,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static cc.mewcraft.reforge.gui.util.AdventureUtils.translatable;
+
 public class ReforgeGuiWrapper {
     private final ReforgePlugin plugin;
     private final ReforgeConfig config;
-    final Gui gui;
-    final VirtualInventory transformInventory;
-    final VirtualInventory ingredientInventory;
-    final VirtualInventory outputInventory;
+    final Gui gui; // Backed GUI
+    final VirtualInventory transformInventory; // Items in this inventory will be transformed
+    final VirtualInventory ingredientInventory; // Items in this inventory will be consumed for the transformation
+    final VirtualInventory outputInventory; // Transformed items will be put in this inventory
 
     @Inject
     public ReforgeGuiWrapper(final ReforgePlugin plugin, final ReforgeConfig config) {
@@ -56,7 +61,7 @@ public class ReforgeGuiWrapper {
         });
 
         String[] layout = plugin.getConfig().getStringList("gui.layout").toArray(String[]::new);
-        SimpleItem background = new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE));
+        SimpleItem background = new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setDisplayName(translatable("menu.reforge.background.name")));
 
         this.gui = Gui.normal()
             .setStructure(layout)
@@ -70,37 +75,52 @@ public class ReforgeGuiWrapper {
 
     private class ReforgeItem extends AbstractItem {
         @Override public ItemProvider getItemProvider() {
-            return new ItemBuilder(Material.ANVIL).setDisplayName("Click to reforge!");
+            return new ItemBuilder(Material.ANVIL).setDisplayName(translatable("menu.reforge.start"));
         }
 
         @Override public void handleClick(final @NotNull ClickType clickType, final @NotNull Player player, final @NotNull InventoryClickEvent event) {
             if (clickType.isLeftClick()) {
-                // Check if the input inventory has item
+                // Check if the transform inventory has item
                 ItemStack item = transformInventory.getItem(0);
                 if (item == null) {
-                    player.sendMessage("No item in input inventory");
+                    plugin.getLang().of("msg_empty_transform_slot").send(player);
                     return;
                 }
 
                 // Check preconditions (e.g. ingredient items, economy currencies)
                 if (!config.canReforge(item)) {
-                    player.sendMessage("This item cannot be reforged");
+                    plugin.getLang().of("msg_none_reforge_recipe").resolver(Placeholder.component("item", item.displayName())).send(player);
                     return;
                 }
                 List<ReforgeIngredient<?>> ingredients = config.getIngredients(item);
                 for (final ReforgeIngredient<?> ingredient : ingredients) {
                     if (ingredient instanceof ItemStackIngredient ii) {
                         if (!ii.has(ingredientInventory)) {
-                            player.sendMessage("You don't have enough items to reforge it");
+                            plugin.getLang().of("msg_insufficient_items_ingredient").resolver(
+                                Placeholder.component("item",
+                                    Component.join(
+                                        JoinConfiguration.separator(plugin.getLang().of("msg_item_list_separator").locale(player).component()),
+                                        ingredients.stream()
+                                            .filter(ItemStackIngredient.class::isInstance)
+                                            .map(ItemStackIngredient.class::cast)
+                                            .map(i -> {
+                                                ItemStack itemStack = Objects.requireNonNull(i.item.createItemStack());
+                                                return plugin.getLang().of("msg_item_display_format").resolver(
+                                                    Placeholder.component("item", itemStack.displayName()),
+                                                    Placeholder.component("amount", Component.text(i.amount))
+                                                ).locale(player).component();
+                                            }).toList())
+                                )
+                            ).send(player);
                             return;
                         }
                     } else if (ingredient instanceof CurrencyIngredient ci) {
                         if (!ci.has(player.getUniqueId())) {
-                            player.sendMessage("You don't have enough money to reforge it");
+                            plugin.getLang().of("msg_insufficient_currency_ingredient").replace("currency", ci.fancyFormat()).send(player);
                             return;
                         }
                     } else {
-                        player.sendMessage("An internal error occurred on reforge");
+                        plugin.getLang().of("msg_internal_error").send(player);
                         plugin.getSLF4JLogger().error("An internal error occurred on reforge");
                         return;
                     }
@@ -116,7 +136,7 @@ public class ReforgeGuiWrapper {
                         return;
                 }
 
-                // Ingredients are consumed - refresh the inventory
+                // Ingredients are consumed - refresh the ingredient inventory
                 ingredientInventory.notifyWindows();
 
                 // Required ingredients are consumed - let's reforge it
@@ -128,7 +148,7 @@ public class ReforgeGuiWrapper {
                     return;
                 }
 
-                // Set contents of in/out inventories
+                // Set contents of transform/output inventories
                 transformInventory.setItemSilently(0, null);
                 outputInventory.setItemSilently(0, optional.get());
 

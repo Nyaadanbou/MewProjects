@@ -55,7 +55,7 @@ gemseconomy = { group = "me.xanium.gemseconomy", name = "api", version = "latest
 protocollib = { group = "com.comphenix.protocol", name = "ProtocolLib", version = "5.0.0" }
 connector-core = { group = "de.themoep.connectorplugin", name = "core", version = "1.5-SNAPSHOT" }
 connector-bukkit = { group = "de.themoep.connectorplugin", name = "bukkit", version = "1.5-SNAPSHOT" }
-nochestplus = { group = "fr.neatmonster", name = "nocheatplus", version = "3.16.1-SNAPSHOT" }
+nochestplus = { group = "fr.neatmonster", name = "nocheatplus", version = "3.16.2-SNAPSHOT" }
 worldguard = { group = "com.sk89q.worldguard", name = "worldguard-bukkit", version = "7.0.6" }
 worldedit = { group = "com.sk89q.worldedit", name = "worldedit-bukkit", version = "7.2.14" }
 citizens = { group = "net.citizensnpcs", name = "citizensapi", version = "2.0.29-SNAPSHOT" }

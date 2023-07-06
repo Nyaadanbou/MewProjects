@@ -50,6 +50,7 @@ public class ReforgeConfig {
                 for (final String rawIngredient : rawIngredients) {
                     if (rawIngredient.startsWith("$")) {
                         // It's an economy currency ingredient
+
                         Matcher matcher = currencyIngredientPattern.matcher(rawIngredient);
                         if (!matcher.matches()) {
                             plugin.getSLF4JLogger().error("Illegal currency ingredient: {}", rawIngredient);

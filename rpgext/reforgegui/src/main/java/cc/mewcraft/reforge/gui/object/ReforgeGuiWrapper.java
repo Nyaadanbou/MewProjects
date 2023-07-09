@@ -97,9 +97,13 @@ public class ReforgeGuiWrapper {
                     if (ingredient instanceof ItemStackIngredient ii) {
                         if (!ii.has(ingredientInventory)) {
                             plugin.getLang().of("msg_insufficient_items_ingredient").resolver(
-                                Placeholder.component("item",
+                                Placeholder.component(
+                                    // Pass in Tag name
+                                    "item",
                                     Component.join(
+                                        // Pass in separator
                                         JoinConfiguration.separator(plugin.getLang().of("msg_item_list_separator").locale(player).component()),
+                                        // Pass in item list
                                         ingredients.stream()
                                             .filter(ItemStackIngredient.class::isInstance)
                                             .map(ItemStackIngredient.class::cast)
@@ -109,7 +113,9 @@ public class ReforgeGuiWrapper {
                                                     Placeholder.component("item", itemStack.displayName()),
                                                     Placeholder.component("amount", Component.text(i.amount))
                                                 ).locale(player).component();
-                                            }).toList())
+                                            })
+                                            .toList()
+                                    )
                                 )
                             ).send(player);
                             return;

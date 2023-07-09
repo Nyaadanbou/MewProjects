@@ -23,7 +23,6 @@ public class PluginCommands {
 
     public void registerCommands() {
         // Prepare commands
-
         registry.prepareCommand(registry
             .commandBuilder("reforgegui")
             .literal("open")

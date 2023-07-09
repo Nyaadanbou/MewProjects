@@ -139,5 +139,5 @@ public interface MeowPlugin extends Plugin, TerminableConsumer {
      * @return the class loader
      */
     @NotNull
-    ClassLoader getClassloader();
+    ClassLoader getClazzLoader();
 }

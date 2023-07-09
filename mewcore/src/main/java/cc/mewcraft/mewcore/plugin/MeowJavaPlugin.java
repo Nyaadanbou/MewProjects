@@ -135,7 +135,7 @@ public class MeowJavaPlugin extends JavaPlugin implements MeowPlugin {
         }
     }
 
-    @Override public @NotNull ClassLoader getClassloader() {
+    @Override public @NotNull ClassLoader getClazzLoader() {
         return super.getClassLoader();
     }
 }

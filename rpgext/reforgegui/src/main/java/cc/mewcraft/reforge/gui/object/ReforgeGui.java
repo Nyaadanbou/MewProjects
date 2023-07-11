@@ -28,7 +28,7 @@ import java.util.Optional;
 
 import static cc.mewcraft.reforge.gui.util.AdventureUtils.translatable;
 
-public class ReforgeGuiWrapper {
+public class ReforgeGui {
     private final ReforgePlugin plugin;
     private final ReforgeConfig config;
     final Gui gui; // Backed GUI
@@ -37,7 +37,7 @@ public class ReforgeGuiWrapper {
     final VirtualInventory outputInventory; // Transformed items will be put in this inventory
 
     @Inject
-    public ReforgeGuiWrapper(final ReforgePlugin plugin, final ReforgeConfig config) {
+    public ReforgeGui(final ReforgePlugin plugin, final ReforgeConfig config) {
         this.plugin = plugin;
         this.config = config;
 

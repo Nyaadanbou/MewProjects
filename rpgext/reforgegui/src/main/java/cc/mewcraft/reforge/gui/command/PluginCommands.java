@@ -1,7 +1,7 @@
 package cc.mewcraft.reforge.gui.command;
 
 import cc.mewcraft.reforge.gui.ReforgePlugin;
-import cc.mewcraft.reforge.gui.object.ReforgeWindowWrapper;
+import cc.mewcraft.reforge.gui.object.ReforgeWindow;
 import cloud.commandframework.bukkit.parsers.PlayerArgument;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -29,7 +29,7 @@ public class PluginCommands {
             .argument(PlayerArgument.optional("target"))
             .permission("reforgegui.command.open")
             .handler(ctx -> {
-                ReforgeWindowWrapper window = plugin.getInjector().getInstance(ReforgeWindowWrapper.class);
+                ReforgeWindow window = plugin.getInjector().getInstance(ReforgeWindow.class);
                 if (ctx.contains("target")) {
                     Player target = ctx.get("target");
                     window.open(target);

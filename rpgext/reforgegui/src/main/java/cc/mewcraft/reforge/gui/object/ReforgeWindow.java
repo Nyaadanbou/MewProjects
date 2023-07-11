@@ -16,38 +16,38 @@ import java.util.Objects;
 
 import static cc.mewcraft.reforge.gui.util.AdventureUtils.translatable;
 
-public class ReforgeWindowWrapper {
+public class ReforgeWindow {
     private final ReforgePlugin plugin;
-    final ReforgeGuiWrapper guiWrapper;
-    final Window.Builder.Normal.Single window;
+    final ReforgeGui reforgeGui;
+    final Window.Builder.Normal.Single reforgeWindow;
 
     @Inject
-    public ReforgeWindowWrapper(final ReforgePlugin plugin, final ReforgeGuiWrapper guiWrapper) {
+    public ReforgeWindow(final ReforgePlugin plugin, final ReforgeGui reforgeGui) {
         this.plugin = plugin;
-        this.guiWrapper = guiWrapper;
+        this.reforgeGui = reforgeGui;
 
-        this.window = Window.single()
+        this.reforgeWindow = Window.single()
             .setTitle(translatable("menu.reforge.title"))
-            .setGui(guiWrapper.gui);
+            .setGui(reforgeGui.gui);
     }
 
     public void open(Player viewer) {
-        window.addOpenHandler(() -> {
+        reforgeWindow.addOpenHandler(() -> {
             // Play sound when opening
             @Subst("minecraft:entity.villager.work_weaponsmith")
             String string = Objects.requireNonNull(plugin.getConfig().getString("reforge_sound.start"));
             viewer.playSound(Sound.sound(Key.key(string), Sound.Source.MASTER, 1f, 1f));
         });
 
-        window.addCloseHandler(() -> {
+        reforgeWindow.addCloseHandler(() -> {
             // Return all items to player inventory if closing window
             PlayerInventory playerInventory = viewer.getInventory();
-            addItem(playerInventory, guiWrapper.transformInventory.getItems());
-            addItem(playerInventory, guiWrapper.ingredientInventory.getItems());
-            addItem(playerInventory, guiWrapper.outputInventory.getItems());
+            addItem(playerInventory, reforgeGui.transformInventory.getItems());
+            addItem(playerInventory, reforgeGui.ingredientInventory.getItems());
+            addItem(playerInventory, reforgeGui.outputInventory.getItems());
         });
 
-        window.open(viewer);
+        reforgeWindow.open(viewer);
     }
 
     private void addItem(@NotNull PlayerInventory playerInventory, @Nullable ItemStack @NotNull ... items) {

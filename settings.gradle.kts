@@ -21,6 +21,11 @@ include(":economy:velocity")
 include(":economy:mini")
 include(":economy:papi")
 
+include(":enchantgui")
+include(":enchantgui:api")
+include(":enchantgui:gui")
+include(":enchantgui:provider")
+
 include(":ibooks")
 include(":keepinv")
 include(":mewcore")

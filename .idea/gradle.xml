@@ -40,6 +40,10 @@
             <option value="$PROJECT_DIR$/economy/mini" />
             <option value="$PROJECT_DIR$/economy/papi" />
             <option value="$PROJECT_DIR$/economy/velocity" />
+            <option value="$PROJECT_DIR$/enchantgui" />
+            <option value="$PROJECT_DIR$/enchantgui/api" />
+            <option value="$PROJECT_DIR$/enchantgui/gui" />
+            <option value="$PROJECT_DIR$/enchantgui/provider" />
             <option value="$PROJECT_DIR$/ibooks" />
             <option value="$PROJECT_DIR$/keepinv" />
             <option value="$PROJECT_DIR$/mewcore" />

@@ -1,0 +1,48 @@
+# GUI 音效设置
+sound:
+  open: minecraft:item.book.page_turn
+  switch: block.enchantment_table.use
+  page_turn: minecraft:item.book.page_turn
+  test: block.enchantment_table.use
+
+# GUI 相关设置
+gui:
+  icon:
+    material: enchanted_book
+    name: <enchantment_display_name>
+    lore:
+      - <gray><enchantment_description>
+      - ''
+      - <#bcff9a>▪ <#ddecee>稀有度：<white><enchantment_rarity>
+      - <#bcff9a>▪ <#ddecee>适用于：<#bcff9a><enchantment_target_list>
+      - <#bcff9a>▪ <#ddecee>等级：<#bcff9a><enchantment_level_min> <color:#ddecee>-</color> <enchantment_level_max>
+      - ''
+      - <conflicts>
+      - <charging>
+      - <obtaining>
+      - ''
+      - <aqua>[*] <#a5ff9a>点击切换预览等级
+  lore:
+    conflict:
+      - <#ff9a9a>▪ <b>冲突
+      - <#ff9a9a>  <enchantment_conflict_list>
+    charging:
+      - <#d39aff>▪ <b>充能
+      - <#ddecee>  充能物品：<#d39aff><enchantment_charges_fuel_item>
+      - <#ddecee>  每次消耗：<#d39aff>-<enchantment_charges_consume_amount>⚡
+      - <#ddecee>  每次充能：<#d39aff>+<enchantment_charges_recharge_amount>⚡
+      - <#ddecee>  最大充能：<#d39aff><enchantment_charges_max_amount>⚡
+    obtaining:
+      - <#9af7ff>▪ <b>获取
+      - <#ddecee>  附魔台：<#9af7ff><enchantment_obtain_chance_enchanting>%
+      - <#ddecee>  村民交易：<#9af7ff><enchantment_obtain_chance_villager>%
+      - <#ddecee>  战利品箱：<#9af7ff><enchantment_obtain_chance_loot_generation>%
+      - <#ddecee>  钓鱼：<#9af7ff><enchantment_obtain_chance_fishing>%
+      - <#ddecee>  怪物：<#9af7ff><enchantment_obtain_chance_mob_spawning>%
+  layout:
+    - "# # # # # # # # #"
+    - "# x x x x x # i #"
+    - "# x x x x x # # #"
+    - "# x x x x x # s #"
+    - "# < # # # > # # #"
+    - "# # # # # # # # #"

@@ -8,19 +8,19 @@ dependencies:
   bootstrap: { }
   server:
     helper:
-      load: OMIT
+      load: BEFORE
       required: true
       join-classpath: true
     MewCore:
-      load: OMIT
+      load: BEFORE
       required: true
       join-classpath: true
     Reforge:
-      load: OMIT
+      load: BEFORE
       required: true
       join-classpath: true
     GemsEconomy:
-      load: OMIT
+      load: BEFORE
       required: true
       join-classpath: true
 

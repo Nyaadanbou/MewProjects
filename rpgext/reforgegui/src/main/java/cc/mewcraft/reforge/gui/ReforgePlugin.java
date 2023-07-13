@@ -11,6 +11,8 @@ import com.google.inject.ProvisionException;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import xyz.xenondevs.inventoryaccess.component.i18n.AdventureComponentLocalizer;
 import xyz.xenondevs.inventoryaccess.component.i18n.Languages;
+import xyz.xenondevs.invui.window.Window;
+import xyz.xenondevs.invui.window.WindowManager;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -55,7 +57,7 @@ public class ReforgePlugin extends MeowJavaPlugin {
         }
 
         // Add support of MiniMessage in InvUI localization config
-        AdventureComponentLocalizer.getInstance().setComponentCreator(string -> MiniMessage.miniMessage().deserialize(string));
+        AdventureComponentLocalizer.getInstance().setComponentCreator(MiniMessage.miniMessage()::deserialize);
 
         // Register commands
         try {
@@ -64,5 +66,10 @@ public class ReforgePlugin extends MeowJavaPlugin {
         } catch (ConfigurationException | ProvisionException e) {
             getSLF4JLogger().error("Failed to register commands", e);
         }
+    }
+
+    @Override protected void disable() {
+        getSLF4JLogger().info("Closing all windows...");
+        WindowManager.getInstance().getWindows().forEach(Window::close);
     }
 }

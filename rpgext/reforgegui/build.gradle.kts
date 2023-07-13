@@ -16,8 +16,10 @@ dependencies {
     // core libs
     compileOnly(project(":mewcore"))
     // libs embedded in core
-    compileOnly(libs.bundles.invui)
     compileOnly(libs.commons.io)
+
+    // libs to be shaded
+    implementation(libs.bundles.invui)
 
     // server api
     compileOnly(libs.server.paper)

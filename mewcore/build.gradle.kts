@@ -44,7 +44,6 @@ dependencies {
     runtimeOnly(libs.hikari)
     // GUIs
     runtimeOnly(libs.anvilgui)
-    runtimeOnly(libs.bundles.invui)
     // Configuration
     runtimeOnly(libs.configurate)
     runtimeOnly(libs.simplixstorage)

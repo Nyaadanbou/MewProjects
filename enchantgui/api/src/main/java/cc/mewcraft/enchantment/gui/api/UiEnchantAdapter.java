@@ -1,5 +1,7 @@
 package cc.mewcraft.enchantment.gui.api;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Represents an adapter than converts arbitrary enchantment type to {@link UiEnchant}.
  *
@@ -15,7 +17,7 @@ public interface UiEnchantAdapter<E, T> {
      */
     void initialize();
 
-    UiEnchant adaptEnchantment(E enchantment);
+    @NotNull UiEnchant adaptEnchantment(E enchantment);
 
-    UiEnchantTarget adaptEnchantmentTarget(T enchantmentTarget);
+    @NotNull UiEnchantTarget adaptEnchantmentTarget(T enchantmentTarget);
 }

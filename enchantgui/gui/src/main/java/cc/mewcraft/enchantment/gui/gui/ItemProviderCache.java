@@ -2,7 +2,6 @@ package cc.mewcraft.enchantment.gui.gui;
 
 import cc.mewcraft.enchantment.gui.api.ChargeableUiEnchant;
 import cc.mewcraft.enchantment.gui.api.UiEnchant;
-import cc.mewcraft.enchantment.gui.api.UiEnchantProvider;
 import cc.mewcraft.enchantment.gui.config.EnchantGuiSettings;
 import cc.mewcraft.enchantment.gui.util.AdventureUtils;
 import cc.mewcraft.enchantment.gui.util.LoreUtils;
@@ -13,14 +12,12 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import net.kyori.adventure.key.Key;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.ItemWrapper;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 
 import java.util.List;
-import java.util.function.Function;
 
 @Singleton
 public class ItemProviderCache {
@@ -70,12 +67,12 @@ public class ItemProviderCache {
 
                 // Lore that describes conflict
                 if (!key.conflict().isEmpty()) {
-                    Function<List<Key>, String> concatFunc = conflict -> conflict.stream()
-                        .map(UiEnchantProvider::getOrThrow)
-                        .map(UiEnchant::name)
-                        .reduce((e1, e2) -> e1 + ", " + e2)
-                        .orElse("");
-                    List<String> conflict = Lists.partition(key.conflict(), 3).stream().map(concatFunc).toList();
+                    List<String> conflict = Lists.partition(key.conflict(), 3).stream()
+                        .map(keyList -> keyList.stream()
+                            .map(UiEnchant::name)
+                            .reduce((e1, e2) -> e1 + ", " + e2)
+                            .orElseThrow()
+                        ).toList();
 
                     LoreUtils.replacePlaceholder("<conflicts>", loreFormat, settings.itemLoreFormat().conflicts());
                     LoreUtils.replacePlaceholder("<enchantment_conflict_list>", loreFormat, conflict);

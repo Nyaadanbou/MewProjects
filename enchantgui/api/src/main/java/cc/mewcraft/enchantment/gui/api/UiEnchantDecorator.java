@@ -59,7 +59,7 @@ public abstract class UiEnchantDecorator implements UiEnchant {
         return enchantment.mobSpawningChance();
     }
 
-    @Override public @NotNull List<Key> conflict() {
+    @Override public @NotNull List<@NotNull UiEnchant> conflict() {
         return enchantment.conflict();
     }
 

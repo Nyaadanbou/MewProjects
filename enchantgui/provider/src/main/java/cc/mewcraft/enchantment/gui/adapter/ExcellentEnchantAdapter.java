@@ -12,7 +12,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.NotNull;
 import su.nightexpress.excellentenchants.enchantment.EnchantRegistry;
 import su.nightexpress.excellentenchants.enchantment.impl.ExcellentEnchant;
@@ -21,8 +20,8 @@ import su.nightexpress.excellentenchants.enchantment.type.ObtainType;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Singleton
@@ -81,14 +80,8 @@ public class ExcellentEnchantAdapter implements UiEnchantAdapter<ExcellentEnchan
                 return enchant.getObtainChance(ObtainType.MOB_SPAWNING);
             }
 
-            @Override public @NotNull List<Key> conflict() {
-                return enchant.getConflicts().stream()
-                    .filter(UiEnchantProvider::containsKey)
-                    .map(c -> {
-                        @Subst("blast_mining")
-                        String value = c.toLowerCase(Locale.ROOT);
-                        return Key.key(Key.MINECRAFT_NAMESPACE, value);
-                    }).toList();
+            @Override public @NotNull List<@NotNull UiEnchant> conflict() {
+                return enchant.getConflicts().stream().map(UiEnchantProvider::get).filter(Objects::nonNull).toList();
             }
 
             @Override public boolean conflictsWith(final @NotNull Enchantment other) {
@@ -115,7 +108,6 @@ public class ExcellentEnchantAdapter implements UiEnchantAdapter<ExcellentEnchan
                 enchantment,
                 Optional.ofNullable(enchant.getChargesFuel().getItem().getItemMeta())
                     .map(ItemMeta::displayName)
-                    //.map(component -> component.style(Style.empty())) // remove all style
                     .map(miniMessage::serialize)
                     .orElseThrow(),
                 enchant::getChargesConsumeAmount,

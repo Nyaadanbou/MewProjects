@@ -2,7 +2,6 @@ package cc.mewcraft.enchantment.gui.api;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.key.Keyed;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -31,9 +30,9 @@ public interface UiEnchant extends Keyed /* Keyed is used to identify enchantmen
     // Notes: displayName and description vary depending on the enchantment level.
     // Hence, these two methods return a map where key is the enchantment level.
 
-    @NotNull Map<Integer, String> displayName();
+    @NotNull Map<@NotNull Integer, @NotNull String> displayName();
 
-    @NotNull Map<Integer, List<String>> description();
+    @NotNull Map<@NotNull Integer, @NotNull List<@NotNull String>> description();
 
     /**
      * Creates mappings to transform certain level to corresponding value.
@@ -42,7 +41,7 @@ public interface UiEnchant extends Keyed /* Keyed is used to identify enchantmen
      * @param <T>  the value type
      * @return a map containing all values of each level
      */
-    default <T> @NotNull Map<Integer, T> scaleMapper(@NotNull Function<Integer, T> func) {
+    default <T> @NotNull Map<@NotNull Integer, @NotNull T> scaleMapper(@NotNull Function<@NotNull Integer, @NotNull T> func) {
         Int2ObjectMap<T> int2ObjectArrayMap = new Int2ObjectArrayMap<>();
         IntStream.range(minimumLevel(), maximumLevel() + 1).forEachOrdered(t -> int2ObjectArrayMap.put(t, func.apply(t)));
         return int2ObjectArrayMap;
@@ -52,7 +51,7 @@ public interface UiEnchant extends Keyed /* Keyed is used to identify enchantmen
 
     boolean canEnchantment(@NotNull ItemStack item);
 
-    @NotNull List<UiEnchantTarget> enchantmentTargets();
+    @NotNull List<@NotNull UiEnchantTarget> enchantmentTargets();
 
     // --- Rarity
 
@@ -72,7 +71,7 @@ public interface UiEnchant extends Keyed /* Keyed is used to identify enchantmen
 
     // --- Conflicts
 
-    @NotNull List<Key> conflict();
+    @NotNull List<@NotNull UiEnchant> conflict();
 
     boolean conflictsWith(@NotNull Enchantment other);
 

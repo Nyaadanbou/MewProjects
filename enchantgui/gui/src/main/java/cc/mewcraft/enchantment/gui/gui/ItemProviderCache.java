@@ -21,7 +21,7 @@ import java.util.List;
 
 @Singleton
 public class ItemProviderCache {
-    private final LoadingCache<UiEnchant, ItemProvider[]> cache;
+    private final LoadingCache<UiEnchant, ItemProvider[]> itemProviderCache;
 
     private final EnchantGuiSettings settings;
     private final EnchantTargetTranslator targetTranslator;
@@ -31,16 +31,16 @@ public class ItemProviderCache {
         final EnchantGuiSettings settings,
         final EnchantTargetTranslator targetTranslator
     ) {
-        this.cache = CacheBuilder.newBuilder().build(new ItemCacheLoader());
         this.settings = settings;
         this.targetTranslator = targetTranslator;
+        this.itemProviderCache = CacheBuilder.newBuilder().build(new ItemProviderCacheLoader());
     }
 
     public ItemProvider[] get(UiEnchant key) {
-        return cache.getUnchecked(key);
+        return itemProviderCache.getUnchecked(key);
     }
 
-    private class ItemCacheLoader extends CacheLoader<UiEnchant, ItemProvider[]> {
+    private class ItemProviderCacheLoader extends CacheLoader<UiEnchant, ItemProvider[]> {
         @Override public ItemProvider @NotNull [] load(final @NotNull UiEnchant key) throws Exception {
             int index = 0; // array index
             int min = key.minimumLevel();
@@ -110,13 +110,13 @@ public class ItemProviderCache {
 
             return states;
         }
-    }
 
-    private void replaceOrRemove(String placeholder, List<String> dst, double chance) {
-        if (chance > 0) {
-            LoreUtils.replacePlaceholder(placeholder, dst, NumberUtil.format(chance));
-        } else {
-            LoreUtils.removePlaceholder(placeholder, dst, false);
+        private void replaceOrRemove(String placeholder, List<String> dst, double chance) {
+            if (chance > 0) {
+                LoreUtils.replacePlaceholder(placeholder, dst, NumberUtil.format(chance));
+            } else {
+                LoreUtils.removePlaceholder(placeholder, dst, false);
+            }
         }
     }
 }

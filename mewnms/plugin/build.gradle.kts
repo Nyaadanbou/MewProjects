@@ -11,6 +11,6 @@ dependencies {
     compileOnly(libs.server.paper)
 
     implementation(project(":mewnms:api"))
-    implementation(project(":mewnms:1_19_r3", configuration = "reobf"))
-    implementation(project(":mewnms:1_20_r1", configuration = "reobf"))
+    implementation(project(":mewnms:v1_19_r3", configuration = "reobf"))
+    implementation(project(":mewnms:v1_20_r1", configuration = "reobf"))
 }

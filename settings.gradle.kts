@@ -27,7 +27,9 @@ include(":enchantgui:gui")
 include(":enchantgui:provider")
 
 include(":ibooks")
+
 include(":keepinv")
+
 include(":mewcore")
 
 include(":mewnms")
@@ -39,10 +41,14 @@ include(":mewnms:v1_20_r1")
 include(":mewutils:base")
 include(":mewutils:plugin")
 
-include(":mewfishing")
+include(":mewfish")
+
 include(":mewhelp")
+
 include(":mmoext")
+
 include(":persistentserver")
+
 include(":pickaxepower")
 
 include(":proxychatbridge")
@@ -59,10 +65,15 @@ include(":rpgext:reforge")
 include(":rpgext:reforgegui")
 
 include(":townyext")
+
 include(":townyext:towny-board")
+
 include(":townyext:towny-bonus")
+
 include(":townyext:towny-link")
 include(":townyext:towny-link:api")
 include(":townyext:towny-link:plugin")
+
 include(":townyext:towny-origin")
+
 include(":townyext:towny-portal")

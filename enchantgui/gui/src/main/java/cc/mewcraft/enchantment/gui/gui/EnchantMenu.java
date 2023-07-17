@@ -15,7 +15,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import xyz.xenondevs.invui.animation.impl.RandomAnimation;
 import xyz.xenondevs.invui.gui.PagedGui;
+import xyz.xenondevs.invui.gui.SlotElement;
 import xyz.xenondevs.invui.gui.structure.Markers;
 import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
@@ -87,46 +89,51 @@ public class EnchantMenu {
     }
 
     private void setUpdateHandler(Player viewer) {
-        compatibilityCheckInventory.setPostUpdateHandler(event -> {
+        // Filter out all the enchantments that is applicable to the test item
+        compatibilityCheckInventory.setPostUpdateHandler(event -> filterEnchants(compatibilityCheckInventory, test -> {
+            viewer.playSound(settings.testSound());
+            plugin.getLang().of("msg_filter_out_applicable").resolver(Placeholder.component("item", test.displayName())).send(viewer);
+            return UiEnchantProvider.filter(test).map(itemFunction).toList();
+        }));
 
-            // Filter out all the enchantments that is applicable to the test item
+        // Filter out all the enchantments that present in the test item
+        enchantmentLookupInventory.setPostUpdateHandler(event -> filterEnchants(enchantmentLookupInventory, test -> {
+            viewer.playSound(settings.testSound());
+            plugin.getLang().of("msg_filter_out_current").resolver(Placeholder.component("item", test.displayName())).send(viewer);
 
-            ItemStack test = compatibilityCheckInventory.getItem(0);
-            List<Item> content;
-            if (test != null) {
-                viewer.playSound(settings.testSound());
-                plugin.getLang().of("msg_filter_out_applicable").resolver(Placeholder.component("item", test.displayName())).send(viewer);
-                content = UiEnchantProvider.filter(test).map(itemFunction).toList();
+            Set<Key> enchantments;
+            ItemMeta itemMeta = test.getItemMeta();
+            if (itemMeta instanceof EnchantmentStorageMeta storageMeta) {
+                enchantments = storageMeta.getStoredEnchants().keySet().stream().map(Enchantment::key).collect(Collectors.toSet());
             } else {
-                content = UiEnchantProvider.all().map(itemFunction).toList();
+                enchantments = itemMeta.getEnchants().keySet().stream().map(Enchantment::key).collect(Collectors.toSet());
             }
-            gui.setContent(content);
-        });
 
-        enchantmentLookupInventory.setPostUpdateHandler(event -> {
-
-            // Filter out all the enchantments that present in the test item
-
-            ItemStack test = enchantmentLookupInventory.getItem(0);
-            List<Item> content;
-            if (test != null) {
-                viewer.playSound(settings.testSound());
-                plugin.getLang().of("msg_filter_out_current").resolver(Placeholder.component("item", test.displayName())).send(viewer);
-                ItemMeta itemMeta = test.getItemMeta();
-                Set<Key> enchantments = (itemMeta instanceof EnchantmentStorageMeta storageMeta)
-                    ? storageMeta.getStoredEnchants().keySet().stream().map(Enchantment::key).collect(Collectors.toSet())
-                    : itemMeta.getEnchants().keySet().stream().map(Enchantment::key).collect(Collectors.toSet());
-                content = UiEnchantProvider.filter(enchant -> enchantments.contains(enchant.key())).map(itemFunction).toList();
-            } else {
-                content = UiEnchantProvider.all().map(itemFunction).toList();
-            }
-            gui.setContent(content);
-        });
+            return UiEnchantProvider.filter(enchant -> enchantments.contains(enchant.key())).map(itemFunction).toList();
+        }));
     }
 
     private void returnItems(final @NotNull Inventory inventory, final @NotNull Player player) {
         for (final ItemStack item : inventory.getUnsafeItems()) {
             if (item != null) player.getInventory().addItem(item); // must filter out null elements
         }
+    }
+
+    private void filterEnchants(final VirtualInventory inventory, final Function<ItemStack, List<Item>> action) {
+        ItemStack test = inventory.getItem(0);
+
+        List<Item> content;
+        if (test != null) {
+            content = action.apply(test);
+        } else {
+            content = UiEnchantProvider.all().map(itemFunction).toList();
+        }
+
+        gui.setContent(content);
+
+        if (test != null) gui.playAnimation(
+            new RandomAnimation(1, false),
+            it -> (it instanceof SlotElement.ItemSlotElement element) && (element.getItem() instanceof PreviewItem)
+        );
     }
 }

@@ -13,14 +13,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
+import xyz.xenondevs.invui.window.Window;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,16 +31,19 @@ import java.util.Optional;
 
 import static cc.mewcraft.reforge.gui.util.AdventureUtils.translatable;
 
-public class ReforgeGui {
+public class ReforgeMenu {
     private final ReforgePlugin plugin;
     private final ReforgeConfig config;
+
     final Gui gui; // Backed GUI
+    final Window.Builder.Normal.Single window;
+
     final VirtualInventory transformInventory; // Items in this inventory will be transformed
     final VirtualInventory ingredientInventory; // Items in this inventory will be consumed for the transformation
     final VirtualInventory outputInventory; // Transformed items will be put in this inventory
 
     @Inject
-    public ReforgeGui(final ReforgePlugin plugin, final ReforgeConfig config) {
+    public ReforgeMenu(final ReforgePlugin plugin, final ReforgeConfig config) {
         this.plugin = plugin;
         this.config = config;
 
@@ -71,6 +77,33 @@ public class ReforgeGui {
             .addIngredient('o', outputInventory)
             .addIngredient('c', new ReforgeItem())
             .build();
+
+        this.window = Window.single()
+            .setTitle(translatable("menu.reforge.title"))
+            .setGui(gui);
+    }
+
+    public void open(Player viewer) {
+        window.addOpenHandler(() -> {
+            // Play sound when opening
+            @Subst("minecraft:entity.villager.work_weaponsmith")
+            String string = Objects.requireNonNull(plugin.getConfig().getString("reforge_sound.start"));
+            viewer.playSound(Sound.sound(Key.key(string), Sound.Source.MASTER, 1f, 1f));
+        });
+
+        window.addCloseHandler(() -> {
+            // Return all items to player inventory if closing window
+            PlayerInventory playerInventory = viewer.getInventory();
+            returnItems(playerInventory, transformInventory.getItems());
+            returnItems(playerInventory, ingredientInventory.getItems());
+            returnItems(playerInventory, outputInventory.getItems());
+        });
+
+        window.open(viewer);
+    }
+
+    private void returnItems(@NotNull PlayerInventory playerInventory, @Nullable ItemStack @NotNull ... items) {
+        for (final ItemStack item : items) if (item != null) playerInventory.addItem(item);
     }
 
     private class ReforgeItem extends AbstractItem {

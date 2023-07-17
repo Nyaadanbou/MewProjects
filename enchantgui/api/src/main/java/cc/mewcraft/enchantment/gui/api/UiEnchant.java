@@ -71,6 +71,15 @@ public interface UiEnchant extends Keyed /* Keyed is used to identify enchantmen
 
     // --- Conflicts
 
+    /**
+     * Returns a list of non-null enchants that conflict with this enchant.
+     * <p>
+     * The enchants that exists in the configuration of backed enchant plugin
+     * <b>but not</b> exists in {@link UiEnchantProvider} will be excluded
+     * from the returned list.
+     *
+     * @return a list of non-null enchants that conflict with this enchant
+     */
     @NotNull List<@NotNull UiEnchant> conflict();
 
     boolean conflictsWith(@NotNull Enchantment other);

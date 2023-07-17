@@ -93,7 +93,7 @@ public class EnchantMenu {
         compatibilityCheckInventory.setPostUpdateHandler(event -> filterEnchants(compatibilityCheckInventory, test -> {
             viewer.playSound(settings.testSound());
             plugin.getLang().of("msg_filter_out_applicable").resolver(Placeholder.component("item", test.displayName())).send(viewer);
-            return UiEnchantProvider.filter(test).map(itemFunction).toList();
+            return UiEnchantProvider.filter(enchant -> enchant.canEnchantment(test)).map(itemFunction).toList();
         }));
 
         // Filter out all the enchantments that present in the test item

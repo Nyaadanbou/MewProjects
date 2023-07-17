@@ -1,9 +1,9 @@
 package cc.mewcraft.enchantment.gui;
 
-import cc.mewcraft.enchantment.gui.adapter.ExcellentEnchantAdapter;
+import cc.mewcraft.enchantment.gui.api.UiEnchantPlugin;
+import cc.mewcraft.enchantment.gui.api.UiEnchantProvider;
 import cc.mewcraft.enchantment.gui.command.PluginCommands;
 import cc.mewcraft.mewcore.message.Translations;
-import cc.mewcraft.mewcore.plugin.MeowJavaPlugin;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -14,9 +14,10 @@ import xyz.xenondevs.invui.window.Window;
 import xyz.xenondevs.invui.window.WindowManager;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 
-public class EnchantGuiPlugin extends MeowJavaPlugin {
+public class EnchantGuiPlugin extends UiEnchantPlugin {
     private Injector injector;
     private Translations translations;
 
@@ -35,6 +36,7 @@ public class EnchantGuiPlugin extends MeowJavaPlugin {
 
         injector = Guice.createInjector(new AbstractModule() {
             @Override protected void configure() {
+                bind(UiEnchantPlugin.class).toInstance(EnchantGuiPlugin.this);
                 bind(EnchantGuiPlugin.class).toInstance(EnchantGuiPlugin.this);
                 bind(Translations.class).toProvider(() -> new Translations(EnchantGuiPlugin.this, "lang/message"));
             }
@@ -61,10 +63,11 @@ public class EnchantGuiPlugin extends MeowJavaPlugin {
             getSLF4JLogger().error("Failed to initialize commands", e);
         }
 
-        if (isPluginPresent("ExcellentEnchants")) {
-            injector.getInstance(ExcellentEnchantAdapter.class).initialize();
-        } else {
-            getSLF4JLogger().error("There is no UiEnchant adapter available!");
+        // Initialize UiEnchant providers
+        try {
+            UiEnchantProvider.initialize(this);
+        } catch (IOException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            getSLF4JLogger().error("Failed to initialize UiEnchantProvider", e);
         }
     }
 

@@ -3,9 +3,11 @@ package cc.mewcraft.enchantment.gui.adapter;
 import cc.mewcraft.enchantment.gui.api.ChargeableUiEnchant;
 import cc.mewcraft.enchantment.gui.api.UiEnchant;
 import cc.mewcraft.enchantment.gui.api.UiEnchantAdapter;
+import cc.mewcraft.enchantment.gui.api.UiEnchantPlugin;
 import cc.mewcraft.enchantment.gui.api.UiEnchantProvider;
 import cc.mewcraft.enchantment.gui.api.UiEnchantRarity;
 import cc.mewcraft.enchantment.gui.api.UiEnchantTarget;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -26,15 +28,30 @@ import java.util.Optional;
 
 @Singleton
 public class ExcellentEnchantAdapter implements UiEnchantAdapter<ExcellentEnchant, FitItemType> {
+    private final UiEnchantPlugin plugin;
+
+    @Inject
+    public ExcellentEnchantAdapter(UiEnchantPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public void initialize() {
+        if (!canInitialize()) {
+            return;
+        }
+
         for (final ExcellentEnchant enchant : EnchantRegistry.getRegistered()) {
             UiEnchantProvider.register(adaptEnchantment(enchant));
         }
     }
 
+    @Override public boolean canInitialize() {
+        return plugin.isPluginPresent("ExcellentEnchants");
+    }
+
     @Override
-    public UiEnchant adaptEnchantment(ExcellentEnchant enchant) {
+    public @NotNull UiEnchant adaptEnchantment(@NotNull ExcellentEnchant enchant) {
         UiEnchant enchantment = new UiEnchant() {
             @Override public @NotNull String name() {
                 return enchant.getDisplayName();
@@ -120,7 +137,7 @@ public class ExcellentEnchantAdapter implements UiEnchantAdapter<ExcellentEnchan
     }
 
     @Override
-    public UiEnchantTarget adaptEnchantmentTarget(final FitItemType enchantmentTarget) {
+    public @NotNull UiEnchantTarget adaptEnchantmentTarget(final @NotNull FitItemType enchantmentTarget) {
         return switch (enchantmentTarget) {
             case UNIVERSAL -> UiEnchantTarget.ALL;
             case HELMET -> UiEnchantTarget.HELMET;

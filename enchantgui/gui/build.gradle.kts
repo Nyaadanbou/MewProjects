@@ -8,7 +8,7 @@ project.ext.set("name", "EnchantGui")
 dependencies {
     // dependent module
     implementation(project(":enchantgui:api"))
-    implementation(project(":enchantgui:provider"))
+    runtimeOnly(project(":enchantgui:provider"))
 
     // the server api
     compileOnly(libs.server.paper)

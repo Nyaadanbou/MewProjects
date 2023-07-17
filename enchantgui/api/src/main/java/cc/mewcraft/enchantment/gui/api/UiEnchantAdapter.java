@@ -4,6 +4,13 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents an adapter than converts arbitrary enchantment type to {@link UiEnchant}.
+ * <p>
+ * All implementations should be put in the package: cc.mewcraft.enchantment.gui.adapter.
+ * <p>
+ * The following instances will be injected upon instance construction of this class:
+ * <ul>
+ *     <li>{@link UiEnchantPlugin}</li>
+ * </ul>
  *
  * @param <E> enchantment type
  * @param <T> enchantment target type
@@ -17,7 +24,14 @@ public interface UiEnchantAdapter<E, T> {
      */
     void initialize();
 
-    @NotNull UiEnchant adaptEnchantment(E enchantment);
+    /**
+     * Checks whether this adapter can be initialized or not.
+     *
+     * @return true if this adapter can be initialized; false otherwise
+     */
+    boolean canInitialize();
 
-    @NotNull UiEnchantTarget adaptEnchantmentTarget(T enchantmentTarget);
+    @NotNull UiEnchant adaptEnchantment(@NotNull E enchantment);
+
+    @NotNull UiEnchantTarget adaptEnchantmentTarget(@NotNull T enchantmentTarget);
 }

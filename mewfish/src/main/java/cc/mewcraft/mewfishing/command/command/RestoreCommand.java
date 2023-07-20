@@ -1,7 +1,7 @@
 package cc.mewcraft.mewfishing.command.command;
 
 import cc.mewcraft.mewcore.cooldown.StackableCooldown;
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import cc.mewcraft.mewfishing.command.AbstractCommand;
 import cc.mewcraft.mewfishing.command.CommandManager;
 import cloud.commandframework.Command;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class RestoreCommand extends AbstractCommand {
-    public RestoreCommand(final MewFishing plugin, final CommandManager manager) {
+    public RestoreCommand(final MewFish plugin, final CommandManager manager) {
         super(plugin, manager);
     }
 

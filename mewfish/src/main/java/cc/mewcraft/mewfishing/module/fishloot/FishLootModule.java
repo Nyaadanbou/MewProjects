@@ -1,6 +1,6 @@
 package cc.mewcraft.mewfishing.module.fishloot;
 
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import cc.mewcraft.mewfishing.loot.LootTableManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -11,14 +11,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class FishLootModule implements TerminableModule {
     private final Injector injector;
-    private final MewFishing plugin;
+    private final MewFish plugin;
     private final LootTableManager lootTableManager;
 
-    public FishLootModule(final MewFishing plugin) {
+    public FishLootModule(final MewFish plugin) {
         this.plugin = plugin;
         this.injector = Guice.createInjector(new AbstractModule() {
             @Override protected void configure() {
-                bind(MewFishing.class).toInstance(plugin);
+                bind(MewFish.class).toInstance(plugin);
             }
         });
 

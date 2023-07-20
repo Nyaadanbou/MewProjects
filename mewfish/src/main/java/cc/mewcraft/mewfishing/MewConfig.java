@@ -4,9 +4,9 @@ import java.util.List;
 
 public class MewConfig {
 
-    private final MewFishing plugin;
+    private final MewFish plugin;
 
-    public MewConfig(MewFishing plugin) {
+    public MewConfig(MewFish plugin) {
         this.plugin = plugin;
     }
 

@@ -31,6 +31,7 @@ simplixstorage = { group = "com.github.simplix-softworks", name = "simplixstorag
 invui-core = { group = "xyz.xenondevs.invui", name = "invui-core", version.ref = "invui" }
 invui-invaccess = { group = "xyz.xenondevs.invui", name = "inventory-access", version.ref = "invui" }
 invui-invaccess-r13 = { group = "xyz.xenondevs.invui", name = "inventory-access-r13", version.ref = "invui" }
+invui-invaccess-r14 = { group = "xyz.xenondevs.invui", name = "inventory-access-r14", version.ref = "invui" }
 commons-io = { group = "commons-io", name = "commons-io", version = "latest.release" }
 
 # deps that present as other plugins
@@ -79,7 +80,7 @@ junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version =
 
 cmds = ["cloud-paper", "cloud-minecraft-extras"]
 checker = ["checker-qual", "apiguardian-api", "annotations"]
-invui = [ "invui-core", "invui-invaccess", "invui-invaccess-r13" ]
+invui = [ "invui-core", "invui-invaccess", "invui-invaccess-r13", "invui-invaccess-r14" ]
 
 [plugins]
 

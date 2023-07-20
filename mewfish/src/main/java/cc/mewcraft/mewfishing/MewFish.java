@@ -9,9 +9,9 @@ import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
 import java.util.logging.Level;
 
-public final class MewFishing extends ExtendedJavaPlugin {
+public final class MewFish extends ExtendedJavaPlugin {
 
-    private static MewFishing p;
+    private static MewFish p;
 
     // internal
     private MewConfig config;
@@ -22,7 +22,7 @@ public final class MewFishing extends ExtendedJavaPlugin {
     private AutoFishModule autoFish;
     private FishLootModule fishLoot;
 
-    public static MewFishing instance() {
+    public static MewFish instance() {
         return p;
     }
 

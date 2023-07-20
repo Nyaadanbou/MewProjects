@@ -2,7 +2,7 @@ package cc.mewcraft.mewfishing.module.fishpower;
 
 import cc.mewcraft.mewcore.progressbar.ProgressbarDisplay;
 import cc.mewcraft.mewcore.progressbar.ProgressbarGenerator;
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -11,14 +11,14 @@ import me.lucko.helper.terminable.module.TerminableModule;
 import org.jetbrains.annotations.NotNull;
 
 public class FishPowerModule implements TerminableModule {
-    private final MewFishing plugin;
+    private final MewFish plugin;
     private final Injector injector;
 
-    public FishPowerModule(final MewFishing plugin) {
+    public FishPowerModule(final MewFish plugin) {
         this.plugin = plugin;
         this.injector = Guice.createInjector(new AbstractModule() {
             @Override protected void configure() {
-                bind(MewFishing.class).toInstance(plugin);
+                bind(MewFish.class).toInstance(plugin);
                 bind(ProgressbarDisplay.class).toInstance(new ProgressbarDisplay(
                     plugin.config().progressbarStayTime(),
                     ProgressbarGenerator.Builder.builder()

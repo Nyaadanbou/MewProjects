@@ -1,7 +1,7 @@
 package cc.mewcraft.mewfishing.loot;
 
 import cc.mewcraft.mewcore.util.UtilFile;
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import cc.mewcraft.mewfishing.event.FishLootEvent;
 import cc.mewcraft.mewfishing.loot.api.Conditioned;
 import cc.mewcraft.mewfishing.loot.api.Loot;
@@ -30,12 +30,12 @@ import java.util.logging.Level;
 @DefaultQualifier(NonNull.class)
 public class LootTableManager {
 
-    private final MewFishing plugin;
+    private final MewFish plugin;
     private final Map<String, LootTable> tableMap;
     private final RandomCollection<LootTable> tableRandom;
 
     @Inject
-    public LootTableManager(final MewFishing plugin) {
+    public LootTableManager(final MewFish plugin) {
         this.plugin = plugin;
         this.tableMap = new HashMap<>();
         this.tableRandom = new RandomCollection<>();

@@ -1,7 +1,7 @@
-name: MewFishing
+name: MewFish
 version: ${version}
 description: ${description}
-main: cc.mewcraft.mewfishing.MewFishing
+main: cc.mewcraft.mewfishing.MewFish
 api-version: 1.19
 authors: [ Nailm ]
 dependencies:

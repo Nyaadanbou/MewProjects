@@ -1,7 +1,7 @@
 package cc.mewcraft.mewfishing.module.autofish;
 
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import cc.mewcraft.mewfishing.event.AutoFishEvent;
 import cc.mewcraft.mewfishing.util.PlayerActions;
 import com.google.inject.Inject;
@@ -13,11 +13,11 @@ import org.bukkit.event.player.PlayerFishEvent;
 
 @Singleton
 public class FishingListener implements AutoCloseableListener {
-    private final MewFishing plugin;
+    private final MewFish plugin;
 
     @Inject
     public FishingListener(
-        final MewFishing plugin
+        final MewFish plugin
     ) {
         this.plugin = plugin;
     }

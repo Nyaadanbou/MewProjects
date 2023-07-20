@@ -4,7 +4,7 @@ import cc.mewcraft.mewcore.cooldown.StackableCooldown;
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
 import cc.mewcraft.mewcore.progressbar.ProgressbarDisplay;
 import cc.mewcraft.mewcore.util.ServerOriginUtils;
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import cc.mewcraft.mewfishing.event.AutoFishEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -29,13 +29,13 @@ public class FishingListener implements AutoCloseableListener {
     private final int WARN_INTERVAL_SEC = 1;
     private final int HELP_INTERVAL_SEC = 300;
 
-    private final MewFishing plugin;
+    private final MewFish plugin;
     private final CooldownManager cooldownManager;
     private final ProgressbarDisplay progressbarDisplay;
 
     @Inject
     public FishingListener(
-        final MewFishing plugin,
+        final MewFish plugin,
         final CooldownManager cooldownManager,
         final ProgressbarDisplay progressbarDisplay
     ) {

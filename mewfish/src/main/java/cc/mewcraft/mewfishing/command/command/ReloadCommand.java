@@ -1,6 +1,6 @@
 package cc.mewcraft.mewfishing.command.command;
 
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import cc.mewcraft.mewfishing.command.AbstractCommand;
 import cc.mewcraft.mewfishing.command.CommandManager;
 import cloud.commandframework.Command;
@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 public class ReloadCommand extends AbstractCommand {
-    public ReloadCommand(final MewFishing plugin, final CommandManager manager) {
+    public ReloadCommand(final MewFish plugin, final CommandManager manager) {
         super(plugin, manager);
     }
 

@@ -2,7 +2,7 @@ package cc.mewcraft.mewfishing.module.fishpower;
 
 import cc.mewcraft.mewcore.cooldown.StackableCooldown;
 import cc.mewcraft.mewcore.cooldown.StackableCooldownMap;
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -30,7 +30,7 @@ public class CooldownManager {
      */
     private final StackableCooldownMap<UUID> cooldownMap;
 
-    @Inject CooldownManager(final MewFishing plugin) {
+    @Inject CooldownManager(final MewFish plugin) {
         LoadingCache<UUID, Long> powerCache = CacheBuilder.newBuilder() // Used to get the maximum stacks of cooldown
             .expireAfterWrite(Duration.of(plugin.config().powerTimeout(), ChronoUnit.SECONDS))
             .build(CacheLoader.from(k -> {

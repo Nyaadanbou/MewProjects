@@ -1,7 +1,7 @@
 package cc.mewcraft.mewfishing.module.fishloot;
 
 import cc.mewcraft.mewcore.listener.AutoCloseableListener;
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import cc.mewcraft.mewfishing.event.FishLootEvent;
 import cc.mewcraft.mewfishing.loot.LootTableManager;
 import cc.mewcraft.mewfishing.loot.api.Loot;
@@ -16,12 +16,12 @@ import java.util.Collection;
 
 @Singleton
 public class FishingListener implements AutoCloseableListener {
-    private final MewFishing plugin;
+    private final MewFish plugin;
     private final LootTableManager lootManager;
 
     @Inject
     public FishingListener(
-        final MewFishing plugin,
+        final MewFish plugin,
         final LootTableManager lootManager
     ) {
         this.plugin = plugin;

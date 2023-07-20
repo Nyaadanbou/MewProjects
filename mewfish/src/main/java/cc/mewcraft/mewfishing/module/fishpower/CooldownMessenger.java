@@ -1,7 +1,7 @@
 package cc.mewcraft.mewfishing.module.fishpower;
 
 import cc.mewcraft.mewcore.cooldown.StackableCooldown;
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.lucko.helper.Schedulers;
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 public class CooldownMessenger implements Listener, Terminable {
 
-    private final MewFishing plugin;
+    private final MewFish plugin;
     private final Channel<CooldownMessage> channel;
     private final MappedChannelReceiver<CooldownMessage, UUID, Long> store;
     private final CooldownManager cooldownManager;
@@ -36,7 +36,7 @@ public class CooldownMessenger implements Listener, Terminable {
     private record CooldownMessage(@NotNull UUID uuid, long lastTested) {}
 
     @Inject CooldownMessenger(
-        final @NotNull MewFishing plugin,
+        final @NotNull MewFish plugin,
         final @NotNull CooldownManager cooldownManager
     ) {
         this.plugin = plugin;

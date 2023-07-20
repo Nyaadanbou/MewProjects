@@ -1,6 +1,6 @@
 package cc.mewcraft.mewfishing.command;
 
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import cc.mewcraft.mewfishing.command.command.*;
 import cloud.commandframework.Command;
 import cloud.commandframework.brigadier.CloudBrigadierManager;
@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 public class CommandManager extends PaperCommandManager<CommandSender> {
 
-    public CommandManager(MewFishing plugin) throws Exception {
+    public CommandManager(MewFish plugin) throws Exception {
         super(
             plugin,
             CommandExecutionCoordinator.simpleCoordinator(),

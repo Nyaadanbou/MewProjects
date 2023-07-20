@@ -1,13 +1,13 @@
 package cc.mewcraft.mewfishing.command;
 
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 
 public abstract class AbstractCommand {
 
-    protected final MewFishing plugin;
+    protected final MewFish plugin;
     protected final CommandManager manager;
 
-    public AbstractCommand(MewFishing plugin, CommandManager manager) {
+    public AbstractCommand(MewFish plugin, CommandManager manager) {
         this.plugin = plugin;
         this.manager = manager;
     }

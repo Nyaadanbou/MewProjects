@@ -1,6 +1,6 @@
 package cc.mewcraft.mewfishing.command.command;
 
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import cc.mewcraft.mewfishing.command.AbstractCommand;
 import cc.mewcraft.mewfishing.command.CommandManager;
 import cc.mewcraft.nms.MewNMSProvider;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class LootCommand extends AbstractCommand {
-    public LootCommand(final MewFishing plugin, final CommandManager manager) {
+    public LootCommand(final MewFish plugin, final CommandManager manager) {
         super(plugin, manager);
     }
 

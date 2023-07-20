@@ -1,6 +1,6 @@
 package cc.mewcraft.mewfishing.loot.impl.loot;
 
-import cc.mewcraft.mewfishing.MewFishing;
+import cc.mewcraft.mewfishing.MewFish;
 import cc.mewcraft.mewfishing.event.FishLootEvent;
 import cc.mewcraft.mewfishing.loot.api.Conditioned;
 import cc.mewcraft.mewfishing.loot.api.Loot;
@@ -29,7 +29,7 @@ public class TableLoot extends AbstractLoot<LootTable> {
     }
 
     @Override public void apply(final FishLootEvent event) {
-        @Nullable LootTable table = MewFishing.instance().fishingLootModule().getLootTableManager().tables().get(tableName);
+        @Nullable LootTable table = MewFish.instance().fishingLootModule().getLootTableManager().tables().get(tableName);
         Objects.requireNonNull(table, "Failed to load nested table: " + tableName);
         for (int i = 0; i < getAmount(); i++) {
             Collection<Loot> loots = table.drawMatched(event);

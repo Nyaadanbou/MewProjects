@@ -43,7 +43,10 @@ public class PacketListener implements Terminable {
             }
         });
 
-        manager.addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.SET_SLOT) {
+        // try to write the lore at the very bottom by setting to HIGHEST
+        ListenerPriority priority = ListenerPriority.HIGHEST;
+
+        manager.addPacketListener(new PacketAdapter(plugin, priority, PacketType.Play.Server.SET_SLOT) {
             // write lore when the server sets an item in a slot
             @Override
             public void onPacketSending(PacketEvent event) {
@@ -54,7 +57,7 @@ public class PacketListener implements Terminable {
             }
         });
 
-        manager.addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.WINDOW_ITEMS) {
+        manager.addPacketListener(new PacketAdapter(plugin, priority, PacketType.Play.Server.WINDOW_ITEMS) {
             // write lore when the server sets a window of items
             @Override
             public void onPacketSending(PacketEvent event) {
@@ -65,7 +68,7 @@ public class PacketListener implements Terminable {
             }
         });
 
-        manager.addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.OPEN_WINDOW_MERCHANT) {
+        manager.addPacketListener(new PacketAdapter(plugin, priority, PacketType.Play.Server.OPEN_WINDOW_MERCHANT) {
             // write lore when the server sends the merchant recipes
             @Override
             public void onPacketSending(PacketEvent event) {

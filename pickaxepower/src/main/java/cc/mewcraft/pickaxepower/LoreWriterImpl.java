@@ -43,7 +43,7 @@ public class LoreWriterImpl implements LoreWriter {
 
         ItemMeta itemMeta = Objects.requireNonNull(item.getItemMeta());
         List<Component> lore = itemMeta.hasLore() ? Objects.requireNonNull(itemMeta.lore()) : new ArrayList<>();
-        lore.add(0, powerText);
+        lore.add(powerText); // add to the bottom line
         PDCUtils.set(itemMeta, LORE_SIZE_KEY, 1);
         itemMeta.lore(lore);
         item.setItemMeta(itemMeta);
@@ -61,8 +61,8 @@ public class LoreWriterImpl implements LoreWriter {
             return item;
 
         List<Component> lore = itemMeta.hasLore() ? Objects.requireNonNull(itemMeta.lore()) : new ArrayList<>();
-        lore.remove(0);
-        itemMeta.lore(lore);
+        lore.remove(lore.size() - 1);
+        itemMeta.lore(lore); // remove the bottom line
         item.setItemMeta(itemMeta);
         return item;
     }

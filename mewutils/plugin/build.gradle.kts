@@ -8,7 +8,7 @@ plugins {
 project.ext.set("name", "MewUtils")
 
 group = "cc.mewcraft"
-version = "1.23.1"
+version = "1.24.0"
 description = "A plugin consisting of many small features"
 
 dependencies {

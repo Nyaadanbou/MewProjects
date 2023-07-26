@@ -1,2 +1,1 @@
-debug: 'PlayerPortalEvent 已取消 (玩家: <player>).'
-cancelled: '<gray>监测到该地狱门的目的地在世界边界外,为了您的安全本次传送已取消.'
+world_scale_tips: 您穿过了传送门。出发世界与目的世界的坐标缩放比例为 <scale>

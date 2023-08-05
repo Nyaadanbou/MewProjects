@@ -66,7 +66,7 @@ public class EnchantGuiPlugin extends UiEnchantPlugin {
         // Initialize UiEnchant providers
         try {
             UiEnchantProvider.initialize(this);
-        } catch (IOException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+        } catch (Exception e) { // catch all exceptions to avoid this plugin failing to be enabled
             getSLF4JLogger().error("Failed to initialize UiEnchantProvider", e);
         }
     }

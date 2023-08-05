@@ -10,6 +10,7 @@ import cc.mewcraft.enchantment.gui.api.UiEnchantTarget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -123,8 +124,12 @@ public class ExcellentEnchantAdapter implements UiEnchantAdapter<ExcellentEnchan
 
             return new ChargeableUiEnchant(
                 enchantment,
-                Optional.ofNullable(enchant.getChargesFuel().getItem().getItemMeta())
-                    .map(ItemMeta::displayName)
+                Optional.of(enchant.getChargesFuel().getItem())
+                    .map(item -> {
+                        ItemMeta itemMeta = item.getItemMeta();
+                        // display name may be null
+                        return itemMeta.hasDisplayName() ? itemMeta.displayName() : Component.translatable(item);
+                    })
                     .map(miniMessage::serialize)
                     .orElseThrow(),
                 enchant::getChargesConsumeAmount,

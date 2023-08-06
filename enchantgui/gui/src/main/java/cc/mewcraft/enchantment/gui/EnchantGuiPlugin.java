@@ -10,11 +10,8 @@ import com.google.inject.Injector;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import xyz.xenondevs.inventoryaccess.component.i18n.AdventureComponentLocalizer;
 import xyz.xenondevs.inventoryaccess.component.i18n.Languages;
-import xyz.xenondevs.invui.window.Window;
-import xyz.xenondevs.invui.window.WindowManager;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 
 public class EnchantGuiPlugin extends UiEnchantPlugin {
@@ -69,10 +66,5 @@ public class EnchantGuiPlugin extends UiEnchantPlugin {
         } catch (Exception e) { // catch all exceptions to avoid this plugin failing to be enabled
             getSLF4JLogger().error("Failed to initialize UiEnchantProvider", e);
         }
-    }
-
-    @Override protected void disable() {
-        getSLF4JLogger().info("Closing all windows...");
-        WindowManager.getInstance().getWindows().forEach(Window::close);
     }
 }

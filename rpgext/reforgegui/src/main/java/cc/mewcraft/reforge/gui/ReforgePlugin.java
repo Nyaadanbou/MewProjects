@@ -67,9 +67,4 @@ public class ReforgePlugin extends MeowJavaPlugin {
             getSLF4JLogger().error("Failed to register commands", e);
         }
     }
-
-    @Override protected void disable() {
-        getSLF4JLogger().info("Closing all windows...");
-        WindowManager.getInstance().getWindows().forEach(Window::close);
-    }
 }

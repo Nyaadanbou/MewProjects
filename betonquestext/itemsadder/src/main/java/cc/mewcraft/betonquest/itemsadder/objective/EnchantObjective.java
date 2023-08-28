@@ -1,7 +1,8 @@
-package cc.mewcraft.betonquest.itemsadder;
+package cc.mewcraft.betonquest.itemsadder.objective;
 
 import cc.mewcraft.betonquest.itemsadder.util.ItemsAdderUtil;
 import dev.lone.itemsadder.api.CustomStack;
+import net.kyori.adventure.key.Key;
 import org.betonquest.betonquest.BetonQuest;
 import org.betonquest.betonquest.Instruction;
 import org.betonquest.betonquest.api.Objective;
@@ -10,6 +11,7 @@ import org.betonquest.betonquest.api.profiles.Profile;
 import org.betonquest.betonquest.exceptions.InstructionParseException;
 import org.betonquest.betonquest.utils.PlayerConverter;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -92,7 +94,7 @@ public class EnchantObjective extends Objective implements Listener {
             if (parts.length != 2)
                 throw new InstructionParseException("Could not parse enchantment: " + string);
 
-            Enchantment enchantment = Enchantment.getByName(parts[0].toUpperCase(Locale.ROOT));
+            Enchantment enchantment = Enchantment.getByKey(new NamespacedKey(Key.MINECRAFT_NAMESPACE, parts[0].toLowerCase(Locale.ROOT)));
             if (enchantment == null)
                 throw new InstructionParseException("Enchantment type '" + parts[0] + "' does not exist");
             try {

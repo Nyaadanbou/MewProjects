@@ -1,8 +1,7 @@
-package cc.mewcraft.betonquest.itemsadder;
+package cc.mewcraft.betonquest.itemsadder.objective;
 
 import cc.mewcraft.betonquest.itemsadder.util.ItemsAdderUtil;
-import dev.lone.itemsadder.api.Events.CustomBlockPlaceEvent;
-import lombok.CustomLog;
+import dev.lone.itemsadder.api.Events.CustomBlockBreakEvent;
 import org.betonquest.betonquest.BetonQuest;
 import org.betonquest.betonquest.Instruction;
 import org.betonquest.betonquest.api.Objective;
@@ -18,15 +17,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
-@CustomLog
-public class PlaceBlockObjective extends Objective implements Listener {
-
+public class BreakBlockObjective extends Objective implements Listener {
     private final String namespacedID;
     private final int amount;
     private final boolean notify;
     private final int notifyInterval;
 
-    public PlaceBlockObjective(Instruction instruction) throws InstructionParseException {
+    public BreakBlockObjective(Instruction instruction) throws InstructionParseException {
         super(instruction);
         template = BlockData.class;
         notifyInterval = instruction.getInt(instruction.getOptional("notify"), 1);
@@ -36,11 +33,11 @@ public class PlaceBlockObjective extends Objective implements Listener {
             throw new InstructionParseException("Amount cannot be less than 1");
         }
         namespacedID = instruction.next() + ":" + instruction.next();
-        ItemsAdderUtil.validateCustomStackSilently(instruction.getPackage(), namespacedID);
+        ItemsAdderUtil.validateCustomBlockSilently(instruction.getPackage(), namespacedID);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onPlaceBlock(CustomBlockPlaceEvent e) {
+    public void onBlockBreak(CustomBlockBreakEvent e) {
         OnlineProfile profile = PlayerConverter.getID(e.getPlayer());
 
         if (containsPlayer(profile)
@@ -54,28 +51,28 @@ public class PlaceBlockObjective extends Objective implements Listener {
             } else if (notify && playerData.getAmount() % notifyInterval == 0) {
                 if (playerData.getAmount() > amount) {
                     try {
-                        Config.sendNotify(instruction.getPackage().getQuestPath(), profile, "blocks_to_place", new String[]{String.valueOf(playerData.getAmount() - amount)}, "blocks_to_place,info");
-                    } catch (QuestRuntimeException ex1) {
-                        try {
-                            LOG.warn("The notify system was unable to play a sound for the 'blocks_to_place' category in '" + instruction.getObjective().getFullID() + "'. Error was: '" + ex1.getMessage() + "'");
-                        } catch (InstructionParseException ex2) {
-                            LOG.reportException(ex2);
-                        }
+                        Config.sendNotify(instruction.getPackage().getQuestPath(), profile, "blocks_to_break", new String[]{String.valueOf(playerData.getAmount() - amount)}, "blocks_to_break,info");
+                    } catch (QuestRuntimeException exception) {
+                        /*try {
+                            LOG.warn("The notify system was unable to play a sound for the 'blocks_to_break' category in '" + instruction.getObjective().getFullID() + "'. Error was: '" + exception.getMessage() + "'");
+                        } catch (InstructionParseException ex) {
+                            LOG.reportException(ex);
+                        }*/
                     }
                 }
             } else {
                 try {
-                    Config.sendNotify(instruction.getPackage().getQuestPath(), profile, "blocks_to_place", new String[]{String.valueOf(amount - playerData.getAmount())}, "blocks_to_place,info");
-                } catch (QuestRuntimeException ex1) {
-                    try {
-                        LOG.warn("The notify system was unable to play a sound for the 'blocks_to_place' category in '" + instruction.getObjective().getFullID() + "'. Error was: '" + ex1.getMessage() + "'");
-                    } catch (InstructionParseException ex2) {
-                        LOG.reportException(ex2);
-                    }
+                    Config.sendNotify(instruction.getPackage().getQuestPath(), profile, "blocks_to_break", new String[]{String.valueOf(amount - playerData.getAmount())}, "blocks_to_break,info");
+                } catch (QuestRuntimeException exception) {
+                    /*try {
+                        LOG.warn("The notify system was unable to play a sound for the 'blocks_to_break' category in '" + instruction.getObjective().getFullID() + "'. Error was: '" + exception.getMessage() + "'");
+                    } catch (InstructionParseException ex) {
+                        LOG.reportException(ex);
+                    }*/
                 }
             }
-        }
 
+        }
     }
 
     @Override

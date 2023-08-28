@@ -1,8 +1,7 @@
-package cc.mewcraft.betonquest.itemsadder;
+package cc.mewcraft.betonquest.itemsadder.objective;
 
 import cc.mewcraft.betonquest.itemsadder.util.ItemsAdderUtil;
 import dev.lone.itemsadder.api.CustomStack;
-import lombok.CustomLog;
 import org.betonquest.betonquest.BetonQuest;
 import org.betonquest.betonquest.Instruction;
 import org.betonquest.betonquest.api.Objective;
@@ -23,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Locale;
 
-@CustomLog
 public class PickupObjective extends Objective implements Listener {
 
     private final String namespacedID;
@@ -61,11 +59,11 @@ public class PickupObjective extends Objective implements Listener {
             try {
                 Config.sendNotify(instruction.getPackage().getQuestPath(), profile, "items_to_pickup", new String[]{Integer.toString(playerData.getAmount())}, "items_to_pickup,info");
             } catch (QuestRuntimeException ex1) {
-                try {
+                /*try {
                     LOG.warn("The notify system was unable to play a sound for the 'items_to_pickup' category in '" + instruction.getObjective().getFullID() + "'. Error was: '" + ex1.getMessage() + "'");
                 } catch (InstructionParseException ex2) {
                     LOG.reportException(ex2);
-                }
+                }*/
             }
     }
 

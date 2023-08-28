@@ -1,8 +1,7 @@
-package cc.mewcraft.betonquest.itemsadder;
+package cc.mewcraft.betonquest.itemsadder.condition;
 
 import cc.mewcraft.betonquest.itemsadder.util.ItemsAdderUtil;
 import dev.lone.itemsadder.api.CustomBlock;
-import lombok.CustomLog;
 import org.betonquest.betonquest.Instruction;
 import org.betonquest.betonquest.api.Condition;
 import org.betonquest.betonquest.api.profiles.Profile;
@@ -11,7 +10,6 @@ import org.betonquest.betonquest.exceptions.QuestRuntimeException;
 import org.betonquest.betonquest.utils.location.LocationData;
 import org.bukkit.Location;
 
-@CustomLog
 public class BlockCondition extends Condition {
 
     private final String namespacedID;

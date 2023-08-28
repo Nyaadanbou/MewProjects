@@ -1,12 +1,11 @@
 plugins {
-    id("io.freefair.lombok")
     id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.paper-plugins")
 }
 
 project.ext.set("name", "BetonQuestExt")
 
-version = "1.3.1"
+version = "1.4.0"
 description = "Brings BetonQuest more integrations with 3rd party plugins"
 
 dependencies {

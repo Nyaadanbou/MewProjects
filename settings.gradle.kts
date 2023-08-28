@@ -26,6 +26,8 @@ include(":enchantgui:api")
 include(":enchantgui:gui")
 include(":enchantgui:provider")
 
+include(":extracontexts")
+
 include(":ibooks")
 
 include(":keepinv")

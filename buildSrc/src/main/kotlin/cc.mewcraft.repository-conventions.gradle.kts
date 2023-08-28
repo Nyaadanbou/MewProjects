@@ -123,10 +123,11 @@ repositories {
         }
     }
 
-    // AnvilGUI
+    // AnvilGUI, WorldGuardWrapper
     maven("https://repo.codemc.io/repository/maven-snapshots/") {
         content {
             includeGroup("net.wesjd")
+            includeGroup("org.codemc.worldguardwrapper")
         }
     }
 

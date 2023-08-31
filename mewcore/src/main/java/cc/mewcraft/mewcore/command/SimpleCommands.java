@@ -1,17 +1,17 @@
 package cc.mewcraft.mewcore.command;
 
-
 import cloud.commandframework.Command;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This class makes it easier to prepare and register simple commands.
  */
 public abstract class SimpleCommands<P extends Plugin> {
-    protected final P plugin;
-    protected final CommandRegistry<P> registry;
+    protected final @NotNull P plugin;
+    protected final @NotNull CommandRegistry<P> registry;
 
-    public SimpleCommands(final P plugin) throws Exception {
+    public SimpleCommands(final @NotNull P plugin) throws Exception {
         this.plugin = plugin;
         this.registry = new CommandRegistry<>(plugin);
     }

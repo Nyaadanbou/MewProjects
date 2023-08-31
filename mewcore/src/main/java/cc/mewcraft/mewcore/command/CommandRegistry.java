@@ -9,6 +9,7 @@ import cloud.commandframework.minecraft.extras.MinecraftExceptionHandler;
 import cloud.commandframework.paper.PaperCommandManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.function.Function;
 public class CommandRegistry<P extends Plugin> extends PaperCommandManager<CommandSender> {
     private final List<Command<CommandSender>> preparedCommands;
 
-    public CommandRegistry(P plugin) throws Exception {
+    public CommandRegistry(@NotNull P plugin) throws Exception {
         super(
             plugin,
             CommandExecutionCoordinator.simpleCoordinator(),
@@ -50,7 +51,7 @@ public class CommandRegistry<P extends Plugin> extends PaperCommandManager<Comma
      *
      * @param command the command to be prepared
      */
-    public final void prepareCommand(final Command<CommandSender> command) {
+    public final void prepareCommand(final @NotNull Command<CommandSender> command) {
         this.preparedCommands.add(command);
     }
 

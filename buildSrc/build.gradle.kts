@@ -14,6 +14,7 @@ repositories {
 dependencies {
     implementation("net.kyori.indra", "net.kyori.indra.gradle.plugin", "3.1.1")
     implementation("com.github.johnrengelman.shadow", "com.github.johnrengelman.shadow.gradle.plugin", "8.1.1")
+    implementation("org.jetbrains.kotlin.jvm", "org.jetbrains.kotlin.jvm.gradle.plugin", "1.9.10")
     // implementation("net.minecrell.plugin-yml.paper", "net.minecrell.plugin-yml.paper.gradle.plugin", "0.6.0")
 }
 

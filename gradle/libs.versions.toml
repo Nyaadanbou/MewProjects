@@ -10,8 +10,8 @@ invui = "1.12"
 proxy-velocity = { group = "com.velocitypowered", name = "velocity-api", version = "3.2.0-SNAPSHOT" }
 
 # the minecraft server api
-server-paper = { group = "io.papermc.paper", name = "paper-api", version = "1.19.4-R0.1-SNAPSHOT" }
-server-purpur = { group = "org.purpurmc.purpur", name = "purpur-api", version = "1.19.4-R0.1-SNAPSHOT" }
+server-paper = { group = "io.papermc.paper", name = "paper-api", version = "1.20.1-R0.1-SNAPSHOT" }
+server-purpur = { group = "org.purpurmc.purpur", name = "purpur-api", version = "1.20.1-R0.1-SNAPSHOT" }
 
 # deps that need to be shaded
 guice = { group = "com.google.inject", name = "guice", version = "5.1.0" }
@@ -29,6 +29,7 @@ adventure-binaryserializer = { group = "com.github.Moulberry", name = "adventure
 cronutils = { group = "com.cronutils", name = "cron-utils", version = "9.2.0" }
 simplixstorage = { group = "com.github.simplix-softworks", name = "simplixstorage", version = "3.2.6" }
 invui-core = { group = "xyz.xenondevs.invui", name = "invui-core", version.ref = "invui" }
+invui-kotlin = { group = "xyz.xenondevs.invui", name = "invui-kotlin", version.ref = "invui" }
 invui-invaccess = { group = "xyz.xenondevs.invui", name = "inventory-access", version.ref = "invui" }
 invui-invaccess-r13 = { group = "xyz.xenondevs.invui", name = "inventory-access-r13", version.ref = "invui" }
 invui-invaccess-r14 = { group = "xyz.xenondevs.invui", name = "inventory-access-r14", version.ref = "invui" }
@@ -81,7 +82,7 @@ junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version =
 
 cmds = ["cloud-paper", "cloud-minecraft-extras"]
 checker = ["checker-qual", "apiguardian-api", "annotations"]
-invui = ["invui-core", "invui-invaccess", "invui-invaccess-r13", "invui-invaccess-r14"]
+invui = ["invui-core", "invui-kotlin", "invui-invaccess", "invui-invaccess-r13", "invui-invaccess-r14"]
 
 [plugins]
 

@@ -1,65 +1,58 @@
-package cc.mewcraft.enchantment.gui.util;
+package cc.mewcraft.enchantment.gui.util
 
-import org.jetbrains.annotations.NotNull;
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-import java.util.TreeMap;
-
-public class NumberUtil {
-
-    private static final DecimalFormat FORMAT_ROUND_HUMAN;
-    private static final TreeMap<Integer, String> ROMAN_MAP = new TreeMap<>();
-
-    static {
-        FORMAT_ROUND_HUMAN = new DecimalFormat("#,###.##", new DecimalFormatSymbols(Locale.ENGLISH));
-
-        ROMAN_MAP.put(1000, "M");
-        ROMAN_MAP.put(900, "CM");
-        ROMAN_MAP.put(500, "D");
-        ROMAN_MAP.put(400, "CD");
-        ROMAN_MAP.put(100, "C");
-        ROMAN_MAP.put(90, "XC");
-        ROMAN_MAP.put(50, "L");
-        ROMAN_MAP.put(40, "XL");
-        ROMAN_MAP.put(10, "X");
-        ROMAN_MAP.put(9, "IX");
-        ROMAN_MAP.put(5, "V");
-        ROMAN_MAP.put(4, "IV");
-        ROMAN_MAP.put(1, "I");
+object Numbers {
+    private val FORMAT_ROUND_HUMAN: DecimalFormat = DecimalFormat("#,###.##", DecimalFormatSymbols(Locale.ENGLISH))
+    private val ROMAN_MAP = TreeMap<Int, String>().apply {
+        set(1000, "M")
+        set(900, "CM")
+        set(500, "D")
+        set(400, "CD")
+        set(100, "C")
+        set(90, "XC")
+        set(50, "L")
+        set(40, "XL")
+        set(10, "X")
+        set(9, "IX")
+        set(5, "V")
+        set(4, "IV")
+        set(1, "I")
     }
 
-    public static @NotNull String format(double value) {
-        return FORMAT_ROUND_HUMAN.format(value);
+    fun format(value: Double): String {
+        return FORMAT_ROUND_HUMAN.format(value)
     }
 
-    public static double round(double value) {
-        return new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    fun round(value: Double): Double {
+        return BigDecimal(value).setScale(2, RoundingMode.HALF_UP).toDouble()
     }
 
-    public static @NotNull String toRoman(int number) {
-        if (number <= 0) return String.valueOf(number);
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun roman(number: Int): String {
+        if (number <= 0) return number.toString()
+        val key = ROMAN_MAP.floorKey(number)
+        return if (number == key)
+            ROMAN_MAP[number] ?: "?" else
+            ROMAN_MAP[key] + roman(number - key)
+    }
 
-        int key = ROMAN_MAP.floorKey(number);
-        if (number == key) {
-            return ROMAN_MAP.get(number);
+    fun splitIntoParts(whole: Int, parts: Int): IntArray {
+        val arr = IntArray(parts)
+        var remain = whole
+        var partsLeft = parts
+        var i = 0
+        while (partsLeft > 0) {
+            val size = (remain + partsLeft - 1) / partsLeft // rounded up, aka ceiling
+            arr[i] = size
+            remain -= size
+            partsLeft--
+            i++
         }
-        return ROMAN_MAP.get(key) + toRoman(number - key);
-    }
-
-    public static int[] splitIntoParts(int whole, int parts) {
-        int[] arr = new int[parts];
-        int remain = whole;
-        int partsLeft = parts;
-        for (int i = 0; partsLeft > 0; i++) {
-            int size = (remain + partsLeft - 1) / partsLeft; // rounded up, aka ceiling
-            arr[i] = size;
-            remain -= size;
-            partsLeft--;
-        }
-        return arr;
+        return arr
     }
 }

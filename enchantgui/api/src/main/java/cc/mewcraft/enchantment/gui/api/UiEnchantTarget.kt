@@ -1,153 +1,108 @@
-package cc.mewcraft.enchantment.gui.api;
+package cc.mewcraft.enchantment.gui.api
 
-import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.Material
+import org.bukkit.Tag
+import org.bukkit.inventory.ItemStack
 
 /**
  * Represents item stacks to which the enchantment can be applied.
  */
-public enum UiEnchantTarget {
+enum class UiEnchantTarget {
     // --- Biggest categories
-
     ALL {
-        @Override public boolean includes(final @NotNull Material item) {
-            return true;
+        override fun includes(item: Material): Boolean {
+            return true
         }
     },
-
     WEAPON {
-        @Override public boolean includes(final @NotNull Material item) {
-            return Tag.ITEMS_SWORDS.isTagged(item) || Tag.ITEMS_AXES.isTagged(item);
+        override fun includes(item: Material): Boolean {
+            return Tag.ITEMS_SWORDS.isTagged(item) || Tag.ITEMS_AXES.isTagged(item)
         }
     },
-
     TOOL {
-        @Override public boolean includes(final @NotNull Material item) {
-            return Tag.ITEMS_TOOLS.isTagged(item);
+        override fun includes(item: Material): Boolean {
+            return Tag.ITEMS_TOOLS.isTagged(item)
         }
     },
-
     ARMOR {
-        @Override public boolean includes(final @NotNull Material item) {
-            return HELMET.includes(item)
-                   || CHESTPLATE.includes(item)
-                   || LEGGINGS.includes(item)
-                   || BOOTS.includes(item);
+        override fun includes(item: Material): Boolean {
+            return HELMET.includes(item) || CHESTPLATE.includes(item) || LEGGINGS.includes(item) || BOOTS.includes(item)
         }
     },
 
     // --- Armor specifics
-
     HELMET {
-        @Override public boolean includes(final @NotNull Material item) {
-            return item.equals(Material.LEATHER_HELMET)
-                   || item.equals(Material.CHAINMAIL_HELMET)
-                   || item.equals(Material.DIAMOND_HELMET)
-                   || item.equals(Material.IRON_HELMET)
-                   || item.equals(Material.GOLDEN_HELMET)
-                   || item.equals(Material.TURTLE_HELMET)
-                   || item.equals(Material.NETHERITE_HELMET);
+        override fun includes(item: Material): Boolean {
+            return item == Material.LEATHER_HELMET || item == Material.CHAINMAIL_HELMET || item == Material.DIAMOND_HELMET || item == Material.IRON_HELMET || item == Material.GOLDEN_HELMET || item == Material.TURTLE_HELMET || item == Material.NETHERITE_HELMET
         }
     },
-
     CHESTPLATE {
-        @Override public boolean includes(final @NotNull Material item) {
-            return item.equals(Material.LEATHER_CHESTPLATE)
-                   || item.equals(Material.CHAINMAIL_CHESTPLATE)
-                   || item.equals(Material.IRON_CHESTPLATE)
-                   || item.equals(Material.DIAMOND_CHESTPLATE)
-                   || item.equals(Material.GOLDEN_CHESTPLATE)
-                   || item.equals(Material.NETHERITE_CHESTPLATE);
+        override fun includes(item: Material): Boolean {
+            return item == Material.LEATHER_CHESTPLATE || item == Material.CHAINMAIL_CHESTPLATE || item == Material.IRON_CHESTPLATE || item == Material.DIAMOND_CHESTPLATE || item == Material.GOLDEN_CHESTPLATE || item == Material.NETHERITE_CHESTPLATE
         }
     },
-
     LEGGINGS {
-        @Override public boolean includes(final @NotNull Material item) {
-            return item.equals(Material.LEATHER_LEGGINGS)
-                   || item.equals(Material.CHAINMAIL_LEGGINGS)
-                   || item.equals(Material.IRON_LEGGINGS)
-                   || item.equals(Material.DIAMOND_LEGGINGS)
-                   || item.equals(Material.GOLDEN_LEGGINGS)
-                   || item.equals(Material.NETHERITE_LEGGINGS);
+        override fun includes(item: Material): Boolean {
+            return item == Material.LEATHER_LEGGINGS || item == Material.CHAINMAIL_LEGGINGS || item == Material.IRON_LEGGINGS || item == Material.DIAMOND_LEGGINGS || item == Material.GOLDEN_LEGGINGS || item == Material.NETHERITE_LEGGINGS
         }
     },
-
     BOOTS {
-        @Override public boolean includes(final @NotNull Material item) {
-            return item.equals(Material.LEATHER_BOOTS)
-                   || item.equals(Material.CHAINMAIL_BOOTS)
-                   || item.equals(Material.IRON_BOOTS)
-                   || item.equals(Material.DIAMOND_BOOTS)
-                   || item.equals(Material.GOLDEN_BOOTS)
-                   || item.equals(Material.NETHERITE_BOOTS);
+        override fun includes(item: Material): Boolean {
+            return item == Material.LEATHER_BOOTS || item == Material.CHAINMAIL_BOOTS || item == Material.IRON_BOOTS || item == Material.DIAMOND_BOOTS || item == Material.GOLDEN_BOOTS || item == Material.NETHERITE_BOOTS
         }
     },
-
     ELYTRA {
-        @Override public boolean includes(final @NotNull Material item) {
-            return item == Material.ELYTRA;
+        override fun includes(item: Material): Boolean {
+            return item == Material.ELYTRA
         }
     },
 
     // --- Weapon specifics
-
     SWORD {
-        @Override public boolean includes(final @NotNull Material item) {
-            return Tag.ITEMS_SWORDS.isTagged(item)
-                   || Tag.ITEMS_AXES.isTagged(item)
-                   || TRIDENT.includes(item);
+        override fun includes(item: Material): Boolean {
+            return Tag.ITEMS_SWORDS.isTagged(item) || Tag.ITEMS_AXES.isTagged(item) || TRIDENT.includes(item)
         }
     },
-
     TRIDENT {
-        @Override public boolean includes(final @NotNull Material item) {
-            return item == Material.TRIDENT;
+        override fun includes(item: Material): Boolean {
+            return item == Material.TRIDENT
         }
     },
-
     AXE {
-        @Override public boolean includes(final @NotNull Material item) {
-            return Tag.ITEMS_AXES.isTagged(item);
+        override fun includes(item: Material): Boolean {
+            return Tag.ITEMS_AXES.isTagged(item)
         }
     },
-
     BOW {
-        @Override public boolean includes(final @NotNull Material item) {
-            return item == Material.BOW;
+        override fun includes(item: Material): Boolean {
+            return item == Material.BOW
         }
     },
-
     CROSSBOW {
-        @Override public boolean includes(final @NotNull Material item) {
-            return item == Material.CROSSBOW;
+        override fun includes(item: Material): Boolean {
+            return item == Material.CROSSBOW
         }
     },
 
     // --- Tool specifics
-
     HOE {
-        @Override public boolean includes(final @NotNull Material item) {
-            return Tag.ITEMS_HOES.isTagged(item);
+        override fun includes(item: Material): Boolean {
+            return Tag.ITEMS_HOES.isTagged(item)
         }
     },
-
     PICKAXE {
-        @Override public boolean includes(final @NotNull Material item) {
-            return Tag.ITEMS_PICKAXES.isTagged(item);
+        override fun includes(item: Material): Boolean {
+            return Tag.ITEMS_PICKAXES.isTagged(item)
         }
     },
-
     SHOVEL {
-        @Override public boolean includes(final @NotNull Material item) {
-            return Tag.ITEMS_SHOVELS.isTagged(item);
+        override fun includes(item: Material): Boolean {
+            return Tag.ITEMS_SHOVELS.isTagged(item)
         }
     },
-
     FISHING_ROD {
-        @Override public boolean includes(final @NotNull Material item) {
-            return item == Material.FISHING_ROD;
+        override fun includes(item: Material): Boolean {
+            return item == Material.FISHING_ROD
         }
     };
 
@@ -157,7 +112,7 @@ public enum UiEnchantTarget {
      * @param item The item to check
      * @return True if the target includes the item
      */
-    public abstract boolean includes(@NotNull Material item);
+    abstract fun includes(item: Material): Boolean
 
     /**
      * Check whether this target includes the specified item.
@@ -165,7 +120,7 @@ public enum UiEnchantTarget {
      * @param item The item to check
      * @return True if the target includes the item
      */
-    public boolean includes(@NotNull ItemStack item) {
-        return includes(item.getType());
+    fun includes(item: ItemStack): Boolean {
+        return includes(item.type)
     }
 }

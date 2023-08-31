@@ -1,5 +1,4 @@
-package cc.mewcraft.enchantment.gui.api;
+package cc.mewcraft.enchantment.gui.api
 
 // TODO
-public class UiEnchantSorters {
-}
+class UiEnchantSorters

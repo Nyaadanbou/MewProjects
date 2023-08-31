@@ -11,6 +11,10 @@ dependencies:
       load: BEFORE
       required: true
       join-classpath: true
+    Kotlin:
+      load: BEFORE
+      required: true
+      join-classpath: true
     MewCore:
       load: BEFORE
       required: true

@@ -1,70 +1,62 @@
-package cc.mewcraft.enchantment.gui;
+package cc.mewcraft.enchantment.gui
 
-import cc.mewcraft.enchantment.gui.api.UiEnchantPlugin;
-import cc.mewcraft.enchantment.gui.api.UiEnchantProvider;
-import cc.mewcraft.enchantment.gui.command.PluginCommands;
-import cc.mewcraft.mewcore.message.Translations;
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import xyz.xenondevs.inventoryaccess.component.i18n.AdventureComponentLocalizer;
-import xyz.xenondevs.inventoryaccess.component.i18n.Languages;
+import cc.mewcraft.enchantment.gui.api.UiEnchantPlugin
+import cc.mewcraft.enchantment.gui.api.UiEnchantProvider
+import cc.mewcraft.enchantment.gui.command.PluginCommands
+import cc.mewcraft.mewcore.message.Translations
+import com.google.inject.AbstractModule
+import com.google.inject.Guice
+import net.kyori.adventure.text.minimessage.MiniMessage
+import xyz.xenondevs.inventoryaccess.component.i18n.AdventureComponentLocalizer
+import xyz.xenondevs.inventoryaccess.component.i18n.Languages
+import java.io.IOException
+import java.nio.charset.StandardCharsets
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-public class EnchantGuiPlugin extends UiEnchantPlugin {
-    private Injector injector;
-    private Translations translations;
-
-    public Injector getInjector() {
-        return injector;
+class EnchantGuiPlugin : UiEnchantPlugin() {
+    inner class PluginModule : AbstractModule() {
+        override fun configure() {
+            bind(UiEnchantPlugin::class.java).toInstance(this@EnchantGuiPlugin)
+            bind(EnchantGuiPlugin::class.java).toInstance(this@EnchantGuiPlugin)
+            bind(Translations::class.java).toProvider { Translations(this@EnchantGuiPlugin, "lang/message") }
+        }
     }
 
-    public Translations getLang() {
-        return translations;
-    }
-
-    @Override protected void enable() {
-        saveResourceRecursively("lang");
-        saveDefaultConfig();
-        reloadConfig();
-
-        injector = Guice.createInjector(new AbstractModule() {
-            @Override protected void configure() {
-                bind(UiEnchantPlugin.class).toInstance(EnchantGuiPlugin.this);
-                bind(EnchantGuiPlugin.class).toInstance(EnchantGuiPlugin.this);
-                bind(Translations.class).toProvider(() -> new Translations(EnchantGuiPlugin.this, "lang/message"));
-            }
-        });
+    override fun enable() {
+        saveResourceRecursively("lang")
+        saveDefaultConfig()
+        reloadConfig()
+        injector = Guice.createInjector(PluginModule())
 
         // Load message languages
-        translations = injector.getInstance(Translations.class);
+        languages = injector.getInstance(Translations::class.java)
 
         // Load modding languages
         try {
-            Languages.getInstance().loadLanguage("zh_cn", getBundledFile("lang/modding/zh_cn.json"), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            getSLF4JLogger().error("Failed to load language files", e);
+            Languages.getInstance().loadLanguage(
+                "zh_cn",
+                getBundledFile("lang/modding/zh_cn.json"),
+                StandardCharsets.UTF_8
+            )
+        } catch (e: IOException) {
+            slF4JLogger.error("Failed to load language files", e)
         }
 
         // Set MiniMessage parser
-        AdventureComponentLocalizer.getInstance().setComponentCreator(MiniMessage.miniMessage()::deserialize);
+        AdventureComponentLocalizer.getInstance().setComponentCreator { MiniMessage.miniMessage().deserialize(it) }
 
         // Initialize commands
         try {
-            PluginCommands pluginCommands = injector.getInstance(PluginCommands.class);
-            pluginCommands.prepareAndRegister();
-        } catch (Exception e) {
-            getSLF4JLogger().error("Failed to initialize commands", e);
+            val pluginCommands = injector.getInstance(PluginCommands::class.java)
+            pluginCommands.prepareAndRegister()
+        } catch (e: Exception) {
+            slF4JLogger.error("Failed to initialize commands", e)
         }
 
         // Initialize UiEnchant providers
         try {
-            UiEnchantProvider.initialize(this);
-        } catch (Exception e) { // catch all exceptions to avoid this plugin failing to be enabled
-            getSLF4JLogger().error("Failed to initialize UiEnchantProvider", e);
+            UiEnchantProvider.initialize(this)
+        } catch (e: Exception) { // catch all exceptions to avoid this plugin failing to be enabled
+            slF4JLogger.error("Failed to initialize UiEnchantProvider", e)
         }
     }
 }

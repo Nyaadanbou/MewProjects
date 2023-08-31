@@ -1,49 +1,26 @@
-package cc.mewcraft.enchantment.gui.api;
+package cc.mewcraft.enchantment.gui.api
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-import java.util.function.Function;
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.inventory.ItemStack
 
 /**
  * A UiEnchant that is chargeable.
  */
-public class ChargeableUiEnchant extends UiEnchantDecorator {
-    final String fuel;
-    final Map<Integer, Integer> fuelConsume;
-    final Map<Integer, Integer> fuelRecharge;
-    final Map<Integer, Integer> maximumFuel;
-
-    public ChargeableUiEnchant(
-        final UiEnchant decoratedEnchantment,
-        final String fuel,
-        final Function<Integer, Integer> fuelConsume,
-        final Function<Integer, Integer> fuelRecharge,
-        final Function<Integer, Integer> maximumFuel
-    ) {
-        super(decoratedEnchantment);
-        this.fuel = fuel;
-        this.fuelConsume = scaleMapper(fuelConsume);
-        this.fuelRecharge = scaleMapper(fuelRecharge);
-        this.maximumFuel = scaleMapper(maximumFuel);
+class ChargeableUiEnchant(
+    baseEnchant: UiEnchant,
+    fuelItem: ItemStack, // it's the name of fuel item in MiniMessage string representation
+    fuelConsumeMapping: (Int) -> Int,
+    fuelRechargeMapping: (Int) -> Int,
+    maximumFuelMapping: (Int) -> Int,
+) : UiEnchant by baseEnchant {
+    val fuel: String = fuelItem.let {
+        val itemMeta = fuelItem.itemMeta
+        val component = if (itemMeta.hasDisplayName()) itemMeta.displayName() else Component.translatable(fuelItem)
+        val miniMessage = MiniMessage.builder().strict(true).build() // make it strict to generate closed tags
+        component?.let(miniMessage::serialize) ?: ""
     }
-
-    /**
-     * @return name of the fuel item in MiniMessage string representation
-     */
-    public @NotNull String fuel() {
-        return fuel;
-    }
-
-    public @NotNull Map<@NotNull Integer, @NotNull Integer> fuelConsume() {
-        return fuelConsume;
-    }
-
-    public @NotNull Map<@NotNull Integer, @NotNull Integer> fuelRecharge() {
-        return fuelRecharge;
-    }
-
-    public @NotNull Map<@NotNull Integer, @NotNull Integer> maximumFuel() {
-        return maximumFuel;
-    }
+    val fuelConsume: Map<Int, Int> = levelScale(fuelConsumeMapping)
+    val fuelRecharge: Map<Int, Int> = levelScale(fuelRechargeMapping)
+    val maximumFuel: Map<Int, Int> = levelScale(maximumFuelMapping)
 }

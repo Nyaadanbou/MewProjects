@@ -1,129 +1,88 @@
-package cc.mewcraft.enchantment.gui.api;
+package cc.mewcraft.enchantment.gui.api
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.reflect.ClassPath;
-import net.kyori.adventure.key.Key;
-import org.intellij.lang.annotations.Subst;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.google.common.reflect.ClassPath
+import net.kyori.adventure.key.Key
+import org.intellij.lang.annotations.Subst
+import java.io.IOException
+import java.lang.reflect.InvocationTargetException
+import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 /**
- * This class provides static access to the registered {@link UiEnchant UiEnchants}.
+ * This class provides static access to the registered [UiEnchants][UiEnchant].
  */
-public final class UiEnchantProvider {
-    private static final Map<Key, UiEnchant> elements = new ConcurrentHashMap<>();
-    private static final Set<UiEnchantAdapter<?, ?>> adapters = Collections.newSetFromMap(new ConcurrentHashMap<>());
+object UiEnchantProvider {
+
+    private val elements: MutableMap<Key, UiEnchant> = ConcurrentHashMap()
+    private val adapters = Collections.newSetFromMap(ConcurrentHashMap<UiEnchantAdapter<*, *>, Boolean>())
 
     /**
      * Initializes this provider.
      */
-    @SuppressWarnings("unchecked")
-    public static void initialize(UiEnchantPlugin plugin)
-        throws IOException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    @Throws(
+        IOException::class,
+        NoSuchMethodException::class,
+        InvocationTargetException::class,
+        InstantiationException::class,
+        IllegalAccessException::class
+    )
+    @Suppress("UNCHECKED_CAST")
+    fun initialize(plugin: UiEnchantPlugin) {
         // Load all adapter classes at runtime
-        Set<Class<UiEnchantAdapter<?, ?>>> adapterClazz = ClassPath.from(plugin.getClazzLoader())
+        val adapterClazz = ClassPath
+            .from(plugin.clazzLoader)
             .getTopLevelClasses("cc.mewcraft.enchantment.gui.adapter")
-            .stream()
-            .map(ClassPath.ClassInfo::load)
-            .filter(UiEnchantAdapter.class::isAssignableFrom)
-            .map(clazz -> (Class<UiEnchantAdapter<?, ?>>) clazz)
-            .collect(Collectors.toSet());
+            .map { it.load() }
+            .filter { UiEnchantAdapter::class.java.isAssignableFrom(it) }
+            .map { it as Class<UiEnchantAdapter<*, *>> }
 
         // Add all adapter instances to the set
-        for (final Class<UiEnchantAdapter<?, ?>> clazz : adapterClazz) {
-            adapters.add(plugin.getInjector().getInstance(clazz));
-        }
+        adapterClazz.forEach { adapters.add(plugin.injector.getInstance(it)) }
 
         // Initialize all adapters
-        for (final UiEnchantAdapter<?, ?> adapter : UiEnchantProvider.adapters) {
-            adapter.initialize();
-        }
+        adapters.forEach { it.initialize() }
     }
 
     /**
-     * @return a modifiable map of {@link UiEnchant EnchantmentElements}
+     * @return a modifiable map of [EnchantmentElements][UiEnchant]
      */
-    public static @NotNull Map<Key, UiEnchant> asMap() {
-        return ImmutableMap.copyOf(UiEnchantProvider.elements);
+    fun asMap(): Map<Key, UiEnchant> {
+        return elements.toMutableMap()
     }
 
     // --- Contains
-
-    public static boolean containsKey(@NotNull Key key) {
-        Preconditions.checkNotNull(key);
-        return UiEnchantProvider.elements.containsKey(key);
+    private fun containsKey(key: Key): Boolean {
+        return elements.containsKey(key)
     }
 
-    public static boolean containsKey(@Subst("blast_mining") @NotNull String key) {
-        return containsKey(Key.key(Key.MINECRAFT_NAMESPACE, key));
+    private fun containsKey(@Subst("blast_mining") key: String): Boolean {
+        return containsKey(Key.key(Key.MINECRAFT_NAMESPACE, key))
     }
 
     // --- Get
-
-    public static @Nullable UiEnchant get(@NotNull Key key) {
-        Preconditions.checkNotNull(key);
-        return UiEnchantProvider.elements.get(key);
+    operator fun get(key: Key): UiEnchant? {
+        return elements[key]
     }
 
-    public static @Nullable UiEnchant get(@Subst("blast_mining") @NotNull String key) {
-        return get(Key.key(Key.MINECRAFT_NAMESPACE, key));
-    }
-
-    public static @NotNull UiEnchant getOrThrow(@NotNull Key key) {
-        UiEnchant enchantment = get(key);
-
-        if (enchantment == null) {
-            throw new NullPointerException(key.asString());
-        }
-
-        return enchantment;
-    }
-
-    public static @NotNull UiEnchant getOrThrow(@NotNull String key) {
-        UiEnchant enchantment = get(key);
-
-        if (enchantment == null) {
-            throw new NullPointerException(key);
-        }
-
-        return enchantment;
+    operator fun get(@Subst("blast_mining") key: String): UiEnchant? {
+        return elements[Key.key(Key.MINECRAFT_NAMESPACE, key)]
     }
 
     // --- Filter
-
-    public static @NotNull Stream<UiEnchant> all() {
-        return UiEnchantProvider.elements.values().stream();
+    fun all(): Collection<UiEnchant> {
+        return elements.values
     }
 
-    public static @NotNull Stream<UiEnchant> filter(@NotNull Predicate<UiEnchant> test) {
-        Preconditions.checkNotNull(test, "test");
-        return UiEnchantProvider.elements.values().stream().filter(test);
+    fun filter(predicate: (UiEnchant) -> Boolean): Collection<UiEnchant> {
+        return elements.values.filter(predicate)
     }
 
     // --- Register/unregister
-
-    public static void register(@NotNull UiEnchant element) {
-        Preconditions.checkNotNull(element, "element");
-        UiEnchantProvider.elements.put(element.key(), element);
+    fun register(element: UiEnchant) {
+        elements[element.key()] = element
     }
 
-    public static void unregister(@NotNull Key key) {
-        Preconditions.checkNotNull(key, "id");
-        UiEnchantProvider.elements.remove(key);
-    }
-
-    private UiEnchantProvider() {
-        throw new UnsupportedOperationException("This class cannot be instantiated");
+    fun unregister(key: Key) {
+        elements.remove(key)
     }
 }

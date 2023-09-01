@@ -29,18 +29,18 @@ import java.util.function.Predicate;
 /**
  * This class contains common code of all law commands.
  */
-public class LawCommand {
+class LawCommand {
     protected static final String BOARD_CDF_KEY = "law";
 
     protected final TownyBoardPlugin plugin;
     protected final BoardDefaults defaults;
 
-    LawCommand(final TownyBoardPlugin plugin, final BoardDefaults defaults) {
+    protected LawCommand(final TownyBoardPlugin plugin, final BoardDefaults defaults) {
         this.plugin = plugin;
         this.defaults = defaults;
     }
 
-    @Nullable Book bookInHand(Player player) {
+    protected @Nullable Book bookInHand(Player player) {
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
         ItemStack itemInOffHand = player.getInventory().getItemInOffHand();
 
@@ -54,7 +54,7 @@ public class LawCommand {
         return book;
     }
 
-    @NotNull Book readBook(@NotNull TownyObject object) {
+    protected @NotNull Book readBook(@NotNull TownyObject object) {
         Objects.requireNonNull(object);
 
         if (object.hasMeta(BOARD_CDF_KEY)) {
@@ -80,7 +80,7 @@ public class LawCommand {
         throw new IllegalArgumentException("%s is not supported".formatted(object.getClass().getSimpleName()));
     }
 
-    @NotNull Book readBook(@NotNull MiniMessageBoard miniMessageBoard) {
+    protected @NotNull Book readBook(@NotNull MiniMessageBoard miniMessageBoard) {
         Objects.requireNonNull(miniMessageBoard);
 
         Component title = MiniMessage.miniMessage().deserialize(miniMessageBoard.title());
@@ -90,7 +90,7 @@ public class LawCommand {
         return Book.book(title, author, pages);
     }
 
-    @NotNull Book readBook(@NotNull GsonBoard gsonBoard) {
+    protected @NotNull Book readBook(@NotNull GsonBoard gsonBoard) {
         Objects.requireNonNull(gsonBoard);
 
         Component title = GsonComponentSerializer.gson().deserialize(gsonBoard.title());
@@ -100,7 +100,7 @@ public class LawCommand {
         return Book.book(title, author, pages);
     }
 
-    @NotNull StringDataField writeDataField(@NotNull Book book) {
+    protected @NotNull StringDataField writeDataField(@NotNull Book book) {
         Objects.requireNonNull(book);
 
         String title;

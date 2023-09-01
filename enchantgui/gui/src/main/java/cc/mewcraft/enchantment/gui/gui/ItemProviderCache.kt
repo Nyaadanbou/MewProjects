@@ -14,6 +14,10 @@ import xyz.xenondevs.invui.item.ItemWrapper
 import xyz.xenondevs.invui.item.builder.ItemBuilder
 import java.time.Duration
 
+/**
+ * This class provides loading cache that takes [UiEnchant] as key and returns an array of [ItemProvider].
+ * The returned [ItemProvider] then can be used to construct the content of gui for display purposes.
+ */
 @Singleton
 class ItemProviderCache
 @Inject constructor(
@@ -36,7 +40,7 @@ class ItemProviderCache
             val states = ArrayList<ItemProvider>(max)
 
             for (level in (min..max)) {
-                // Prepare all the values needed to create the icon
+                // Prepare all the values needed to create the enchantment icon
                 val displayName = enchant.displayName()[level]?.let { settings.displayNameFormat.replace("<enchantment_display_name>", it) } ?: NULL
                 val description = enchant.description()[level]?.toMutableList() ?: emptyList()
                 val rarity = enchant.rarity().name
@@ -46,7 +50,7 @@ class ItemProviderCache
                 val minLevel = enchant.minimumLevel().toString()
                 val maxLevel = enchant.maximumLevel().toString()
 
-                val loreFormat = settings.loreFormat // This list will be modified multiple times below
+                val loreFormat = settings.loreFormat.toMutableList() // This list will be modified multiple times below
 
                 // Make the lore that is common to all enchantments
                 Lores.replacePlaceholder("<enchantment_description>", loreFormat, description)

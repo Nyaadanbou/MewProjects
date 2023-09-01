@@ -17,14 +17,10 @@ class EnchantGuiSettings
     val itemMaterial: Material = Material.matchMaterial(plugin.config.getString("gui.icon.material")!!)!!
     val displayNameFormat: String = plugin.config.getString("gui.icon.name")!!
 
-    val loreFormat: MutableList<String> = plugin.config.getStringList("gui.icon.lore")
-        get() = field.toMutableList()
-    val loreFormatCharging: MutableList<String> = plugin.config.getStringList("gui.lore.charging")
-        get() = field.toMutableList()
-    val loreFormatConflict: MutableList<String> = plugin.config.getStringList("gui.lore.conflict")
-        get() = field.toMutableList()
-    val loreFormatObtaining: MutableList<String> = plugin.config.getStringList("gui.lore.obtaining")
-        get() = field.toMutableList()
+    val loreFormat: List<String> = plugin.config.getStringList("gui.icon.lore")
+    val loreFormatCharging: List<String> = plugin.config.getStringList("gui.lore.charging")
+    val loreFormatConflict: List<String> = plugin.config.getStringList("gui.lore.conflict")
+    val loreFormatObtaining: List<String> = plugin.config.getStringList("gui.lore.obtaining")
 
     private fun createSound(key: String?): Sound = Sound.sound(Key.key(key!!), Sound.Source.MASTER, 1f, 1f)
     val openSound: Sound = createSound(plugin.config.getString("sound.open"))

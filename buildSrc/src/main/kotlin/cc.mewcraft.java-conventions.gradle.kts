@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     `java-library`
     kotlin("jvm")
@@ -8,15 +6,20 @@ plugins {
 }
 
 dependencies {
-    // for better compile-time checking
+    // These dependencies are for better compile-time checking.
     compileOnly("org.jetbrains", "annotations", "24.0.1")
     compileOnly("org.checkerframework", "checker-qual", "3.28.0")
     compileOnly("org.apiguardian", "apiguardian-api", "1.1.2")
 }
 
 tasks {
-    compileJava {
+    configureTasks(compileJava, compileTestJava) {
         dependsOn(clean)
+    }
+    configureTasks(compileKotlin, compileTestKotlin) {
+        kotlinOptions {
+            jvmTarget = "17"
+        }
     }
     assemble {
         dependsOn(shadowJar)
@@ -34,12 +37,6 @@ indra {
     javaVersions().target(17)
 }
 
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "17"
-}
-
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "17"
+fun <T : Task> configureTasks(vararg taskProviders: TaskProvider<T>, action: Action<T>) {
+    taskProviders.forEach { it.configure(action) }
 }

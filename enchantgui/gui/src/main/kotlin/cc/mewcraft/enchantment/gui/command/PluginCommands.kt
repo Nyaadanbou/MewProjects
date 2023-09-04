@@ -20,15 +20,15 @@ class PluginCommands @Inject constructor(
                 .literal("open")
                 .permission("enchantgui.command.open")
                 .argument(PlayerArgument.optional("target"))
-                .handler { ctx ->
+                .handler {
 
-                    val viewer: Player = if (ctx.contains("target")) {
-                        ctx.get("target")
-                    } else if (ctx.sender is Player) {
-                        ctx.sender as Player
+                    val viewer: Player = if (it.contains("target")) {
+                        it.get("target")
+                    } else if (it.sender is Player) {
+                        it.sender as Player
                     } else return@handler
 
-                    plugin.injector.getInstance(EnchantMenu::class.java).open(viewer)
+                    plugin.injector.getInstance(EnchantMenu::class.java).showMenu(viewer)
 
                 }.build()
         )

@@ -24,13 +24,11 @@ object Numbers {
         set(1, "I")
     }
 
-    fun format(value: Double): String {
-        return FORMAT_ROUND_HUMAN.format(value)
-    }
+    fun format(value: Double): String =
+        FORMAT_ROUND_HUMAN.format(value)
 
-    fun round(value: Double): Double {
-        return BigDecimal(value).setScale(2, RoundingMode.HALF_UP).toDouble()
-    }
+    fun round(value: Double): Double =
+        BigDecimal(value).setScale(2, RoundingMode.HALF_UP).toDouble()
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun roman(number: Int): String {

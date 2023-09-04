@@ -13,9 +13,8 @@ class BackItem
 @Inject constructor(
     settings: EnchantGuiSettings,
 ) : AnimatedPageItem(settings, false) {
-    override fun getItemProvider(gui: PagedGui<*>): ItemProvider {
-        return ItemBuilder(Material.SPECTRAL_ARROW).apply {
+    override fun getItemProvider(gui: PagedGui<*>): ItemProvider =
+        ItemBuilder(Material.SPECTRAL_ARROW).apply {
             displayName = "menu.enchantment.previous_page".translatable().wrapper()
         }
-    }
 }

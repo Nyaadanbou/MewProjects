@@ -28,9 +28,8 @@ class ItemProviderCache
         .expireAfterAccess(Duration.ofHours(2))
         .build(ItemProviderCacheLoader())
 
-    operator fun get(key: UiEnchant): Array<ItemProvider> {
-        return itemProviderCache.getUnchecked(key)
-    }
+    operator fun get(key: UiEnchant): Array<ItemProvider> =
+        itemProviderCache.getUnchecked(key)
 
     private inner class ItemProviderCacheLoader : CacheLoader<UiEnchant, Array<ItemProvider>>() {
         @Throws(Exception::class)
@@ -106,10 +105,9 @@ class ItemProviderCache
 
 private const val NULL: String = "NULL"
 
-private fun replaceOrRemove(placeholder: String, dst: MutableList<String>, chance: Double) {
+private fun replaceOrRemove(placeholder: String, dst: MutableList<String>, chance: Double) =
     if (chance > 0) {
         Lores.replacePlaceholder(placeholder, dst, Numbers.format(chance))
     } else {
         Lores.removePlaceholder(placeholder, dst, keep = false)
     }
-}

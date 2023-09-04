@@ -13,9 +13,8 @@ class ForwardItem
 @Inject constructor(
     settings: EnchantGuiSettings,
 ) : AnimatedPageItem(settings, true) {
-    override fun getItemProvider(gui: PagedGui<*>): ItemProvider {
-        return ItemBuilder(Material.SPECTRAL_ARROW).apply {
+    override fun getItemProvider(gui: PagedGui<*>): ItemProvider =
+        ItemBuilder(Material.SPECTRAL_ARROW).apply {
             displayName = "menu.enchantment.next_page".translatable().wrapper()
         }
-    }
 }

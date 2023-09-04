@@ -17,23 +17,21 @@ internal open class PreviewItem(
         // in that the return type is changed to PreviewItem instead of CycleItem
         @JvmStatic
         fun withStateChangeHandler(
+            states: Array<out ItemProvider>,
             stateChangeHandler: BiConsumer<Player, Int>,
-            vararg states: ItemProvider
-        ): PreviewItem {
-            return withStateChangeHandler(stateChangeHandler, 0, *states)
-        }
+        ): PreviewItem =
+            withStateChangeHandler(0, states, stateChangeHandler)
 
         @JvmStatic
         fun withStateChangeHandler(
-            stateChangeHandler: BiConsumer<Player, Int>,
             startState: Int,
-            vararg states: ItemProvider
-        ): PreviewItem {
-            return object : PreviewItem(startState, states) {
+            states: Array<out ItemProvider>,
+            stateChangeHandler: BiConsumer<Player, Int>,
+        ): PreviewItem =
+            object : PreviewItem(startState, states) {
                 override fun handleStateChange(player: Player?, state: Int) {
-                    stateChangeHandler.accept(player!!, state)
+                    player?.let { stateChangeHandler.accept(it, state) }
                 }
             }
-        }
     }
 }

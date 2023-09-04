@@ -38,13 +38,6 @@ class EnchantMenu
     private val compatibilityCheckInventory = VirtualInventory(1) // 1 slot is enough.
     private val enchantmentLookupInventory = VirtualInventory(1) // The same.
 
-    private val makeItemFunction: (UiEnchant) -> Item = {
-        PreviewItem.withStateChangeHandler(
-            { player, _ -> player.playSound(settings.switchSound) },
-            *cache[it]
-        )
-    }
-
     private val gui = PagedGui.items()
         .setStructure(*settings.guiLayout)
         .addIngredient(
@@ -59,28 +52,32 @@ class EnchantMenu
         .addIngredient('s', enchantmentLookupInventory)
         .addIngredient('<', backItem)
         .addIngredient('>', forwardItem)
-        .setContent(UiEnchantProvider.all().map(makeItemFunction)) // Initially, show all enchantments.
+        .setContent(UiEnchantProvider.all().map { it.toItem() }) // Initially, show all enchantments.
         .build()
 
     private val window = Window.single()
         .setTitle("menu.enchantment.title".translatable().wrapper())
         .setGui(gui)
 
-    fun `open`(viewer: Player) {
+    fun showMenu(viewer: Player) {
         // Filter out all the enchantments that is applicable to the test item.
         compatibilityCheckInventory.setPostUpdateHandler {
-            filterEnchants(compatibilityCheckInventory[0]) { test: ItemStack ->
+            compatibilityCheckInventory[0].generateGuiContent { test: ItemStack ->
                 viewer.playSound(settings.testSound)
                 plugin.languages.of("msg_filter_out_applicable")
                     .resolver(Placeholder.component("item", test.displayName()))
                     .send(viewer)
-                UiEnchantProvider.filter { it.canEnchantment(test) }.map(makeItemFunction)
+                UiEnchantProvider.filter {
+                    it.canEnchantment(test)
+                }.map {
+                    it.toItem()
+                }
             }
         }
 
         // Filter out all the enchantments that present in the test item.
         enchantmentLookupInventory.setPostUpdateHandler {
-            filterEnchants(enchantmentLookupInventory[0]) { test: ItemStack ->
+            enchantmentLookupInventory[0].generateGuiContent { test: ItemStack ->
                 viewer.playSound(settings.testSound)
                 plugin.languages.of("msg_filter_out_current")
                     .resolver(Placeholder.component("item", test.displayName()))
@@ -89,7 +86,11 @@ class EnchantMenu
                 val enchantments: Set<Key> = if (itemMeta is EnchantmentStorageMeta)
                     itemMeta.storedEnchants.keys.map { it.key }.toSet() else
                     itemMeta.enchants.keys.map { it.key }.toSet()
-                UiEnchantProvider.filter { it.key() in enchantments }.map(makeItemFunction)
+                UiEnchantProvider.filter {
+                    it.key() in enchantments
+                }.map {
+                    it.toItem()
+                }
             }
         }
 
@@ -100,45 +101,52 @@ class EnchantMenu
 
         // Return items when gui is closed.
         window.addCloseHandler {
-            returnItems(compatibilityCheckInventory, viewer)
-            returnItems(enchantmentLookupInventory, viewer)
+            compatibilityCheckInventory.returnItems(viewer)
+            enchantmentLookupInventory.returnItems(viewer)
         }
 
         window.open(viewer)
     }
 
     /**
-     * Returns items in the inventory to the player.
-     *
-     * @param inventory the inventory from which items are taken
-     * @param player the player to whom the items are given
+     * Constructs an [Item] from the UiEnchant.
      */
-    private fun returnItems(inventory: Inventory, player: Player) {
-        for (item in inventory.unsafeItems) {
-            item?.let { player.inventory.addItem(it) } // Must filter out null elements.
+    private fun UiEnchant.toItem() =
+        PreviewItem.withStateChangeHandler(cache[this]) { player, _ ->
+            player.playSound(settings.switchSound)
+        }
+
+
+    /**
+     * Returns items stored in the inventory to the player viewer.
+     */
+    private fun Inventory.returnItems(player: Player) {
+        for (item in this.unsafeItems) {
+            // Must filter out null elements.
+            item?.let { player.inventory.addItem(it) }
         }
     }
 
     /**
-     * Set the content of the paged gui (aka. the current enchantment item list) depending on what items in the inventory.
-     *
-     * @param test the item stack to be checked
-     * @param generator a function returning a list of enchantment item
+     * Set the content of the paged gui depending on the receiver item,
+     * where the gui content is aka the current enchantment item list.
      */
-    private fun filterEnchants(test: ItemStack?, generator: (ItemStack) -> List<Item>) {
-        val content: List<Item> = if (test != null) {
-            generator(test) // If player puts an item in the inventory, generate filtered content using given function.
+    private fun ItemStack?.generateGuiContent(generator: (ItemStack) -> List<Item>) {
+        val content: List<Item> = if (this != null) {
+            // If item is not full, generate filtered content using given function.
+            generator(this)
         } else {
-            UiEnchantProvider.all().map(makeItemFunction) // If the inventory is now empty, generate complete content.
+            // If it is null, generate complete content.
+            UiEnchantProvider.all().map { it.toItem() }
         }
 
         gui.setContent(content)
 
         // Must play animation AFTER setting the content
-        test?.let {
-            gui.playAnimation(
-                RandomAnimation(1, false)
-            ) { (it is SlotElement.ItemSlotElement) && (it.item is PreviewItem) }
+        this?.let {
+            gui.playAnimation(RandomAnimation(1, false)) {
+                (it is SlotElement.ItemSlotElement) && (it.item is PreviewItem)
+            }
         }
     }
 }

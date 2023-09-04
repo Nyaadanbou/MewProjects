@@ -12,26 +12,22 @@ class AdventureComponentWrapper(
 ) : ComponentWrapper {
     private val component = component.compact() // Make it compact to reduce network traffic volume
 
-    override fun serializeToJson(): String {
-        return GsonComponentSerializer.gson().serialize(component)
-    }
+    override fun serializeToJson(): String =
+        GsonComponentSerializer.gson().serialize(component)
 
-    override fun localized(lang: String): ComponentWrapper {
-        return if (!Languages.getInstance().doesServerSideTranslations()) {
+    override fun localized(lang: String): ComponentWrapper =
+        if (!Languages.getInstance().doesServerSideTranslations()) {
             this
         } else {
             AdventureComponentWrapper(AdventureComponentLocalizer.getInstance().localize(lang, component))
         }
-    }
 
-    override fun withoutPreFormatting(): ComponentWrapper {
-        return AdventureComponentWrapper(component.style {
+    override fun withoutPreFormatting(): ComponentWrapper =
+        AdventureComponentWrapper(component.style {
             // Do not add any unnecessary style
             it.decoration(TextDecoration.ITALIC, false)
         })
-    }
 
-    override fun clone(): ComponentWrapper {
-        return AdventureComponentWrapper(component)
-    }
+    override fun clone(): ComponentWrapper =
+        AdventureComponentWrapper(component)
 }

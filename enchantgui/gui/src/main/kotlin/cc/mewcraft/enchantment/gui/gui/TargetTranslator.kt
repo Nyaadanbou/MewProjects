@@ -10,7 +10,6 @@ class TargetTranslator
 @Inject constructor(
     private val plugin: EnchantGuiPlugin,
 ) {
-    fun translate(target: UiEnchantTarget): String {
-        return plugin.languages.of("item_target_${target.name.lowercase()}").plain()
-    }
+    fun translate(target: UiEnchantTarget): String =
+        plugin.languages.of("item_target_${target.name.lowercase()}").plain()
 }

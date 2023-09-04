@@ -17,9 +17,8 @@ object Lores {
         }
     }
 
-    fun replacePlaceholder(placeholder: String, dst: MutableList<String>, src: String, keep: Boolean = true) {
+    fun replacePlaceholder(placeholder: String, dst: MutableList<String>, src: String, keep: Boolean = true) =
         replacePlaceholder(placeholder, dst, listOf(src), keep)
-    }
 
     fun replacePlaceholder(placeholder: String, dst: MutableList<String>, src: List<String>, keep: Boolean = true) {
         // Find which line (in the dst list) has the placeholder

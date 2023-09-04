@@ -57,9 +57,9 @@ repositories {
     maven("https://jitpack.io") {
         content {
             includeGroup("com.github.simplix-softworks") // SimplixStorage
-            includeGroup("com.github.TownyAdvanced")
-            includeGroup("com.github.MilkBowl")
-            includeGroup("com.github.LoneDev6")
+            includeGroup("com.github.TownyAdvanced") // Towny
+            includeGroup("com.github.MilkBowl") // Vault
+            includeGroup("com.github.LoneDev6") // ItemsAdder
             includeGroup("com.github.Moulberry") // adventure-binary-serializer
             includeGroup("com.github.TechFortress") // GriefPrevention
             includeGroup("com.github.angeschossen") // LandAPI

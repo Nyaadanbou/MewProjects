@@ -22,7 +22,9 @@ class EnchantGuiSettings
     val loreFormatConflict: List<String> = plugin.config.getStringList("gui.lore.conflict")
     val loreFormatObtaining: List<String> = plugin.config.getStringList("gui.lore.obtaining")
 
-    private fun createSound(key: String?): Sound = Sound.sound(Key.key(key!!), Sound.Source.MASTER, 1f, 1f)
+    private fun createSound(key: String?): Sound =
+        Sound.sound(Key.key(key!!), Sound.Source.MASTER, 1f, 1f)
+
     val openSound: Sound = createSound(plugin.config.getString("sound.open"))
     val switchSound: Sound = createSound(plugin.config.getString("sound.switch"))
     val pageTurnSound: Sound = createSound(plugin.config.getString("sound.page_turn"))

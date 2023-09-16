@@ -15,6 +15,7 @@ internal open class PreviewItem(
     companion object {
         // The two static methods are copied from CycleItem with the difference
         // in that the return type is changed to PreviewItem instead of CycleItem
+
         @JvmStatic
         fun withStateChangeHandler(
             states: Array<out ItemProvider>,

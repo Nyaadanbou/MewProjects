@@ -1,7 +1,9 @@
-import com.cronutils.*
+import com.cronutils.CronScheduler
+import com.cronutils.ExecutionStatus
+import com.cronutils.model.Cron
 import com.cronutils.model.definition.CronDefinitionBuilder
 import com.cronutils.parser.CronParser
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.time.Duration
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
@@ -40,17 +42,33 @@ class HelloWorld {
     @Test
     fun test() {
         val scheduler = CronScheduler()
-        val job = CronJob.create("hello") {
-            println("Hello world! (${ZonedDateTime.now().truncatedTo(ChronoUnit.MINUTES)})")
+
+        val name1 = "cron1"
+        val name2 = "cron2"
+        val name3 = "cron3"
+        val cron1 = CronParser(definitionWithoutSeconds).parse("10 * * SEP THU")
+        val cron2 = CronParser(definitionWithoutSeconds).parse("11 * * SEP THU")
+        val cron3 = CronParser(definitionWithoutSeconds).parse("12 * * SEP THU")
+
+        scheduler.scheduleCronJob("cron1", cron1) {
+            printExecution(name1, cron1)
             ExecutionStatus.SUCCESS
         }
-        val trigger = CronTrigger.create(
-            CronParser(definitionWithoutSeconds).parse("* * * SEP SAT")
-        )
+        scheduler.scheduleCronJob("cron2", cron2) {
+            printExecution(name2, cron2)
+            ExecutionStatus.SUCCESS
+        }
+        scheduler.scheduleCronJob("cron3", cron3) {
+            printExecution(name3, cron3)
+            ExecutionStatus.SUCCESS
+        }
 
-        scheduler.scheduleCronJob(ExecutableUnit(job, trigger))
         scheduler.startPollingTask()
 
-        Thread.sleep(Duration.ofMinutes(5).toMillis())
+        Thread.sleep(Duration.ofMinutes(3).toMillis())
+    }
+
+    private fun printExecution(name: String, cron: Cron) {
+        println("$name - ${cron.asString()} - ${ZonedDateTime.now().truncatedTo(ChronoUnit.MINUTES)}")
     }
 }

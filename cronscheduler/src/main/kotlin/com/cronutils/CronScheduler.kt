@@ -2,73 +2,66 @@
 
 package com.cronutils
 
-import com.google.common.collect.MinMaxPriorityQueue
+import com.cronutils.model.Cron
+import java.time.ZonedDateTime
 import java.util.*
 import java.util.concurrent.*
 
 class CronScheduler {
-    private val poller: ScheduledExecutorService = Executors.newScheduledThreadPool(1)
-    private val executor: ExecutorService = Executors.newCachedThreadPool()
-    private val executingByIds: MutableSet<String> = ConcurrentHashMap.newKeySet()
-
-    private val waiting: Queue<ExecutableUnit> = MinMaxPriorityQueue.maximumSize(250).create()
-    private val executing: Queue<ExecutableUnit> = MinMaxPriorityQueue.maximumSize(250).create()
-    private val succeeded: Queue<ExecutableUnit> = MinMaxPriorityQueue.maximumSize(250).create()
-    private val failed: Queue<ExecutableUnit> = MinMaxPriorityQueue.maximumSize(250).create()
-
-    private val executionTimes: ExecutionTimes = ExecutionTimes()
-
-    private val units: List<ExecutableUnit> = LinkedList() // TODO loop through it at every minute
+    private val poller: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+    private val executor: ExecutorService = ThreadPoolExecutor(0, 100, 120, TimeUnit.SECONDS, LinkedBlockingQueue())
+    private val executing: MutableSet<String> = ConcurrentHashMap.newKeySet()
+    private val units: MutableList<ExecutableUnit> = LinkedList()
 
     /**
-     * Starts polling cron job from waiting queue.
+     * Starts polling cron jobs.
+     *
+     * The polling will run once at every minute. For each polling, it loops through all the cron jobs and executes them
+     * if current date is matched with the cron date. If the cron date is impossible to reach, it will be removed from
+     * the job list permanently.
      */
     fun startPollingTask() {
-        poller.scheduleAtFixedRate(task@{
-            val unit = waiting.peek()
-            if (unit != null &&
-                unit.trigger.nextExecution() != null &&
-                unit.trigger.matchNow()
-            ) {
-                if (unit.job.id !in executingByIds) {
-                    if (executionTimes.current(unit))
-                        return@task
-                    executing.add(unit)
-                    executor.execute(unit.job)
-                    executingByIds.add(unit.job.id)
-                    waiting.remove()
+        poller.scheduleAtFixedRate({
+            val now = ZonedDateTime.now()
+            val iterator = units.listIterator()
+            while (iterator.hasNext()) {
+                val next = iterator.next()
+
+                if (next.trigger.nextExecution() == null) {
+                    // If the cron can NEVER reach, simply remove it from job list.
+                    iterator.remove()
+                    continue
+                }
+
+                if (next.job.id !in executing && next.trigger.matchTime(now)) {
+                    executor.execute(next.job)
+                    executing.add(next.job.id)
                 }
             }
-        }, 0, 1, TimeUnit.SECONDS) // TODO Does it mean that up to 60 cron jobs can be scheduled at every minute?
+        }, 0, 1, TimeUnit.MINUTES)
     }
 
     /**
-     * Shutdown the polling tasks and running scheduled tasks.
+     * Shutdown the polling task and running scheduled tasks.
      */
     fun stopPollingTask() {
         poller.shutdown()
         executor.shutdown()
     }
 
-    fun scheduleCronJob(unit: ExecutableUnit) {
-        unit.job.addStatusHook { status: ExecutionStatus ->
-            executing.remove(unit)
-            executingByIds.remove(unit.job.id)
-
-            when (status) {
-                ExecutionStatus.FAILURE -> failed.add(unit)
-                ExecutionStatus.SUCCESS -> succeeded.add(unit)
-                ExecutionStatus.RUNNING -> throw IllegalArgumentException("RUNNING status is not allowed here")
-                ExecutionStatus.WAITING -> throw IllegalArgumentException("WAITING status is not allowed here")
+    fun scheduleCronJob(name: String, cron: Cron, action: () -> ExecutionStatus) {
+        val tri = CronTrigger(cron)
+        val job = object : CronJob(name) {
+            override fun execute(): ExecutionStatus {
+                return action()
             }
-
-            executionTimes.record(unit)
-
-            if (unit.trigger.nextExecution() != null) {
-                waiting.add(unit)
+        }
+        val unit = ExecutableUnit(tri, job).apply {
+            this.job.addStatusHook {
+                executing.remove(this.job.id)
             }
         }
 
-        waiting.add(unit)
+        units.add(unit)
     }
 }

@@ -14,6 +14,8 @@ include(":betonquestext:plugin")
 
 include(":catalog")
 
+include(":cronscheduler")
+
 include(":economy")
 include(":economy:api")
 include(":economy:bukkit")

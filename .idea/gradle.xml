@@ -34,6 +34,7 @@
             <option value="$PROJECT_DIR$/betonquestext/plugin" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/catalog" />
+            <option value="$PROJECT_DIR$/cronscheduler" />
             <option value="$PROJECT_DIR$/economy" />
             <option value="$PROJECT_DIR$/economy/api" />
             <option value="$PROJECT_DIR$/economy/bukkit" />

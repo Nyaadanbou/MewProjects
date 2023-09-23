@@ -1,20 +1,12 @@
 package com.cronutils
 
-abstract class CronJob
-private constructor(
+import java.util.*
+
+abstract class CronJob(
     val id: String,
 ) : Runnable {
     private var status = ExecutionStatus.WAITING
-    private val statusHooks: MutableList<(ExecutionStatus) -> Unit> = mutableListOf()
-
-    companion object {
-        @JvmStatic
-        fun create(id: String, action: () -> ExecutionStatus): CronJob =
-            object : CronJob(id) {
-                override fun execute(): ExecutionStatus =
-                    action()
-            }
-    }
+    private val statusHooks: MutableList<(ExecutionStatus) -> Unit> = LinkedList()
 
     protected abstract fun execute(): ExecutionStatus
 

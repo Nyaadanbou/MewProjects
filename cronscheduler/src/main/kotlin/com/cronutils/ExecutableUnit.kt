@@ -1,8 +1,8 @@
 package com.cronutils
 
 class ExecutableUnit(
-    val job: CronJob,
     val trigger: CronTrigger,
+    val job: CronJob,
 ) : Comparable<ExecutableUnit> {
     override fun compareTo(other: ExecutableUnit): Int {
         val thisObj = trigger.nextExecution()

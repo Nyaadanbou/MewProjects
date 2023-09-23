@@ -1,6 +1,6 @@
 plugins {
+    id("cc.mewcraft.repo-conventions")
     id("cc.mewcraft.java-conventions")
-    id("cc.mewcraft.repository-conventions")
     id("cc.mewcraft.deploy-conventions")
     id("cc.mewcraft.paper-plugins")
 }
@@ -34,7 +34,7 @@ dependencies {
     compileOnly(project(":economy:api"))
 
     // Test
-    testImplementation(libs.server.paper)
-    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit)
     testImplementation(libs.helper)
+    testImplementation(libs.server.paper)
 }

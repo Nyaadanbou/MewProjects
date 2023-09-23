@@ -1,7 +1,7 @@
 plugins {
+    id("cc.mewcraft.repo-conventions")
     id("cc.mewcraft.java-conventions")
     id("cc.mewcraft.deploy-conventions")
-    id("cc.mewcraft.repository-conventions")
     id("cc.mewcraft.publishing-conventions")
     id("cc.mewcraft.paper-plugins")
 }
@@ -25,7 +25,7 @@ dependencies {
     // so we just expose them to the consumers at compile path.
     compileOnlyApi(libs.guice)
     compileOnlyApi(libs.lang.bukkit)
-    compileOnlyApi(libs.bundles.cmds) {
+    compileOnlyApi(libs.bundles.cmds.paper) {
         exclude("net.kyori")
     }
 
@@ -39,7 +39,7 @@ dependencies {
     // i18n
     runtimeOnly(libs.lang.bukkit)
     // Commands
-    runtimeOnly(libs.bundles.cmds)
+    runtimeOnly(libs.bundles.cmds.paper)
     // Database
     runtimeOnly(libs.hikari)
     // GUIs
@@ -80,7 +80,7 @@ dependencies {
     compileOnly(libs.papi) { isTransitive = false }
     compileOnly(libs.minipapi) { isTransitive = false }
 
-    testImplementation(libs.junit.jupiter)
-    testImplementation(libs.server.paper)
+    testImplementation(libs.junit)
     testImplementation(libs.helper)
+    testImplementation(libs.server.paper)
 }

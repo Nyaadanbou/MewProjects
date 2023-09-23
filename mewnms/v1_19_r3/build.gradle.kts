@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.paperweight.userdev)
+    alias(libs.plugins.paperdev)
 }
 
 dependencies {

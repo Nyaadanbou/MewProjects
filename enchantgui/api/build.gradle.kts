@@ -2,8 +2,7 @@ dependencies {
     // the server api
     compileOnly(libs.server.paper)
 
-    // core libs
-    compileOnly(project(":mewcore"))
-
+    // libs present as other plugins
     compileOnly(libs.helper)
+    compileOnly(project(":mewcore"))
 }

@@ -31,9 +31,9 @@ class WorldResetSchedule(
         delay(1.ticks)
 
         // Reset the world
-        plugin.componentLogger.info("Starting the process of world reset for `$world`. The server might lag for a while.")
+        plugin.componentLogger.info("Starting world reset process: `$world`. The server might lag for a while.")
         resetWorld()
-        plugin.componentLogger.info("The process of world reset for `$world` has completed!")
+        plugin.componentLogger.info("The world reset process for `$world` has completed!")
 
         // Run post commands
         delay(1.ticks)

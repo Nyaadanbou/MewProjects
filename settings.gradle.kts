@@ -81,3 +81,9 @@ include(":townyext:towny-link:plugin")
 include(":townyext:towny-origin")
 
 include(":townyext:towny-portal")
+
+include(":worldreset")
+include(":worldreset:common")
+include(":worldreset:bukkit:master")
+include(":worldreset:bukkit:slave")
+include(":worldreset:velocity")

@@ -81,6 +81,12 @@
             <option value="$PROJECT_DIR$/townyext/towny-link/plugin" />
             <option value="$PROJECT_DIR$/townyext/towny-origin" />
             <option value="$PROJECT_DIR$/townyext/towny-portal" />
+            <option value="$PROJECT_DIR$/worldreset" />
+            <option value="$PROJECT_DIR$/worldreset/bukkit" />
+            <option value="$PROJECT_DIR$/worldreset/bukkit/master" />
+            <option value="$PROJECT_DIR$/worldreset/bukkit/slave" />
+            <option value="$PROJECT_DIR$/worldreset/common" />
+            <option value="$PROJECT_DIR$/worldreset/velocity" />
           </set>
         </option>
       </GradleProjectSettings>

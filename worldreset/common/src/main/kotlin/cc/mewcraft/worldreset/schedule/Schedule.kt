@@ -1,7 +1,7 @@
 package cc.mewcraft.worldreset.schedule
 
 import com.cronutils.model.Cron
-import kotlin.time.Duration
+import java.time.Duration
 
 /**
  * Something that will be executed at certain datetime.
@@ -19,5 +19,5 @@ interface Schedule {
      * Returns the duration to next execution if there is any,
      * or `null` if the next execution can never be reached.
      */
-    fun timeToNextExecution(): Duration? // TODO use Java duration
+    fun timeToNextExecution(): Duration?
 }

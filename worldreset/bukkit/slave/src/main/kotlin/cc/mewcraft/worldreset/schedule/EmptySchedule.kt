@@ -2,7 +2,7 @@ package cc.mewcraft.worldreset.schedule
 
 import cc.mewcraft.worldreset.util.throwUnsupportedException
 import com.cronutils.model.Cron
-import kotlin.time.Duration
+import java.time.Duration
 
 object EmptySchedule : Schedule {
     override val name: String

@@ -9,7 +9,6 @@ import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 import me.lucko.helper.scheduler.HelperExecutors
 import java.time.Duration
-import kotlin.time.toKotlinDuration
 
 class RemoteSchedules(
     private val pluginMessenger: SlavePluginMessenger,
@@ -21,7 +20,7 @@ class RemoteSchedules(
             .build(CacheLoader.asyncReloading(object : CacheLoader<String, RemoteSchedule>() {
                 override fun load(key: String): RemoteSchedule {
                     val scheduleData = pluginMessenger.requestSchedule(key).join()
-                    return RemoteSchedule(key, scheduleData.timeToNextExecution.toKotlinDuration())
+                    return RemoteSchedule(key, scheduleData.timeToNextExecution)
                 }
             }, HelperExecutors.asyncBukkit()))
 

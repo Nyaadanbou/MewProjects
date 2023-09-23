@@ -1,7 +1,7 @@
 package cc.mewcraft.worldreset.schedule
 
 import cc.mewcraft.worldreset.util.throwUnsupportedException
-import kotlin.time.Duration
+import java.time.Duration
 
 class RemoteSchedule(
     override val name: String,

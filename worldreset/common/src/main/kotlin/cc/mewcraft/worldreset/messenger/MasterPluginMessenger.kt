@@ -5,8 +5,7 @@ import cc.mewcraft.worldreset.manager.ServerLock
 import me.lucko.helper.messaging.Messenger
 import me.lucko.helper.messaging.conversation.ConversationReply
 import me.lucko.helper.promise.Promise
-import kotlin.time.Duration
-import kotlin.time.toJavaDuration
+import java.time.Duration
 
 /**
  * This messenger should be initialized by the `master` module.
@@ -23,7 +22,7 @@ class MasterPluginMessenger(
         scheduleChannel.newAgent().addListener { _, message ->
             val promise = Promise.empty<GetScheduleResponse>()
             val schedule = schedules.get(message.name)
-            val timeToNextExecution = (schedule.timeToNextExecution() ?: Duration.INFINITE).toJavaDuration()
+            val timeToNextExecution = schedule.timeToNextExecution() ?: Duration.ZERO
             promise.supply(GetScheduleResponse(message.conversationId, ScheduleData(timeToNextExecution)))
             ConversationReply.ofPromise(promise)
         }

@@ -39,7 +39,7 @@ include(":mewcore")
 include(":mewnms")
 include(":mewnms:api")
 include(":mewnms:plugin")
-include(":mewnms:v1_19_r3")
+// include(":mewnms:v1_19_r3") // Not used anymore
 include(":mewnms:v1_20_r1")
 
 include(":mewutils:base")

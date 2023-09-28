@@ -1,20 +1,16 @@
 package cc.mewcraft.mewutils;
 
-import cc.mewcraft.mewutils.module.eternal_lootchest.EternalLootChestModule;
-import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import cc.mewcraft.mewcore.message.Translations;
 import cc.mewcraft.mewutils.api.MewPlugin;
 import cc.mewcraft.mewutils.api.command.CommandRegistry;
 import cc.mewcraft.mewutils.api.module.ModuleBase;
 import cc.mewcraft.mewutils.module.better_beehive.BetterBeehiveModule;
-import cc.mewcraft.mewutils.module.better_portal.BetterPortalModule;
 import cc.mewcraft.mewutils.module.case_insensitive_commands.CaseInsensitiveCommandsModule;
 import cc.mewcraft.mewutils.module.color_palette.ColorPaletteModule;
 import cc.mewcraft.mewutils.module.death_logger.DeathLoggerModule;
 import cc.mewcraft.mewutils.module.drop_overflow.DropOverflowModule;
 import cc.mewcraft.mewutils.module.elytra_limiter.ElytraLimiterModule;
+import cc.mewcraft.mewutils.module.eternal_lootchest.EternalLootChestModule;
 import cc.mewcraft.mewutils.module.fireball_utils.FireballUtilsModule;
 import cc.mewcraft.mewutils.module.ore_announcer.OreAnnouncerModule;
 import cc.mewcraft.mewutils.module.packet_filter.PacketFilterModule;
@@ -30,6 +26,9 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,7 +137,6 @@ public final class MewUtils extends ExtendedJavaPlugin implements MewPlugin {
 
         this.modules = new ArrayList<>();
         this.modules.add(injector.getInstance(BetterBeehiveModule.class));
-        this.modules.add(injector.getInstance(BetterPortalModule.class));
         this.modules.add(injector.getInstance(DeathLoggerModule.class));
         this.modules.add(injector.getInstance(ElytraLimiterModule.class));
         this.modules.add(injector.getInstance(FireballUtilsModule.class));

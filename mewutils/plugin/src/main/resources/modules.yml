@@ -2,7 +2,6 @@
 # true: 启用 false: 禁用
 
 better-beehive: true
-better-portal: true
 case-insensitive-commands: true
 color-palette: true
 death-logger: true

@@ -82,6 +82,8 @@ include(":townyext:towny-origin")
 
 include(":townyext:towny-portal")
 
+include(":worldlink")
+
 include(":worldreset")
 include(":worldreset:common")
 include(":worldreset:bukkit:master")

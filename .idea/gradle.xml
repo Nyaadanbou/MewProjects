@@ -15,8 +15,6 @@
             </builds>
           </compositeBuild>
         </compositeConfiguration>
-        <option name="delegatedBuild" value="false" />
-        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="/usr/local/Cellar/gradle/8.0.1/libexec" />
         <option name="modules">
@@ -80,6 +78,7 @@
             <option value="$PROJECT_DIR$/townyext/towny-link/plugin" />
             <option value="$PROJECT_DIR$/townyext/towny-origin" />
             <option value="$PROJECT_DIR$/townyext/towny-portal" />
+            <option value="$PROJECT_DIR$/worldlink" />
             <option value="$PROJECT_DIR$/worldreset" />
             <option value="$PROJECT_DIR$/worldreset/bukkit" />
             <option value="$PROJECT_DIR$/worldreset/bukkit/master" />

@@ -2,13 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true" />
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
         </processorPath>
-        <module name="net.leonardo_dgs.MewProjects.ibooks.main" />
+        <module name="MewProjects.ibooks.main" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
@@ -43,9 +42,9 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.kyori/examination-api/1.3.0/8a2d185275307f1e2ef2adf7152b9a0d1d44c30b/examination-api-1.3.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.1/1dcf1de382a0bf95a3d8b0849546c88bac1292c9/failureaccess-1.0.1.jar" />
         </processorPath>
-        <module name="me.xanium.gemseconomy.MewProjects.economy.velocity.main" />
-        <module name="com.ranull.MewProjects.proxychatbridge.velocity.main" />
-        <module name="cc.mewcraft.MewProjects.persistentserver.main" />
+        <module name="MewProjects.persistentserver.main" />
+        <module name="MewProjects.economy.velocity.main" />
+        <module name="MewProjects.proxychatbridge.velocity.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />

@@ -32,8 +32,6 @@ include(":extracontexts")
 
 include(":ibooks")
 
-include(":keepinv")
-
 include(":mewcore")
 
 include(":mewnms")

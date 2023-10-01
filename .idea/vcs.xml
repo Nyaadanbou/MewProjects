@@ -2,9 +2,26 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/adventurelevel" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/betonquestext" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/buildSrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/catalog" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cronscheduler" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/economy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/enchantgui" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/extracontexts" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/gradle" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ibooks" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/mewcore" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/mewfish" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/mewhelp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/mewnms" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/mewutils" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/mmoext" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/persistentserver" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pickaxepower" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/proxychatbridge" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/rpgext" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/worldlink" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/worldreset" vcs="Git" />
   </component>

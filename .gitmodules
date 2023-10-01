@@ -1,0 +1,4 @@
+[submodule "adventurelevel"]
+	path = adventurelevel
+	url = https://github.com/Qcospihz/adventurelevel
+	branch = main

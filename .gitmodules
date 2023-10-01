@@ -2,3 +2,79 @@
 	path = adventurelevel
 	url = https://github.com/Qcospihz/adventurelevel
 	branch = main
+[submodule "betonquestext"]
+	path = betonquestext
+	url = https://github.com/Qcospihz/betonquestext
+	branch = main
+[submodule "cronscheduler"]
+	path = cronscheduler
+	url = https://github.com/Qcospihz/cronscheduler
+	branch = main
+[submodule "economy"]
+	path = economy
+	url = https://github.com/Qcospihz/economy
+	branch = main
+[submodule "enchantgui"]
+	path = enchantgui
+	url = https://github.com/Qcospihz/enchantgui
+	branch = main
+[submodule "extracontexts"]
+	path = extracontexts
+	url = https://github.com/Qcospihz/extracontexts
+	branch = main
+[submodule "ibooks"]
+	path = ibooks
+	url = https://github.com/Qcospihz/ibooks
+	branch = main
+[submodule "mewcore"]
+	path = mewcore
+	url = https://github.com/Qcospihz/mewcore
+	branch = main
+[submodule "mewfish"]
+	path = mewfish
+	url = https://github.com/Qcospihz/mewfish
+	branch = main
+[submodule "mewhelp"]
+	path = mewhelp
+	url = https://github.com/Qcospihz/mewhelp
+	branch = main
+[submodule "mewnms"]
+	path = mewnms
+	url = https://github.com/Qcospihz/mewnms
+	branch = main
+[submodule "mewutils"]
+	path = mewutils
+	url = https://github.com/Qcospihz/mewutils
+	branch = main
+[submodule "mmoext"]
+	path = mmoext
+	url = https://github.com/Qcospihz/mmoext
+	branch = main
+[submodule "persistentserver"]
+	path = persistentserver
+	url = https://github.com/Qcospihz/persistentserver
+	branch = main
+[submodule "pickaxepower"]
+	path = pickaxepower
+	url = https://github.com/Qcospihz/pickaxepower
+	branch = main
+[submodule "proxychatbridge"]
+	path = proxychatbridge
+	url = https://github.com/Qcospihz/proxychatbridge
+	branch = main
+[submodule "rpgext"]
+	path = rpgext
+	url = https://github.com/Qcospihz/rpgext
+	branch = main
+[submodule "townyext"]
+	path = townyext
+	url = https://github.com/Qcospihz/townyext
+	branch = main
+[submodule "worldlink"]
+	path = worldlink
+	url = https://github.com/Qcospihz/worldlink
+	branch = main
+[submodule "worldreset"]
+	path = worldreset
+	url = https://github.com/Qcospihz/worldreset
+	branch = main

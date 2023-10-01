@@ -1,9 +1,0 @@
-msg_plugin_reloaded: <aqua>已重新载入 <plugin> <version> by <author>
-
-town_name_already_exists: <red>已经存在叫做 <town> 的城镇
-nation_name_already_exists: <red>已经存在叫做 <nation> 的国家
-
-msg_no_home_for_no_town: <#ff7e53>传送失败！你有家乡，但家乡没有你的城镇
-msg_no_home_for_no_origin: <#ff7e53>传送失败！你还没有家乡，请先加入/建立一个城镇
-msg_teleport_failed_exceptionally: <#ff7e53>传送发生错误，请汇报到上古茶馆
-msg_arrived_home: <#00fb9a>传送成功！甜蜜的家

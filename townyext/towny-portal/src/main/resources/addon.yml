@@ -1,8 +1,0 @@
-name: TownyPortal
-version: ${version}
-description: ${description}
-main: cc.mewcraft.townyportal.TownyPortal
-
-authors: [ Nailm ]
-depend: [ MaskedGUI ]
-plugin-depend: [ Towny ]

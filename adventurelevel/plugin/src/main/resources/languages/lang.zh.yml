@@ -1,6 +1,0 @@
-msg_config_reloaded: '已重新载入 <plugin> <version> by <author>'
-msg_player_is_null: '指定玩家不存在'
-msg_player_xp_is_set: '<player> (<category>) = <amount> xp'
-msg_player_xp_is_added: '<player> (<category>) + <amount> xp'
-msg_player_level_is_set: '<player> (<category>) = <amount> lvl'
-msg_player_level_is_added: '<player> (<category>) + <amount> lvl'

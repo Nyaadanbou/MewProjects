@@ -4,5 +4,4 @@
 **/out
 **/build
 
-# ignore sub repos
-/economy
+**/.DS_Store

@@ -4,12 +4,10 @@
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/adventurelevel" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/betonquestext" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/buildSrc" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cronscheduler" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/economy" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/enchantgui" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/extracontexts" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/gradle" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ibooks" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/mewcore" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/mewfish" vcs="Git" />

@@ -1,4 +1,6 @@
 repositories {
+    // All projects maintained by Mewcraft are published to it
+    // This is also the first step to build our own CI/CD pipeline
     maven(uri("${System.getenv("HOME")}/MewcraftRepository"))
 
     // Locally cached projects TODO Move to the MewcraftRepository
@@ -6,12 +8,11 @@ repositories {
         content {
             includeGroup("at.helpch") // ChatChat
             includeGroup("net.leonardo_dgs") // InteractiveBooks
-            includeGroup("com.github.DieReicheErethons") // Brewery
             includeGroup("su.nightexpress.gamepoints") // GamePoints
-            includeGroup("me.hsgamer.bettergui") // MaskedGUI
         }
     }
 
+    // Most public projects reside in it
     mavenCentral()
 
     // Purpur MC
@@ -31,13 +32,6 @@ repositories {
         }
     }
 
-    // Lucko my god
-    maven("https://repo.lucko.me") {
-        content {
-            includeGroup("me.lucko")
-        }
-    }
-
     // ProtocolLib
     maven("https://repo.dmulloy2.net/repository/public/") {
         content {
@@ -45,7 +39,14 @@ repositories {
         }
     }
 
-    // Phoenix616's stuff
+    // Luck's projects
+    maven("https://repo.lucko.me") {
+        content {
+            includeGroup("me.lucko")
+        }
+    }
+
+    // Phoenix616's projects
     maven("https://repo.minebench.de/") {
         content {
             includeGroup("de.themoep.utils")
@@ -53,7 +54,7 @@ repositories {
         }
     }
 
-    // All projects hosted on jitpack
+    // All projects hosted on JitPack
     maven("https://jitpack.io") {
         content {
             includeGroup("com.github.simplix-softworks") // SimplixStorage
@@ -73,19 +74,22 @@ repositories {
         }
     }
 
-    // MMO plugins
+    // Mythic Team Plugins
     maven("https://mvn.lumine.io/repository/maven-public/") {
         content {
-            includeGroup("io.lumine")
-        }
-    }
-    maven("https://nexus.phoenixdevt.fr/repository/maven-public/") {
-        mavenContent {
-            includeGroup("io.lumine")
+            includeGroup("io.lumine") // MythicMobs
         }
     }
 
-    // WorldEdit & WorldGuard
+    // Phoenix Team Plugins
+    maven("https://nexus.phoenixdevt.fr/repository/maven-public/") {
+        mavenContent {
+            includeGroup("io.lumine") // MythicLib // TODO replace it with Nova
+            includeGroup("net.Indyuce") // MMOItems // TODO replace it with Nova
+        }
+    }
+
+    // WorldEdit, WorldGuard
     maven("https://maven.enginehub.org/repo/") {
         content {
             includeGroup("com.sk89q.worldguard")

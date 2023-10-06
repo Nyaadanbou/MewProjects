@@ -1,5 +1,14 @@
 rootProject.name = "MewProjects"
 
+// The Spatula
+
+include(":spatula:bukkit:item")
+include(":spatula:bukkit:item:api")
+include(":spatula:bukkit:item:impl")
+include(":spatula:bukkit:item:plugin")
+
+// Other projects
+
 include(":adventurelevel")
 include(":adventurelevel:api")
 include(":adventurelevel:plugin")

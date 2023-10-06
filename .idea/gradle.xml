@@ -67,6 +67,12 @@
             <option value="$PROJECT_DIR$/rpgext/mythicmobsext" />
             <option value="$PROJECT_DIR$/rpgext/reforge" />
             <option value="$PROJECT_DIR$/rpgext/reforgegui" />
+            <option value="$PROJECT_DIR$/spatula" />
+            <option value="$PROJECT_DIR$/spatula/bukkit" />
+            <option value="$PROJECT_DIR$/spatula/bukkit/item" />
+            <option value="$PROJECT_DIR$/spatula/bukkit/item/api" />
+            <option value="$PROJECT_DIR$/spatula/bukkit/item/impl" />
+            <option value="$PROJECT_DIR$/spatula/bukkit/item/plugin" />
             <option value="$PROJECT_DIR$/townyext" />
             <option value="$PROJECT_DIR$/townyext/towny-board" />
             <option value="$PROJECT_DIR$/townyext/towny-bonus" />

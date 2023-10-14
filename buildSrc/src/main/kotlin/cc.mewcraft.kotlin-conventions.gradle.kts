@@ -8,19 +8,30 @@ plugins {
 
 tasks {
     // Kotlin source files are always UTF-8 by design.
-
     compileKotlin {
         dependsOn(clean)
     }
     compileTestKotlin {
         dependsOn(clean)
     }
+
+    // Configure shadow
     assemble {
         dependsOn(shadowJar)
     }
     shadowJar {
         archiveClassifier.set("shaded")
+        dependencies {
+            exclude("META-INF/NOTICE")
+            exclude("META-INF/maven/**")
+            exclude("META-INF/versions/**")
+            exclude("META-INF/**.kotlin_module")
+        }
     }
+}
+
+java {
+    withSourcesJar()
 }
 
 kotlin {

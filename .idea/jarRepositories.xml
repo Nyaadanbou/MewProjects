@@ -17,6 +17,11 @@
       <option name="url" value="https://repo.maven.apache.org/maven2/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="maven4" />
+      <option name="name" value="maven4" />
+      <option name="url" value="https://repo.dmulloy2.net/repository/public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="maven7" />
       <option name="name" value="maven7" />
       <option name="url" value="https://jitpack.io" />
@@ -57,6 +62,11 @@
       <option name="url" value="https://maven.enginehub.org/repo/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="maven5" />
+      <option name="name" value="maven5" />
+      <option name="url" value="https://repo.lucko.me" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="maven20" />
       <option name="name" value="maven20" />
       <option name="url" value="https://repo.william278.net/releases" />
@@ -92,11 +102,6 @@
       <option name="url" value="https://repo.minebench.de/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="maven5" />
-      <option name="name" value="maven5" />
-      <option name="url" value="https://repo.dmulloy2.net/repository/public/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="maven10" />
       <option name="name" value="maven10" />
       <option name="url" value="https://nexus.phoenixdevt.fr/repository/maven-public/" />
@@ -120,11 +125,6 @@
       <option name="id" value="maven2" />
       <option name="name" value="maven2" />
       <option name="url" value="https://repo.purpurmc.org/snapshots" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="maven4" />
-      <option name="name" value="maven4" />
-      <option name="url" value="https://repo.lucko.me" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="Gradle Central Plugin Repository" />

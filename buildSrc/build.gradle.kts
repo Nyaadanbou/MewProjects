@@ -21,9 +21,6 @@ dependencies {
     implementation("org.jetbrains.kotlin.jvm", "org.jetbrains.kotlin.jvm.$pluginSuffix", kotlinVersion)
     implementation("org.jetbrains.kotlin.plugin.serialization", "org.jetbrains.kotlin.plugin.serialization.$pluginSuffix", kotlinVersion)
     implementation("org.jetbrains.kotlin.plugin.atomicfu", "org.jetbrains.kotlin.plugin.atomicfu.$pluginSuffix", kotlinVersion)
-
-    // TODO Use plugin-yml for all projects
-    // implementation("net.minecrell.plugin-yml.paper", "net.minecrell.plugin-yml.paper.$pluginSuffix", "0.6.0")
 }
 
 // Allows to publish my convention plugins which may be used by my other projects

@@ -7,6 +7,17 @@ include(":spatula:bukkit:item:api")
 include(":spatula:bukkit:item:impl")
 include(":spatula:bukkit:item:plugin")
 
+include(":spatula:bukkit:command")
+include(":spatula:bukkit:commons")
+include(":spatula:bukkit:gui")
+include(":spatula:bukkit:message")
+include(":spatula:bukkit:persistent")
+include(":spatula:bukkit:utils")
+
+include(":spatula:guice")
+include(":spatula:koin")
+include(":spatula:network")
+
 // Other projects
 
 include(":adventurelevel")
@@ -36,6 +47,7 @@ include(":enchantgui")
 include(":enchantgui:api")
 include(":enchantgui:gui")
 include(":enchantgui:provider")
+include(":enchantgui:plugin")
 
 include(":extracontexts")
 
@@ -48,6 +60,7 @@ include(":mewnms:api")
 include(":mewnms:plugin")
 // include(":mewnms:v1_19_r3") // Not used anymore
 include(":mewnms:v1_20_r1")
+// include(":mewnms:v1_20_r2") // TODO uncomment when the guava issue is fixed
 
 include(":mewutils:base")
 include(":mewutils:plugin")
@@ -65,7 +78,7 @@ include(":pickaxepower")
 include(":proxychatbridge")
 include(":proxychatbridge:bukkit")
 include(":proxychatbridge:common")
-include(":proxychatbridge:dist")
+include(":proxychatbridge:jar")
 include(":proxychatbridge:velocity")
 
 include(":rpgext")

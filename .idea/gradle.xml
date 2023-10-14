@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -40,6 +41,7 @@
             <option value="$PROJECT_DIR$/enchantgui" />
             <option value="$PROJECT_DIR$/enchantgui/api" />
             <option value="$PROJECT_DIR$/enchantgui/gui" />
+            <option value="$PROJECT_DIR$/enchantgui/plugin" />
             <option value="$PROJECT_DIR$/enchantgui/provider" />
             <option value="$PROJECT_DIR$/extracontexts" />
             <option value="$PROJECT_DIR$/ibooks" />
@@ -59,7 +61,7 @@
             <option value="$PROJECT_DIR$/proxychatbridge" />
             <option value="$PROJECT_DIR$/proxychatbridge/bukkit" />
             <option value="$PROJECT_DIR$/proxychatbridge/common" />
-            <option value="$PROJECT_DIR$/proxychatbridge/dist" />
+            <option value="$PROJECT_DIR$/proxychatbridge/jar" />
             <option value="$PROJECT_DIR$/proxychatbridge/velocity" />
             <option value="$PROJECT_DIR$/rpgext" />
             <option value="$PROJECT_DIR$/rpgext/common" />
@@ -69,10 +71,19 @@
             <option value="$PROJECT_DIR$/rpgext/reforgegui" />
             <option value="$PROJECT_DIR$/spatula" />
             <option value="$PROJECT_DIR$/spatula/bukkit" />
+            <option value="$PROJECT_DIR$/spatula/bukkit/command" />
+            <option value="$PROJECT_DIR$/spatula/bukkit/commons" />
+            <option value="$PROJECT_DIR$/spatula/bukkit/gui" />
             <option value="$PROJECT_DIR$/spatula/bukkit/item" />
             <option value="$PROJECT_DIR$/spatula/bukkit/item/api" />
             <option value="$PROJECT_DIR$/spatula/bukkit/item/impl" />
             <option value="$PROJECT_DIR$/spatula/bukkit/item/plugin" />
+            <option value="$PROJECT_DIR$/spatula/bukkit/message" />
+            <option value="$PROJECT_DIR$/spatula/bukkit/persistent" />
+            <option value="$PROJECT_DIR$/spatula/bukkit/utils" />
+            <option value="$PROJECT_DIR$/spatula/guice" />
+            <option value="$PROJECT_DIR$/spatula/koin" />
+            <option value="$PROJECT_DIR$/spatula/network" />
             <option value="$PROJECT_DIR$/townyext" />
             <option value="$PROJECT_DIR$/townyext/towny-board" />
             <option value="$PROJECT_DIR$/townyext/towny-bonus" />

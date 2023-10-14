@@ -63,12 +63,14 @@
             <option value="$PROJECT_DIR$/proxychatbridge/common" />
             <option value="$PROJECT_DIR$/proxychatbridge/jar" />
             <option value="$PROJECT_DIR$/proxychatbridge/velocity" />
+            <option value="$PROJECT_DIR$/reforge" />
+            <option value="$PROJECT_DIR$/reforge/reforge-gui" />
+            <option value="$PROJECT_DIR$/reforge/reforge-internal" />
+            <option value="$PROJECT_DIR$/reforge/reforge-plugin" />
             <option value="$PROJECT_DIR$/rpgext" />
             <option value="$PROJECT_DIR$/rpgext/common" />
             <option value="$PROJECT_DIR$/rpgext/mythiclibext" />
             <option value="$PROJECT_DIR$/rpgext/mythicmobsext" />
-            <option value="$PROJECT_DIR$/rpgext/reforge" />
-            <option value="$PROJECT_DIR$/rpgext/reforgegui" />
             <option value="$PROJECT_DIR$/spatula" />
             <option value="$PROJECT_DIR$/spatula/bukkit" />
             <option value="$PROJECT_DIR$/spatula/bukkit/command" />

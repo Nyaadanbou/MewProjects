@@ -18,6 +18,7 @@
     <mapping directory="$PROJECT_DIR$/persistentserver" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/pickaxepower" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/proxychatbridge" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/reforge" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/rpgext" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/spatula" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/townyext" vcs="Git" />

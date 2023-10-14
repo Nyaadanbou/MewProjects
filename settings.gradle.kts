@@ -81,25 +81,23 @@ include(":proxychatbridge:common")
 include(":proxychatbridge:jar")
 include(":proxychatbridge:velocity")
 
+include(":reforge")
+include(":reforge:reforge-gui")
+include(":reforge:reforge-internal")
+include(":reforge:reforge-plugin")
+
 include(":rpgext")
 include(":rpgext:common")
 include(":rpgext:mythiclibext")
 include(":rpgext:mythicmobsext")
-include(":rpgext:reforge")
-include(":rpgext:reforgegui")
 
 include(":townyext")
-
 include(":townyext:towny-board")
-
 include(":townyext:towny-bonus")
-
 include(":townyext:towny-link")
 include(":townyext:towny-link:api")
 include(":townyext:towny-link:plugin")
-
 include(":townyext:towny-origin")
-
 include(":townyext:towny-portal")
 
 include(":worldlink")

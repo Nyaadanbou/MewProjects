@@ -78,3 +78,11 @@
 	path = worldreset
 	url = https://github.com/Qcospihz/worldreset
 	branch = main
+[submodule "reforge"]
+	path = reforge
+	url = https://github.com/Qcospihz/reforge
+	branch = main
+[submodule "spatula"]
+	path = spatula
+	url = https://github.com/Qcospihz/spatula
+	branch = main

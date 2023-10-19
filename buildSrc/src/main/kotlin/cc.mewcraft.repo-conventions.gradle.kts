@@ -1,7 +1,12 @@
+val userHome: String = when {
+    System.getProperty("os.name").startsWith("Windows", ignoreCase = true) -> System.getenv("USERPROFILE")
+    else -> System.getenv("HOME")
+}
+
 repositories {
     // All projects maintained by Mewcraft are published to it
     // This is also the first step to build our own CI/CD pipeline
-    maven(uri("${System.getenv("HOME")}/MewcraftRepository"))
+    maven(uri("$userHome/MewcraftRepository"))
 
     // Locally cached projects TODO Move to the MewcraftRepository
     mavenLocal {

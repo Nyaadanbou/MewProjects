@@ -43,8 +43,12 @@ authlib = { group = "com.mojang", name = "authlib", version = "1.5.25" }
 # Spatula Item API
 spatula-item = { group = "cc.mewcraft.spatula.item", name = "api", version = "1.0.0" }
 
+# TownyLink API
+townylink = { group = "cc.mewcraft.townylink", name = "api", version = "1.0.0" }
+
 # Dependency injection frameworks
 guice = { group = "com.google.inject", name = "guice", version = "5.1.0" }
+guice-assistedinject = { group = "com.google.inject.extensions", name = "guice-assistedinject", version = "5.1.0" }
 koin = { group = "io.insert-koin", name = "koin-core", version = "3.5.0" }
 
 # SQL libraries

@@ -89,6 +89,8 @@
             <option value="$PROJECT_DIR$/townyext" />
             <option value="$PROJECT_DIR$/townyext/towny-board" />
             <option value="$PROJECT_DIR$/townyext/towny-bonus" />
+            <option value="$PROJECT_DIR$/townyext/towny-coordinator" />
+            <option value="$PROJECT_DIR$/townyext/towny-home" />
             <option value="$PROJECT_DIR$/townyext/towny-link" />
             <option value="$PROJECT_DIR$/townyext/towny-link/api" />
             <option value="$PROJECT_DIR$/townyext/towny-link/plugin" />

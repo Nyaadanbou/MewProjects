@@ -1,13 +1,14 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
     kotlin("plugin.atomicfu")
-
     id("com.github.johnrengelman.shadow")
 }
 
 tasks {
-    // Kotlin source files are always UTF-8 by design.
+    // Kotlin source files are UTF-8 by default.
     compileKotlin {
         dependsOn(clean)
     }

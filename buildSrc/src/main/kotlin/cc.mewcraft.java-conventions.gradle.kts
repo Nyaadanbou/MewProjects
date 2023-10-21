@@ -1,6 +1,5 @@
 plugins {
     `java-library`
-
     id("net.kyori.indra")
     id("com.github.johnrengelman.shadow")
 }

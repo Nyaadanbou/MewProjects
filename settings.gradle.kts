@@ -60,7 +60,7 @@ include(":mewnms:api")
 include(":mewnms:plugin")
 // include(":mewnms:v1_19_r3") // Not used anymore
 include(":mewnms:v1_20_r1")
-// include(":mewnms:v1_20_r2") // TODO uncomment when the guava issue is fixed
+include(":mewnms:v1_20_r2")
 
 include(":mewutils:base")
 include(":mewutils:plugin")

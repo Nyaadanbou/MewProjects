@@ -86,3 +86,7 @@
 	path = spatula
 	url = https://github.com/Qcospihz/spatula
 	branch = main
+[submodule "wakame"]
+	path = wakame
+	url = https://github.com/Qcospihz/wakame.git
+	branch = main

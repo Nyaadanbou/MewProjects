@@ -97,6 +97,10 @@
             <option value="$PROJECT_DIR$/townyext/towny-link/plugin" />
             <option value="$PROJECT_DIR$/townyext/towny-origin" />
             <option value="$PROJECT_DIR$/townyext/towny-portal" />
+            <option value="$PROJECT_DIR$/wakame" />
+            <option value="$PROJECT_DIR$/wakame/wakame-api" />
+            <option value="$PROJECT_DIR$/wakame/wakame-nms" />
+            <option value="$PROJECT_DIR$/wakame/wakame-plugin" />
             <option value="$PROJECT_DIR$/worldlink" />
             <option value="$PROJECT_DIR$/worldreset" />
             <option value="$PROJECT_DIR$/worldreset/bukkit" />

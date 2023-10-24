@@ -22,6 +22,7 @@
     <mapping directory="$PROJECT_DIR$/rpgext" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/spatula" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/townyext" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/wakame" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/worldlink" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/worldreset" vcs="Git" />
   </component>

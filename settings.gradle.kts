@@ -103,8 +103,7 @@ include(":townyext:towny-origin")
 include(":townyext:towny-portal")
 
 include(":wakame:wakame-api")
-include(":wakame:wakame-nms:api")
-include(":wakame:wakame-nms:internal")
+include(":wakame:wakame-nms")
 include(":wakame:wakame-plugin")
 
 include(":worldlink")

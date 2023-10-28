@@ -100,6 +100,8 @@
             <option value="$PROJECT_DIR$/wakame" />
             <option value="$PROJECT_DIR$/wakame/wakame-api" />
             <option value="$PROJECT_DIR$/wakame/wakame-nms" />
+            <option value="$PROJECT_DIR$/wakame/wakame-nms/api" />
+            <option value="$PROJECT_DIR$/wakame/wakame-nms/internal" />
             <option value="$PROJECT_DIR$/wakame/wakame-plugin" />
             <option value="$PROJECT_DIR$/worldlink" />
             <option value="$PROJECT_DIR$/worldreset" />

@@ -6,7 +6,7 @@ server-paper = "1.20.2-R0.1-SNAPSHOT"
 server-purpur = "1.20.2-R0.1-SNAPSHOT"
 
 # Libraries
-invui = "1.12"
+invui = "1.23"
 cloudcmds = "1.8.3"
 mccoroutine = "2.13.0"
 i18n = "1.3-SNAPSHOT"
@@ -80,7 +80,7 @@ anvilgui = { group = "net.wesjd", name = "anvilgui", version = "1.6.5-SNAPSHOT" 
 invui-core = { group = "xyz.xenondevs.invui", name = "invui-core", version.ref = "invui" }
 invui-kotlin = { group = "xyz.xenondevs.invui", name = "invui-kotlin", version.ref = "invui" }
 invui-invaccess = { group = "xyz.xenondevs.invui", name = "inventory-access", version.ref = "invui" }
-invui-invaccess-nms = { group = "xyz.xenondevs.invui", name = "inventory-access-r14", version.ref = "invui" }
+invui-invaccess-nms = { group = "xyz.xenondevs.invui", name = "inventory-access-r17", version.ref = "invui" }
 
 # Other, rarely used
 adventure-binaryserializer = { group = "com.github.Moulberry", name = "adventure-binary-serializer", version = "master-SNAPSHOT" }

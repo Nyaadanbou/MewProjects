@@ -115,3 +115,5 @@ include(":worldreset:bukkit:slave")
 include(":worldreset:velocity")
 
 include(":mailbox")
+include("mailbox:plugin")
+findProject(":mailbox:plugin")?.name = "plugin"

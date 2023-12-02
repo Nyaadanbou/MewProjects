@@ -90,3 +90,6 @@
 	path = wakame
 	url = https://github.com/Qcospihz/wakame.git
 	branch = main
+[submodule "mailbox"]
+	path = mailbox
+	url = git@github.com:Qcospihz/mailbox.git

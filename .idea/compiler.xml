@@ -38,9 +38,9 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.kyori/ansi/1.0.0/a53ccc80746f585419692d09662155ab72dbba57/ansi-1.0.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.1/1dcf1de382a0bf95a3d8b0849546c88bac1292c9/failureaccess-1.0.1.jar" />
         </processorPath>
-        <module name="MewProjects.persistentserver.main" />
-        <module name="MewProjects.economy.velocity.main" />
-        <module name="MewProjects.proxychatbridge.velocity.main" />
+        <module name="me.xanium.gemseconomy.MewProjects.economy.velocity.main" />
+        <module name="cc.mewcraft.persistentserver.MewProjects.persistentserver.main" />
+        <module name="com.ranull.proxychatbridge.MewProjects.proxychatbridge.velocity.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />

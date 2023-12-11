@@ -118,3 +118,4 @@ include(":mailbox")
 
 include(":mailbox:plugin")
 include(":mailbox:api")
+include("mailbox:gui")

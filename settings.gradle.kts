@@ -113,3 +113,9 @@ include(":worldreset:common")
 include(":worldreset:bukkit:master")
 include(":worldreset:bukkit:slave")
 include(":worldreset:velocity")
+
+include(":mailbox")
+
+include(":mailbox:plugin")
+include(":mailbox:api")
+include("mailbox:gui")

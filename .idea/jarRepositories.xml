@@ -136,5 +136,20 @@
       <option name="name" value="maven22" />
       <option name="url" value="https://repo.unnamed.team/repository/unnamed-public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="file:$USER_HOME$/MewcraftRepository" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenLocal" />
+      <option name="name" value="MavenLocal" />
+      <option name="url" value="file:/$MAVEN_REPOSITORY$/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="file:/$USER_HOME$/MewcraftRepository/" />
+    </remote-repository>
   </component>
 </project>

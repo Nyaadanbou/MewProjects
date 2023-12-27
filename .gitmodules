@@ -93,3 +93,4 @@
 [submodule "mailbox"]
 	path = mailbox
 	url = git@github.com:Qcospihz/mailbox.git
+	branch = main

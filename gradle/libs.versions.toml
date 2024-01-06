@@ -21,6 +21,7 @@ server-paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "
 server-purpur = { group = "org.purpurmc.purpur", name = "purpur-api", version.ref = "server-purpur" }
 
 # Generic libraries
+caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine", version = "3.1.8" }
 guava = { group = "com.google.guava", name = "guava", version = "32.1.2-jre" }
 commons-io = { group = "commons-io", name = "commons-io", version = "2.13.0" }
 

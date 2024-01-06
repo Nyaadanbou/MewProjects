@@ -2,8 +2,8 @@
 
 # Platforms
 proxy-velocity = "3.2.0-SNAPSHOT"
-server-paper = "1.20.2-R0.1-SNAPSHOT"
-server-purpur = "1.20.2-R0.1-SNAPSHOT"
+server-paper = "1.20.4-R0.1-SNAPSHOT"
+server-purpur = "1.20.4-R0.1-SNAPSHOT"
 
 # Libraries
 invui = "1.23"

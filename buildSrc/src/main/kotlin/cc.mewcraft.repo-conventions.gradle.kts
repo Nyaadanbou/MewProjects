@@ -157,7 +157,7 @@ repositories {
     }
 
     // BetonQuest
-    maven("https://betonquest.org/nexus/repository/betonquest/") {
+    maven("https://nexus.betonquest.org/repository/betonquest/") {
         content {
             includeGroup("org.betonquest")
         }

@@ -120,7 +120,7 @@ citizens = { group = "net.citizensnpcs", name = "citizensapi", version = "2.0.29
 floodgate = { group = "org.geysermc.floodgate", name = "api", version = "2.2.0-SNAPSHOT" }
 chatchat-api = { group = "at.helpch", name = "api", version = "1.0-SNAPSHOT" }
 chatchat-plugin = { group = "at.helpch", name = "plugin", version = "1.0-SNAPSHOT" }
-betonquest = { group = "org.betonquest", name = "betonquest", version = "2.0.0-SNAPSHOT" }
+betonquest = { group = "org.betonquest", name = "betonquest", version = "2.0.1-SNAPSHOT" }
 huskhomes = { group = "net.william278", name = "huskhomes", version = "4.4.1" }
 husksync = { group = "net.william278", name = "husksync", version = "2.2.5" }
 papiproxybridge = { group = "net.william278", name = "papiproxybridge", version = "1.2.2" }

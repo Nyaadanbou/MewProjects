@@ -8,6 +8,7 @@ server-purpur = "1.20.4-R0.1-SNAPSHOT"
 # Libraries
 invui = "1.25"
 cloudcmds = "1.8.3"
+configurate = "4.2.0-SNAPSHOT"
 mccoroutine = "2.13.0"
 i18n = "1.3-SNAPSHOT"
 asm = "9.5"
@@ -70,7 +71,8 @@ cloud-kotlin-extensions = { group = "cloud.commandframework", name = "cloud-kotl
 cloud-kotlin-coroutines = { group = "cloud.commandframework", name = "cloud-kotlin-coroutines", version.ref = "cloudcmds" }
 
 # Configuration frameworks
-configurate = { group = "org.spongepowered", name = "configurate-yaml", version = "4.1.2" }
+configurate-yaml = { group = "xyz.xenondevs.configurate", name = "configurate-yaml", version.ref = "configurate" }
+configurate-extra-kotlin = { group = "xyz.xenondevs.configurate", name = "configurate-extra-kotlin", version.ref = "configurate" }
 simplixstorage = { group = "com.github.simplix-softworks", name = "simplixstorage", version = "3.2.6" }
 
 # I18n frameworks

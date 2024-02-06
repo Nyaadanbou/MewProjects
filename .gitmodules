@@ -1,96 +1,96 @@
 [submodule "adventurelevel"]
 	path = adventurelevel
-	url = https://github.com/Qcospihz/adventurelevel
+	url = https://github.com/Nyaadanbou/adventurelevel
 	branch = main
 [submodule "betonquestext"]
 	path = betonquestext
-	url = https://github.com/Qcospihz/betonquestext
+	url = https://github.com/Nyaadanbou/betonquestext
 	branch = main
 [submodule "cronscheduler"]
 	path = cronscheduler
-	url = https://github.com/Qcospihz/cronscheduler
+	url = https://github.com/Nyaadanbou/cronscheduler
 	branch = main
 [submodule "economy"]
 	path = economy
-	url = https://github.com/Qcospihz/economy
+	url = https://github.com/Nyaadanbou/economy
 	branch = main
 [submodule "enchantgui"]
 	path = enchantgui
-	url = https://github.com/Qcospihz/enchantgui
+	url = https://github.com/Nyaadanbou/enchantgui
 	branch = main
 [submodule "extracontexts"]
 	path = extracontexts
-	url = https://github.com/Qcospihz/extracontexts
+	url = https://github.com/Nyaadanbou/extracontexts
 	branch = main
 [submodule "ibooks"]
 	path = ibooks
-	url = https://github.com/Qcospihz/ibooks
+	url = https://github.com/Nyaadanbou/ibooks
 	branch = main
 [submodule "mewcore"]
 	path = mewcore
-	url = https://github.com/Qcospihz/mewcore
+	url = https://github.com/Nyaadanbou/mewcore
 	branch = main
 [submodule "mewfish"]
 	path = mewfish
-	url = https://github.com/Qcospihz/mewfish
+	url = https://github.com/Nyaadanbou/mewfish
 	branch = main
 [submodule "mewhelp"]
 	path = mewhelp
-	url = https://github.com/Qcospihz/mewhelp
+	url = https://github.com/Nyaadanbou/mewhelp
 	branch = main
 [submodule "mewnms"]
 	path = mewnms
-	url = https://github.com/Qcospihz/mewnms
+	url = https://github.com/Nyaadanbou/mewnms
 	branch = main
 [submodule "mewutils"]
 	path = mewutils
-	url = https://github.com/Qcospihz/mewutils
+	url = https://github.com/Nyaadanbou/mewutils
 	branch = main
 [submodule "mmoext"]
 	path = mmoext
-	url = https://github.com/Qcospihz/mmoext
+	url = https://github.com/Nyaadanbou/mmoext
 	branch = main
 [submodule "persistentserver"]
 	path = persistentserver
-	url = https://github.com/Qcospihz/persistentserver
+	url = https://github.com/Nyaadanbou/persistentserver
 	branch = main
 [submodule "pickaxepower"]
 	path = pickaxepower
-	url = https://github.com/Qcospihz/pickaxepower
+	url = https://github.com/Nyaadanbou/pickaxepower
 	branch = main
 [submodule "proxychatbridge"]
 	path = proxychatbridge
-	url = https://github.com/Qcospihz/proxychatbridge
+	url = https://github.com/Nyaadanbou/proxychatbridge
 	branch = main
 [submodule "rpgext"]
 	path = rpgext
-	url = https://github.com/Qcospihz/rpgext
+	url = https://github.com/Nyaadanbou/rpgext
 	branch = main
 [submodule "townyext"]
 	path = townyext
-	url = https://github.com/Qcospihz/townyext
+	url = https://github.com/Nyaadanbou/townyext
 	branch = main
 [submodule "worldlink"]
 	path = worldlink
-	url = https://github.com/Qcospihz/worldlink
+	url = https://github.com/Nyaadanbou/worldlink
 	branch = main
 [submodule "worldreset"]
 	path = worldreset
-	url = https://github.com/Qcospihz/worldreset
+	url = https://github.com/Nyaadanbou/worldreset
 	branch = main
 [submodule "reforge"]
 	path = reforge
-	url = https://github.com/Qcospihz/reforge
+	url = https://github.com/Nyaadanbou/reforge
 	branch = main
 [submodule "spatula"]
 	path = spatula
-	url = https://github.com/Qcospihz/spatula
+	url = https://github.com/Nyaadanbou/spatula
 	branch = main
 [submodule "wakame"]
 	path = wakame
-	url = https://github.com/Qcospihz/wakame.git
+	url = https://github.com/Nyaadanbou/wakame.git
 	branch = main
 [submodule "mailbox"]
 	path = mailbox
-	url = git@github.com:Qcospihz/mailbox.git
+	url = https://github.com/Nyaadanbou/mailbox.git
 	branch = main

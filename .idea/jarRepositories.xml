@@ -151,5 +151,15 @@
       <option name="name" value="maven" />
       <option name="url" value="file:/$USER_HOME$/MewcraftRepository/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven19" />
+      <option name="name" value="maven19" />
+      <option name="url" value="https://nexus.betonquest.org/repository/betonquest/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven25" />
+      <option name="name" value="maven25" />
+      <option name="url" value="https://s01.oss.sonatype.org/content/repositories/snapshots/" />
+    </remote-repository>
   </component>
 </project>

@@ -75,6 +75,12 @@ lang-velocity = { group = "de.themoep.utils", name = "lang-velocity", version.re
 # Expression parser
 evalex = { group = "com.ezylang", name = "EvalEx", version = "3.0.4" }
 
+# Jedis
+jedis = { group = "redis.clients", name = "jedis", version = "4.4.6" }
+
+# Redisson
+redisson = { group = "org.redisson", name = "redisson", version = "3.25.2" }
+
 # Cron utils for various usage.
 cronutils = { group = "com.cronutils", name = "cron-utils", version = "9.2.0" }
 

@@ -63,6 +63,9 @@ koin = { group = "io.insert-koin", name = "koin-core", version = "3.5.0" }
 # SQL libraries
 hikari = { group = "com.zaxxer", name = "HikariCP", version = "5.0.1" }
 
+# Redis libraries
+jedis = { group = "redis.clients", name = "jedis", version = "4.4.6" }
+
 # Command frameworks
 cloud-paper = { group = "cloud.commandframework", name = "cloud-paper", version.ref = "cloudcmds" }
 cloud-velocity = { group = "cloud.commandframework", name = "cloud-velocity", version.ref = "cloudcmds" }

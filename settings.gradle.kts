@@ -76,11 +76,11 @@ include(":persistentserver")
 
 include(":pickaxepower")
 
-include(":proxychatbridge")
-include(":proxychatbridge:bukkit")
-include(":proxychatbridge:common")
-include(":proxychatbridge:jar")
-include(":proxychatbridge:velocity")
+// include(":proxychatbridge")
+// include(":proxychatbridge:bukkit")
+// include(":proxychatbridge:common")
+// include(":proxychatbridge:jar")
+// include(":proxychatbridge:velocity")
 
 include(":reforge")
 include(":reforge:reforge-gui")

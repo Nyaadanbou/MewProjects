@@ -170,10 +170,11 @@ repositories {
         }
     }
 
-    // Nova, InvGUI
+    // Nova, InvGUI, Configurate
     maven("https://repo.xenondevs.xyz/releases") {
         content {
             includeGroup("xyz.xenondevs.invui")
+            includeGroup("xyz.xenondevs.configurate")
         }
     }
 }

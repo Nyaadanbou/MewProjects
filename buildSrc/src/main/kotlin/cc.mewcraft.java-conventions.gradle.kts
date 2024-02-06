@@ -49,5 +49,5 @@ java {
 
 indra {
     // See: https://github.com/KyoriPowered/indra/wiki/indra
-    javaVersions().target(17)
+    javaVersions().target(21)
 }

@@ -10,25 +10,18 @@ tasks {
 
     register<Copy>("copyJar") {
         group = "mewcraft"
+        dependsOn(build)
         from(inputJarPath.value)
         into(layout.buildDirectory)
         rename("(?i)${project.name}.*\\.jar", finalJarName.value)
     }
     register<Task>("deployJar") {
         group = "mewcraft"
+        dependsOn(named("copyJar"))
         doLast {
             exec {
                 commandLine("rsync", finalJarPath.value, "dev:data/dev/jar")
             }
         }
-    }
-    register<Task>("deployJarFresh") {
-        group = "mewcraft"
-        dependsOn(build)
-        finalizedBy(named("deployJar"))
-    }
-
-    build {
-        finalizedBy("copyJar")
     }
 }

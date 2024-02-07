@@ -1,14 +1,12 @@
-val userHome: String = when {
-    System.getProperty("os.name").startsWith("Windows", ignoreCase = true) -> System.getenv("USERPROFILE")
-    else -> System.getenv("HOME")
-}
-
 repositories {
     // All projects maintained by Mewcraft are published to it
     // This is also the first step to build our own CI/CD pipeline
-    maven(uri("$userHome/MewcraftRepository"))
+    maven(uri("${Versions.UserHome}/MewcraftRepository"))
 
-    // Locally cached projects TODO Move to the MewcraftRepository
+    // TODO Move to the MewcraftRepository
+    //  These are just locally cached repositories
+    //  We need to move these to our own repo eventually
+    // Maven Local
     mavenLocal {
         content {
             includeGroup("at.helpch") // ChatChat
@@ -79,18 +77,18 @@ repositories {
         }
     }
 
-    // Mythic Team Plugins
+    // MythicMobs
     maven("https://mvn.lumine.io/repository/maven-public/") {
         content {
             includeGroup("io.lumine") // MythicMobs
         }
     }
 
-    // Phoenix Team Plugins
+    // MythicLib, MMOCore, MMOItems
     maven("https://nexus.phoenixdevt.fr/repository/maven-public/") {
         mavenContent {
-            includeGroup("io.lumine") // MythicLib // TODO replace it with Nova
-            includeGroup("net.Indyuce") // MMOItems // TODO replace it with Nova
+            includeGroup("io.lumine") // MythicLib
+            includeGroup("net.Indyuce") // MMOItems
         }
     }
 
@@ -170,7 +168,7 @@ repositories {
         }
     }
 
-    // Nova, InvGUI, Configurate
+    // Nova, InvUI, Configurate (xyz.xenondevs fork)
     maven("https://repo.xenondevs.xyz/releases") {
         content {
             includeGroup("xyz.xenondevs.invui")

@@ -6,7 +6,6 @@ include(":spatula:bukkit:item")
 include(":spatula:bukkit:item:api")
 include(":spatula:bukkit:item:impl")
 include(":spatula:bukkit:item:plugin")
-
 include(":spatula:bukkit:command")
 include(":spatula:bukkit:commons")
 include(":spatula:bukkit:gui")
@@ -14,8 +13,6 @@ include(":spatula:bukkit:message")
 include(":spatula:bukkit:persistent")
 include(":spatula:bukkit:utils")
 
-include(":spatula:guice")
-include(":spatula:koin")
 include(":spatula:network")
 
 // Other projects

@@ -6,8 +6,8 @@ plugins {
 
 dependencies {
     // These dependencies are for better compile-time check.
-    compileOnly("org.jetbrains", "annotations", "24.0.0")
-    compileOnly("org.checkerframework", "checker-qual", "3.28.0")
+    compileOnly("org.jetbrains", "annotations", Versions.JetbrainsAnnotations)
+    compileOnly("org.checkerframework", "checker-qual", Versions.CheckframeworkQual)
 }
 
 tasks {
@@ -17,8 +17,6 @@ tasks {
     compileTestJava {
         dependsOn(clean)
     }
-
-    // Configure shadow
     assemble {
         dependsOn(shadowJar)
     }
@@ -33,8 +31,6 @@ tasks {
             exclude("META-INF/**.kotlin_module")
         }
     }
-
-    // We do not need javadoc, source is enough and better
     javadoc {
         enabled = false
     }
@@ -48,6 +44,5 @@ java {
 }
 
 indra {
-    // See: https://github.com/KyoriPowered/indra/wiki/indra
     javaVersions().target(21)
 }

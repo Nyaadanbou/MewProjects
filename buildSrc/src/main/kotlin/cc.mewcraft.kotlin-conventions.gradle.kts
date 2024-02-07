@@ -8,15 +8,12 @@ plugins {
 }
 
 tasks {
-    // Kotlin source files are UTF-8 by default.
     compileKotlin {
         dependsOn(clean)
     }
     compileTestKotlin {
         dependsOn(clean)
     }
-
-    // Configure shadow
     assemble {
         dependsOn(shadowJar)
     }
@@ -44,16 +41,16 @@ kotlin {
                 // All kotlin dependencies are shipped with: https://github.com/GamerCoder215/KotlinMC
                 // So we can just declare all these kotlin dependencies as `compileOnly`.
                 compileOnly(kotlin("stdlib"))
-                compileOnly("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
-                compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2")
-                compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
-                compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.6.2")
-                compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3") {
+                compileOnly("org.jetbrains.kotlin:kotlin-reflect:${Versions.Kotlin}")
+                compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.KotlinxSerialization}")
+                compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KotlinxSerialization}")
+                compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-hocon:${Versions.KotlinxSerialization}")
+                compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KotlinxCoroutines}")
+                compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-guava:${Versions.KotlinxCoroutines}") {
                     isTransitive = false
                 }
-                compileOnly("org.jetbrains.kotlinx:kotlinx-io-core:0.3.0")
-                compileOnly("org.jetbrains.kotlinx:atomicfu:0.23.1")
+                compileOnly("org.jetbrains.kotlinx:kotlinx-io-core:${Versions.KotlinxIO}")
+                compileOnly("org.jetbrains.kotlinx:atomicfu:${Versions.KotlinxAtomicfu}")
             }
         }
         val test by getting {

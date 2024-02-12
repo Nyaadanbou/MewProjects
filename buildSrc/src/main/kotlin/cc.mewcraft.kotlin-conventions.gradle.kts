@@ -56,6 +56,14 @@ kotlin {
         val test by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("org.jetbrains.kotlin:kotlin-reflect:${Versions.Kotlin}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.KotlinxSerialization}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KotlinxSerialization}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:${Versions.KotlinxSerialization}")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KotlinxCoroutines}")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:${Versions.KotlinxCoroutines}")
+                implementation("org.jetbrains.kotlinx:kotlinx-io-core:${Versions.KotlinxIO}")
+                implementation("org.jetbrains.kotlinx:atomicfu:${Versions.KotlinxAtomicfu}")
             }
         }
     }

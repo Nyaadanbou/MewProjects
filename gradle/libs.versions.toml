@@ -52,6 +52,7 @@ asm-commons = { group = "org.ow2.asm", name = "asm-commons", version.ref = "asm"
 junit4 = { group = "junit", name = "junit", version = "4.13.1" }
 junit5-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version = "5.8.1" }
 junit5-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version = "5.8.1" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.4.14" }
 
 # Compile-time checking
 checker-jetbrains = { group = "org.jetbrains", name = "annotations", version = "24.0.0" }

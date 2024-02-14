@@ -26,6 +26,9 @@ tasks {
             exclude("META-INF/**.kotlin_module")
         }
     }
+    test {
+        useJUnitPlatform() // use JUnit 5
+    }
 }
 
 java {

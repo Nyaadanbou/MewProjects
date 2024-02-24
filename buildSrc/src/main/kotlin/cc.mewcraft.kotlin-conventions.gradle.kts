@@ -27,6 +27,7 @@ tasks {
         }
     }
     test {
+        jvmArgs("-XX:+EnableDynamicAgentLoading") // surpress Java agent warning
         useJUnitPlatform() // use JUnit 5
     }
 }

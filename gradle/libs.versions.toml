@@ -53,6 +53,9 @@ commons-io = { group = "commons-io", name = "commons-io", version = "2.13.0" }
 asm = { group = "org.ow2.asm", name = "asm", version.ref = "asm" }
 asm-commons = { group = "org.ow2.asm", name = "asm-commons", version.ref = "asm" }
 
+# ByteBuddy
+bytebuddy = { group = "net.bytebuddy", name = "byte-buddy", version = "1.14.12" }
+
 # Testing environment
 junit4 = { group = "junit", name = "junit", version = "4.13.1" }
 junit5-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version = "5.8.1" }
@@ -90,7 +93,7 @@ koin-ksp-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", vers
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
-arrow-optics-ksp = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
+arrow-optics-ksp-plugin = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
 
 # SQL libraries
 hikari = { group = "com.zaxxer", name = "HikariCP", version = "5.0.1" }
@@ -106,11 +109,13 @@ cloud-kotlin-extensions = { group = "cloud.commandframework", name = "cloud-kotl
 cloud-kotlin-coroutines = { group = "cloud.commandframework", name = "cloud-kotlin-coroutines", version.ref = "cloudcmds" }
 
 cloud2-core = { group = "org.incendo", name = "cloud-core", version.ref = "cloudcmds2" }
+cloud2-annotations = { group = "org.incendo", name = "cloud-kotlin-annotations", version.ref = "cloudcmds2" }
 cloud2-paper = { group = "org.incendo", name = "cloud-paper", version.ref = "cloudcmds2" }
 cloud2-velocity = { group = "org.incendo", name = "cloud-velocity", version.ref = "cloudcmds2" }
 cloud2-minecraft-extras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloudcmds2" }
 cloud2-kotlin-extensions = { group = "org.incendo", name = "cloud-kotlin-extensions", version.ref = "cloudcmds2" }
 cloud2-kotlin-coroutines = { group = "org.incendo", name = "cloud-kotlin-coroutines", version.ref = "cloudcmds2" }
+cloud2-kotlin-coroutines-annotations = { group = "org.incendo", name = "cloud-kotlin-coroutines-annotations", version.ref = "cloudcmds2" }
 cloud2-processors-confirmation = { group = "org.incendo", name = "cloud-processors-confirmation", version = "1.0.0-beta.1" }
 
 # Configuration frameworks

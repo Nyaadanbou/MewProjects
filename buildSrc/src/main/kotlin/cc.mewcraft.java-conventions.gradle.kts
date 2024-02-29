@@ -5,7 +5,6 @@ plugins {
 }
 
 dependencies {
-    // These dependencies are for better compile-time check.
     compileOnly("org.jetbrains", "annotations", Versions.JetbrainsAnnotations)
     compileOnly("org.checkerframework", "checker-qual", Versions.CheckframeworkQual)
 }

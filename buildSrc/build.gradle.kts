@@ -6,11 +6,6 @@ plugins {
 group = "cc.mewcraft.conventions"
 version = "1.0.0"
 
-extra["user_home"] = when {
-    System.getProperty("os.name").startsWith("Windows", ignoreCase = true) -> System.getenv("USERPROFILE")
-    else -> System.getenv("HOME")
-}
-
 repositories {
     mavenCentral()
     gradlePluginPortal()
@@ -27,9 +22,6 @@ dependencies {
 
 publishing {
     repositories {
-        maven {
-            // publish my gradle conventions
-            url = uri("${extra["user_home"]}MewcraftRepository")
-        }
+        maven(uri("${System.getProperty("user.home")}/MewcraftRepository"))
     }
 }

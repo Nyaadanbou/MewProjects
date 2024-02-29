@@ -1,9 +1,4 @@
 object Versions {
-    val UserHome: String = when {
-        System.getProperty("os.name").startsWith("Windows", ignoreCase = true) -> System.getenv("USERPROFILE")
-        else -> System.getenv("HOME")
-    }
-
     const val Kotlin = "1.9.22"
     const val KotlinxSerialization = "1.6.2"
     const val KotlinxCoroutines = "1.7.3"

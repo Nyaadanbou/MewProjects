@@ -9,21 +9,3 @@ catalog {
         from(files("../gradle/libs.versions.toml"))
     }
 }
-
-publishing {
-    repositories {
-        maven {
-            url = uri("${System.getenv("HOME")}/MewcraftRepository")
-        }
-    }
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["versionCatalog"])
-
-            group = "cc.mewcraft"
-            artifactId = "catalog"
-            version = "1.0.0"
-            description = "Shared version catalogs"
-        }
-    }
-}

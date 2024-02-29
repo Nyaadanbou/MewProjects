@@ -1,12 +1,11 @@
 repositories {
     // All projects maintained by Mewcraft are published to it
     // This is also the first step to build our own CI/CD pipeline
-    maven(uri("${Versions.UserHome}/MewcraftRepository"))
+    maven(uri("${System.getProperty("user.home")}/MewcraftRepository"))
 
     // TODO Move to the MewcraftRepository
     //  These are just locally cached repositories
     //  We need to move these to our own repo eventually
-    // Maven Local
     mavenLocal {
         content {
             includeGroup("at.helpch") // ChatChat
@@ -15,7 +14,6 @@ repositories {
         }
     }
 
-    // Most public projects reside in it
     mavenCentral()
 
     // Purpur MC

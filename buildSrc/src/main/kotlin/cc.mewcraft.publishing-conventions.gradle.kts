@@ -4,9 +4,7 @@ plugins {
 
 publishing {
     repositories {
-        maven {
-            url = uri("${Versions.UserHome}/MewcraftRepository")
-        }
+        maven(uri("${System.getProperty("user.home")}/MewcraftRepository"))
     }
     publications {
         create<MavenPublication>("maven") {
